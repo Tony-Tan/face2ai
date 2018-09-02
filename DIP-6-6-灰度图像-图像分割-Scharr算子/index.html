@@ -1,13 +1,1078 @@
-<!DOCTYPE html><html class="theme-next pisces use-motion" lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0"><link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Pisces",version:"6.4.0",sidebar:{position:"left",display:"post",offset:12,b2t:!1,scrollpercent:!0,onmobile:!1},fancybox:!1,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子"><meta name="keywords" content="边缘检测,Scharr算子"><meta property="og:type" content="article"><meta property="og:title" content="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子"><meta property="og:url" content="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/index.html"><meta property="og:site_name" content="谭升的博客"><meta property="og:description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151527747.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151559306.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151921155.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151937659.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152002014.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152018719.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152030637.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152037956.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152049453.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152101949.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152111980.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152135970.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152157142.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152221912.jpg"><meta property="og:updated_time" content="2018-07-12T15:45:31.630Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子"><meta name="twitter:description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子"><meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151527747.jpg"><link rel="canonical" href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/"><script type="text/javascript" id="page.configurations">CONFIG.page={sidebar:""}</script><title>【数字图像处理】6.6:灰度图像-图像分割 Scharr算子 | 谭升的博客</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-105335860-3")</script><noscript><style type="text/css">.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">谭升的博客</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">Machine Learning & Computer Vision</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-首页"><a href="/" rel="section">首页</a></li><li class="menu-item menu-item-数学"><a href="/categories/Mathematic/" rel="section">数学</a></li><li class="menu-item menu-item-···-集合论"><a href="/categories/Mathematic/Set-Theory/" rel="section">··· 集合论</a></li><li class="menu-item menu-item-···-线性代数基础"><a href="/categories/Mathematic/Linear-Algebra/" rel="section">··· 线性代数基础</a></li><li class="menu-item menu-item-···-概率论基础"><a href="/categories/Mathematic/Probability/" rel="section">··· 概率论基础</a></li><li class="menu-item menu-item-···-数理统计学"><a href="/categories/Mathematic/Statistics/" rel="section">··· 数理统计学</a></li><li class="menu-item menu-item-···-数值分析"><a href="/categories/Mathematic/Numerical-Analysis/" rel="section">··· 数值分析</a></li><li class="menu-item menu-item-机器学习算法"><a href="/categories/Machine-Learning/" rel="section">机器学习算法</a></li><li class="menu-item menu-item-强化学习"><a href="/categories/Reinforcement-Learning/" rel="section">强化学习</a></li><li class="menu-item menu-item-深度学习算法"><a href="/categories/Deep-Learning/" rel="section">深度学习算法</a></li><li class="menu-item menu-item-数字图像处理"><a href="/categories/DIP/" rel="section">数字图像处理</a></li><li class="menu-item menu-item-30天自制操作系统"><a href="/categories/30天自制操作系统/" rel="section">30天自制操作系统</a></li><li class="menu-item menu-item-cuda"><a href="/categories/CUDA/" rel="section">CUDA</a></li><li class="menu-item menu-item-网络爬虫"><a href="/categories/Crawler/" rel="section">网络爬虫</a></li><li class="menu-item menu-item-乱七八糟"><a href="/categories/Other/" rel="section">乱七八糟</a></li></ul></nav><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Wechat.jpeg" alt="wechat"></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="9135658886" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Tony"><meta itemprop="description" content="关注机器学习，深度学习，机器视觉，模式识别"><meta itemprop="image" content="/images/avatar.gif"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="谭升的博客"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">【数字图像处理】6.6:灰度图像-图像分割 Scharr算子</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2015-02-11 19:00:00" itemprop="dateCreated datePublished" datetime="2015-02-11T19:00:00+08:00">2015-02-11</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DIP/" itemprop="url" rel="index"><span itemprop="name">DIP</span></a></span> </span><span class="post-comments-count"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-comment-o"></i> </span><a href="/DIP-6-6-灰度图像-图像分割-Scharr算子/#comments" itemprop="discussionUrl"><span class="post-comments-count disqus-comment-count" data-disqus-identifier="DIP-6-6-灰度图像-图像分割-Scharr算子/" itemprop="commentCount"></span> </a></span><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> 阅读次数： <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body" itemprop="articleBody"><p><strong>Abstract:</strong> 数字图像处理：第44天<br><strong>Keywords:</strong> 边缘检测,scharr算子<br><a id="more"></a></p><p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p><h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>感受下markdown的写博客的感觉，好像在写程序一样，果然是程序员的好工具，不过开头怎么没有空格。。。一空格就自动变成代码了，这让我情何以堪，好吧，以后的文章开头不空格了。本来打算上一篇直接介绍Scharr算子，但是发现Prewitt也能占很大篇幅，为了保证每一篇的内容不过长，所以拆了一篇出来，下一篇写Sobel，Prewitt，Scharr的对比。</p><h2 id="Scharr算子介绍"><a href="#Scharr算子介绍" class="headerlink" title="Scharr算子介绍"></a>Scharr算子介绍</h2><p>果然没有空格，好吧，不空格就不空格吧，OpenCV的Canny算法介绍中提到了Scharr算子，并且说$3\times3$的Scharr算子比Sobel算子准确性要强，后面一篇会给出一些具体的数据，以及具体的实验步骤以及数据，先看看Scharr长什么样子吧：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151527747.jpg" alt=""><br>与Sobel的不同点也是在平滑部分，这里所用的平滑算子是 $\frac{1}{16}<em>[3,10,3]$（LaTeX数学公式确实不错，妈妈再也不用担心我的手写体了。。），相比于 $\frac{1}{4}</em>[1,2,1]$ ，中心元素占的权重更重，这可能是相对于图像这种随机性较强的信号，邻域相关性不大，所以邻域平滑应该使用相对较小的标准差的高斯函数，也就是更瘦高的模板</p><p>#代码<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Scharr</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">double</span> *edgedriction,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ScharrMask1[<span class="number">3</span>]=&#123;<span class="number">0.1875</span>,<span class="number">0.625</span>,<span class="number">0.1875</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> ScharrMask2[<span class="number">3</span>]=&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> *dst_x=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *dst_y=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    RealConvolution(src, dst_x, ScharrMask1, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">    RealConvolution(dst_x, dst_x, ScharrMask2, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    RealConvolution(src, dst_y, ScharrMask2, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">    RealConvolution(dst_y, dst_y, ScharrMask1, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)</span><br><span class="line">        dst_y[i]=-dst_y[i];</span><br><span class="line">    <span class="keyword">if</span>(edgedriction!=<span class="literal">NULL</span>)</span><br><span class="line">        getEdgeAngle(dst_x, dst_y, edgedriction, width, height);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;height;j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width;i++)&#123;</span><br><span class="line">            dst[j*width+i]=<span class="built_in">abs</span>(dst_x[j*width+i])+<span class="built_in">abs</span>(dst_y[j*width+i]);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">free</span>(dst_x);</span><br><span class="line">    <span class="built_in">free</span>(dst_y);</span><br><span class="line">    <span class="comment">//matrixMultreal(dst, dst, 1.0/16.0, width, height);</span></span><br><span class="line">    <span class="keyword">return</span> findMatrixMax(dst,width,height);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151559306.png" alt=""><br>scharr算子结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151921155.jpg" alt=""><br>按顺序局部放大：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151937659.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152002014.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152018719.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152030637.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152037956.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152049453.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152101949.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152111980.jpg" alt=""><br>注意7中具有细小噪声点，放大后观察：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152135970.jpg" alt=""><br>阈值处理后：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152157142.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152221912.jpg" alt=""></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Scharr作为一阶微分算子，与其他微分算子具有相同的基本特点，即对突变有较强的响应，但缺点也是使用Scharr后处理时，阈值无法很好的分离边缘候选点中边缘点与非边缘点，其优点是速度极快，而且Scharr大小固定，也就是只有$3 \times 3$，第一篇markdown的博客，待续。。。</p></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>Tony</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/" title="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/DIP-6-5-灰度图像-图像分割-Prewitt算子/" rel="next" title="【数字图像处理】6.5:灰度图像-图像分割 Prewitt算子"><i class="fa fa-chevron-left"></i> 【数字图像处理】6.5:灰度图像-图像分割 Prewitt算子</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/DIP-6-7-灰度图像-图像分割-算子平滑能力比较/" rel="prev" title="【数字图像处理】6.7:灰度图像-图像分割 Sobel算子，Prewitt算子和Scharr算子平滑能力比较">【数字图像处理】6.7:灰度图像-图像分割 Sobel算子，Prewitt算子和Scharr算子平滑能力比较 <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div><div class="comments" id="comments"><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Tony"><p class="site-author-name" itemprop="name">Tony</p><p class="site-description motion-element" itemprop="description">关注机器学习，深度学习，机器视觉，模式识别</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives"><span class="site-state-item-count">257</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">17</span> <span class="site-state-item-name">分类</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a></span></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开篇废话"><span class="nav-number">1.</span> <span class="nav-text">开篇废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scharr算子介绍"><span class="nav-number">2.</span> <span class="nav-text">Scharr算子介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love" id="animate"><i class="fa fa-"></i> </span><span class="author" itemprop="copyrightHolder">Tony</span></div><div class="busuanzi-count"><script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv" title="总访客量"><i class="fa fa-user"></i> <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> </span><span class="site-pv" title="总访问量"><i class="fa fa-eye"></i> <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script><script id="dsq-count-scr" src="https://face-to-ai.disqus.com/count.js" async></script><script type="text/javascript">var disqus_config=function(){this.page.url="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/",this.page.identifier="DIP-6-6-灰度图像-图像分割-Scharr算子/",this.page.title="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子"};function loadComments(){var t=document,e=t.createElement("script");e.src="https://face-to-ai.disqus.com/embed.js",e.setAttribute("data-timestamp",""+ +new Date),(t.head||t.body).appendChild(e)}loadComments()</script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子">
+<meta name="keywords" content="边缘检测,Scharr算子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">
+<meta property="og:url" content="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151527747.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151559306.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151921155.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151937659.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152002014.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152018719.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152030637.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152037956.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152049453.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152101949.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152111980.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152135970.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152157142.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152221912.jpg">
+<meta property="og:updated_time" content="2018-07-12T15:45:31.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">
+<meta name="twitter:description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151527747.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【数字图像处理】6.6:灰度图像-图像分割 Scharr算子 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Machine Learning & Computer Vision</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学">
+    <a href="/categories/Mathematic/" rel="section">数学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-集合论">
+    <a href="/categories/Mathematic/Set-Theory/" rel="section">··· 集合论</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-线性代数基础">
+    <a href="/categories/Mathematic/Linear-Algebra/" rel="section">··· 线性代数基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-概率论基础">
+    <a href="/categories/Mathematic/Probability/" rel="section">··· 概率论基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数理统计学">
+    <a href="/categories/Mathematic/Statistics/" rel="section">··· 数理统计学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数值分析">
+    <a href="/categories/Mathematic/Numerical-Analysis/" rel="section">··· 数值分析</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-机器学习算法">
+    <a href="/categories/Machine-Learning/" rel="section">机器学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-强化学习">
+    <a href="/categories/Reinforcement-Learning/" rel="section">强化学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-深度学习算法">
+    <a href="/categories/Deep-Learning/" rel="section">深度学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数字图像处理">
+    <a href="/categories/DIP/" rel="section">数字图像处理</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-30天自制操作系统">
+    <a href="/categories/30天自制操作系统/" rel="section">30天自制操作系统</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-cuda">
+    <a href="/categories/CUDA/" rel="section">CUDA</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-网络爬虫">
+    <a href="/categories/Crawler/" rel="section">网络爬虫</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-乱七八糟">
+    <a href="/categories/Other/" rel="section">乱七八糟</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Wechat.jpeg"  alt="wechat" />
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- sider -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1194454329688573"
+         data-ad-slot="9135658886"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tony">
+      <meta itemprop="description" content="关注机器学习，深度学习，机器视觉，模式识别">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数字图像处理】6.6:灰度图像-图像分割 Scharr算子
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-02-11 19:00:00" itemprop="dateCreated datePublished" datetime="2015-02-11T19:00:00+08:00">2015-02-11</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DIP/" itemprop="url" rel="index"><span itemprop="name">DIP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/DIP-6-6-灰度图像-图像分割-Scharr算子/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="DIP-6-6-灰度图像-图像分割-Scharr算子/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 数字图像处理：第44天<br><strong>Keywords:</strong> 边缘检测,scharr算子<br><a id="more"></a></p>
+<p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p>
+<h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>感受下markdown的写博客的感觉，好像在写程序一样，果然是程序员的好工具，不过开头怎么没有空格。。。一空格就自动变成代码了，这让我情何以堪，好吧，以后的文章开头不空格了。本来打算上一篇直接介绍Scharr算子，但是发现Prewitt也能占很大篇幅，为了保证每一篇的内容不过长，所以拆了一篇出来，下一篇写Sobel，Prewitt，Scharr的对比。</p>
+<h2 id="Scharr算子介绍"><a href="#Scharr算子介绍" class="headerlink" title="Scharr算子介绍"></a>Scharr算子介绍</h2><p>果然没有空格，好吧，不空格就不空格吧，OpenCV的Canny算法介绍中提到了Scharr算子，并且说$3\times3$的Scharr算子比Sobel算子准确性要强，后面一篇会给出一些具体的数据，以及具体的实验步骤以及数据，先看看Scharr长什么样子吧：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151527747.jpg" alt=""><br>与Sobel的不同点也是在平滑部分，这里所用的平滑算子是 $\frac{1}{16}<em>[3,10,3]$（LaTeX数学公式确实不错，妈妈再也不用担心我的手写体了。。），相比于 $\frac{1}{4}</em>[1,2,1]$ ，中心元素占的权重更重，这可能是相对于图像这种随机性较强的信号，邻域相关性不大，所以邻域平滑应该使用相对较小的标准差的高斯函数，也就是更瘦高的模板</p>
+<p>#代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Scharr</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">double</span> *edgedriction,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ScharrMask1[<span class="number">3</span>]=&#123;<span class="number">0.1875</span>,<span class="number">0.625</span>,<span class="number">0.1875</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> ScharrMask2[<span class="number">3</span>]=&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> *dst_x=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *dst_y=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    RealConvolution(src, dst_x, ScharrMask1, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">    RealConvolution(dst_x, dst_x, ScharrMask2, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    RealConvolution(src, dst_y, ScharrMask2, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">    RealConvolution(dst_y, dst_y, ScharrMask1, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)</span><br><span class="line">        dst_y[i]=-dst_y[i];</span><br><span class="line">    <span class="keyword">if</span>(edgedriction!=<span class="literal">NULL</span>)</span><br><span class="line">        getEdgeAngle(dst_x, dst_y, edgedriction, width, height);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;height;j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width;i++)&#123;</span><br><span class="line">            dst[j*width+i]=<span class="built_in">abs</span>(dst_x[j*width+i])+<span class="built_in">abs</span>(dst_y[j*width+i]);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">free</span>(dst_x);</span><br><span class="line">    <span class="built_in">free</span>(dst_y);</span><br><span class="line">    <span class="comment">//matrixMultreal(dst, dst, 1.0/16.0, width, height);</span></span><br><span class="line">    <span class="keyword">return</span> findMatrixMax(dst,width,height);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151559306.png" alt=""><br>scharr算子结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151921155.jpg" alt=""><br>按顺序局部放大：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151937659.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152002014.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152018719.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152030637.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152037956.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152049453.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152101949.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152111980.jpg" alt=""><br>注意7中具有细小噪声点，放大后观察：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152135970.jpg" alt=""><br>阈值处理后：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152157142.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152221912.jpg" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Scharr作为一阶微分算子，与其他微分算子具有相同的基本特点，即对突变有较强的响应，但缺点也是使用Scharr后处理时，阈值无法很好的分离边缘候选点中边缘点与非边缘点，其优点是速度极快，而且Scharr大小固定，也就是只有$3 \times 3$，第一篇markdown的博客，待续。。。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Tony</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/" title="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/DIP-6-5-灰度图像-图像分割-Prewitt算子/" rel="next" title="【数字图像处理】6.5:灰度图像-图像分割 Prewitt算子">
+                <i class="fa fa-chevron-left"></i> 【数字图像处理】6.5:灰度图像-图像分割 Prewitt算子
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/DIP-6-7-灰度图像-图像分割-算子平滑能力比较/" rel="prev" title="【数字图像处理】6.7:灰度图像-图像分割 Sobel算子，Prewitt算子和Scharr算子平滑能力比较">
+                【数字图像处理】6.7:灰度图像-图像分割 Sobel算子，Prewitt算子和Scharr算子平滑能力比较 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- footer -->
+    <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1194454329688573"
+       data-ad-slot="2491973880"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-1194454329688573"
+    data-ad-slot="2491973880"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Tony" />
+            
+              <p class="site-author-name" itemprop="name">Tony</p>
+              <p class="site-description motion-element" itemprop="description">关注机器学习，深度学习，机器视觉，模式识别</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">257</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开篇废话"><span class="nav-number">1.</span> <span class="nav-text">开篇废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scharr算子介绍"><span class="nav-number">2.</span> <span class="nav-text">Scharr算子介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tony</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://face-to-ai.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/';
+        this.page.identifier = 'DIP-6-6-灰度图像-图像分割-Scharr算子/';
+        this.page.title = '【数字图像处理】6.6:灰度图像-图像分割 Scharr算子';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://face-to-ai.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
       tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
         processEscapes: true,
         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       },
       TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
       var all = MathJax.Hub.getAllJax(), i;
         for (i=0; i < all.length; i += 1) {
           all[i].SourceElement().parentNode.className += ' has-jax';
         }
-    });</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

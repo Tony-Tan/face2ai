@@ -1,13 +1,1109 @@
-<!DOCTYPE html><html class="theme-next pisces use-motion" lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0"><link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Pisces",version:"6.4.0",sidebar:{position:"left",display:"post",offset:12,b2t:!1,scrollpercent:!0,onmobile:!1},fancybox:!1,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存"><meta name="keywords" content="CUDA常量内存,CUDA只读缓存"><meta property="og:type" content="article"><meta property="og:title" content="【CUDA 基础】5.5 常量内存"><meta property="og:url" content="http://www.face2ai.com/CUDA-F-5-5-常量内存/index.html"><meta property="og:site_name" content="谭升的博客"><meta property="og:description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-2.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-1.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-2.png"><meta property="og:updated_time" content="2018-07-12T15:45:31.514Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【CUDA 基础】5.5 常量内存"><meta name="twitter:description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存"><meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png"><link rel="canonical" href="http://www.face2ai.com/CUDA-F-5-5-常量内存/"><script type="text/javascript" id="page.configurations">CONFIG.page={sidebar:""}</script><title>【CUDA 基础】5.5 常量内存 | 谭升的博客</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-105335860-3")</script><noscript><style type="text/css">.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">谭升的博客</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">Machine Learning & Computer Vision</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-首页"><a href="/" rel="section">首页</a></li><li class="menu-item menu-item-数学"><a href="/categories/Mathematic/" rel="section">数学</a></li><li class="menu-item menu-item-···-集合论"><a href="/categories/Mathematic/Set-Theory/" rel="section">··· 集合论</a></li><li class="menu-item menu-item-···-线性代数基础"><a href="/categories/Mathematic/Linear-Algebra/" rel="section">··· 线性代数基础</a></li><li class="menu-item menu-item-···-概率论基础"><a href="/categories/Mathematic/Probability/" rel="section">··· 概率论基础</a></li><li class="menu-item menu-item-···-数理统计学"><a href="/categories/Mathematic/Statistics/" rel="section">··· 数理统计学</a></li><li class="menu-item menu-item-···-数值分析"><a href="/categories/Mathematic/Numerical-Analysis/" rel="section">··· 数值分析</a></li><li class="menu-item menu-item-机器学习算法"><a href="/categories/Machine-Learning/" rel="section">机器学习算法</a></li><li class="menu-item menu-item-强化学习"><a href="/categories/Reinforcement-Learning/" rel="section">强化学习</a></li><li class="menu-item menu-item-深度学习算法"><a href="/categories/Deep-Learning/" rel="section">深度学习算法</a></li><li class="menu-item menu-item-数字图像处理"><a href="/categories/DIP/" rel="section">数字图像处理</a></li><li class="menu-item menu-item-30天自制操作系统"><a href="/categories/30天自制操作系统/" rel="section">30天自制操作系统</a></li><li class="menu-item menu-item-cuda"><a href="/categories/CUDA/" rel="section">CUDA</a></li><li class="menu-item menu-item-网络爬虫"><a href="/categories/Crawler/" rel="section">网络爬虫</a></li><li class="menu-item menu-item-乱七八糟"><a href="/categories/Other/" rel="section">乱七八糟</a></li></ul></nav><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Wechat.jpeg" alt="wechat"></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="9135658886" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-5-5-常量内存/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Tony"><meta itemprop="description" content="关注机器学习，深度学习，机器视觉，模式识别"><meta itemprop="image" content="/images/avatar.gif"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="谭升的博客"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">【CUDA 基础】5.5 常量内存</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2018-06-06 06:20:07" itemprop="dateCreated datePublished" datetime="2018-06-06T06:20:07+08:00">2018-06-06</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span> ， <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span> </span><span class="post-comments-count"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-comment-o"></i> </span><a href="/CUDA-F-5-5-常量内存/#comments" itemprop="discussionUrl"><span class="post-comments-count disqus-comment-count" data-disqus-identifier="CUDA-F-5-5-常量内存/" itemprop="commentCount"></span> </a></span><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> 阅读次数： <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body" itemprop="articleBody"><p><strong>Abstract:</strong> 本文介绍另外两种内存——常量内存，只读缓存<br><strong>Keywords:</strong> CUDA常量内存，CUDA只读缓存</p><a id="more"></a><h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>本来早上想写数值分析类的博客，但是看CUDA已经拖太久了，还是写一篇CUDA的博客，争取快些结束本系列，本章完成后还有五章。</p><h2 id="常量内存"><a href="#常量内存" class="headerlink" title="常量内存"></a>常量内存</h2><p>本文介绍常量内存和只读缓存，常量内存是专用内存，他用于只读数据和线程束统一访问某一个数据，常量内存对内核代码而言是只读的，但是主机是可以修改（写）只读内存的，当然也可以读。<br>注意，常量内存并不是在片上的，而是在DRAM上，而其有在片上对应的缓存，其片上缓存就和一级缓存和共享内存一样， 有较低的延迟，但是容量比较小，合理使用可以提高内和效率，每个SM常量缓存大小限制为64KB。<br>我们可以发现，所有的片上内存，我们是不能通过主机赋值的，我们只能对DRAM上内存进行赋值。<br>每种内存访问都有最优与最坏的访问方式，主要原因是内存的硬件结构和底层设计原因，比如全局内存按照连续对去访问最优，交叉访问最差，共享内存无冲突最优，都冲突就会最差，其根本原因在于硬件设计，而我们的常量内存的最优访问模式是线程束所有线程访问一个位置，那么这个访问是最优的。如果要访问不同的位置，就要编程串行了，作为对比，这种情况相当于全局内存完全不连续，共享内存的全部冲突。<br>数学上，一个常量内存读取成本与线程束中线程读取常量内存地址个数呈线性关系。<br>常量内存的声明方式：<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__constant</span><br></pre></td></tr></table></figure><p></p><p>常量内存变量的生存周期与应用程序生存周期相同，所有网格对声明的常量内存都是可以访问的，运行时对主机可见，当CUDA独立编译被使用的，常量内存跨文件可见，这个要后面才会介绍。<br>初始化常量内存使用一下函数完成<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaMemcpyToSymbol</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *symbol, <span class="keyword">const</span> <span class="keyword">void</span> * src,  <span class="keyword">size_t</span> count, <span class="keyword">size_t</span> offset, cudaMemcpyKind kind)</span></span></span><br></pre></td></tr></table></figure><p></p><p>和我们之前使用的copy到全局内存的函数类似，参数也类似，包含传输到设备，以及从设备读取，kind的默认参数是传输到设备。</p><h2 id="使用常量内存实现一维模板"><a href="#使用常量内存实现一维模板" class="headerlink" title="使用常量内存实现一维模板"></a>使用常量内存实现一维模板</h2><p>在数值分析中经常使用模板操作，好吧，我们还没学数值分析的这一课，但是说个其他名词你肯定特别熟悉——卷积，一维的卷积就是我们今天要写的例子，所谓模板操作就是把一组数据中中间连续的若干个产生一个输出：</p><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png" alt="1-1"></p><p>紫色的输入数据通过某些运算产生一个输出——绿色的块，这个在图像处理里面用处非常多，当然图像中使用的是二维的数据，我们来看一下公式：<br>$$<br>f’(x)\approx c_3(f(x+4h)-f(x-4h))+c_2(f(x+3h)-f(x-3h))\\<br>+c_1(f(x+2h)-f(x-2h))+c_0(f(x+h)-f(x-h))<br>$$<br>此公式计算函数的导数，使用八阶差分来近似.<br>注意，这里的参数写的跟书中的不一样，也就是系数 $c_0$ 对应原文 $c_3$<br>分析算法，整个算法中我们的 $c_i,0&lt;i&lt;4$ 被所有线程使用，对于某一固定计算我们可以把他声明到寄存器中，但是如果数量较大或者不针对某一组 $c$ 的时候，就需要动态的传递，那么此时，常量内存会是最好的选择，因为其对于核函数的只读属性，线程束内以广播形式访问，也就是32个线程只需要一个内存事务就能完成读取，这样效率是非常高的。<br>我们观察上面图片，可以发现，每个输入数据要被使用8次，如果每次都从全局内存读，这个延迟过高，所以结合上一篇讲到的共享内存，用共享内存缓存输入数据，得到下面的代码：<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">stencil_1d</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//1.</span></span><br><span class="line">    __shared__ <span class="keyword">float</span> smem[BDIM+<span class="number">2</span>*TEMP_RADIO_SIZE];</span><br><span class="line">    <span class="comment">//2.</span></span><br><span class="line">    <span class="keyword">int</span> idx=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="comment">//3.</span></span><br><span class="line">    <span class="keyword">int</span> sidx=threadIdx.x+TEMP_RADIO_SIZE;</span><br><span class="line">    smem[sidx]=in[idx];</span><br><span class="line">    <span class="comment">//4.</span></span><br><span class="line">    <span class="keyword">if</span> (threadIdx.x&lt;TEMP_RADIO_SIZE)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(idx&gt;TEMP_RADIO_SIZE)</span><br><span class="line">            smem[sidx-TEMP_RADIO_SIZE]=in[idx-TEMP_RADIO_SIZE];</span><br><span class="line">        <span class="keyword">if</span>(idx&lt;gridDim.x*blockDim.x-BDIM)</span><br><span class="line">            smem[sidx+BDIM]=in[idx+BDIM];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="comment">//5.</span></span><br><span class="line">    <span class="keyword">if</span> (idx&lt;TEMP_RADIO_SIZE||idx&gt;=gridDim.x*blockDim.x-TEMP_RADIO_SIZE)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">float</span> temp=<span class="number">.0</span>f;</span><br><span class="line">    <span class="comment">//6.</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">pragma</span> unroll</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=TEMP_RADIO_SIZE;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp+=coef[i<span class="number">-1</span>]*(smem[sidx+i]-smem[sidx-i]);</span><br><span class="line">    &#125;</span><br><span class="line">    out[idx]=temp;</span><br><span class="line">    <span class="comment">//printf("%d:GPU :%lf,\n",idx,temp);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>完整的代码在github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a>（欢迎随手star😝 ）</p><p>这里我们要面对一个填充问题，无论是观察公式还是图示，我们会发现，如果模板大小是9，那么我们输出的前4个数据是没办法计算的因为要使用第-1，-2，-3，-4位置的数据，最后4个数据也是不能计算的，因为他要使用 $n+1,n+2,n+3,n+4$ 的数据，这些数据也是没有的，为了保证计算过程中访问不会越界，我们把输入数据两端进行扩充，也就是把上面虽然没有，但是要用的数据填充到输入数据中，当我们我们要处理的是中间的某段数据的时候，那么填充位的数据就来自前面的块对应的输入数据，或者后面线程块对应的输入数据，这就是上面代码最困难的地方，这里懂了其他就一马平川了~</p><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-2.png" alt="1-2"></p><ol><li>定义共享内存，注意是填充后的，所以才会加了模板的两个半径</li><li>计算全局线程索引</li><li>计算当前线程在填充后对应的共享内存的位置，因为前TEMP_RADIO_SIZE数据是填充位，所以我们从第TEMP_RADIO_SIZE位置进行操作。</li><li>判断是当前块对应的输入数据是否是首块，或者是尾块，这时候前面或者后面没有数据可以用来填充，如果是中间块，那么从对位置读取数据进行填充</li><li>判断是否是输出的前后无法计算的那几个位置</li><li>进行差分，使用宏指令，让编译器自己展开循环</li></ol><p>困难在4，主要就是填充，因为如果输入数据当做整体，我们按照串行思路来做，我们可以不填充，而只把输出的前面或者最后的几个数据无效掉就好，但是如果把输入数据分块处理，那么就涉及从全局内存相邻的位置取数据，而且要判断是否越界。</p><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-1.png" alt="re-1"></p><h2 id="与只读缓存的比较"><a href="#与只读缓存的比较" class="headerlink" title="与只读缓存的比较"></a>与只读缓存的比较</h2><p>以上是常量内存和常量缓存的操作，我们作为对比，展示下只读缓存对应的操作，只读缓存拥有从全局内存读取数据的专用带宽,所以，如果内核函数是带宽限制型的，那么这个帮助是非常大的，不同的设备有不同的只读缓存大小，Kepler SM有48KB的只读缓存，只读缓存对于分散访问的更好，当所有线程读取同一地址的时候常量缓存最好，只读缓存这时候效果并不好，只读换粗粒度为32.<br>实现只读缓存可以使用两种方法</p><ul><li>使用__ldg函数</li><li>全局内存的限定指针</li></ul><p>使用__ldg()的方法：<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">kernel</span><span class="params">(<span class="keyword">float</span>* output, <span class="keyword">float</span>* input)</span> </span>&#123;</span><br><span class="line">...</span><br><span class="line">output[idx] += __ldg(&amp;input[idx]);</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>使用限定指针的方法：<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">kernel</span><span class="params">(<span class="keyword">float</span>* output, <span class="keyword">const</span> <span class="keyword">float</span>* __restrict__ input)</span> </span>&#123;</span><br><span class="line">...</span><br><span class="line">output[idx] += input[idx];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>使用只读缓存需要更多的声明和控制，在代码非常复杂的情况下以至于编译器都没办法保证制度缓存使用是否安全的情况下，建议使用 __ldg()函数，更容易控制。<br>只读缓存独立存在，区别于常量缓存，常量缓存喜欢小数据，而只读内存加载的数据比较大，可以再非统一模式下访问，我们修改上面的代码，得到只读缓存版本：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">stencil_1d_readonly</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out,<span class="keyword">const</span> <span class="keyword">float</span>* __restrict__ dcoef)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">float</span> smem[BDIM+<span class="number">2</span>*TEMP_RADIO_SIZE];</span><br><span class="line">    <span class="keyword">int</span> idx=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> sidx=threadIdx.x+TEMP_RADIO_SIZE;</span><br><span class="line">    smem[sidx]=in[idx];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (threadIdx.x&lt;TEMP_RADIO_SIZE)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(idx&gt;TEMP_RADIO_SIZE)</span><br><span class="line">            smem[sidx-TEMP_RADIO_SIZE]=in[idx-TEMP_RADIO_SIZE];</span><br><span class="line">        <span class="keyword">if</span>(idx&lt;gridDim.x*blockDim.x-BDIM)</span><br><span class="line">            smem[sidx+BDIM]=in[idx+BDIM];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="keyword">if</span> (idx&lt;TEMP_RADIO_SIZE||idx&gt;=gridDim.x*blockDim.x-TEMP_RADIO_SIZE)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">float</span> temp=<span class="number">.0</span>f;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">pragma</span> unroll</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=TEMP_RADIO_SIZE;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp+=dcoef[i<span class="number">-1</span>]*(smem[sidx+i]-smem[sidx-i]);</span><br><span class="line">    &#125;</span><br><span class="line">    out[idx]=temp;</span><br><span class="line">    <span class="comment">//printf("%d:GPU :%lf,\n",idx,temp);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>唯一的不同就是多了一个参数，这个参数在主机内是定义的全局内存<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> * dcoef_ro;</span><br><span class="line">CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;dcoef_ro,TEMP_RADIO_SIZE * <span class="keyword">sizeof</span>(<span class="keyword">float</span>)));</span><br><span class="line">CHECK(cudaMemcpy(dcoef_ro,templ_,TEMP_RADIO_SIZE * <span class="keyword">sizeof</span>(<span class="keyword">float</span>),cudaMemcpyHostToDevice));</span><br><span class="line">stencil_1d_readonly&lt;&lt;&lt;grid,block&gt;&gt;&gt;(in_dev,out_dev,dcoef_ro);</span><br><span class="line">CHECK(cudaDeviceSynchronize());</span><br><span class="line">iElaps=cpuSecond()-iStart;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"stencil_1d_readonly Time elapsed %f sec\n"</span>,iElaps);</span><br><span class="line">CHECK(cudaMemcpy(out_gpu,out_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line">checkResult(out_cpu,out_gpu,nxy);</span><br></pre></td></tr></table></figure><p></p><p>执行结果：</p><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-2.png" alt="re-2"></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>常量内存和只读缓存：</p><ul><li>对于核函数都是只读的</li><li>SM上的资源有限，常量缓存64KB，只读缓存48KB</li><li>常量缓存对于统一读取（读同一个地址）执行更好</li><li>只读缓存适合分散读取</li></ul></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>Tony</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://www.face2ai.com/CUDA-F-5-5-常量内存/" title="【CUDA 基础】5.5 常量内存">http://www.face2ai.com/CUDA-F-5-5-常量内存/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/CUDA-F-5-4-合并的全局内存访问/" rel="next" title="【CUDA 基础】5.4 合并的全局内存访问"><i class="fa fa-chevron-left"></i> 【CUDA 基础】5.4 合并的全局内存访问</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/CUDA-F-5-6-线程束洗牌指令/" rel="prev" title="【CUDA 基础】5.6 线程束洗牌指令">【CUDA 基础】5.6 线程束洗牌指令 <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div><div class="comments" id="comments"><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Tony"><p class="site-author-name" itemprop="name">Tony</p><p class="site-description motion-element" itemprop="description">关注机器学习，深度学习，机器视觉，模式识别</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives"><span class="site-state-item-count">257</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">17</span> <span class="site-state-item-name">分类</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a></span></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开篇废话"><span class="nav-number">1.</span> <span class="nav-text">开篇废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常量内存"><span class="nav-number">2.</span> <span class="nav-text">常量内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用常量内存实现一维模板"><span class="nav-number">3.</span> <span class="nav-text">使用常量内存实现一维模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与只读缓存的比较"><span class="nav-number">4.</span> <span class="nav-text">与只读缓存的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love" id="animate"><i class="fa fa-"></i> </span><span class="author" itemprop="copyrightHolder">Tony</span></div><div class="busuanzi-count"><script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv" title="总访客量"><i class="fa fa-user"></i> <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> </span><span class="site-pv" title="总访问量"><i class="fa fa-eye"></i> <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script><script id="dsq-count-scr" src="https://face-to-ai.disqus.com/count.js" async></script><script type="text/javascript">var disqus_config=function(){this.page.url="http://www.face2ai.com/CUDA-F-5-5-常量内存/",this.page.identifier="CUDA-F-5-5-常量内存/",this.page.title="【CUDA 基础】5.5 常量内存"};function loadComments(){var t=document,e=t.createElement("script");e.src="https://face-to-ai.disqus.com/embed.js",e.setAttribute("data-timestamp",""+ +new Date),(t.head||t.body).appendChild(e)}loadComments()</script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存">
+<meta name="keywords" content="CUDA常量内存,CUDA只读缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CUDA 基础】5.5 常量内存">
+<meta property="og:url" content="http://www.face2ai.com/CUDA-F-5-5-常量内存/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-2.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-1.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-2.png">
+<meta property="og:updated_time" content="2018-07-12T15:45:31.514Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CUDA 基础】5.5 常量内存">
+<meta name="twitter:description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-5-5-常量内存/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【CUDA 基础】5.5 常量内存 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Machine Learning & Computer Vision</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学">
+    <a href="/categories/Mathematic/" rel="section">数学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-集合论">
+    <a href="/categories/Mathematic/Set-Theory/" rel="section">··· 集合论</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-线性代数基础">
+    <a href="/categories/Mathematic/Linear-Algebra/" rel="section">··· 线性代数基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-概率论基础">
+    <a href="/categories/Mathematic/Probability/" rel="section">··· 概率论基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数理统计学">
+    <a href="/categories/Mathematic/Statistics/" rel="section">··· 数理统计学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数值分析">
+    <a href="/categories/Mathematic/Numerical-Analysis/" rel="section">··· 数值分析</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-机器学习算法">
+    <a href="/categories/Machine-Learning/" rel="section">机器学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-强化学习">
+    <a href="/categories/Reinforcement-Learning/" rel="section">强化学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-深度学习算法">
+    <a href="/categories/Deep-Learning/" rel="section">深度学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数字图像处理">
+    <a href="/categories/DIP/" rel="section">数字图像处理</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-30天自制操作系统">
+    <a href="/categories/30天自制操作系统/" rel="section">30天自制操作系统</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-cuda">
+    <a href="/categories/CUDA/" rel="section">CUDA</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-网络爬虫">
+    <a href="/categories/Crawler/" rel="section">网络爬虫</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-乱七八糟">
+    <a href="/categories/Other/" rel="section">乱七八糟</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Wechat.jpeg"  alt="wechat" />
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- sider -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1194454329688573"
+         data-ad-slot="9135658886"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-5-5-常量内存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tony">
+      <meta itemprop="description" content="关注机器学习，深度学习，机器视觉，模式识别">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【CUDA 基础】5.5 常量内存
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-06 06:20:07" itemprop="dateCreated datePublished" datetime="2018-06-06T06:20:07+08:00">2018-06-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/CUDA-F-5-5-常量内存/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="CUDA-F-5-5-常量内存/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍另外两种内存——常量内存，只读缓存<br><strong>Keywords:</strong> CUDA常量内存，CUDA只读缓存</p>
+<a id="more"></a>
+<h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>本来早上想写数值分析类的博客，但是看CUDA已经拖太久了，还是写一篇CUDA的博客，争取快些结束本系列，本章完成后还有五章。</p>
+<h2 id="常量内存"><a href="#常量内存" class="headerlink" title="常量内存"></a>常量内存</h2><p>本文介绍常量内存和只读缓存，常量内存是专用内存，他用于只读数据和线程束统一访问某一个数据，常量内存对内核代码而言是只读的，但是主机是可以修改（写）只读内存的，当然也可以读。<br>注意，常量内存并不是在片上的，而是在DRAM上，而其有在片上对应的缓存，其片上缓存就和一级缓存和共享内存一样， 有较低的延迟，但是容量比较小，合理使用可以提高内和效率，每个SM常量缓存大小限制为64KB。<br>我们可以发现，所有的片上内存，我们是不能通过主机赋值的，我们只能对DRAM上内存进行赋值。<br>每种内存访问都有最优与最坏的访问方式，主要原因是内存的硬件结构和底层设计原因，比如全局内存按照连续对去访问最优，交叉访问最差，共享内存无冲突最优，都冲突就会最差，其根本原因在于硬件设计，而我们的常量内存的最优访问模式是线程束所有线程访问一个位置，那么这个访问是最优的。如果要访问不同的位置，就要编程串行了，作为对比，这种情况相当于全局内存完全不连续，共享内存的全部冲突。<br>数学上，一个常量内存读取成本与线程束中线程读取常量内存地址个数呈线性关系。<br>常量内存的声明方式：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__constant</span><br></pre></td></tr></table></figure></p>
+<p>常量内存变量的生存周期与应用程序生存周期相同，所有网格对声明的常量内存都是可以访问的，运行时对主机可见，当CUDA独立编译被使用的，常量内存跨文件可见，这个要后面才会介绍。<br>初始化常量内存使用一下函数完成<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaMemcpyToSymbol</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *symbol, <span class="keyword">const</span> <span class="keyword">void</span> * src,  <span class="keyword">size_t</span> count, <span class="keyword">size_t</span> offset, cudaMemcpyKind kind)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>和我们之前使用的copy到全局内存的函数类似，参数也类似，包含传输到设备，以及从设备读取，kind的默认参数是传输到设备。</p>
+<h2 id="使用常量内存实现一维模板"><a href="#使用常量内存实现一维模板" class="headerlink" title="使用常量内存实现一维模板"></a>使用常量内存实现一维模板</h2><p>在数值分析中经常使用模板操作，好吧，我们还没学数值分析的这一课，但是说个其他名词你肯定特别熟悉——卷积，一维的卷积就是我们今天要写的例子，所谓模板操作就是把一组数据中中间连续的若干个产生一个输出：</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png" alt="1-1"></p>
+<p>紫色的输入数据通过某些运算产生一个输出——绿色的块，这个在图像处理里面用处非常多，当然图像中使用的是二维的数据，我们来看一下公式：<br>$$<br>f’(x)\approx c_3(f(x+4h)-f(x-4h))+c_2(f(x+3h)-f(x-3h))\\<br>+c_1(f(x+2h)-f(x-2h))+c_0(f(x+h)-f(x-h))<br>$$<br>此公式计算函数的导数，使用八阶差分来近似.<br>注意，这里的参数写的跟书中的不一样，也就是系数 $c_0$ 对应原文 $c_3$<br>分析算法，整个算法中我们的 $c_i,0&lt;i&lt;4$ 被所有线程使用，对于某一固定计算我们可以把他声明到寄存器中，但是如果数量较大或者不针对某一组 $c$ 的时候，就需要动态的传递，那么此时，常量内存会是最好的选择，因为其对于核函数的只读属性，线程束内以广播形式访问，也就是32个线程只需要一个内存事务就能完成读取，这样效率是非常高的。<br>我们观察上面图片，可以发现，每个输入数据要被使用8次，如果每次都从全局内存读，这个延迟过高，所以结合上一篇讲到的共享内存，用共享内存缓存输入数据，得到下面的代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">stencil_1d</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//1.</span></span><br><span class="line">    __shared__ <span class="keyword">float</span> smem[BDIM+<span class="number">2</span>*TEMP_RADIO_SIZE];</span><br><span class="line">    <span class="comment">//2.</span></span><br><span class="line">    <span class="keyword">int</span> idx=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="comment">//3.</span></span><br><span class="line">    <span class="keyword">int</span> sidx=threadIdx.x+TEMP_RADIO_SIZE;</span><br><span class="line">    smem[sidx]=in[idx];</span><br><span class="line">    <span class="comment">//4.</span></span><br><span class="line">    <span class="keyword">if</span> (threadIdx.x&lt;TEMP_RADIO_SIZE)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(idx&gt;TEMP_RADIO_SIZE)</span><br><span class="line">            smem[sidx-TEMP_RADIO_SIZE]=in[idx-TEMP_RADIO_SIZE];</span><br><span class="line">        <span class="keyword">if</span>(idx&lt;gridDim.x*blockDim.x-BDIM)</span><br><span class="line">            smem[sidx+BDIM]=in[idx+BDIM];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="comment">//5.</span></span><br><span class="line">    <span class="keyword">if</span> (idx&lt;TEMP_RADIO_SIZE||idx&gt;=gridDim.x*blockDim.x-TEMP_RADIO_SIZE)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">float</span> temp=<span class="number">.0</span>f;</span><br><span class="line">    <span class="comment">//6.</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">pragma</span> unroll</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=TEMP_RADIO_SIZE;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp+=coef[i<span class="number">-1</span>]*(smem[sidx+i]-smem[sidx-i]);</span><br><span class="line">    &#125;</span><br><span class="line">    out[idx]=temp;</span><br><span class="line">    <span class="comment">//printf("%d:GPU :%lf,\n",idx,temp);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>完整的代码在github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a>（欢迎随手star😝 ）</p>
+<p>这里我们要面对一个填充问题，无论是观察公式还是图示，我们会发现，如果模板大小是9，那么我们输出的前4个数据是没办法计算的因为要使用第-1，-2，-3，-4位置的数据，最后4个数据也是不能计算的，因为他要使用 $n+1,n+2,n+3,n+4$ 的数据，这些数据也是没有的，为了保证计算过程中访问不会越界，我们把输入数据两端进行扩充，也就是把上面虽然没有，但是要用的数据填充到输入数据中，当我们我们要处理的是中间的某段数据的时候，那么填充位的数据就来自前面的块对应的输入数据，或者后面线程块对应的输入数据，这就是上面代码最困难的地方，这里懂了其他就一马平川了~</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-2.png" alt="1-2"></p>
+<ol>
+<li>定义共享内存，注意是填充后的，所以才会加了模板的两个半径</li>
+<li>计算全局线程索引</li>
+<li>计算当前线程在填充后对应的共享内存的位置，因为前TEMP_RADIO_SIZE数据是填充位，所以我们从第TEMP_RADIO_SIZE位置进行操作。</li>
+<li>判断是当前块对应的输入数据是否是首块，或者是尾块，这时候前面或者后面没有数据可以用来填充，如果是中间块，那么从对位置读取数据进行填充</li>
+<li>判断是否是输出的前后无法计算的那几个位置</li>
+<li>进行差分，使用宏指令，让编译器自己展开循环</li>
+</ol>
+<p>困难在4，主要就是填充，因为如果输入数据当做整体，我们按照串行思路来做，我们可以不填充，而只把输出的前面或者最后的几个数据无效掉就好，但是如果把输入数据分块处理，那么就涉及从全局内存相邻的位置取数据，而且要判断是否越界。</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-1.png" alt="re-1"></p>
+<h2 id="与只读缓存的比较"><a href="#与只读缓存的比较" class="headerlink" title="与只读缓存的比较"></a>与只读缓存的比较</h2><p>以上是常量内存和常量缓存的操作，我们作为对比，展示下只读缓存对应的操作，只读缓存拥有从全局内存读取数据的专用带宽,所以，如果内核函数是带宽限制型的，那么这个帮助是非常大的，不同的设备有不同的只读缓存大小，Kepler SM有48KB的只读缓存，只读缓存对于分散访问的更好，当所有线程读取同一地址的时候常量缓存最好，只读缓存这时候效果并不好，只读换粗粒度为32.<br>实现只读缓存可以使用两种方法</p>
+<ul>
+<li>使用__ldg函数</li>
+<li>全局内存的限定指针</li>
+</ul>
+<p>使用__ldg()的方法：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">kernel</span><span class="params">(<span class="keyword">float</span>* output, <span class="keyword">float</span>* input)</span> </span>&#123;</span><br><span class="line">...</span><br><span class="line">output[idx] += __ldg(&amp;input[idx]);</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用限定指针的方法：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">kernel</span><span class="params">(<span class="keyword">float</span>* output, <span class="keyword">const</span> <span class="keyword">float</span>* __restrict__ input)</span> </span>&#123;</span><br><span class="line">...</span><br><span class="line">output[idx] += input[idx];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用只读缓存需要更多的声明和控制，在代码非常复杂的情况下以至于编译器都没办法保证制度缓存使用是否安全的情况下，建议使用 __ldg()函数，更容易控制。<br>只读缓存独立存在，区别于常量缓存，常量缓存喜欢小数据，而只读内存加载的数据比较大，可以再非统一模式下访问，我们修改上面的代码，得到只读缓存版本：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">stencil_1d_readonly</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out,<span class="keyword">const</span> <span class="keyword">float</span>* __restrict__ dcoef)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">float</span> smem[BDIM+<span class="number">2</span>*TEMP_RADIO_SIZE];</span><br><span class="line">    <span class="keyword">int</span> idx=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> sidx=threadIdx.x+TEMP_RADIO_SIZE;</span><br><span class="line">    smem[sidx]=in[idx];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (threadIdx.x&lt;TEMP_RADIO_SIZE)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(idx&gt;TEMP_RADIO_SIZE)</span><br><span class="line">            smem[sidx-TEMP_RADIO_SIZE]=in[idx-TEMP_RADIO_SIZE];</span><br><span class="line">        <span class="keyword">if</span>(idx&lt;gridDim.x*blockDim.x-BDIM)</span><br><span class="line">            smem[sidx+BDIM]=in[idx+BDIM];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="keyword">if</span> (idx&lt;TEMP_RADIO_SIZE||idx&gt;=gridDim.x*blockDim.x-TEMP_RADIO_SIZE)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">float</span> temp=<span class="number">.0</span>f;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">pragma</span> unroll</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=TEMP_RADIO_SIZE;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp+=dcoef[i<span class="number">-1</span>]*(smem[sidx+i]-smem[sidx-i]);</span><br><span class="line">    &#125;</span><br><span class="line">    out[idx]=temp;</span><br><span class="line">    <span class="comment">//printf("%d:GPU :%lf,\n",idx,temp);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>唯一的不同就是多了一个参数，这个参数在主机内是定义的全局内存<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> * dcoef_ro;</span><br><span class="line">CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;dcoef_ro,TEMP_RADIO_SIZE * <span class="keyword">sizeof</span>(<span class="keyword">float</span>)));</span><br><span class="line">CHECK(cudaMemcpy(dcoef_ro,templ_,TEMP_RADIO_SIZE * <span class="keyword">sizeof</span>(<span class="keyword">float</span>),cudaMemcpyHostToDevice));</span><br><span class="line">stencil_1d_readonly&lt;&lt;&lt;grid,block&gt;&gt;&gt;(in_dev,out_dev,dcoef_ro);</span><br><span class="line">CHECK(cudaDeviceSynchronize());</span><br><span class="line">iElaps=cpuSecond()-iStart;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"stencil_1d_readonly Time elapsed %f sec\n"</span>,iElaps);</span><br><span class="line">CHECK(cudaMemcpy(out_gpu,out_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line">checkResult(out_cpu,out_gpu,nxy);</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-2.png" alt="re-2"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>常量内存和只读缓存：</p>
+<ul>
+<li>对于核函数都是只读的</li>
+<li>SM上的资源有限，常量缓存64KB，只读缓存48KB</li>
+<li>常量缓存对于统一读取（读同一个地址）执行更好</li>
+<li>只读缓存适合分散读取</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Tony</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/CUDA-F-5-5-常量内存/" title="【CUDA 基础】5.5 常量内存">http://www.face2ai.com/CUDA-F-5-5-常量内存/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/CUDA-F-5-4-合并的全局内存访问/" rel="next" title="【CUDA 基础】5.4 合并的全局内存访问">
+                <i class="fa fa-chevron-left"></i> 【CUDA 基础】5.4 合并的全局内存访问
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/CUDA-F-5-6-线程束洗牌指令/" rel="prev" title="【CUDA 基础】5.6 线程束洗牌指令">
+                【CUDA 基础】5.6 线程束洗牌指令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- footer -->
+    <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1194454329688573"
+       data-ad-slot="2491973880"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-1194454329688573"
+    data-ad-slot="2491973880"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Tony" />
+            
+              <p class="site-author-name" itemprop="name">Tony</p>
+              <p class="site-description motion-element" itemprop="description">关注机器学习，深度学习，机器视觉，模式识别</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">257</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开篇废话"><span class="nav-number">1.</span> <span class="nav-text">开篇废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常量内存"><span class="nav-number">2.</span> <span class="nav-text">常量内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用常量内存实现一维模板"><span class="nav-number">3.</span> <span class="nav-text">使用常量内存实现一维模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与只读缓存的比较"><span class="nav-number">4.</span> <span class="nav-text">与只读缓存的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tony</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://face-to-ai.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://www.face2ai.com/CUDA-F-5-5-常量内存/';
+        this.page.identifier = 'CUDA-F-5-5-常量内存/';
+        this.page.title = '【CUDA 基础】5.5 常量内存';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://face-to-ai.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
       tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
         processEscapes: true,
         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       },
       TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
       var all = MathJax.Hub.getAllJax(), i;
         for (i=0; i < all.length; i += 1) {
           all[i].SourceElement().parentNode.className += ' has-jax';
         }
-    });</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
