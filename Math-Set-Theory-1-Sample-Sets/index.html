@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 集合论基础知识,样本集合Keywords: Sample set">
+<meta name="keywords" content="set theory,Sample sets">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【集合论】1 Set Theory:Sample sets">
+<meta property="og:url" content="http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 集合论基础知识,样本集合Keywords: Sample set">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-1-Sample-Sets/Mathematic.png">
+<meta property="og:updated_time" content="2018-07-12T15:48:10.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【集合论】1 Set Theory:Sample sets">
+<meta name="twitter:description" content="Abstract: 集合论基础知识,样本集合Keywords: Sample set">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-1-Sample-Sets/Mathematic.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【集合论】1 Set Theory:Sample sets | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Machine Learning & Computer Vision</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学">
+    <a href="/categories/Mathematic/" rel="section">数学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-集合论">
+    <a href="/categories/Mathematic/Set-Theory/" rel="section">··· 集合论</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-线性代数基础">
+    <a href="/categories/Mathematic/Linear-Algebra/" rel="section">··· 线性代数基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-概率论基础">
+    <a href="/categories/Mathematic/Probability/" rel="section">··· 概率论基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数理统计学">
+    <a href="/categories/Mathematic/Statistics/" rel="section">··· 数理统计学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数值分析">
+    <a href="/categories/Mathematic/Numerical-Analysis/" rel="section">··· 数值分析</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-机器学习算法">
+    <a href="/categories/Machine-Learning/" rel="section">机器学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-强化学习">
+    <a href="/categories/Reinforcement-Learning/" rel="section">强化学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-深度学习算法">
+    <a href="/categories/Deep-Learning/" rel="section">深度学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数字图像处理">
+    <a href="/categories/DIP/" rel="section">数字图像处理</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-30天自制操作系统">
+    <a href="/categories/30天自制操作系统/" rel="section">30天自制操作系统</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-cuda">
+    <a href="/categories/CUDA/" rel="section">CUDA</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-网络爬虫">
+    <a href="/categories/Crawler/" rel="section">网络爬虫</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-乱七八糟">
+    <a href="/categories/Other/" rel="section">乱七八糟</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Wechat.jpeg"  alt="wechat" />
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- sider -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1194454329688573"
+         data-ad-slot="9135658886"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tony">
+      <meta itemprop="description" content="关注机器学习，深度学习，机器视觉，模式识别">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【集合论】1 Set Theory:Sample sets
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-14 12:30:14" itemprop="dateCreated datePublished" datetime="2017-11-14T12:30:14+08:00">2017-11-14</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Set-Theory/" itemprop="url" rel="index"><span itemprop="name">Set Theory</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Math-Set-Theory-1-Sample-Sets/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="Math-Set-Theory-1-Sample-Sets/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 集合论基础知识,样本集合<br><strong>Keywords:</strong> Sample set</p>
+<a id="more"></a>
+<h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>集合论各种数学教材上都有提到，每次都是，“为了理解xx内容，需要一些集合论的基础知识”，比如数学分析，概率论，拓扑学，这几个分支的基础教材一开始都是讲集合论的，我们画的图也把集合论放在了根部的位置<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-1-Sample-Sets/Mathematic.png" alt=""><br>但是要透彻的研究集合论需要数学专业的大牛们继续，我们是研究计算机的，所以有些东西必须要放掉，所以我们这里讲的集合论内容非常基础，而且可能也不那么专业，没办法，我们只能专业于一点，每个点都专业的，目前大部分人做不到。<br>说到这就想起来了，我们讲的所有这些数学知识都是为了我们的机器学习算法，人工智能算法研究做基础，所以这些数学知识相当之浅显，只推荐CS专业的学生们参考，我尽量写的通俗准确一些，但可能某些话还是不够准确，希望大家多评论，多探讨。<br>本篇博客主要内容来自钟开莱先生的《初等概率论》，主要研究路径：集合-性质-基础运算-定律法则-高级计算</p>
+<h2 id="Sample-sets"><a href="#Sample-sets" class="headerlink" title="Sample sets"></a>Sample sets</h2><p>这个上来就有点偏概率了，因为标题可以翻译为样本集合，说到样本就跟数理统计直接联系到一起了，但是这都无所谓，接下来全是集合的知识了，首先什么是集合，一个班级有3个人-张三，李四，王二麻子-那么这三个人就构成了一个集合，可以用个大括号括起来：<br>$$<br>{张三，李四，王二麻子}<br>$$<br>是的，上面这就是集合，集合就是一些东西集合在一起，就是集合😆，如果想知道集合的准确数学定义，那么可以自己google一下，其实集合论和概率论非常类似，都是先有了实际应用的定义，后面才有了公理化的定义，我们这篇文章应该说的是朴素集合论，创始人康托尔，于是我想起来了《万万没想到》里的康托尔-伯恩斯坦-施罗德定理，集合论是概率论的重要基础，非常非常重要的基础。<br>再举个例子，所有素数，这也是个集合，或者一个函数$f(x)$ 的定义域$(a,b)$ 也是一个集合。<br>那么说完了什么是集合,我们就要研究一下他的性质了：</p>
+<ol>
+<li>一个东西不能被包含超过一次，比如 ${张三，李四，王二麻子,李四}$ 这就不是一个集合了</li>
+<li>我们把集合中的每一个member称为一个point(点)，整个集合叫做space(空间)，为了体现是统计概率类里面的集合，加个修饰词“样本”这样就变成了样本点，和样本空间，这样就更概率了，</li>
+<li>常用的表示方法，样本空间 $\Omega$ 样本点 $\omega$ ,空集 $\emptyset$ 表示集合中没有元素，集合S中元素的个数 $|S|$ 是一个非负整数，从0开始哦，因为 $|\emptyset|=0$</li>
+<li>集合必须被well define，也就是说，我们可以明确的知道一个东西是否属于该集合，不能存在模棱两可的元素，于是，这个地方就可能出现悖论，当元素属于集合的时候我们用 $\omega \in S$ 或者反之 $\omega \notin S$</li>
+<li>关于上面4中提到的明确定义，这个可能会有人来扯皮，比如我们扔三个骰子，可能出现很多组合，但是有人会跟你扯淡，可能一个扔出去以后你找不到了，就变成两个骰子了，哈哈，这种人你让他开门出去，滚蛋就好了，如果数学问题像这样讨论起来就没意思了。</li>
+<li>Well define的方法有两种，一种是穷举-enumerate，或者discribed，比如 $S={1,2,3}$ 这个是个很明确的定义，$4 \notin S$ ,或者 ${x|0&lt;x&lt;4\;and\;x\in \Re }$ 这两种描述方法都是正确的，但要根据情况使用，比如扔6个骰子的组合结果就能写好长，这时候就要用描述的定义方法了</li>
+<li>子集，subset，对应的是superset，如果集合B中元素都在集合A中那么集合B是集合A的subset，A集合是B集合的superset，表示为 $B\subset A$ 或者 $A\supset B$</li>
+<li>identical，两个集合相等的前提是两个集合中所有元素都相等(集合中顺序一般不被考虑，可以颠倒顺序，因为set这个词本身是一堆的意思，并不是排成一条线，有先有后)相等带来了一个性质 集合A B满足: when $A=B$ we must have $B\subset A$ and  $B\supset A$ ;两个集合互为子集(超集)时，两个集合identical，这个性质也可以用来证明集合相等，充分必要条件，而且经常被用来证明两个集合相等。</li>
+</ol>
+<p>以上就是集合的几点主要性质，研究完性质后，就要研究研究运算了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>集合基本性质，后面就是运算的相关知识了。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Tony</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/" title="【集合论】1 Set Theory:Sample sets">http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-5-3/" rel="next" title="【线性代数】5-3:克莱姆法则，逆和体积(Cramer's Rule,Inverses,and Volumes)">
+                <i class="fa fa-chevron-left"></i> 【线性代数】5-3:克莱姆法则，逆和体积(Cramer's Rule,Inverses,and Volumes)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-6-1/" rel="prev" title="【线性代数】6-1:特征值介绍(Introduction to Eigenvalues)">
+                【线性代数】6-1:特征值介绍(Introduction to Eigenvalues) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- footer -->
+    <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1194454329688573"
+       data-ad-slot="2491973880"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-1194454329688573"
+    data-ad-slot="2491973880"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Tony" />
+            
+              <p class="site-author-name" itemprop="name">Tony</p>
+              <p class="site-description motion-element" itemprop="description">关注机器学习，深度学习，机器视觉，模式识别</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">257</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开篇废话"><span class="nav-number">1.</span> <span class="nav-text">开篇废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sample-sets"><span class="nav-number">2.</span> <span class="nav-text">Sample sets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tony</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://face-to-ai.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/';
+        this.page.identifier = 'Math-Set-Theory-1-Sample-Sets/';
+        this.page.title = '【集合论】1 Set Theory:Sample sets';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://face-to-ai.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

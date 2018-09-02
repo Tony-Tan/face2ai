@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍期望的条件版本，也就是条件期望Keywords: Expectation，Prediction，Law of Total Probability">
+<meta name="keywords" content="Expectation,Prediction,Law of total Probability">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【概率论】4-7:条件期望(Conditional Expectation)">
+<meta property="og:url" content="http://www.face2ai.com/Math-Probability-4-7-Conditional-Expectation/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍期望的条件版本，也就是条件期望Keywords: Expectation，Prediction，Law of Total Probability">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-7-Conditional-Expectation/table.png">
+<meta property="og:updated_time" content="2018-07-12T15:48:10.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【概率论】4-7:条件期望(Conditional Expectation)">
+<meta name="twitter:description" content="Abstract: 本文介绍期望的条件版本，也就是条件期望Keywords: Expectation，Prediction，Law of Total Probability">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-7-Conditional-Expectation/table.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-4-7-Conditional-Expectation/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【概率论】4-7:条件期望(Conditional Expectation) | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Machine Learning & Computer Vision</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学">
+    <a href="/categories/Mathematic/" rel="section">数学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-集合论">
+    <a href="/categories/Mathematic/Set-Theory/" rel="section">··· 集合论</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-线性代数基础">
+    <a href="/categories/Mathematic/Linear-Algebra/" rel="section">··· 线性代数基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-概率论基础">
+    <a href="/categories/Mathematic/Probability/" rel="section">··· 概率论基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数理统计学">
+    <a href="/categories/Mathematic/Statistics/" rel="section">··· 数理统计学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数值分析">
+    <a href="/categories/Mathematic/Numerical-Analysis/" rel="section">··· 数值分析</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-机器学习算法">
+    <a href="/categories/Machine-Learning/" rel="section">机器学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-强化学习">
+    <a href="/categories/Reinforcement-Learning/" rel="section">强化学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-深度学习算法">
+    <a href="/categories/Deep-Learning/" rel="section">深度学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数字图像处理">
+    <a href="/categories/DIP/" rel="section">数字图像处理</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-30天自制操作系统">
+    <a href="/categories/30天自制操作系统/" rel="section">30天自制操作系统</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-cuda">
+    <a href="/categories/CUDA/" rel="section">CUDA</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-网络爬虫">
+    <a href="/categories/Crawler/" rel="section">网络爬虫</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-乱七八糟">
+    <a href="/categories/Other/" rel="section">乱七八糟</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Wechat.jpeg"  alt="wechat" />
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- sider -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1194454329688573"
+         data-ad-slot="9135658886"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-4-7-Conditional-Expectation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tony">
+      <meta itemprop="description" content="关注机器学习，深度学习，机器视觉，模式识别">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【概率论】4-7:条件期望(Conditional Expectation)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-27 10:53:24" itemprop="dateCreated datePublished" datetime="2018-03-27T10:53:24+08:00">2018-03-27</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Probability/" itemprop="url" rel="index"><span itemprop="name">Probability</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Math-Probability-4-7-Conditional-Expectation/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="Math-Probability-4-7-Conditional-Expectation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍期望的条件版本，也就是条件期望<br><strong>Keywords:</strong> Expectation，Prediction，Law of Total Probability</p>
+<a id="more"></a>
+<h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>今天突然想到一个问题，为什么有人总说别人情商低，或者是经常有人说高智商低情商就像Sheldon那种，我觉得应该不存在情商这种衡量人情感的指标，这个词不过是一些所谓的多数人提出的用来表征和区分那些做事态度和自己不一样的人。就像我们说某个人情商低，只是他做事让你不舒服而已，但是他可能没觉得这样怎么不好，甚至也有人认为他这么做很好，这种情感性质的结果不能作为衡量一个人的标准。但是智商高真的是智商高，所以我的目标做个高智商的人，情商根本就不是个好或者坏的指标，那就无所谓了，你一边嗑瓜子一边看电视然后跟别人说讨厌我，但是我会尽我最大努力推动人类文明进步。<br>说到条件，我们前面反复说，所有概率都是条件的，随机变量也是，那么这几天我们学到的各种数字特征就应该也有条件版本，而我们学的这几个数组特征都是建立在期望的基础上，所以我们只要研究了条件期望，其他各特征的条件版本就是在此基础上的函数版本。<br>本文还有一个重要的部分就是prediction——预测，机器学习的除了发现事物本身内在的原理，另一个目的就是预测，而我们要预测的这个变量可能我们并不知其分布性质，而是知道另一个跟他有关系的随机变量的分布，那么我们就要用到全概率法则的条件版本了，具体我们来详细说清楚</p>
+<h2 id="Definition-and-Basic-Properties"><a href="#Definition-and-Basic-Properties" class="headerlink" title="Definition and Basic Properties"></a>Definition and Basic Properties</h2><p>在我们举个例子之前我们回忆一下，我们整章都在说的期望，一个随机变量的期望取决于分布，而且我们提到过，不同的随机变量有同样的分布的时候，期望是一样的，那么我们可以进一步说每个分布对应唯一的期望，但是我们知道分布是有条件版本的，所以对应的期望就是条件分布的期望，而期望这个数值在预测过程中满足最小M.S.E. 的要求，所以某些时候用条件期望来预测某个值的出现是合理的。</p>
+<hr>
+<p>举个例子：<br>首先统计了某一个片区所有人家的家庭成员和手机持有数量，然后得到了下面这个表：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-7-Conditional-Expectation/table.png" alt=""></p>
+<p>那么当我们随机选取这个调查中的某一家人，其中有n个家庭成员，那么他们的手机持有量是多少呢？</p>
+<hr>
+<p>这个问题就是一个典型的预测问题。</p>
+<blockquote>
+<p>Definition Conditional Expectation/Mean.Let $X$ and $Y$ be random variables such that the mean of $Y$ exists and is finite.The conditional expectation(or conditional mean) of $Y$ given $X=x$ is denoted by $E(Y|x)$ and is defined to be the expectation of the conditional distribution of $Y$ given $X=x$ .</p>
+</blockquote>
+<p>这个定义就是条件期望或者条件均值的定义了，如果 $Y$ 存在并且有限，条件 $X=x$ 条件期望 $E(Y|x)$</p>
+<hr>
+<p>举个例子<br>如果Y是一个连续随机变量，给定条件 $X=x$ 其条件p.d.f. $g_2(y|x)$ 那么他的条件期望：<br>$$<br>E(Y|x)=\int^{\infty}_{-\infty}yg_2(y|x)dy\text{…………(1)}<br>$$<br>同理如果Y是一个离散随机变量，给定条件 $X=x$ 其条件p.d.f.  那么<br>$$<br>g_2(y|x)=\sum_{\text{ All }y}yg_2(y|x)\text{………………(2)}<br>$$</p>
+<hr>
+<p>当然上面这个定义对条件有一定要求，因为条件 X也是随机变量，所以其取值也有范围，比如有些情况下 $f_1(x)=0$ 这种情况就很尴尬了，不过也没关系，因为条件发生的概率都是0了，那么在此条件下再发生别的更是不可能，所以这种情况变得无关紧要；另一种尴尬就是$f_1(x)\neq 0$ 也就是条件是某个正常的值了，但是这时候Y可能不存在期望，或者期望是无穷的情况，这时条件期望未定义；</p>
+<blockquote>
+<p>Definition Conditional Means as Random Variables.Let $h(x)$ stand for the function of $x$ that is denoted $E(Y|x)$ in either (1) or (2).Define the symble $E(Y|X)$ to mean $h(X)$ and call it the conditional mean of $Y$ given $X$</p>
+</blockquote>
+<p>想一下，我们前面给出了条件的具体取值，比如当给定 $X=x_0$ 的条件下，$Y$ 的期望是什么。如果我们不给定条件特定的值，那么条件变成一个变量，从微积分的角度来看求条件期望的公式如下<br>$$<br>E(Y|X=x)=\int^{\infty}_{-\infty}Yf_1(Y|X=x)dy<br>$$<br>如果$X$ 也是变量那么这个两个变量的单积分表达式的结果就是个 $X$ 的函数.</p>
+<hr>
+<p>一个🌰 ：<br>临床试验，一定数量的患者接受治疗，只有治愈和未治愈两种结果，假设 $P$ 是大量试验的一个结果统计的成功比例，设 $X_i=0$ 为失败（未治愈） $X_i=1$ 为治愈，并假设 $X_1,X_2,\dots,X_n$ 之间在条件 $P=p$ 之下独立，并有 $Pr(X_i=1|P=p)=p$ ,我们现在来计算X的条件P下的期望，因为 $X$ 是参数为 $p，n$ 的二项分布，所以 $E(X|p)=np$ 以及 $E(X|P)=nP$ 后面我们会计算当我们已知X时如何求 $P$ ，这就是预测问题了</p>
+<hr>
+<p>注意，当给定条件 $X$ 时的条件期望 $E(Y|X)$ 是一个随机变量，有自己的分布;给定条件$X=x$ 时，条件概率 $h(x)=E(Y|x)$ 是一函数，这个函数与其他普通函数一样使用；<br>他们的联系是 $X$ 有一定个概率等于 $x$ 这时候， $E(Y|X=x)=h(x)$ 按照函数 $h$ 来完成计算。</p>
+<p>接着我们提出条件版的全概率公式：</p>
+<blockquote>
+<p>Theorem Law of Total Probability for Expectation.Let $X$ and Y be random variables such that Y has finite mean.Then<br>$$<br>E[E(Y|X)]=E(Y)<br>$$</p>
+</blockquote>
+<p>证明:<br>假设X和Y是连续的随机变量并有一个连续的联合分布<br>$$<br>\begin{aligned}<br>E[E(Y|X)]&amp;=\int^{\infty}_{-\infty}E(Y|x)f_1(x)dx\<br>&amp;=\int^{\infty}<em>{-\infty}\int^{\infty}</em>{-\infty}yg_2(y|x)f_1(x)dydx\<br>\end{aligned}<br>$$<br>又因为 $g_2(y|x)=f(x,y)/f_1(x)$ 那么就有：<br>$$<br>E[E(Y|X)]=\int^{\infty}<em>{-\infty}\int^{\infty}</em>{-\infty}yf(x,y)dydx=E(Y)<br>$$<br>证毕</p>
+<p>证明第一步用到了函数的期望，谁是函数？我上面说啦，$h(x)=E(Y|x)$ 可以当做函数使用，然后又用到了条件概率分布和边缘分布的关系，最后得到预料之内的结论。</p>
+<p>接下来这个定理反应的是当给定条件 $X=x$ 下的概率，和把 $X$ 当做已知常数 $x$ 是一致的.</p>
+<blockquote>
+<p>Let $X$ and $Y$ be random variables,and let $Z=r(X,Y)$ for some function r.The conditional distribution of $Z$ given $X=x$ is the same as the conditional distribution of $r(x,Y)$ given $X=x$</p>
+</blockquote>
+<p>证明：<br>当X和Y有一个连续的联合分布：<br>$$<br>E(Z|x)=E(r(x,Y)|x)=\int^{\infty}_{-\infty}r(x,y)g_2(y|x)dy<br>$$<br>根据前面关于期望的全概率法则，我们有：<br>$$<br>E{E[r(X,Y)|X]}=E[r(X,Y)]<br>$$<br>证毕</p>
+<p>上面这个定理是说当某个随机变量 $Z$ 是另外两个随机变量 $X,Y$ 的某个函数 $r$ 结果，那么当其中一个随机变量 $X$ 或者 $Y$ 被给定为条件的时候 $E(Z|X=x)=E[r(x,Y)|X=x]$</p>
+<p>作为期望的第一步扩展，我们这里给出条件方差的定义，当然也有条件距，条件偏度，条件m.g.f，多变量的条件协方差等，篇幅时间都有限，不可能都一一练习，大家要多看例子，不然后面数理统计容易懵逼</p>
+<blockquote>
+<p>Defintion Conditional Variance.For every given value $x$ ,let $Var(Y|x)$ denote the variance ofthe conditional distribution of $Y$ given $X=x$ .That is<br>$$<br>Var(Y|x)=E{[Y-E(Y|x)]^2|x}<br>$$</p>
+</blockquote>
+<p>这就是我们说当给定 $X=x$ 时 $Y$ 的条件期望是 $Var(Y|x)$</p>
+<h2 id="Prediction"><a href="#Prediction" class="headerlink" title="Prediction"></a>Prediction</h2><p>上面我们临床试验的例子描述了一种场景，并说如果在一个随机样本空间 $n$ （足够大） 中有 $X$ 个成功治愈的样例，那么我们怎么估计 $P$ 这就是一个非常接近数理统计的例子，或者说这就是一个统计了题目。</p>
+<blockquote>
+<p>Theorem The prediction $d(X)$ that minimizes $E{[Y-d(X)]^2}$ is $d(X)=E(Y|X)$</p>
+</blockquote>
+<p>证明过程略复杂，当时我们还是详细的写一下，毕竟后面统计要用到。在证明之前我们先仔细看看这个定理说的到底是个什么事，我们想要预测某个随机变量 $X$ 的某个函数( $d$ )的结果，误差函数被定义为 $[Y-d(X)]^2$ 其结果是 $d(X)=E(Y|X)$<br>误差函数或者损失函数是机器学习里的名词，这里指的就是类似于前面 M.S.E. 和M.A.E. 的一个指标，最小化时有最优结果。<br>证明：<br>我们证明X有一个连续分布，离散分布与连续情况基本一致。</p>
+<ol>
+<li>令 $d(X)=E(Y|X)$ , $d’(X)$ 是一个任意的预测结果，我们只需要证明  $E{[Y-d(X)]^2}\leq E{[Y-d’(X)]^2}$ 成立</li>
+<li>根据 $E{E[r(X,Y)|X]}=E[r(X,Y)]$  有 $Z’=[Y-d’(X)]^2$ 并且 $h’(x)=E(Z’|x)$ 可以把1中的不等式转化成连续函数的期望的形式<br>$$<br>\int h(x)f_1(x)dx\leq \int h’(x)f_1(x)dx<br>$$</li>
+<li>所以我们就把上面要证明的目标转换成了证明 $h(x)\leq h’(x)$</li>
+<li>那么我们如果证明了 $E{[Y-d(X)]^2|x}\leq E{[Y-d’(X)]^2|x}$ 就相当于证明了3</li>
+<li>假定4中的 $x$ 为常数，根据MSE很容易证明结论</li>
+</ol>
+<p>证毕</p>
+<p>这个证明有点粗糙，但是大概框架给出了，大家需要查阅这两天的博客就能得出完成的证明过程了。</p>
+<p>M.S.E. 还和 $Var$ 有关系：当我们预测在给定条件 $X=x$ 的条件下预测 $Y$ 为 $E(Y|x)$ 时其M.S.E就是 $Var(Y|x)$ 如果在 $X$ 未知的情况下最佳预测就是 $E[Y]$</p>
+<blockquote>
+<p>Theorem Law of Total Probability for Variance.If $X$ and $Y$ are arbitrary random variables for which the necessary expectations and variances exist,then $Var(X)=E[Var(Y|X)]+Var[E(Y|X)]$</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文我们介绍了条件版本的期望，然后扩展到了条件版本的方差，以及预测的相关知识。下一篇开始介绍各种各样的分布。<br>待续</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Tony</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/Math-Probability-4-7-Conditional-Expectation/" title="【概率论】4-7:条件期望(Conditional Expectation)">http://www.face2ai.com/Math-Probability-4-7-Conditional-Expectation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Probability-4-6-Covariance-and-Correlation/" rel="next" title="【概率论】4-6:协方差和相关性(Covariance and Correlation)">
+                <i class="fa fa-chevron-left"></i> 【概率论】4-6:协方差和相关性(Covariance and Correlation)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Probability-5-1-Special-Distributions/" rel="prev" title="【概率论】5-1:分布介绍(Special Distribution Introduction)">
+                【概率论】5-1:分布介绍(Special Distribution Introduction) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- footer -->
+    <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1194454329688573"
+       data-ad-slot="2491973880"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-1194454329688573"
+    data-ad-slot="2491973880"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Tony" />
+            
+              <p class="site-author-name" itemprop="name">Tony</p>
+              <p class="site-description motion-element" itemprop="description">关注机器学习，深度学习，机器视觉，模式识别</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">257</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开篇废话"><span class="nav-number">1.</span> <span class="nav-text">开篇废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Definition-and-Basic-Properties"><span class="nav-number">2.</span> <span class="nav-text">Definition and Basic Properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prediction"><span class="nav-number">3.</span> <span class="nav-text">Prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tony</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://face-to-ai.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://www.face2ai.com/Math-Probability-4-7-Conditional-Expectation/';
+        this.page.identifier = 'Math-Probability-4-7-Conditional-Expectation/';
+        this.page.title = '【概率论】4-7:条件期望(Conditional Expectation)';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://face-to-ai.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍Reinforcement Learning的具体特点和与其他机器学习算法不同之处，本文是一个骨架性的文章，所有专有名词都保持英文原始单词，具体内容会在后续中给出详细解答。Keywords: Reinforcement Learning，Situation，Action，Enviroment，Closed-loop，Optimal Control，Markov Deci">
+<meta name="keywords" content="Reinforcement Learning,Situation,Action,Enviroment,Closed-loop,Optimal Control,Markov Decision Processes,MDPs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【强化学习】1-1-0 强化学习介绍">
+<meta property="og:url" content="http://www.face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍Reinforcement Learning的具体特点和与其他机器学习算法不同之处，本文是一个骨架性的文章，所有专有名词都保持英文原始单词，具体内容会在后续中给出详细解答。Keywords: Reinforcement Learning，Situation，Action，Enviroment，Closed-loop，Optimal Control，Markov Deci">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-25T15:39:49.510Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【强化学习】1-1-0 强化学习介绍">
+<meta name="twitter:description" content="Abstract: 本文介绍Reinforcement Learning的具体特点和与其他机器学习算法不同之处，本文是一个骨架性的文章，所有专有名词都保持英文原始单词，具体内容会在后续中给出详细解答。Keywords: Reinforcement Learning，Situation，Action，Enviroment，Closed-loop，Optimal Control，Markov Deci">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【强化学习】1-1-0 强化学习介绍 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Machine Learning & Computer Vision</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学">
+    <a href="/categories/Mathematic/" rel="section">数学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-集合论">
+    <a href="/categories/Mathematic/Set-Theory/" rel="section">··· 集合论</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-线性代数基础">
+    <a href="/categories/Mathematic/Linear-Algebra/" rel="section">··· 线性代数基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-概率论基础">
+    <a href="/categories/Mathematic/Probability/" rel="section">··· 概率论基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数理统计学">
+    <a href="/categories/Mathematic/Statistics/" rel="section">··· 数理统计学</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-···-数值分析">
+    <a href="/categories/Mathematic/Numerical-Analysis/" rel="section">··· 数值分析</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-机器学习算法">
+    <a href="/categories/Machine-Learning/" rel="section">机器学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-强化学习">
+    <a href="/categories/Reinforcement-Learning/" rel="section">强化学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-深度学习算法">
+    <a href="/categories/Deep-Learning/" rel="section">深度学习算法</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数字图像处理">
+    <a href="/categories/DIP/" rel="section">数字图像处理</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-30天自制操作系统">
+    <a href="/categories/30天自制操作系统/" rel="section">30天自制操作系统</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-cuda">
+    <a href="/categories/CUDA/" rel="section">CUDA</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-网络爬虫">
+    <a href="/categories/Crawler/" rel="section">网络爬虫</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-乱七八糟">
+    <a href="/categories/Other/" rel="section">乱七八糟</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Wechat.jpeg"  alt="wechat" />
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- sider -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1194454329688573"
+         data-ad-slot="9135658886"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tony">
+      <meta itemprop="description" content="关注机器学习，深度学习，机器视觉，模式识别">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【强化学习】1-1-0 强化学习介绍
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-25 22:41:02" itemprop="dateCreated datePublished" datetime="2018-08-25T22:41:02+08:00">2018-08-25</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Reinforcement-Learning/" itemprop="url" rel="index"><span itemprop="name">Reinforcement Learning</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Reinforcement-Learning/RL-An-Introduction/" itemprop="url" rel="index"><span itemprop="name">RL-An Introduction</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/RL-RSAB-1-1-0-Reinforcement-Learning/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="RL-RSAB-1-1-0-Reinforcement-Learning/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍Reinforcement Learning的具体特点和与其他机器学习算法不同之处，本文是一个骨架性的文章，所有专有名词都保持英文原始单词，具体内容会在后续中给出详细解答。<br><strong>Keywords:</strong> Reinforcement Learning，Situation，Action，Enviroment，Closed-loop，Optimal Control，Markov Decision Processes，MDPs</p>
+<a id="more"></a>
+<h2 id="Reinforcement-Learning"><a href="#Reinforcement-Learning" class="headerlink" title="Reinforcement Learning"></a>Reinforcement Learning</h2><p>中文翻译Reinforcement Learning为强化学习，不知道为啥这么翻译，也没想去了解给这个词命名的人是否非常了解这个领域的知识，既然这么叫了那就这样吧。<br>上面谈到命名是为了介绍其内容，有些东西的命名，可以直接看出其内容，但是强化学习，显然不是这类的，而“土豆片”，“薯条”这种名字则可以。</p>
+<p>本文后面把强化学习简写成RL或者直接写英文名，希望大家理解。</p>
+<p>Reinforcement Learning 像Machine Learning一样，名字里都有Learning这个词，表明，RL也是一个问题和解决方案的集合。</p>
+<p>值得注意的是，RL属于machine learning的一种。</p>
+<p>对于问题和解决方案的集合这种描述，我们有很多经典的例子：</p>
+<ol>
+<li>“拟合房子的面积大小和价格”的问题</li>
+<li>“识别手写数字”的问题</li>
+</ol>
+<p>这些问题对应了一系列解决方案，比如直线拟合就有最小二乘法，svm等算法来解决；识别手写数字可以有神经网络（Naive版，全连接的那种神经网络），CNN等方法。问题和方法一起构成了一个监督学习（机器学习中的一种）问题。<br>对于RL一样，一个问题，和一些列解决方案，找出各种方案的优缺点，提出更好的方案，这就是强化学习的内容，而与其他机器学习（监督学习，非监督学习）的具体区别在于解决问题的策略和问题的条件。</p>
+<p>RL在解决问题的过程中的基本策略是：</p>
+<ol>
+<li>如何对应Situation和Action</li>
+<li>如何最大化Rewarding Signal</li>
+</ol>
+<p>如果你不懂这四个名词，不要着急，后面有详细的解释，而且，负责任的告诉你，你以后研究的所有问题里面都是围绕他们几个展开的。</p>
+<p>在解决RL的问题过程中又会产生一个新的问题，这个问题是在我们还没有看到一个具体的例子之前就能想到的，也是一个基础问题，就是我们的RL学习过程是个closed-loop的过程，通俗点说，像一个死循环，就是当我们用一个输入调整了模型以后，这个模型又会反过来影响这个输入产生的结果，具体点就是这个系统是不稳定的，当你输入在时间 $t_0$ 输入数据 $A_0$ 时产生的结果是 $R_0$ 但是当你在 $t_1$ 输入数据 $A_0$ 时产生的结果是 $R_1$ 并且在大多数情况下， $R_0\neq R_1$ 而专业一些的用词就是：<br>input会影响这个agent的action，而这个action会改变这个agent，当input再次来袭的时候，新的action会不同，因为这个agent已经变了。<br>有点绕，没关系，后面看了具体的例子，或者有具体的数据，我会提醒大家回来看这里的。有点抽象，但是复合逻辑。</p>
+<p>这个过程中有一个和其他机器学习算法巨大的差别：agent或者learner并不知道每次Input对应的“正确的”Action是什么，也不知道哪个 “Action”能产生最大的Rewarding，而监督学习是知道的。<br>并且这个Action影响本次迭代的Rewarding并且影响下一个Situation。</p>
+<p>这里其实可以想象一下下棋，不管什么棋，学习下棋就是一个RL的过程，我这里不想提某狗的例子是因为，我觉得这只狗已经被一些俗人写的烂大街了（一条好狗被糟蹋了），蹭热度，蹭关键词与我无益，所以，想象一下象棋或者五子棋，每一步都是一个action，而最后的输赢才是唯一的结果，每个action没有一个确定结果与其对应，为了衡量action的好坏，给出一个Rewarding，然后action做出以后，当前situation已经和action之前的不一样了（比如棋局中的形式就是situation）<br>简单的例子，漏洞百出，但是可以大概这么理解。</p>
+<h2 id="Reinforcement-Learning-Features"><a href="#Reinforcement-Learning-Features" class="headerlink" title="Reinforcement Learning Features"></a>Reinforcement Learning Features</h2><p>上面大概介绍了一些内容，可能云里雾里，没关系，都是些名词而已，后面内容会详细描述每一个细节，我们要知道的是RL的一些特征，使其与众不同的特征：</p>
+<ol>
+<li>Closed-Loop是基本的学习方式</li>
+<li>学习过程中在每一步并不直接知道应该采用哪个Action</li>
+<li>Action的结果，Reward Signal并不是实时产生的，需要等待一些步骤后，才能知道。</li>
+</ol>
+<h2 id="Markov-Decision-Processes"><a href="#Markov-Decision-Processes" class="headerlink" title="Markov Decision Processes"></a>Markov Decision Processes</h2><p>Markov Decision Processes是一个非常经典的全面的对RL中Optimal Control问题的理解，但是要等到第三章才会完整的描述，其中会详细介绍，Agent，Environment等具体的形式，以及如何达到我们的RL目的。其中的Environment非常主要，因为我们的Goal（目的，目标）就是environment的一个state（状态）。<br>在第三章中，MDPs将会介绍：</p>
+<ul>
+<li>Sensation</li>
+<li>Action</li>
+<li>Goal</li>
+</ul>
+<p>等部分的具体内容，而且会明确的直接解决一个RL问题，而不是将原始问题转化为小问题，比如下棋就是要最后获胜而不是把棋局分成几种，分开解决，再合成最后的方案，RL要直接解决问题，而不是细分再整合这种硬套路。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>中英文穿插写，比较让人讨厌，但是没办法，我觉得如果不看原版书籍，就记住一些翻译版本的关键词是非常有害的。<br>本文很多关键词和具体过程都没办法现在给出，所以，如果你觉得迷惑，没关系，看懂多少都无所谓，毕竟是个开头介绍，当你看完第一个例子就会豁然开朗，第一个例子在1.3中出现，敬请期待吧。</p>
+<p>原文来自：<a href="https://face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning" target="_blank" rel="noopener">https://face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning</a>转载标明出处</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Tony</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning/" title="【强化学习】1-1-0 强化学习介绍">http://www.face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/RL-RSAB-1-0-Introduction/" rel="next" title="【强化学习】1-0 强化学习介绍">
+                <i class="fa fa-chevron-left"></i> 【强化学习】1-0 强化学习介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/RL-RSAB-1-1-1-Reinforcement-Learning/" rel="prev" title="【强化学习】1-1-1 强化学习、监督学习和非监督学习">
+                【强化学习】1-1-1 强化学习、监督学习和非监督学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- footer -->
+    <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1194454329688573"
+       data-ad-slot="2491973880"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-1194454329688573"
+    data-ad-slot="2491973880"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Tony" />
+            
+              <p class="site-author-name" itemprop="name">Tony</p>
+              <p class="site-description motion-element" itemprop="description">关注机器学习，深度学习，机器视觉，模式识别</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">257</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reinforcement-Learning"><span class="nav-number">1.</span> <span class="nav-text">Reinforcement Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reinforcement-Learning-Features"><span class="nav-number">2.</span> <span class="nav-text">Reinforcement Learning Features</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markov-Decision-Processes"><span class="nav-number">3.</span> <span class="nav-text">Markov Decision Processes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tony</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://face-to-ai.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://www.face2ai.com/RL-RSAB-1-1-0-Reinforcement-Learning/';
+        this.page.identifier = 'RL-RSAB-1-1-0-Reinforcement-Learning/';
+        this.page.title = '【强化学习】1-1-0 强化学习介绍';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://face-to-ai.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
