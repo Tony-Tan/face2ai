@@ -7,7 +7,7 @@ Allow: /tags/
 Disallow: /vendors/
 #Disallow: /js/
 #Disallow: /css/
-Disallow: /fonts/
+#Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 Sitemap: https://www.tony4ai.com/sitemap.xml
