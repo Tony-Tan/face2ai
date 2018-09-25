@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.face2ai.com/Julia-Lang-0-Introduction/</loc>
+    
+    <lastmod>2018-09-25T04:56:40.820Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.face2ai.com/%E3%80%8A30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--Mac%E4%B8%8B%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2018-09-24T07:07:27.465Z</lastmod>
@@ -1122,21 +1129,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Statistics-1-6-Some-Idea-of-Probability/</loc>
-    
-    <lastmod>2018-09-24T05:22:13.906Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.face2ai.com/Math-Statistics-1-4-Huygens/</loc>
-    
-    <lastmod>2018-09-24T05:22:13.906Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/</loc>
+    
+    <lastmod>2018-09-24T05:22:13.906Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.face2ai.com/Math-Statistics-1-5-Ars-Conjectandi-First-3-Sections/</loc>
     
     <lastmod>2018-09-24T05:22:13.906Z</lastmod>
     
@@ -1150,7 +1150,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Statistics-1-5-Ars-Conjectandi-First-3-Sections/</loc>
+    <loc>http://www.face2ai.com/Math-Statistics-1-6-Some-Idea-of-Probability/</loc>
+    
+    <lastmod>2018-09-24T05:22:13.906Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.face2ai.com/Math-Statistics-1-4-Huygens/</loc>
     
     <lastmod>2018-09-24T05:22:13.906Z</lastmod>
     
@@ -1451,14 +1458,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-2-2-%E4%BA%8C%E7%BB%B4DFT/</loc>
+    <loc>http://www.face2ai.com/DIP-5-7-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA-%E9%9D%9E%E9%94%90%E5%8C%96%E6%8E%A9%E8%94%BDUnsharpeningMask/</loc>
     
     <lastmod>2018-09-24T04:56:06.448Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-5-7-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA-%E9%9D%9E%E9%94%90%E5%8C%96%E6%8E%A9%E8%94%BDUnsharpeningMask/</loc>
+    <loc>http://www.face2ai.com/DIP-2-2-%E4%BA%8C%E7%BB%B4DFT/</loc>
     
     <lastmod>2018-09-24T04:56:06.448Z</lastmod>
     
@@ -1703,14 +1710,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/RL-RSAB-1-1-2-Reinforcement-Learning/</loc>
+    <loc>http://www.face2ai.com/DIP-4-1-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%BD%A2%E6%80%81%E5%AD%A6%E5%A4%84%E7%90%86/</loc>
     
     <lastmod>2018-09-24T04:56:06.385Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-1-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%BD%A2%E6%80%81%E5%AD%A6%E5%A4%84%E7%90%86/</loc>
+    <loc>http://www.face2ai.com/RL-RSAB-1-1-2-Reinforcement-Learning/</loc>
     
     <lastmod>2018-09-24T04:56:06.385Z</lastmod>
     
@@ -1724,14 +1731,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-6-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E9%87%87%E6%A0%B7%E5%AE%9A%E7%90%86/</loc>
+    <loc>http://www.face2ai.com/DIP-4-5-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E8%BF%9E%E7%BB%AD%E4%BF%A1%E5%8F%B7%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2FT/</loc>
     
     <lastmod>2018-09-24T04:56:06.382Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-5-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E8%BF%9E%E7%BB%AD%E4%BF%A1%E5%8F%B7%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2FT/</loc>
+    <loc>http://www.face2ai.com/DIP-4-6-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E9%87%87%E6%A0%B7%E5%AE%9A%E7%90%86/</loc>
     
     <lastmod>2018-09-24T04:56:06.382Z</lastmod>
     
@@ -1773,14 +1780,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-10-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E6%A6%82%E8%AE%BA/</loc>
+    <loc>http://www.face2ai.com/%E3%80%8A30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E7%95%AA%E5%A4%96%E7%AF%87%E4%B9%8BMac%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/</loc>
     
     <lastmod>2018-09-24T04:56:06.362Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/%E3%80%8A30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E7%95%AA%E5%A4%96%E7%AF%87%E4%B9%8BMac%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/</loc>
+    <loc>http://www.face2ai.com/DIP-4-10-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E6%A6%82%E8%AE%BA/</loc>
     
     <lastmod>2018-09-24T04:56:06.362Z</lastmod>
     
