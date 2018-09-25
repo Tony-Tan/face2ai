@@ -604,14 +604,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-1-2/</loc>
+    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-1/</loc>
     
     <lastmod>2018-09-24T06:53:05.561Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-1/</loc>
+    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-1-2/</loc>
     
     <lastmod>2018-09-24T06:53:05.561Z</lastmod>
     
@@ -1129,7 +1129,7 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/</loc>
+    <loc>http://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/</loc>
     
     <lastmod>2018-09-24T05:22:13.906Z</lastmod>
     
@@ -1143,7 +1143,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/</loc>
+    <loc>http://www.face2ai.com/Math-Statistics-1-4-Huygens/</loc>
+    
+    <lastmod>2018-09-24T05:22:13.906Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/</loc>
     
     <lastmod>2018-09-24T05:22:13.906Z</lastmod>
     
@@ -1151,13 +1158,6 @@
   
   <url>
     <loc>http://www.face2ai.com/Math-Statistics-1-6-Some-Idea-of-Probability/</loc>
-    
-    <lastmod>2018-09-24T05:22:13.906Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.face2ai.com/Math-Statistics-1-4-Huygens/</loc>
     
     <lastmod>2018-09-24T05:22:13.906Z</lastmod>
     
@@ -1458,14 +1458,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-5-7-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA-%E9%9D%9E%E9%94%90%E5%8C%96%E6%8E%A9%E8%94%BDUnsharpeningMask/</loc>
+    <loc>http://www.face2ai.com/DIP-2-2-%E4%BA%8C%E7%BB%B4DFT/</loc>
     
     <lastmod>2018-09-24T04:56:06.448Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-2-2-%E4%BA%8C%E7%BB%B4DFT/</loc>
+    <loc>http://www.face2ai.com/DIP-5-7-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA-%E9%9D%9E%E9%94%90%E5%8C%96%E6%8E%A9%E8%94%BDUnsharpeningMask/</loc>
     
     <lastmod>2018-09-24T04:56:06.448Z</lastmod>
     
@@ -1528,14 +1528,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-6-2-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E5%AD%90-%E7%BB%BC%E8%BF%B0/</loc>
+    <loc>http://www.face2ai.com/DIP-3-1-%E4%BA%8C%E5%80%BC%E5%9B%BE%E5%83%8F-%E5%BD%A2%E6%80%81%E5%AD%A6%E5%A4%84%E7%90%861-%E6%95%B0%E5%AD%A6%E5%BD%A2%E6%80%81%E5%AD%A6/</loc>
     
     <lastmod>2018-09-24T04:56:06.434Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-3-1-%E4%BA%8C%E5%80%BC%E5%9B%BE%E5%83%8F-%E5%BD%A2%E6%80%81%E5%AD%A6%E5%A4%84%E7%90%861-%E6%95%B0%E5%AD%A6%E5%BD%A2%E6%80%81%E5%AD%A6/</loc>
+    <loc>http://www.face2ai.com/DIP-6-2-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E5%AD%90-%E7%BB%BC%E8%BF%B0/</loc>
     
     <lastmod>2018-09-24T04:56:06.434Z</lastmod>
     
@@ -1563,14 +1563,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-9-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E4%BA%8C%E7%BB%B4%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/</loc>
+    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-4-3/</loc>
     
     <lastmod>2018-09-24T04:56:06.429Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-4-3/</loc>
+    <loc>http://www.face2ai.com/DIP-4-9-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E4%BA%8C%E7%BB%B4%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/</loc>
     
     <lastmod>2018-09-24T04:56:06.429Z</lastmod>
     
@@ -1584,14 +1584,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-5-8-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA-Robert%E7%AE%97%E5%AD%90-Sobel%E7%AE%97%E5%AD%90/</loc>
+    <loc>http://www.face2ai.com/DIP-5-0-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E7%A9%BA%E5%9F%9F%E6%BB%A4%E6%B3%A2%E5%9F%BA%E7%A1%80-%E5%8D%B7%E7%A7%AF%E5%92%8C%E7%9B%B8%E5%85%B3/</loc>
     
     <lastmod>2018-09-24T04:56:06.427Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-5-0-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E7%A9%BA%E5%9F%9F%E6%BB%A4%E6%B3%A2%E5%9F%BA%E7%A1%80-%E5%8D%B7%E7%A7%AF%E5%92%8C%E7%9B%B8%E5%85%B3/</loc>
+    <loc>http://www.face2ai.com/DIP-5-8-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA-Robert%E7%AE%97%E5%AD%90-Sobel%E7%AE%97%E5%AD%90/</loc>
     
     <lastmod>2018-09-24T04:56:06.427Z</lastmod>
     
@@ -1668,14 +1668,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-3/</loc>
+    <loc>http://www.face2ai.com/DIP-4-11-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E6%BB%A4%E6%B3%A2%E5%99%A8/</loc>
     
     <lastmod>2018-09-24T04:56:06.393Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-11-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E6%BB%A4%E6%B3%A2%E5%99%A8/</loc>
+    <loc>http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-3/</loc>
     
     <lastmod>2018-09-24T04:56:06.393Z</lastmod>
     
@@ -1731,14 +1731,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-5-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E8%BF%9E%E7%BB%AD%E4%BF%A1%E5%8F%B7%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2FT/</loc>
+    <loc>http://www.face2ai.com/DIP-4-6-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E9%87%87%E6%A0%B7%E5%AE%9A%E7%90%86/</loc>
     
     <lastmod>2018-09-24T04:56:06.382Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-6-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E9%87%87%E6%A0%B7%E5%AE%9A%E7%90%86/</loc>
+    <loc>http://www.face2ai.com/DIP-4-5-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E4%B9%8B%E8%BF%9E%E7%BB%AD%E4%BF%A1%E5%8F%B7%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2FT/</loc>
     
     <lastmod>2018-09-24T04:56:06.382Z</lastmod>
     
@@ -1780,14 +1780,14 @@
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/%E3%80%8A30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E7%95%AA%E5%A4%96%E7%AF%87%E4%B9%8BMac%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/</loc>
+    <loc>http://www.face2ai.com/DIP-4-10-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E6%A6%82%E8%AE%BA/</loc>
     
     <lastmod>2018-09-24T04:56:06.362Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.face2ai.com/DIP-4-10-%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F-%E9%A2%91%E5%9F%9F%E6%BB%A4%E6%B3%A2-%E6%A6%82%E8%AE%BA/</loc>
+    <loc>http://www.face2ai.com/%E3%80%8A30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E7%95%AA%E5%A4%96%E7%AF%87%E4%B9%8BMac%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/</loc>
     
     <lastmod>2018-09-24T04:56:06.362Z</lastmod>
     
