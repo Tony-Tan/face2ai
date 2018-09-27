@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff5325;
+  background: #1ce8ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2913,7 +2913,7 @@ embed {
   line-height: 1.5;
 }
 .container {
-  background-color: rgba(20,20,20,0.75);
+  background-color: rgba(150,150,150,0.6);
 }
 .header-inner {
   padding-top: 0px;
@@ -3342,7 +3342,7 @@ img:hover {
   display: block;
   text-align: center;
   margin: -100px 50px 40px 50px;
-  box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.5);
+  box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.9);
   background-color: rgba(0,0,0,0);
   padding: 106px 36px 10px 36px;
 }
