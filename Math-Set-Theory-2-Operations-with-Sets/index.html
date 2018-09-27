@@ -1,13 +1,1224 @@
-<!DOCTYPE html><html class="theme-next pisces use-motion" lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0"><link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Pisces",version:"6.4.0",sidebar:{position:"left",display:"hide",offset:12,b2t:!1,scrollpercent:!0,onmobile:!0},fancybox:!1,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="description" content="Abstract: 本文主要介绍集合论中集合的基本运算和运算法则Keywords: Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws"><meta name="keywords" content="Complement,Union,Intersection,Commutative Law,Associative Law,Distributive Laws"><meta property="og:type" content="article"><meta property="og:title" content="【集合论】2 集合操作"><meta property="og:url" content="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/index.html"><meta property="og:site_name" content="谭升的博客"><meta property="og:description" content="Abstract: 本文主要介绍集合论中集合的基本运算和运算法则Keywords: Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/random.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/complement_intersection.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/neq.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/distributive.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/prove.png"><meta property="og:updated_time" content="2018-09-26T12:01:15.211Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【集合论】2 集合操作"><meta name="twitter:description" content="Abstract: 本文主要介绍集合论中集合的基本运算和运算法则Keywords: Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws"><meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/random.png"><link rel="canonical" href="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/"><script type="text/javascript" id="page.configurations">CONFIG.page={sidebar:""}</script><title>【集合论】2 集合操作 | 谭升的博客</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-105335860-3")</script><noscript><style type="text/css">.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">谭升的博客</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">人工智能基础</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-数学类博客目录"><a href="/math/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>数学类博客目录</a></li><li class="menu-item menu-item-算法类博客目录"><a href="/ai/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>算法类博客目录</a></li><li class="menu-item menu-item-编程类博客目录"><a href="/program/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>编程类博客目录</a></li><li class="menu-item menu-item-其他笔记目录"><a href="/other/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>其他笔记目录</a></li></ul></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="谭升"><meta itemprop="description" content="强化学习 机器学习 人工智能"><meta itemprop="image" content="/images/avatar.gif"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="谭升的博客"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">【集合论】2 集合操作</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2017-11-16 14:03:01" itemprop="dateCreated datePublished" datetime="2017-11-16T14:03:01+08:00">2017-11-16</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span> ， <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Set-Theory/" itemprop="url" rel="index"><span itemprop="name">Set Theory</span></a></span> </span><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> 阅读次数： <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body" itemprop="articleBody"><p><strong>Abstract:</strong> 本文主要介绍集合论中集合的基本运算和运算法则<br><strong>Keywords:</strong> Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws</p><a id="more"></a><h1 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h1><p>这两天写字写的有点多，吐血更新，尤其是线性代数已经接近高潮部分，所以看书时间少了一下，但是感觉看的数量反而没有减少，现在在看概率论的书籍，陈希孺先生的《概率与数理统计》 ，钟开莱先生的《初等概率论》 Morris H.Degroot的他《概率统计》 这三本书后两本是英文，陈希孺先生的是中文，读起来肯定要顺畅一些，但是根据“经验人士透露”这些书都各有长处，所以我决定从一本英文书来下手，陈希孺先生的概率论部分不多，我也先大概多少看了一遍了，接下来是精度了，包括推到里面的所有数学符号，同时在想是看Morris的英文呢？还是看钟开莱先生的英文呢？这两个真的很难选，都是第四版，说明都很畅销，所以我决定扔🎲，如果是小就是钟开莱先生，要是大就Morris，结果跟我想象的差不多，Morris<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/random.png" alt=""><br>1到6 ，结果是5<br>但是集合论这块还是继续用钟开莱先生的书，看完Morris回头再来钟先生</p><h2 id="Operation"><a href="#Operation" class="headerlink" title="Operation"></a>Operation</h2><p>我们之前学过很多数字的运算，以及运算法则，下面我们进行扩展，扩展到集合，数字的运算结果是数字，集合的运算结果也是集合，但是要换个名字，比如加法产生和，减法产生差，乘法产生积。</p><p>注意：以下我们要讨论的所有集合的计算都是基于已知固定完整空间 $\Omega$</p><h3 id="Complement"><a href="#Complement" class="headerlink" title="Complement"></a>Complement</h3><p>集合 $A$ 的Complement被写成 $A^c$ 表示：<br>$$<br>A^c={\omega | \omega \notin A}<br>$$<br>$A^c$ 表示在空间 $\Omega$ 中不属于 $A$ 的元素的集合</p><p>几个特殊的例子：</p><ol><li>$\Omega^c=\emptyset$</li><li>$\emptyset^c=\Omega$</li><li>$(A^c)^c=A$</li></ol><h3 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h3><p>并集，就是把两个集合合并到一起，重复元素只保留一份（避免出现重复出现的情况）</p><p>$$A \cup B={\omega \in A \, or\, \omega \in B}$$</p><p>逻辑词汇or表示可以前面的也可以后面的也可以两个同时，C语言，C++,离散数学应该都有讲过</p><h3 id="Intersection"><a href="#Intersection" class="headerlink" title="Intersection"></a>Intersection</h3><p>交集，元素必须同时出现在两个集合中：<br>$$A \cap B={\omega \in A \, and\, \omega \in B}$$</p><p>逻辑词汇and，必须满足前后两个条件，同时满足哦。</p><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/complement_intersection.png" alt=""></p><h3 id="Commutative-Law-amp-Associative-Law"><a href="#Commutative-Law-amp-Associative-Law" class="headerlink" title="Commutative Law &amp; Associative Law"></a>Commutative Law &amp; Associative Law</h3><p>$$<br>A \cup B=B \cup A\\<br>A \cap B=B \cap A<br>$$<br>这个叫交换律<br>$$<br>(A \cup B)\cup C= A \cup (B \cup C)\\<br>(A \cap B)\cap C= A \cap (B \cap C)<br>$$<br>这个叫结合律<br>说了这两个运算律很容让我们联想到加法和乘法，的确是这样，他们确实有些相似之处，<br>$$<br>\cup \leftrightarrow +\\<br>\cap \leftrightarrow \times<br>$$<br>所以上面的连续union或者连续intersection各个操作数都可调换位置。<br>但是<br>$$<br>(A \cup B )\cap C \neq A \cup (B \cap C)<br>$$<br>解释可以通过Venn 图来看<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/neq.png" alt=""><br>Venn图怎么画？画圈就行了，相交的地方是交集，合起来是并集，没圈到的地方是complement，这个我看五年级的小孩都在奥数题里面写这个。</p><h3 id="Distributive-Law"><a href="#Distributive-Law" class="headerlink" title="Distributive Law"></a>Distributive Law</h3><p>这个跟前面就有点不同了<br>$$<br>(A \cup B) \cap C=(A \cap C) \cup (B \cap C) \dots\dots (D_1)\\<br>(A \cap B) \cup C=(A \cup C) \cap (B \cup C) \dots\dots (D_2)<br>$$<br>这两个公式都是正确的么？证明一个公式不正确，只需要找到一个反例就可以但是要证明一个公式正确，就很麻烦了。那么我们还是用五年级奥数的方法来检验一下这两个公式哪些是正确的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/distributive.png" alt=""><br>通过venn图可以发现，这两个哥们都是正确的，那么我们之前那个类比就有问题了，也就是合集和并集类似加法和乘法在此处不再合理了，并且其实$A \cup A =A$ 就已经宣告类比不成立了。</p><h2 id="接着钟老师用了一个食物的例子来证明了一下-D-1-这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下-D-2-证明思想就是-I-证明属于左边的元素都属于右边，-II-再证明右边的元素都属于左边-M-subset-N-and-M-supset-N"><a href="#接着钟老师用了一个食物的例子来证明了一下-D-1-这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下-D-2-证明思想就是-I-证明属于左边的元素都属于右边，-II-再证明右边的元素都属于左边-M-subset-N-and-M-supset-N" class="headerlink" title="接着钟老师用了一个食物的例子来证明了一下 $D_1$ 这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下 $D_2$ 证明思想就是(I)证明属于左边的元素都属于右边，(II)再证明右边的元素都属于左边 $M \subset N$ and $M \supset N$"></a>接着钟老师用了一个食物的例子来证明了一下 $D_1$ 这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下 $D_2$ 证明思想就是(I)证明属于左边的元素都属于右边，(II)再证明右边的元素都属于左边 $M \subset N$ and $M \supset N$</h2><h2><a href="#" class="headerlink"></a><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/prove.png" alt=""></h2><p>I:假设元素属于左边，那么它属于A交B或者属于C。<br>①如果属于A交B那么 肯定属于A并C也要属于B并C，所以属于右边<br>$$<br>suppos:\\<br>\omega \in A \cap B\\<br>then:\\<br>\omega \in A \cup C\\<br>\omega \in B \cup C<br>$$<br>②如果属于C那么肯定也属于右边了<br>$$<br>suppos:\\<br>\omega \in C\\<br>then:\\<br>\omega \in A \cup C\\<br>\omega \in B \cup C<br>$$<br>II假设元素属于右边<br>①如果元素属于C，那么肯定属于左边<br>$$<br>suppos:\\<br>\omega \in C\\<br>then:\\<br>\omega \in (A \cap B) \cup C<br>$$<br>②如果元素不属于C，属于A并C同时也属于B并C，那么元素属于A并且属于B，所以元素属于A并B属于左边<br>$$<br>suppos:\\<br>\omega \in A \cup C\\<br>\omega \in B \cup C\\<br>\omega \notin C\\<br>then:\\<br>\omega \in A \\<br>\omega \in B \\<br>\omega \in A \cap B \\<br>$$<br>Q.E.D</p><h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>今天已经写了两篇博客了，这篇还好比较短，集合作为最基础的数学框架，有很多是从没有文字就开始有了的，过于理论化的东西也不是我们研究的对象，我们要做的就是多画画多理解，好在后面看算法看其他过程的时候心里没有恐惧。<br>待续。。。</p><p>原文地址1：<a href="https://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets">https://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets</a>转载请标明出处</p></div><div><div style="padding:10px 0;margin:20px auto;width:90%;text-align:center"><div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div><button id="rewardButton" disable="enable" onclick='var qr=document.getElementById("QR");"none"===qr.style.display?qr.style.display="block":qr.style.display="none"'><span>联系博主</span></button><div id="QR" style="display:none"><div id="wechat" style="display:inline-block"><img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"><p>博主微信</p></div><div id="alipay" style="display:inline-block"><img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"><p>博客公众号</p></div></div></div></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>谭升</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/" title="【集合论】2 集合操作">http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/Math-Linear-Algebra-Chapter-6-1/" rel="next" title="【线性代数】6-1:特征值介绍(Introduction to Eigenvalues)"><i class="fa fa-chevron-left"></i> 【线性代数】6-1:特征值介绍(Introduction to Eigenvalues)</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/Math-Linear-Algebra-Chapter-6-2/" rel="prev" title="【线性代数】6-2:对角化(Diagonalizing a Matrix)">【线性代数】6-2:对角化(Diagonalizing a Matrix) <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div id="sidebar-dimmer"></div><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="谭升"><p class="site-author-name" itemprop="name">谭升</p><p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives"><span class="site-state-item-count">261</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">20</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/index.html"><span class="site-state-item-count">7</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a></span></div><div class="post-body"><div class="note info"><div class="links-of-blogroll motion-element links-of-blogroll-block"><div class="links-of-blogroll-title" align="left"><i class="fa fa-history fa-" aria-hidden="true"></i> 近期文章</div><ul class="links-of-blogroll-list" align="left"><li><a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a></li><li><a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a></li><li><a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a></li><li><a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法” 概论</a></li><li><a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a></li></ul></div></div></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集合操作"><span class="nav-number">1.</span> <span class="nav-text">集合操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Operation"><span class="nav-number">1.1.</span> <span class="nav-text">Operation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Complement"><span class="nav-number">1.1.1.</span> <span class="nav-text">Complement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Union"><span class="nav-number">1.1.2.</span> <span class="nav-text">Union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Intersection"><span class="nav-number">1.1.3.</span> <span class="nav-text">Intersection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Commutative-Law-amp-Associative-Law"><span class="nav-number">1.1.4.</span> <span class="nav-text">Commutative Law &amp; Associative Law</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributive-Law"><span class="nav-number">1.1.5.</span> <span class="nav-text">Distributive Law</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接着钟老师用了一个食物的例子来证明了一下-D-1-这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下-D-2-证明思想就是-I-证明属于左边的元素都属于右边，-II-再证明右边的元素都属于左边-M-subset-N-and-M-supset-N"><span class="nav-number">1.2.</span> <span class="nav-text">接着钟老师用了一个食物的例子来证明了一下 $D_1$ 这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下 $D_2$ 证明思想就是(I)证明属于左边的元素都属于右边，(II)再证明右边的元素都属于左边 $M \subset N$ and $M \supset N$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.4.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love" id="animate"><i class="fa fa-"></i> </span><span class="author" itemprop="copyrightHolder">谭升</span></div><div class="busuanzi-count"><script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv" title="总访客量"><i class="fa fa-user"></i> <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> </span><span class="site-pv" title="总访问量"><i class="fa fa-eye"></i> <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文主要介绍集合论中集合的基本运算和运算法则Keywords: Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws">
+<meta name="keywords" content="Complement,Union,Intersection,Commutative Law,Associative Law,Distributive Laws">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【集合论】2 集合操作">
+<meta property="og:url" content="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文主要介绍集合论中集合的基本运算和运算法则Keywords: Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/random.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/complement_intersection.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/neq.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/distributive.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/prove.png">
+<meta property="og:updated_time" content="2018-09-26T12:01:15.211Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【集合论】2 集合操作">
+<meta name="twitter:description" content="Abstract: 本文主要介绍集合论中集合的基本运算和运算法则Keywords: Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/random.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【集合论】2 集合操作 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学类博客目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法类博客目录">
+    <a href="/ai/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程类博客目录">
+    <a href="/program/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记目录">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />其他笔记目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【集合论】2 集合操作
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-16 14:03:01" itemprop="dateCreated datePublished" datetime="2017-11-16T14:03:01+08:00">2017-11-16</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Set-Theory/" itemprop="url" rel="index"><span itemprop="name">Set Theory</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/Math-Set-Theory-2-Operations-with-Sets/" class="leancloud_visitors" data-flag-title="【集合论】2 集合操作">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文主要介绍集合论中集合的基本运算和运算法则<br><strong>Keywords:</strong> Complement，Union，Intersection，Commutative Law，Associative Law，Distributive laws</p>
+<a id="more"></a>
+<h1 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h1><p>这两天写字写的有点多，吐血更新，尤其是线性代数已经接近高潮部分，所以看书时间少了一下，但是感觉看的数量反而没有减少，现在在看概率论的书籍，陈希孺先生的《概率与数理统计》 ，钟开莱先生的《初等概率论》 Morris H.Degroot的他《概率统计》 这三本书后两本是英文，陈希孺先生的是中文，读起来肯定要顺畅一些，但是根据“经验人士透露”这些书都各有长处，所以我决定从一本英文书来下手，陈希孺先生的概率论部分不多，我也先大概多少看了一遍了，接下来是精度了，包括推到里面的所有数学符号，同时在想是看Morris的英文呢？还是看钟开莱先生的英文呢？这两个真的很难选，都是第四版，说明都很畅销，所以我决定扔🎲，如果是小就是钟开莱先生，要是大就Morris，结果跟我想象的差不多，Morris<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/random.png" alt=""><br>1到6 ，结果是5<br>但是集合论这块还是继续用钟开莱先生的书，看完Morris回头再来钟先生</p>
+<h2 id="Operation"><a href="#Operation" class="headerlink" title="Operation"></a>Operation</h2><p>我们之前学过很多数字的运算，以及运算法则，下面我们进行扩展，扩展到集合，数字的运算结果是数字，集合的运算结果也是集合，但是要换个名字，比如加法产生和，减法产生差，乘法产生积。</p>
+<p> 注意：以下我们要讨论的所有集合的计算都是基于已知固定完整空间 $\Omega$</p>
+<h3 id="Complement"><a href="#Complement" class="headerlink" title="Complement"></a>Complement</h3><p>集合 $A$ 的Complement被写成 $A^c$ 表示：<br>$$<br>A^c={\omega | \omega \notin A}<br>$$<br>$A^c$ 表示在空间 $\Omega$ 中不属于 $A$ 的元素的集合</p>
+<p>几个特殊的例子：</p>
+<ol>
+<li>$\Omega^c=\emptyset$</li>
+<li>$\emptyset^c=\Omega$</li>
+<li>$(A^c)^c=A$</li>
+</ol>
+<h3 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h3><p>并集，就是把两个集合合并到一起，重复元素只保留一份（避免出现重复出现的情况）</p>
+<p>$$A \cup B={\omega \in A \, or\, \omega \in B}$$</p>
+<p>逻辑词汇or表示可以前面的也可以后面的也可以两个同时，C语言，C++,离散数学应该都有讲过</p>
+<h3 id="Intersection"><a href="#Intersection" class="headerlink" title="Intersection"></a>Intersection</h3><p>交集，元素必须同时出现在两个集合中：<br>$$A \cap B={\omega \in A \, and\, \omega \in B}$$</p>
+<p>逻辑词汇and，必须满足前后两个条件，同时满足哦。</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/complement_intersection.png" alt=""></p>
+<h3 id="Commutative-Law-amp-Associative-Law"><a href="#Commutative-Law-amp-Associative-Law" class="headerlink" title="Commutative Law &amp; Associative Law"></a>Commutative Law &amp; Associative Law</h3><p>$$<br>A \cup B=B \cup A\\<br>A \cap B=B \cap A<br>$$<br>这个叫交换律<br>$$<br>(A \cup B)\cup C= A \cup (B \cup C)\\<br>(A \cap B)\cap C= A \cap (B \cap C)<br>$$<br>这个叫结合律<br>说了这两个运算律很容让我们联想到加法和乘法，的确是这样，他们确实有些相似之处，<br>$$<br>\cup \leftrightarrow +\\<br>\cap \leftrightarrow \times<br>$$<br>所以上面的连续union或者连续intersection各个操作数都可调换位置。<br>但是<br>$$<br>(A \cup B )\cap C \neq  A \cup (B \cap C)<br>$$<br>解释可以通过Venn 图来看<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/neq.png" alt=""><br>Venn图怎么画？画圈就行了，相交的地方是交集，合起来是并集，没圈到的地方是complement，这个我看五年级的小孩都在奥数题里面写这个。</p>
+<h3 id="Distributive-Law"><a href="#Distributive-Law" class="headerlink" title="Distributive Law"></a>Distributive Law</h3><p>这个跟前面就有点不同了<br>$$<br>(A \cup B) \cap C=(A \cap C) \cup (B \cap C) \dots\dots (D_1)\\<br>(A \cap B) \cup C=(A \cup C) \cap (B \cup C) \dots\dots (D_2)<br>$$<br>这两个公式都是正确的么？证明一个公式不正确，只需要找到一个反例就可以但是要证明一个公式正确，就很麻烦了。那么我们还是用五年级奥数的方法来检验一下这两个公式哪些是正确的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/distributive.png" alt=""><br>通过venn图可以发现，这两个哥们都是正确的，那么我们之前那个类比就有问题了，也就是合集和并集类似加法和乘法在此处不再合理了，并且其实$A \cup A =A$ 就已经宣告类比不成立了。</p>
+<h2 id="接着钟老师用了一个食物的例子来证明了一下-D-1-这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下-D-2-证明思想就是-I-证明属于左边的元素都属于右边，-II-再证明右边的元素都属于左边-M-subset-N-and-M-supset-N"><a href="#接着钟老师用了一个食物的例子来证明了一下-D-1-这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下-D-2-证明思想就是-I-证明属于左边的元素都属于右边，-II-再证明右边的元素都属于左边-M-subset-N-and-M-supset-N" class="headerlink" title="接着钟老师用了一个食物的例子来证明了一下 $D_1$ 这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下 $D_2$ 证明思想就是(I)证明属于左边的元素都属于右边，(II)再证明右边的元素都属于左边 $M \subset N$ and $M \supset N$"></a>接着钟老师用了一个食物的例子来证明了一下 $D_1$ 这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下 $D_2$ 证明思想就是(I)证明属于左边的元素都属于右边，(II)再证明右边的元素都属于左边 $M \subset N$ and $M \supset N$</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Set-Theory-2-Operations-with-Sets/prove.png" alt=""></h2><p>I:假设元素属于左边，那么它属于A交B或者属于C。<br>①如果属于A交B那么 肯定属于A并C也要属于B并C，所以属于右边<br>$$<br>suppos:\\<br>\omega \in A \cap B\\<br>then:\\<br>\omega \in A \cup C\\<br>\omega \in B \cup C<br>$$<br>②如果属于C那么肯定也属于右边了<br>$$<br>suppos:\\<br>\omega \in C\\<br>then:\\<br>\omega \in A \cup C\\<br>\omega \in B \cup C<br>$$<br>II假设元素属于右边<br>①如果元素属于C，那么肯定属于左边<br>$$<br>suppos:\\<br>\omega \in C\\<br>then:\\<br>\omega \in (A \cap B) \cup C<br>$$<br>②如果元素不属于C，属于A并C同时也属于B并C，那么元素属于A并且属于B，所以元素属于A并B属于左边<br>$$<br>suppos:\\<br>\omega \in A \cup C\\<br>\omega \in B \cup C\\<br>\omega \notin C\\<br>then:\\<br>\omega \in A \\<br>\omega \in B \\<br>\omega \in A \cap B \\<br>$$<br>Q.E.D</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>今天已经写了两篇博客了，这篇还好比较短，集合作为最基础的数学框架，有很多是从没有文字就开始有了的，过于理论化的东西也不是我们研究的对象，我们要做的就是多画画多理解，好在后面看算法看其他过程的时候心里没有恐惧。<br>待续。。。</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets">https://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets</a>转载请标明出处</p>
+
+      
+    </div>
+
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Set-Theory-1-Sample-Sets/" rel="bookmark">【集合论】 样本集合</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>联系博主</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"/>
+        <p>博主微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"/>
+        <p>博客公众号</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>谭升</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/" title="【集合论】2 集合操作">http://www.face2ai.com/Math-Set-Theory-2-Operations-with-Sets/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+          <div style="color: rgba(0, 0, 0, 0.75); font-size:13px; letter-spacing:3px">(&gt;壮士！看完给洒家个五星，你看行不行！&lt;)</div>
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-6-1/" rel="next" title="【线性代数】6-1:特征值介绍(Introduction to Eigenvalues)">
+                <i class="fa fa-chevron-left"></i> 【线性代数】6-1:特征值介绍(Introduction to Eigenvalues)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-6-2/" rel="prev" title="【线性代数】6-2:对角化(Diagonalizing a Matrix)">
+                【线性代数】6-2:对角化(Diagonalizing a Matrix) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="2491973880"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+
+          </div>
+          
+
+  
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">261</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集合操作"><span class="nav-number">1.</span> <span class="nav-text">集合操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Operation"><span class="nav-number">1.1.</span> <span class="nav-text">Operation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Complement"><span class="nav-number">1.1.1.</span> <span class="nav-text">Complement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Union"><span class="nav-number">1.1.2.</span> <span class="nav-text">Union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Intersection"><span class="nav-number">1.1.3.</span> <span class="nav-text">Intersection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Commutative-Law-amp-Associative-Law"><span class="nav-number">1.1.4.</span> <span class="nav-text">Commutative Law &amp; Associative Law</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributive-Law"><span class="nav-number">1.1.5.</span> <span class="nav-text">Distributive Law</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接着钟老师用了一个食物的例子来证明了一下-D-1-这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下-D-2-证明思想就是-I-证明属于左边的元素都属于右边，-II-再证明右边的元素都属于左边-M-subset-N-and-M-supset-N"><span class="nav-number">1.2.</span> <span class="nav-text">接着钟老师用了一个食物的例子来证明了一下 $D_1$ 这里就不详细说了，这个比较简单，我们下面用数学的方法来证明下 $D_2$ 证明思想就是(I)证明属于左边的元素都属于右边，(II)再证明右边的元素都属于左边 $M \subset N$ and $M \supset N$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.4.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
       tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
         processEscapes: true,
         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       },
       TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
       var all = MathJax.Hub.getAllJax(), i;
         for (i=0; i < all.length; i += 1) {
           all[i].SourceElement().parentNode.className += ' has-jax';
         }
-    });</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 14057,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

@@ -1,13 +1,1514 @@
-<!DOCTYPE html><html class="theme-next pisces use-motion" lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0"><link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Pisces",version:"6.4.0",sidebar:{position:"left",display:"hide",offset:12,b2t:!1,scrollpercent:!0,onmobile:!0},fancybox:!1,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="description" content="Abstract: 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）Keywords: nvprof"><meta name="keywords" content="nvprof"><meta property="og:type" content="article"><meta property="og:title" content="【CUDA 基础】3.3 并行性表现"><meta property="og:url" content="http://www.face2ai.com/CUDA-F-3-3-并行性表现/index.html"><meta property="og:site_name" content="谭升的博客"><meta property="og:description" content="Abstract: 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）Keywords: nvprof"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_1.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_2.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_3.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_4.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_5.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_6.png"><meta property="og:updated_time" content="2018-09-26T12:01:15.177Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【CUDA 基础】3.3 并行性表现"><meta name="twitter:description" content="Abstract: 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）Keywords: nvprof"><meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_1.png"><link rel="canonical" href="http://www.face2ai.com/CUDA-F-3-3-并行性表现/"><script type="text/javascript" id="page.configurations">CONFIG.page={sidebar:""}</script><title>【CUDA 基础】3.3 并行性表现 | 谭升的博客</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-105335860-3")</script><noscript><style type="text/css">.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">谭升的博客</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">人工智能基础</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-数学类博客目录"><a href="/math/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>数学类博客目录</a></li><li class="menu-item menu-item-算法类博客目录"><a href="/ai/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>算法类博客目录</a></li><li class="menu-item menu-item-编程类博客目录"><a href="/program/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>编程类博客目录</a></li><li class="menu-item menu-item-其他笔记目录"><a href="/other/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>其他笔记目录</a></li></ul></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-3-3-并行性表现/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="谭升"><meta itemprop="description" content="强化学习 机器学习 人工智能"><meta itemprop="image" content="/images/avatar.gif"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="谭升的博客"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">【CUDA 基础】3.3 并行性表现</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2018-04-15 21:17:52" itemprop="dateCreated datePublished" datetime="2018-04-15T21:17:52+08:00">2018-04-15</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span> ， <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span> </span><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> 阅读次数： <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body" itemprop="articleBody"><p><strong>Abstract:</strong> 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）<br><strong>Keywords:</strong> nvprof</p><a id="more"></a><h1 id="并行性表现"><a href="#并行性表现" class="headerlink" title="并行性表现"></a>并行性表现</h1><p>继续更新CUDA，前面为了加速概率论的学习停了一段CUDA，从今天开始继续CUDA和数学分析的更新，每一篇都写一点废话就相当于自己的日记了，之前很佩服那些写日记的人，因为根本不知道日记可以写些什么，但是现在看看，如果写一些文字记录自己，首先可以反思当下，其次是过一段时间以后可以看看自己到底有没有进步，这些都是有用的，所以大家可以略过我的废话，直接看正文。</p><p>本文的主要内容就是进一步理解线程束在硬件上执行的本质过程，结合上几篇关于执行模型的学习，本文相对简单，通过修改核函数的配置，来观察核函数的执行速度，以及分析硬件利用数据，分析性能，调整核函数配置是CUDA开发人员必须掌握的技能，本篇只研究对核函数的配置是如何影响效率的（也就是通过网格，块的配置来获得不同的执行效率。）<br>本文全文只用到下面的核函数<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumMatrix</span><span class="params">(<span class="keyword">float</span> * MatA,<span class="keyword">float</span> * MatB,<span class="keyword">float</span> * MatC,<span class="keyword">int</span> nx,<span class="keyword">int</span> ny)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ix=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> iy=threadIdx.y+blockDim.y*blockIdx.y;</span><br><span class="line">    <span class="keyword">int</span> idx=ix+iy*ny;</span><br><span class="line">    <span class="keyword">if</span> (ix&lt;nx &amp;&amp; iy&lt;ny)</span><br><span class="line">    &#123;</span><br><span class="line">      MatC[idx]=MatA[idx]+MatB[idx];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>没有任何优化的最简单的二维矩阵加法。<br>全部代码：<br></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//printf("strating...\n");</span></span><br><span class="line">  <span class="comment">//initDevice(0);</span></span><br><span class="line">  <span class="keyword">int</span> nx=<span class="number">1</span>&lt;&lt;<span class="number">13</span>;</span><br><span class="line">  <span class="keyword">int</span> ny=<span class="number">1</span>&lt;&lt;<span class="number">13</span>;</span><br><span class="line">  <span class="keyword">int</span> nxy=nx*ny;</span><br><span class="line">  <span class="keyword">int</span> nBytes=nxy*<span class="keyword">sizeof</span>(<span class="keyword">float</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//Malloc</span></span><br><span class="line">  <span class="keyword">float</span>* A_host=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  <span class="keyword">float</span>* B_host=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  <span class="keyword">float</span>* C_host=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  <span class="keyword">float</span>* C_from_gpu=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  initialData(A_host,nxy);</span><br><span class="line">  initialData(B_host,nxy);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//cudaMalloc</span></span><br><span class="line">  <span class="keyword">float</span> *A_dev=<span class="literal">NULL</span>;</span><br><span class="line">  <span class="keyword">float</span> *B_dev=<span class="literal">NULL</span>;</span><br><span class="line">  <span class="keyword">float</span> *C_dev=<span class="literal">NULL</span>;</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;A_dev,nBytes));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;B_dev,nBytes));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;C_dev,nBytes));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  CHECK(cudaMemcpy(A_dev,A_host,nBytes,cudaMemcpyHostToDevice));</span><br><span class="line">  CHECK(cudaMemcpy(B_dev,B_host,nBytes,cudaMemcpyHostToDevice));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> dimx=argc&gt;<span class="number">2</span>?atoi(argv[<span class="number">1</span>]):<span class="number">32</span>;</span><br><span class="line">  <span class="keyword">int</span> dimy=argc&gt;<span class="number">2</span>?atoi(argv[<span class="number">2</span>]):<span class="number">32</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2d block and 2d grid</span></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(dimx,dimy)</span></span>;</span><br><span class="line">  dim3 grid((nx-1)/block.x+1,(ny-1)/block.y+1);</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumMatrix&lt;&lt;&lt;grid,block&gt;&gt;&gt;(A_dev,B_dev,C_dev,nx,ny);</span><br><span class="line">  CHECK(cudaDeviceSynchronize());</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"GPU Execution configuration&lt;&lt;&lt;(%d,%d),(%d,%d)|%f sec\n"</span>,</span><br><span class="line">        grid.x,grid.y,block.x,block.y,iElaps);</span><br><span class="line">  CHECK(cudaMemcpy(C_from_gpu,C_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line"></span><br><span class="line">  cudaFree(A_dev);</span><br><span class="line">  cudaFree(B_dev);</span><br><span class="line">  cudaFree(C_dev);</span><br><span class="line">  <span class="built_in">free</span>(A_host);</span><br><span class="line">  <span class="built_in">free</span>(B_host);</span><br><span class="line">  <span class="built_in">free</span>(C_host);</span><br><span class="line">  <span class="built_in">free</span>(C_from_gpu);</span><br><span class="line">  cudaDeviceReset();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>可见我们用两个 $8192\times 8192$ 的矩阵相加来测试我们效率。<br>注意一下这里的GPU内存，一个矩阵是 $2^{13}\times 2^{13}\times 2^2=2^{28}$ 字节 也就是 256M，三个矩阵就是 768M 因为我们的GPU内存就是 2G 的，所以我们没办法进行更大的矩阵计算了（无法使用原文使用的是 $2^{14}$ 的方矩阵）。</p><h2 id="用-nvprof-检测活跃的线程束"><a href="#用-nvprof-检测活跃的线程束" class="headerlink" title="用 nvprof 检测活跃的线程束"></a>用 nvprof 检测活跃的线程束</h2><p>对比性能要控制变量，上面的代码只用两个变量，也就是块的x和y的大小，所以，调整x和y的大小来产生不同的效率，我们先来看看结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_1.png" alt=""></p><p>图片看不清，数据结果如下</p><table><thead><tr><th style="text-align:center">gridDim</th><th style="text-align:center">blockDim</th><th style="text-align:center">time(s)</th></tr></thead><tbody><tr><td style="text-align:center">256,256</td><td style="text-align:center">32,32</td><td style="text-align:center">0.008304</td></tr><tr><td style="text-align:center">256,512</td><td style="text-align:center">32,16</td><td style="text-align:center">0.008332</td></tr><tr><td style="text-align:center">512,256</td><td style="text-align:center">16,32</td><td style="text-align:center">0.008341</td></tr><tr><td style="text-align:center">512,512</td><td style="text-align:center">16,16</td><td style="text-align:center">0.008347</td></tr><tr><td style="text-align:center">512,1024</td><td style="text-align:center">16,8</td><td style="text-align:center">0.008351</td></tr><tr><td style="text-align:center">1024，512</td><td style="text-align:center">8,16</td><td style="text-align:center">0.008401</td></tr></tbody></table><p>当块大小超过硬件的极限，并没有报错，而是返回了错误值，这个值得大家注意<br>另外，每个机器执行此代码效果可能定不一样，所以大家要根据自己的硬件分析数据。<br>书上给出的 M2070 就和我们的结果不同，2070的 (32,16) 效率最高，而我们的 (32,32) 效率最高，毕竟架构不同，而且CUDA版本不同导致了优化后的机器码差异很大，所以我们还是来看看活跃线程束的情况，使用</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --metrics achieved_occupancy ./simple_sum_matrix</span><br></pre></td></tr></table></figure><p>得出结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_2.png" alt=""></p><table><thead><tr><th style="text-align:center">gridDim</th><th style="text-align:center">blockDim</th><th style="text-align:center">time(s)</th><th style="text-align:center">Achieved Occupancy</th></tr></thead><tbody><tr><td style="text-align:center">256,256</td><td style="text-align:center">32,32</td><td style="text-align:center">0.008304</td><td style="text-align:center">0.813609</td></tr><tr><td style="text-align:center">256,512</td><td style="text-align:center">32,16</td><td style="text-align:center">0.008332</td><td style="text-align:center">0.841264</td></tr><tr><td style="text-align:center">512,256</td><td style="text-align:center">16,32</td><td style="text-align:center">0.008341</td><td style="text-align:center">0.855385</td></tr><tr><td style="text-align:center">512,512</td><td style="text-align:center">16,16</td><td style="text-align:center">0.008347</td><td style="text-align:center">0.876081</td></tr><tr><td style="text-align:center">512,1024</td><td style="text-align:center">16,8</td><td style="text-align:center">0.008351</td><td style="text-align:center">0.875807</td></tr><tr><td style="text-align:center">1024，512</td><td style="text-align:center">8,16</td><td style="text-align:center">0.008401</td><td style="text-align:center">0.857242</td></tr></tbody></table><p>可见活跃线程束比例高的未必执行速度快，但实际上从原理出发，应该是利用率越高效率越高，但是还受到其他因素制约。<br>活跃线程束比例的定义是：每个周期活跃的线程束的平均值与一个sm支持的线程束最大值的比。</p><h2 id="用-nvprof-检测内存操作"><a href="#用-nvprof-检测内存操作" class="headerlink" title="用 nvprof 检测内存操作"></a>用 nvprof 检测内存操作</h2><p>下面我们继续用nvprof来看看内存利用率如何。<br>首先使用:<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --metrics gld_throughput ./simple_sum_matrix</span><br></pre></td></tr></table></figure><p></p><p>来看一下内核的内存读取效率：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_3.png" alt=""></p><table><thead><tr><th style="text-align:center">gridDim</th><th style="text-align:center">blockDim</th><th style="text-align:center">time(s)</th><th style="text-align:center">Achieved Occupancy</th><th style="text-align:center">GLD Throughput (GB/s)</th></tr></thead><tbody><tr><td style="text-align:center">256,256</td><td style="text-align:center">32,32</td><td style="text-align:center">0.008304</td><td style="text-align:center">0.813609</td><td style="text-align:center">60.270</td></tr><tr><td style="text-align:center">256,512</td><td style="text-align:center">32,16</td><td style="text-align:center">0.008332</td><td style="text-align:center">0.841264</td><td style="text-align:center">60.042</td></tr><tr><td style="text-align:center">512,256</td><td style="text-align:center">16,32</td><td style="text-align:center">0.008341</td><td style="text-align:center">0.855385</td><td style="text-align:center">59.996</td></tr><tr><td style="text-align:center">512,512</td><td style="text-align:center">16,16</td><td style="text-align:center">0.008347</td><td style="text-align:center">0.876081</td><td style="text-align:center">59.967</td></tr><tr><td style="text-align:center">512,1024</td><td style="text-align:center">16,8</td><td style="text-align:center">0.008351</td><td style="text-align:center">0.875807</td><td style="text-align:center">59.976</td></tr><tr><td style="text-align:center">1024，512</td><td style="text-align:center">8,16</td><td style="text-align:center">0.008401</td><td style="text-align:center">0.857242</td><td style="text-align:center">59.440</td></tr></tbody></table><p>可以看出虽然第一种配置的线程束活跃比例不高，但是吞吐量最大所以可见吞吐量和线程束活跃比例一起都对最终的效率有影响。<br>接着我们看看全局加载效率，全局效率的定义是：被请求的全局加载吞吐量占所需的全局加载吞吐量的比值（全局加载吞吐量），也就是说应用程序的加载操作利用了设备内存带宽的程度；注意区别吞吐量和全局加载效率的区别，这个在前面我们已经解释过吞吐量了，忘了的同学回去看看。<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --metrics gld_efficiency ./simple_sum_matrix</span><br></pre></td></tr></table></figure><p></p><p>获得如下运行结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_4.png" alt=""></p><p>很遗憾，在当前机器上进行测试所有的利用率都是 100% ，可见CUDA对核函数进行了优化，在 M2070上 使用以前的CUDA版本，并没有如此高的加载效率，有效加载效率是指在全部的内存请求中（当前在总线上传递的数据）有多少是我们要用于计算的。</p><p>书上说如果线程块中内层的维度（blockDim.x）过小，小于线程束会影响加载效率，但是目前来看，不存在这个问题了。<br>随着硬件的升级，以前的一些问题，可能就不是问题了，当然对付老的设备，这些技巧还是很有用的。</p><h2 id="增大并行性"><a href="#增大并行性" class="headerlink" title="增大并行性"></a>增大并行性</h2><p>上面说 “线程块中内层的维度（blockDim.x）过小” 是否对现在的设备还有影响，我们来看一下下面的试验：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_5.png" alt=""></p><p>用表格列举一下数据</p><table><thead><tr><th style="text-align:center">gridDim</th><th style="text-align:center">blockDim</th><th style="text-align:center">time(s)</th></tr></thead><tbody><tr><td style="text-align:center">(128,4096)</td><td style="text-align:center">(64,2)</td><td style="text-align:center">0.008391</td></tr><tr><td style="text-align:center">(128,2048)</td><td style="text-align:center">(64,4)</td><td style="text-align:center">0.008411</td></tr><tr><td style="text-align:center">(128,1024)</td><td style="text-align:center">(64,8)</td><td style="text-align:center">0.008405</td></tr><tr><td style="text-align:center">(64,4096)</td><td style="text-align:center">(128,2)</td><td style="text-align:center">0.008454</td></tr><tr><td style="text-align:center">(64,2048)</td><td style="text-align:center">(128,4)</td><td style="text-align:center">0.008430</td></tr><tr><td style="text-align:center">(64,1024)</td><td style="text-align:center">(128,8)</td><td style="text-align:center">0.008418</td></tr><tr><td style="text-align:center">(32,4096)</td><td style="text-align:center">(256,2)</td><td style="text-align:center">0.008468</td></tr><tr><td style="text-align:center">(32,2048)</td><td style="text-align:center">(256,4)</td><td style="text-align:center">0.008439</td></tr><tr><td style="text-align:center">(32,1024)</td><td style="text-align:center">(256,8)</td><td style="text-align:center">fail</td></tr></tbody></table><p>通过这个表我们发现，最快的还是第一个，块最小的反而获得最高的效率，这里与书上的结果又不同了，我再想书上的数据量大可能会影响结果，当数据量大的时候有可能决定时间的因素会发生变化，但是一些结果是可以观察到</p><ul><li>尽管（64，4） 和 （128，2） 有同样大小的块，但是执行效率不同，说明内层线程块尺寸影响效率。</li><li>最后的块参数无效</li><li>第一种方案速度最快</li></ul><p>我们调整块的尺寸，还是为了增加并行性，或者说增加活跃的线程束，我们来看看线程束的活跃比例：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_6.png" alt=""></p><p>得到如下数据</p><table><thead><tr><th style="text-align:center">gridDim</th><th style="text-align:center">blockDim</th><th style="text-align:center">time(s)</th><th style="text-align:center">Achieved Occupancy</th></tr></thead><tbody><tr><td style="text-align:center">(128,4096)</td><td style="text-align:center">(64,2)</td><td style="text-align:center">0.008391</td><td style="text-align:center">0.888596</td></tr><tr><td style="text-align:center">(128,2048)</td><td style="text-align:center">(64,4)</td><td style="text-align:center">0.008411</td><td style="text-align:center">0.866298</td></tr><tr><td style="text-align:center">(128,1024)</td><td style="text-align:center">(64,8)</td><td style="text-align:center">0.008405</td><td style="text-align:center">0.831536</td></tr><tr><td style="text-align:center">(64,4096)</td><td style="text-align:center">(128,2)</td><td style="text-align:center">0.008454</td><td style="text-align:center">0.893161</td></tr><tr><td style="text-align:center">(64,2048)</td><td style="text-align:center">(128,4)</td><td style="text-align:center">0.008430</td><td style="text-align:center">0.862629</td></tr><tr><td style="text-align:center">(64,1024)</td><td style="text-align:center">(128,8)</td><td style="text-align:center">0.008418</td><td style="text-align:center">0.833540</td></tr><tr><td style="text-align:center">(32,4096)</td><td style="text-align:center">(256,2)</td><td style="text-align:center">0.008468</td><td style="text-align:center">0.859110</td></tr><tr><td style="text-align:center">(32,2048)</td><td style="text-align:center">(256,4)</td><td style="text-align:center">0.008439</td><td style="text-align:center">0.825036</td></tr><tr><td style="text-align:center">(32,1024)</td><td style="text-align:center">(256,8)</td><td style="text-align:center">fail</td><td style="text-align:center">Nan</td></tr></tbody></table><p>可见最高的利用率没有最高的效率。<br>没有任何一个因素可以直接左右最后的效率，一定是大家一起作用得到最终的结果，多因一效的典型例子，于是在优化的时候，我们应该首先保证测试时间的准确性，客观性，以及稳定性，说实话，我们上面的时间测试方法并不那么稳定，更稳定方法应该是测几次的平均时间，来降低人为误差。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>指标与性能</p><ul><li>大部分情况，单一指标不能优化出最优性能</li><li>总体性能直接相关的是内核的代码本质（内核才是关键）</li><li>指标与性能之间选择平衡点</li><li>从不同的角度寻求指标平衡，最大化效率</li><li>网格和块的尺寸为调节性能提供了一个不错的起点</li></ul><p>从这个起点开始，我们后面逐渐的深入到各项指标，总之，用CUDA就是为了高效，而研究这些指标是提高效率最快的途径（当然内核算法提升空间更大），再强调一下，本文的所有数据只针对我使用的设备，对于任何其他的设备这些数据会完全不同，大家主要学习这几个测试指标和其间的相互关系。</p><p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-3-并行性表现">https://www.face2ai.com/CUDA-F-3-3-并行性表现</a>转载请标明出处</p></div><div><div style="padding:10px 0;margin:20px auto;width:90%;text-align:center"><div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div><button id="rewardButton" disable="enable" onclick='var qr=document.getElementById("QR");"none"===qr.style.display?qr.style.display="block":qr.style.display="none"'><span>联系博主</span></button><div id="QR" style="display:none"><div id="wechat" style="display:inline-block"><img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"><p>博主微信</p></div><div id="alipay" style="display:inline-block"><img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"><p>博客公众号</p></div></div></div></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>谭升</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://www.face2ai.com/CUDA-F-3-3-并行性表现/" title="【CUDA 基础】3.3 并行性表现">http://www.face2ai.com/CUDA-F-3-3-并行性表现/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="next" title="【概率论】6-4:分布连续性修正(The Correction for Continuity)"><i class="fa fa-chevron-left"></i> 【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/CUDA-F-3-4-避免分支分化/" rel="prev" title="【CUDA 基础】3.4 避免分支分化">【CUDA 基础】3.4 避免分支分化 <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div id="sidebar-dimmer"></div><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="谭升"><p class="site-author-name" itemprop="name">谭升</p><p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives"><span class="site-state-item-count">261</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">20</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/index.html"><span class="site-state-item-count">7</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a></span></div><div class="post-body"><div class="note info"><div class="links-of-blogroll motion-element links-of-blogroll-block"><div class="links-of-blogroll-title" align="left"><i class="fa fa-history fa-" aria-hidden="true"></i> 近期文章</div><ul class="links-of-blogroll-list" align="left"><li><a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a></li><li><a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a></li><li><a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a></li><li><a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法” 概论</a></li><li><a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a></li></ul></div></div></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并行性表现"><span class="nav-number">1.</span> <span class="nav-text">并行性表现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用-nvprof-检测活跃的线程束"><span class="nav-number">1.1.</span> <span class="nav-text">用 nvprof 检测活跃的线程束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用-nvprof-检测内存操作"><span class="nav-number">1.2.</span> <span class="nav-text">用 nvprof 检测内存操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增大并行性"><span class="nav-number">1.3.</span> <span class="nav-text">增大并行性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love" id="animate"><i class="fa fa-"></i> </span><span class="author" itemprop="copyrightHolder">谭升</span></div><div class="busuanzi-count"><script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv" title="总访客量"><i class="fa fa-user"></i> <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> </span><span class="site-pv" title="总访问量"><i class="fa fa-eye"></i> <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）Keywords: nvprof">
+<meta name="keywords" content="nvprof">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CUDA 基础】3.3 并行性表现">
+<meta property="og:url" content="http://www.face2ai.com/CUDA-F-3-3-并行性表现/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）Keywords: nvprof">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_1.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_2.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_3.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_4.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_5.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_6.png">
+<meta property="og:updated_time" content="2018-09-26T12:01:15.177Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CUDA 基础】3.3 并行性表现">
+<meta name="twitter:description" content="Abstract: 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）Keywords: nvprof">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-3-3-并行性表现/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【CUDA 基础】3.3 并行性表现 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学类博客目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法类博客目录">
+    <a href="/ai/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程类博客目录">
+    <a href="/program/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记目录">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />其他笔记目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-3-3-并行性表现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【CUDA 基础】3.3 并行性表现
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-15 21:17:52" itemprop="dateCreated datePublished" datetime="2018-04-15T21:17:52+08:00">2018-04-15</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/CUDA-F-3-3-并行性表现/" class="leancloud_visitors" data-flag-title="【CUDA 基础】3.3 并行性表现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文主要通过nvprof工具来分析核函数的执行效率（资源利用率）<br><strong>Keywords:</strong> nvprof</p>
+<a id="more"></a>
+<h1 id="并行性表现"><a href="#并行性表现" class="headerlink" title="并行性表现"></a>并行性表现</h1><p>继续更新CUDA，前面为了加速概率论的学习停了一段CUDA，从今天开始继续CUDA和数学分析的更新，每一篇都写一点废话就相当于自己的日记了，之前很佩服那些写日记的人，因为根本不知道日记可以写些什么，但是现在看看，如果写一些文字记录自己，首先可以反思当下，其次是过一段时间以后可以看看自己到底有没有进步，这些都是有用的，所以大家可以略过我的废话，直接看正文。</p>
+<p>本文的主要内容就是进一步理解线程束在硬件上执行的本质过程，结合上几篇关于执行模型的学习，本文相对简单，通过修改核函数的配置，来观察核函数的执行速度，以及分析硬件利用数据，分析性能，调整核函数配置是CUDA开发人员必须掌握的技能，本篇只研究对核函数的配置是如何影响效率的（也就是通过网格，块的配置来获得不同的执行效率。）<br>本文全文只用到下面的核函数<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumMatrix</span><span class="params">(<span class="keyword">float</span> * MatA,<span class="keyword">float</span> * MatB,<span class="keyword">float</span> * MatC,<span class="keyword">int</span> nx,<span class="keyword">int</span> ny)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ix=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> iy=threadIdx.y+blockDim.y*blockIdx.y;</span><br><span class="line">    <span class="keyword">int</span> idx=ix+iy*ny;</span><br><span class="line">    <span class="keyword">if</span> (ix&lt;nx &amp;&amp; iy&lt;ny)</span><br><span class="line">    &#123;</span><br><span class="line">      MatC[idx]=MatA[idx]+MatB[idx];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>没有任何优化的最简单的二维矩阵加法。<br>全部代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//printf("strating...\n");</span></span><br><span class="line">  <span class="comment">//initDevice(0);</span></span><br><span class="line">  <span class="keyword">int</span> nx=<span class="number">1</span>&lt;&lt;<span class="number">13</span>;</span><br><span class="line">  <span class="keyword">int</span> ny=<span class="number">1</span>&lt;&lt;<span class="number">13</span>;</span><br><span class="line">  <span class="keyword">int</span> nxy=nx*ny;</span><br><span class="line">  <span class="keyword">int</span> nBytes=nxy*<span class="keyword">sizeof</span>(<span class="keyword">float</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//Malloc</span></span><br><span class="line">  <span class="keyword">float</span>* A_host=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  <span class="keyword">float</span>* B_host=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  <span class="keyword">float</span>* C_host=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  <span class="keyword">float</span>* C_from_gpu=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  initialData(A_host,nxy);</span><br><span class="line">  initialData(B_host,nxy);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//cudaMalloc</span></span><br><span class="line">  <span class="keyword">float</span> *A_dev=<span class="literal">NULL</span>;</span><br><span class="line">  <span class="keyword">float</span> *B_dev=<span class="literal">NULL</span>;</span><br><span class="line">  <span class="keyword">float</span> *C_dev=<span class="literal">NULL</span>;</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;A_dev,nBytes));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;B_dev,nBytes));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;C_dev,nBytes));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  CHECK(cudaMemcpy(A_dev,A_host,nBytes,cudaMemcpyHostToDevice));</span><br><span class="line">  CHECK(cudaMemcpy(B_dev,B_host,nBytes,cudaMemcpyHostToDevice));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> dimx=argc&gt;<span class="number">2</span>?atoi(argv[<span class="number">1</span>]):<span class="number">32</span>;</span><br><span class="line">  <span class="keyword">int</span> dimy=argc&gt;<span class="number">2</span>?atoi(argv[<span class="number">2</span>]):<span class="number">32</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2d block and 2d grid</span></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(dimx,dimy)</span></span>;</span><br><span class="line">  dim3 grid((nx-1)/block.x+1,(ny-1)/block.y+1);</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumMatrix&lt;&lt;&lt;grid,block&gt;&gt;&gt;(A_dev,B_dev,C_dev,nx,ny);</span><br><span class="line">  CHECK(cudaDeviceSynchronize());</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"GPU Execution configuration&lt;&lt;&lt;(%d,%d),(%d,%d)|%f sec\n"</span>,</span><br><span class="line">        grid.x,grid.y,block.x,block.y,iElaps);</span><br><span class="line">  CHECK(cudaMemcpy(C_from_gpu,C_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line"></span><br><span class="line">  cudaFree(A_dev);</span><br><span class="line">  cudaFree(B_dev);</span><br><span class="line">  cudaFree(C_dev);</span><br><span class="line">  <span class="built_in">free</span>(A_host);</span><br><span class="line">  <span class="built_in">free</span>(B_host);</span><br><span class="line">  <span class="built_in">free</span>(C_host);</span><br><span class="line">  <span class="built_in">free</span>(C_from_gpu);</span><br><span class="line">  cudaDeviceReset();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可见我们用两个 $8192\times 8192$ 的矩阵相加来测试我们效率。<br>注意一下这里的GPU内存，一个矩阵是 $2^{13}\times 2^{13}\times 2^2=2^{28}$ 字节 也就是 256M，三个矩阵就是 768M 因为我们的GPU内存就是 2G 的，所以我们没办法进行更大的矩阵计算了（无法使用原文使用的是 $2^{14}$ 的方矩阵）。</p>
+<h2 id="用-nvprof-检测活跃的线程束"><a href="#用-nvprof-检测活跃的线程束" class="headerlink" title="用 nvprof 检测活跃的线程束"></a>用 nvprof 检测活跃的线程束</h2><p>对比性能要控制变量，上面的代码只用两个变量，也就是块的x和y的大小，所以，调整x和y的大小来产生不同的效率，我们先来看看结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_1.png" alt=""></p>
+<p>图片看不清，数据结果如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">gridDim</th>
+<th style="text-align:center">blockDim</th>
+<th style="text-align:center">time(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">256,256</td>
+<td style="text-align:center">32,32</td>
+<td style="text-align:center">0.008304</td>
+</tr>
+<tr>
+<td style="text-align:center">256,512</td>
+<td style="text-align:center">32,16</td>
+<td style="text-align:center">0.008332</td>
+</tr>
+<tr>
+<td style="text-align:center">512,256</td>
+<td style="text-align:center">16,32</td>
+<td style="text-align:center">0.008341</td>
+</tr>
+<tr>
+<td style="text-align:center">512,512</td>
+<td style="text-align:center">16,16</td>
+<td style="text-align:center">0.008347</td>
+</tr>
+<tr>
+<td style="text-align:center">512,1024</td>
+<td style="text-align:center">16,8</td>
+<td style="text-align:center">0.008351</td>
+</tr>
+<tr>
+<td style="text-align:center">1024，512</td>
+<td style="text-align:center">8,16</td>
+<td style="text-align:center">0.008401</td>
+</tr>
+</tbody>
+</table>
+<p>当块大小超过硬件的极限，并没有报错，而是返回了错误值，这个值得大家注意<br>另外，每个机器执行此代码效果可能定不一样，所以大家要根据自己的硬件分析数据。<br>书上给出的 M2070 就和我们的结果不同，2070的 (32,16) 效率最高，而我们的 (32,32) 效率最高，毕竟架构不同，而且CUDA版本不同导致了优化后的机器码差异很大，所以我们还是来看看活跃线程束的情况，使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --metrics achieved_occupancy ./simple_sum_matrix</span><br></pre></td></tr></table></figure>
+<p>得出结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_2.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">gridDim</th>
+<th style="text-align:center">blockDim</th>
+<th style="text-align:center">time(s)</th>
+<th style="text-align:center">Achieved Occupancy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">256,256</td>
+<td style="text-align:center">32,32</td>
+<td style="text-align:center">0.008304</td>
+<td style="text-align:center">0.813609</td>
+</tr>
+<tr>
+<td style="text-align:center">256,512</td>
+<td style="text-align:center">32,16</td>
+<td style="text-align:center">0.008332</td>
+<td style="text-align:center">0.841264</td>
+</tr>
+<tr>
+<td style="text-align:center">512,256</td>
+<td style="text-align:center">16,32</td>
+<td style="text-align:center">0.008341</td>
+<td style="text-align:center">0.855385</td>
+</tr>
+<tr>
+<td style="text-align:center">512,512</td>
+<td style="text-align:center">16,16</td>
+<td style="text-align:center">0.008347</td>
+<td style="text-align:center">0.876081</td>
+</tr>
+<tr>
+<td style="text-align:center">512,1024</td>
+<td style="text-align:center">16,8</td>
+<td style="text-align:center">0.008351</td>
+<td style="text-align:center">0.875807</td>
+</tr>
+<tr>
+<td style="text-align:center">1024，512</td>
+<td style="text-align:center">8,16</td>
+<td style="text-align:center">0.008401</td>
+<td style="text-align:center">0.857242</td>
+</tr>
+</tbody>
+</table>
+<p>可见活跃线程束比例高的未必执行速度快，但实际上从原理出发，应该是利用率越高效率越高，但是还受到其他因素制约。<br>活跃线程束比例的定义是：每个周期活跃的线程束的平均值与一个sm支持的线程束最大值的比。</p>
+<h2 id="用-nvprof-检测内存操作"><a href="#用-nvprof-检测内存操作" class="headerlink" title="用 nvprof 检测内存操作"></a>用 nvprof 检测内存操作</h2><p>下面我们继续用nvprof来看看内存利用率如何。<br>首先使用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --metrics gld_throughput ./simple_sum_matrix</span><br></pre></td></tr></table></figure></p>
+<p>来看一下内核的内存读取效率：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_3.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">gridDim</th>
+<th style="text-align:center">blockDim</th>
+<th style="text-align:center">time(s)</th>
+<th style="text-align:center">Achieved Occupancy</th>
+<th style="text-align:center">GLD Throughput (GB/s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">256,256</td>
+<td style="text-align:center">32,32</td>
+<td style="text-align:center">0.008304</td>
+<td style="text-align:center">0.813609</td>
+<td style="text-align:center">60.270</td>
+</tr>
+<tr>
+<td style="text-align:center">256,512</td>
+<td style="text-align:center">32,16</td>
+<td style="text-align:center">0.008332</td>
+<td style="text-align:center">0.841264</td>
+<td style="text-align:center">60.042</td>
+</tr>
+<tr>
+<td style="text-align:center">512,256</td>
+<td style="text-align:center">16,32</td>
+<td style="text-align:center">0.008341</td>
+<td style="text-align:center">0.855385</td>
+<td style="text-align:center">59.996</td>
+</tr>
+<tr>
+<td style="text-align:center">512,512</td>
+<td style="text-align:center">16,16</td>
+<td style="text-align:center">0.008347</td>
+<td style="text-align:center">0.876081</td>
+<td style="text-align:center">59.967</td>
+</tr>
+<tr>
+<td style="text-align:center">512,1024</td>
+<td style="text-align:center">16,8</td>
+<td style="text-align:center">0.008351</td>
+<td style="text-align:center">0.875807</td>
+<td style="text-align:center">59.976</td>
+</tr>
+<tr>
+<td style="text-align:center">1024，512</td>
+<td style="text-align:center">8,16</td>
+<td style="text-align:center">0.008401</td>
+<td style="text-align:center">0.857242</td>
+<td style="text-align:center">59.440</td>
+</tr>
+</tbody>
+</table>
+<p>可以看出虽然第一种配置的线程束活跃比例不高，但是吞吐量最大所以可见吞吐量和线程束活跃比例一起都对最终的效率有影响。<br>接着我们看看全局加载效率，全局效率的定义是：被请求的全局加载吞吐量占所需的全局加载吞吐量的比值（全局加载吞吐量），也就是说应用程序的加载操作利用了设备内存带宽的程度；注意区别吞吐量和全局加载效率的区别，这个在前面我们已经解释过吞吐量了，忘了的同学回去看看。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --metrics gld_efficiency ./simple_sum_matrix</span><br></pre></td></tr></table></figure></p>
+<p>获得如下运行结果<br> <img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_4.png" alt=""></p>
+<p>很遗憾，在当前机器上进行测试所有的利用率都是 100% ，可见CUDA对核函数进行了优化，在 M2070上 使用以前的CUDA版本，并没有如此高的加载效率，有效加载效率是指在全部的内存请求中（当前在总线上传递的数据）有多少是我们要用于计算的。</p>
+<p>书上说如果线程块中内层的维度（blockDim.x）过小，小于线程束会影响加载效率，但是目前来看，不存在这个问题了。<br>随着硬件的升级，以前的一些问题，可能就不是问题了，当然对付老的设备，这些技巧还是很有用的。</p>
+<h2 id="增大并行性"><a href="#增大并行性" class="headerlink" title="增大并行性"></a>增大并行性</h2><p>上面说 “线程块中内层的维度（blockDim.x）过小” 是否对现在的设备还有影响，我们来看一下下面的试验：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_5.png" alt=""></p>
+<p>用表格列举一下数据</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">gridDim</th>
+<th style="text-align:center">blockDim</th>
+<th style="text-align:center">time(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">(128,4096)</td>
+<td style="text-align:center">(64,2)</td>
+<td style="text-align:center">0.008391</td>
+</tr>
+<tr>
+<td style="text-align:center">(128,2048)</td>
+<td style="text-align:center">(64,4)</td>
+<td style="text-align:center">0.008411</td>
+</tr>
+<tr>
+<td style="text-align:center">(128,1024)</td>
+<td style="text-align:center">(64,8)</td>
+<td style="text-align:center">0.008405</td>
+</tr>
+<tr>
+<td style="text-align:center">(64,4096)</td>
+<td style="text-align:center">(128,2)</td>
+<td style="text-align:center">0.008454</td>
+</tr>
+<tr>
+<td style="text-align:center">(64,2048)</td>
+<td style="text-align:center">(128,4)</td>
+<td style="text-align:center">0.008430</td>
+</tr>
+<tr>
+<td style="text-align:center">(64,1024)</td>
+<td style="text-align:center">(128,8)</td>
+<td style="text-align:center">0.008418</td>
+</tr>
+<tr>
+<td style="text-align:center">(32,4096)</td>
+<td style="text-align:center">(256,2)</td>
+<td style="text-align:center">0.008468</td>
+</tr>
+<tr>
+<td style="text-align:center">(32,2048)</td>
+<td style="text-align:center">(256,4)</td>
+<td style="text-align:center">0.008439</td>
+</tr>
+<tr>
+<td style="text-align:center">(32,1024)</td>
+<td style="text-align:center">(256,8)</td>
+<td style="text-align:center">fail</td>
+</tr>
+</tbody>
+</table>
+<p>通过这个表我们发现，最快的还是第一个，块最小的反而获得最高的效率，这里与书上的结果又不同了，我再想书上的数据量大可能会影响结果，当数据量大的时候有可能决定时间的因素会发生变化，但是一些结果是可以观察到</p>
+<ul>
+<li>尽管（64，4） 和 （128，2） 有同样大小的块，但是执行效率不同，说明内层线程块尺寸影响效率。</li>
+<li>最后的块参数无效</li>
+<li>第一种方案速度最快</li>
+</ul>
+<p>我们调整块的尺寸，还是为了增加并行性，或者说增加活跃的线程束，我们来看看线程束的活跃比例：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-3-并行性表现/1_6.png" alt=""></p>
+<p>得到如下数据</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">gridDim</th>
+<th style="text-align:center">blockDim</th>
+<th style="text-align:center">time(s)</th>
+<th style="text-align:center">Achieved Occupancy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">(128,4096)</td>
+<td style="text-align:center">(64,2)</td>
+<td style="text-align:center">0.008391</td>
+<td style="text-align:center">0.888596</td>
+</tr>
+<tr>
+<td style="text-align:center">(128,2048)</td>
+<td style="text-align:center">(64,4)</td>
+<td style="text-align:center">0.008411</td>
+<td style="text-align:center">0.866298</td>
+</tr>
+<tr>
+<td style="text-align:center">(128,1024)</td>
+<td style="text-align:center">(64,8)</td>
+<td style="text-align:center">0.008405</td>
+<td style="text-align:center">0.831536</td>
+</tr>
+<tr>
+<td style="text-align:center">(64,4096)</td>
+<td style="text-align:center">(128,2)</td>
+<td style="text-align:center">0.008454</td>
+<td style="text-align:center">0.893161</td>
+</tr>
+<tr>
+<td style="text-align:center">(64,2048)</td>
+<td style="text-align:center">(128,4)</td>
+<td style="text-align:center">0.008430</td>
+<td style="text-align:center">0.862629</td>
+</tr>
+<tr>
+<td style="text-align:center">(64,1024)</td>
+<td style="text-align:center">(128,8)</td>
+<td style="text-align:center">0.008418</td>
+<td style="text-align:center">0.833540</td>
+</tr>
+<tr>
+<td style="text-align:center">(32,4096)</td>
+<td style="text-align:center">(256,2)</td>
+<td style="text-align:center">0.008468</td>
+<td style="text-align:center">0.859110</td>
+</tr>
+<tr>
+<td style="text-align:center">(32,2048)</td>
+<td style="text-align:center">(256,4)</td>
+<td style="text-align:center">0.008439</td>
+<td style="text-align:center">0.825036</td>
+</tr>
+<tr>
+<td style="text-align:center">(32,1024)</td>
+<td style="text-align:center">(256,8)</td>
+<td style="text-align:center">fail</td>
+<td style="text-align:center">Nan</td>
+</tr>
+</tbody>
+</table>
+<p>可见最高的利用率没有最高的效率。<br>没有任何一个因素可以直接左右最后的效率，一定是大家一起作用得到最终的结果，多因一效的典型例子，于是在优化的时候，我们应该首先保证测试时间的准确性，客观性，以及稳定性，说实话，我们上面的时间测试方法并不那么稳定，更稳定方法应该是测几次的平均时间，来降低人为误差。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>指标与性能</p>
+<ul>
+<li>大部分情况，单一指标不能优化出最优性能</li>
+<li>总体性能直接相关的是内核的代码本质（内核才是关键）</li>
+<li>指标与性能之间选择平衡点</li>
+<li>从不同的角度寻求指标平衡，最大化效率</li>
+<li>网格和块的尺寸为调节性能提供了一个不错的起点</li>
+</ul>
+<p>从这个起点开始，我们后面逐渐的深入到各项指标，总之，用CUDA就是为了高效，而研究这些指标是提高效率最快的途径（当然内核算法提升空间更大），再强调一下，本文的所有数据只针对我使用的设备，对于任何其他的设备这些数据会完全不同，大家主要学习这几个测试指标和其间的相互关系。</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-3-并行性表现">https://www.face2ai.com/CUDA-F-3-3-并行性表现</a>转载请标明出处</p>
+
+      
+    </div>
+
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-4-2-内存管理/" rel="bookmark">【CUDA 基础】4.2 内存管理</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-0-Introduction/" rel="bookmark">【Julia】 Julia编程语言介绍</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>联系博主</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"/>
+        <p>博主微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"/>
+        <p>博客公众号</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>谭升</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/CUDA-F-3-3-并行性表现/" title="【CUDA 基础】3.3 并行性表现">http://www.face2ai.com/CUDA-F-3-3-并行性表现/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+          <div style="color: rgba(0, 0, 0, 0.75); font-size:13px; letter-spacing:3px">(&gt;壮士！看完给洒家个五星，你看行不行！&lt;)</div>
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="next" title="【概率论】6-4:分布连续性修正(The Correction for Continuity)">
+                <i class="fa fa-chevron-left"></i> 【概率论】6-4:分布连续性修正(The Correction for Continuity)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/CUDA-F-3-4-避免分支分化/" rel="prev" title="【CUDA 基础】3.4 避免分支分化">
+                【CUDA 基础】3.4 避免分支分化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="2491973880"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+
+          </div>
+          
+
+  
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">261</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并行性表现"><span class="nav-number">1.</span> <span class="nav-text">并行性表现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用-nvprof-检测活跃的线程束"><span class="nav-number">1.1.</span> <span class="nav-text">用 nvprof 检测活跃的线程束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用-nvprof-检测内存操作"><span class="nav-number">1.2.</span> <span class="nav-text">用 nvprof 检测内存操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增大并行性"><span class="nav-number">1.3.</span> <span class="nav-text">增大并行性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
       tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
         processEscapes: true,
         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       },
       TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
       var all = MathJax.Hub.getAllJax(), i;
         for (i=0; i < all.length; i += 1) {
           all[i].SourceElement().parentNode.className += ' has-jax';
         }
-    });</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 14057,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

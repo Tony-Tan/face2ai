@@ -1,13 +1,1340 @@
-<!DOCTYPE html><html class="theme-next pisces use-motion" lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0"><link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Pisces",version:"6.4.0",sidebar:{position:"left",display:"hide",offset:12,b2t:!1,scrollpercent:!0,onmobile:!0},fancybox:!1,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA"><meta name="keywords" content="并行计算,串行编程,并行编程,计算机架构"><meta property="og:type" content="article"><meta property="og:title" content="【CUDA 基础】1.0 并行计算与计算机架构"><meta property="og:url" content="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/index.html"><meta property="og:site_name" content="谭升的博客"><meta property="og:description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/CUDA_C.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/1.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/2.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/3.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/4.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/5.png"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/6.png"><meta property="og:updated_time" content="2018-09-26T12:01:15.240Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【CUDA 基础】1.0 并行计算与计算机架构"><meta name="twitter:description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA"><meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg"><link rel="canonical" href="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/"><script type="text/javascript" id="page.configurations">CONFIG.page={sidebar:""}</script><title>【CUDA 基础】1.0 并行计算与计算机架构 | 谭升的博客</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-105335860-3")</script><noscript><style type="text/css">.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">谭升的博客</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">人工智能基础</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-数学类博客目录"><a href="/math/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>数学类博客目录</a></li><li class="menu-item menu-item-算法类博客目录"><a href="/ai/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>算法类博客目录</a></li><li class="menu-item menu-item-编程类博客目录"><a href="/program/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>编程类博客目录</a></li><li class="menu-item menu-item-其他笔记目录"><a href="/other/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>其他笔记目录</a></li></ul></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="谭升"><meta itemprop="description" content="强化学习 机器学习 人工智能"><meta itemprop="image" content="/images/avatar.gif"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="谭升的博客"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">【CUDA 基础】1.0 并行计算与计算机架构</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2018-02-14 21:43:33" itemprop="dateCreated datePublished" datetime="2018-02-14T21:43:33+08:00">2018-02-14</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span> ， <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span> </span><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> 阅读次数： <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body" itemprop="articleBody"><p><strong>Abstract:</strong> 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。<br><strong>Keywords:</strong> 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA</p><a id="more"></a><h1 id="并行计算与计算机架构"><a href="#并行计算与计算机架构" class="headerlink" title="并行计算与计算机架构"></a>并行计算与计算机架构</h1><p>听过一句话，电影里面的一句台词，不是名人说的，但我觉得非常值得我思考，“慢就是稳，稳就是快”，我们的发展太快了，以至于出现了各种《21天精通C++》《10天学会机器学习》这类东西。<br>稳住吧，打好基础，才有机会去更好的环境。</p><h2 id="Big-Picture"><a href="#Big-Picture" class="headerlink" title="Big Picture"></a>Big Picture</h2><p>我们学习CUDA主要参考《CUDA C编程权威指南》我们的博客也基本按照书中的章节进行。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg" alt=""><br>结构：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/CUDA_C.png" alt=""></p><p>CUDA想要运行起来并不困难，但是想要写得好，真的需要研究一下，某乎上各路大牛给出的建议是看CUDA的官方文档，我之前也是过了一遍文档，但是文档教会你更多的是如何写代码，而没有讲解详细的硬件结构（可能在别的文档中，我只看了编程指导），我们学习编程应该同时理解语言，编程模型，硬件执行模型，以及优化方法，单纯的学会写代码，能运行，这是培训班的节奏。<br>还记得峰哥的话，知道编译原理和操作系统（软硬件），什么语言都一样。<br>读这个系列的文章需要以下知识：</p><ol><li>C/C++ 编程经验，这个不用说，如果C都没学会就要来CUDA，我觉得不理智，根基不稳，也是我一贯所反对的</li><li>本系列是Freshman，后面会有Junior，主要内容肯定有所不同，目前准备的是Freshman 主要介绍基础知识，包括硬件基础，编程模型，基本性能方面的考察，和简单的优化（包括内存等），以及项目实际中的一些技巧；Junior部分主要介绍更高级的性能优化技巧，比如PTX，更高级的内存处理等；优化空间最大的是并行算法的设计，当然不在本系列所讨论的范围内，那是另一个专题了。</li></ol><h2 id="并行计算"><a href="#并行计算" class="headerlink" title="并行计算"></a>并行计算</h2><p>我们的计算机从最早的埃尼阿克到现在的各种超算，都是为了应用而产生的，软件和硬件相互刺激而相互进步，并行计算也是这样产生的，我们最早的计算机肯定不是并行的，但是可以做成多线程的，因为当时一个CPU只有一个核，所以不可能一个核同时执行两个计算，后来我们的应用逐步要求计算量越来越高，所以单核的计算速度也在逐步上升，后来大规模并行应用产生了，我们迫切的需要能够同时处理很多数据的机器，比如图像处理，以及处理大规模的同时访问的服务器后台。<br>并行计算其实设计到两个不同的技术领域：</p><ul><li>计算机架构（硬件）</li><li>并行程序设计（软件）</li></ul><p>这两个很好理解，一个生产工具，一个用工具产生各种不同应用。<br>硬件主要的目标就是为软件提供更快的计算速度，更低的性能功耗比，硬件结构上支持更快的并行。<br>软件的主要目的是使用当前的硬件压榨出最高的性能，给应用提供更稳定快速的计算结果。<br>我们传统的计算机结构一般是哈佛体系结构（后来演变出冯·诺依曼结构）主要分成三部分：</p><ul><li>内存（指令内存，数据内存）</li><li>中央处理单元（控制单元和算数逻辑单元）</li><li>输入、输出接口</li></ul><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/1.png" alt=""><br>后面的冯诺依曼结构就把数据和指令都当做数据来处理了，这里就不再介绍了，再次安利《深入理解计算机系统》这本书，里面可以找到相关知识。<br>写并行和串行的最大区别就是，写串行程序可能不需要学习不同的硬件平台，但是写并行程序就需要对硬件有一定的了解了。</p><h3 id="并行性"><a href="#并行性" class="headerlink" title="并行性"></a>并行性</h3><p>写并行程序主要是分解任务，我们一般把一个程序看成是指令和数据的组合，当然并行也可以分为这两种：</p><ul><li>指令并行</li><li>数据并行</li></ul><p>我们的任务更加关注数据并行，所以我们的主要任务是分析数据的相关性，哪些可以并行，哪些不能不行。<br>如果你对并行不太了解，可以先去学习学习pThread和OpenMP，了解下载多核CPU上是怎么并行的，比如把用openmp把for并行。<br>任务并行多出现在各种管理系统，比如我们天天用的支付系统，基本上每时每刻都有很多人在同时使用，这时候就需要后台的处理能够并行执行这些请求，不然全国人民排队，那就比春运还热闹了。<br>我们研究的是大规模数据计算，计算过程比较单一（不同的数据基本用相同的计算过程）但是数据非常多，所以我们主要是数据并行，分析好数据的相关性，决定了我们的程序设计。<br>CUDA非常适合数据并行<br>数据并行程序设计，第一步就是把数据依据线程进行划分</p><ol><li>块划分，把一整块数据切成小块，每个小块随机的划分给一个线程，每个块的执行顺序随机（关于线程的概念可以去看《深入理解计算机系统》）</li></ol><table><thead><tr><th style="text-align:center">thread</th><th style="text-align:center">1</th><th style="text-align:center">2</th><th style="text-align:center">3</th><th style="text-align:center">4</th><th>5</th></tr></thead><tbody><tr><td style="text-align:center">block</td><td style="text-align:center">1 2 3</td><td style="text-align:center">4 5 6</td><td style="text-align:center">7 8 9</td><td style="text-align:center">10 11 12</td><td>13 14 15</td></tr></tbody></table><ol start="2"><li>周期划分，线程按照顺序处理相邻的数据块，每个线程处理多个数据块，比如我们有五个线程，线程1执行块1，线程2执行块2…..线程5执行块5，线程1执行块6</li></ol><table><thead><tr><th style="text-align:center">thread</th><th style="text-align:center">1</th><th style="text-align:center">2</th><th style="text-align:center">3</th><th style="text-align:center">4</th><th>5</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td style="text-align:center">block</td><td style="text-align:center">1</td><td style="text-align:center">2</td><td style="text-align:center">3</td><td style="text-align:center">4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr></tbody></table><p>下面是示意图，注意颜色相同的块使用的同一个线程，从执行顺序上看如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/2.png" alt=""><br>下面是数据集上的划分上看：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/3.png" alt=""></p><font color="FF0000">不同的数据划分严重影响程序性能，所以针对不同的问题和不同计算机结构，我们要通过和理论和试验共同来决定最终最优的数据划分。</font><h3 id="计算机架构"><a href="#计算机架构" class="headerlink" title="计算机架构"></a>计算机架构</h3><h4 id="Flynn’s-Taxonomy"><a href="#Flynn’s-Taxonomy" class="headerlink" title="Flynn’s Taxonomy"></a>Flynn’s Taxonomy</h4><p>划分不同计算机结构的方法有很多，广泛使用的一种被称为佛林分类法Flynn’s Taxonomy，他根据指令和数据进入CPU的方式分类，分为以下四类：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/4.png" alt=""></p><p>分别以数据和指令进行分析：</p><ul><li>单指令单数据SISD（传统串行计算机，386）</li><li>单指令多数据SIMD（并行架构，比如向量机，所有核心指令唯一，但是数据不同，现在CPU基本都有这类的向量指令）</li><li>多指令单数据MISD（少见，多个指令围殴一个数据）</li><li>多指令多数据MIMD（并行架构，多核心，多指令，异步处理多个数据流，从而实现空间上的并行，MIMD多数情况下包含SIMD，就是MIMD有很多计算核，计算核支持SIMD）</li></ul><p><font color="FF0000">为了提高并行的计算能力，我们要从架构上实现下面这些性能提升：</font></p><ul><li>降低延迟</li><li>提高带宽</li><li>提高吞吐量</li></ul><p>延迟是指操作从开始到结束所需要的时间，一般用微秒计算，延迟越低越好。<br>带宽是单位时间内处理的数据量，一般用MB/s或者GB/s表示。<br>吞吐量是单位时间内成功处理的运算数量，一般用gflops来表示（十亿次浮点计算），吞吐量和延迟有一定关系，都是反应计算速度的，一个是时间除以运算次数，得到的是单位次数用的时间–延迟，一个是运算次数除以时间，得到的是单位时间执行次数–吞吐量。</p><h4 id="根据内存划分"><a href="#根据内存划分" class="headerlink" title="根据内存划分"></a>根据内存划分</h4><p>计算机架构也可以根据内存进行划分：</p><ol><li>分布式内存的多节点系统</li><li>共享内存的多处理器系统</li></ol><p>第一个更大，通常叫做集群，就是一个机房好多机箱，每个机箱都有内存处理器电源等一些列硬件，通过网络互动，这样组成的就是分布式。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/5.png" alt=""></p><p>第二个是单个主板有多个处理器，他们共享相同的主板上的内存，内存寻址空间相同，通过PCIe和内存互动。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/6.png" alt=""><br>多个处理器可以分多片处理器，和单片多核（众核many-core），也就是有些主板上挂了好多片处理器，也有的是一个主板上就一个处理器，但是这个处理器里面有几百个核。<br>GPU就属于众核系统。当然现在CPU也都是多核的了，但是他们还是有很大区别的：</p><ul><li>CPU适合执行复杂的逻辑，比如多分支，其核心比较重（复杂）</li><li>GPU适合执行简单的逻辑，大量的数据计算，其吞吐量更高，但是核心比较轻（结构简单）</li></ul><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要介绍了下计算机架构的划分和并行计算的基础简单介绍，后面我们继续介绍异构和CUDA</p><p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构">https://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构</a>转载请标明出处</p></div><div><div style="padding:10px 0;margin:20px auto;width:90%;text-align:center"><div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div><button id="rewardButton" disable="enable" onclick='var qr=document.getElementById("QR");"none"===qr.style.display?qr.style.display="block":qr.style.display="none"'><span>联系博主</span></button><div id="QR" style="display:none"><div id="wechat" style="display:inline-block"><img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"><p>博主微信</p></div><div id="alipay" style="display:inline-block"><img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"><p>博客公众号</p></div></div></div></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>谭升</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/" title="【CUDA 基础】1.0 并行计算与计算机架构">http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/CUDA-F-0-0-Tencent-GPU-Cloud/" rel="next" title="【CUDA 基础】0.0 腾讯云CUDA环境搭建"><i class="fa fa-chevron-left"></i> 【CUDA 基础】0.0 腾讯云CUDA环境搭建</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/CUDA-F-1-1-异构计算-CUDA/" rel="prev" title="【CUDA 基础】1.1 异构计算与CUDA">【CUDA 基础】1.1 异构计算与CUDA <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div id="sidebar-dimmer"></div><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="谭升"><p class="site-author-name" itemprop="name">谭升</p><p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives"><span class="site-state-item-count">261</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">20</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/index.html"><span class="site-state-item-count">7</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a></span></div><div class="post-body"><div class="note info"><div class="links-of-blogroll motion-element links-of-blogroll-block"><div class="links-of-blogroll-title" align="left"><i class="fa fa-history fa-" aria-hidden="true"></i> 近期文章</div><ul class="links-of-blogroll-list" align="left"><li><a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a></li><li><a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a></li><li><a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a></li><li><a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法” 概论</a></li><li><a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a></li></ul></div></div></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并行计算与计算机架构"><span class="nav-number">1.</span> <span class="nav-text">并行计算与计算机架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Big-Picture"><span class="nav-number">1.1.</span> <span class="nav-text">Big Picture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并行计算"><span class="nav-number">1.2.</span> <span class="nav-text">并行计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#并行性"><span class="nav-number">1.2.1.</span> <span class="nav-text">并行性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机架构"><span class="nav-number">1.2.2.</span> <span class="nav-text">计算机架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Flynn’s-Taxonomy"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Flynn’s Taxonomy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据内存划分"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">根据内存划分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love" id="animate"><i class="fa fa-"></i> </span><span class="author" itemprop="copyrightHolder">谭升</span></div><div class="busuanzi-count"><script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv" title="总访客量"><i class="fa fa-user"></i> <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> </span><span class="site-pv" title="总访问量"><i class="fa fa-eye"></i> <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA">
+<meta name="keywords" content="并行计算,串行编程,并行编程,计算机架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CUDA 基础】1.0 并行计算与计算机架构">
+<meta property="og:url" content="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/CUDA_C.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/1.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/2.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/3.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/4.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/5.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/6.png">
+<meta property="og:updated_time" content="2018-09-26T12:01:15.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CUDA 基础】1.0 并行计算与计算机架构">
+<meta name="twitter:description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【CUDA 基础】1.0 并行计算与计算机架构 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学类博客目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法类博客目录">
+    <a href="/ai/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程类博客目录">
+    <a href="/program/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记目录">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />其他笔记目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【CUDA 基础】1.0 并行计算与计算机架构
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-14 21:43:33" itemprop="dateCreated datePublished" datetime="2018-02-14T21:43:33+08:00">2018-02-14</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/CUDA-F-1-0-并行计算与计算机架构/" class="leancloud_visitors" data-flag-title="【CUDA 基础】1.0 并行计算与计算机架构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。<br><strong>Keywords:</strong> 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA</p>
+<a id="more"></a>
+<h1 id="并行计算与计算机架构"><a href="#并行计算与计算机架构" class="headerlink" title="并行计算与计算机架构"></a>并行计算与计算机架构</h1><p>听过一句话，电影里面的一句台词，不是名人说的，但我觉得非常值得我思考，“慢就是稳，稳就是快”，我们的发展太快了，以至于出现了各种《21天精通C++》《10天学会机器学习》这类东西。<br>稳住吧，打好基础，才有机会去更好的环境。</p>
+<h2 id="Big-Picture"><a href="#Big-Picture" class="headerlink" title="Big Picture"></a>Big Picture</h2><p>我们学习CUDA主要参考《CUDA C编程权威指南》我们的博客也基本按照书中的章节进行。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg" alt=""><br>结构：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/CUDA_C.png" alt=""></p>
+<p>CUDA想要运行起来并不困难，但是想要写得好，真的需要研究一下，某乎上各路大牛给出的建议是看CUDA的官方文档，我之前也是过了一遍文档，但是文档教会你更多的是如何写代码，而没有讲解详细的硬件结构（可能在别的文档中，我只看了编程指导），我们学习编程应该同时理解语言，编程模型，硬件执行模型，以及优化方法，单纯的学会写代码，能运行，这是培训班的节奏。<br>还记得峰哥的话，知道编译原理和操作系统（软硬件），什么语言都一样。<br>读这个系列的文章需要以下知识：</p>
+<ol>
+<li>C/C++ 编程经验，这个不用说，如果C都没学会就要来CUDA，我觉得不理智，根基不稳，也是我一贯所反对的</li>
+<li>本系列是Freshman，后面会有Junior，主要内容肯定有所不同，目前准备的是Freshman 主要介绍基础知识，包括硬件基础，编程模型，基本性能方面的考察，和简单的优化（包括内存等），以及项目实际中的一些技巧；Junior部分主要介绍更高级的性能优化技巧，比如PTX，更高级的内存处理等；优化空间最大的是并行算法的设计，当然不在本系列所讨论的范围内，那是另一个专题了。</li>
+</ol>
+<h2 id="并行计算"><a href="#并行计算" class="headerlink" title="并行计算"></a>并行计算</h2><p>我们的计算机从最早的埃尼阿克到现在的各种超算，都是为了应用而产生的，软件和硬件相互刺激而相互进步，并行计算也是这样产生的，我们最早的计算机肯定不是并行的，但是可以做成多线程的，因为当时一个CPU只有一个核，所以不可能一个核同时执行两个计算，后来我们的应用逐步要求计算量越来越高，所以单核的计算速度也在逐步上升，后来大规模并行应用产生了，我们迫切的需要能够同时处理很多数据的机器，比如图像处理，以及处理大规模的同时访问的服务器后台。<br>并行计算其实设计到两个不同的技术领域：</p>
+<ul>
+<li>计算机架构（硬件）</li>
+<li>并行程序设计（软件）</li>
+</ul>
+<p>这两个很好理解，一个生产工具，一个用工具产生各种不同应用。<br>硬件主要的目标就是为软件提供更快的计算速度，更低的性能功耗比，硬件结构上支持更快的并行。<br>软件的主要目的是使用当前的硬件压榨出最高的性能，给应用提供更稳定快速的计算结果。<br>我们传统的计算机结构一般是哈佛体系结构（后来演变出冯·诺依曼结构）主要分成三部分：</p>
+<ul>
+<li>内存（指令内存，数据内存）</li>
+<li>中央处理单元（控制单元和算数逻辑单元）</li>
+<li>输入、输出接口</li>
+</ul>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/1.png" alt=""><br>后面的冯诺依曼结构就把数据和指令都当做数据来处理了，这里就不再介绍了，再次安利《深入理解计算机系统》这本书，里面可以找到相关知识。<br>写并行和串行的最大区别就是，写串行程序可能不需要学习不同的硬件平台，但是写并行程序就需要对硬件有一定的了解了。</p>
+<h3 id="并行性"><a href="#并行性" class="headerlink" title="并行性"></a>并行性</h3><p>写并行程序主要是分解任务，我们一般把一个程序看成是指令和数据的组合，当然并行也可以分为这两种：</p>
+<ul>
+<li>指令并行</li>
+<li>数据并行</li>
+</ul>
+<p>我们的任务更加关注数据并行，所以我们的主要任务是分析数据的相关性，哪些可以并行，哪些不能不行。<br>如果你对并行不太了解，可以先去学习学习pThread和OpenMP，了解下载多核CPU上是怎么并行的，比如把用openmp把for并行。<br>任务并行多出现在各种管理系统，比如我们天天用的支付系统，基本上每时每刻都有很多人在同时使用，这时候就需要后台的处理能够并行执行这些请求，不然全国人民排队，那就比春运还热闹了。<br>我们研究的是大规模数据计算，计算过程比较单一（不同的数据基本用相同的计算过程）但是数据非常多，所以我们主要是数据并行，分析好数据的相关性，决定了我们的程序设计。<br>CUDA非常适合数据并行<br>数据并行程序设计，第一步就是把数据依据线程进行划分</p>
+<ol>
+<li>块划分，把一整块数据切成小块，每个小块随机的划分给一个线程，每个块的执行顺序随机（关于线程的概念可以去看《深入理解计算机系统》）</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">thread</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">block</td>
+<td style="text-align:center">1     2    3</td>
+<td style="text-align:center">4       5      6</td>
+<td style="text-align:center">7    8     9</td>
+<td style="text-align:center">10      11   12</td>
+<td>13     14  15</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>周期划分，线程按照顺序处理相邻的数据块，每个线程处理多个数据块，比如我们有五个线程，线程1执行块1，线程2执行块2…..线程5执行块5，线程1执行块6</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">thread</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th>5</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">block</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<p>下面是示意图，注意颜色相同的块使用的同一个线程，从执行顺序上看如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/2.png" alt=""><br>下面是数据集上的划分上看：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/3.png" alt=""></p>
+<font color="FF0000">不同的数据划分严重影响程序性能，所以针对不同的问题和不同计算机结构，我们要通过和理论和试验共同来决定最终最优的数据划分。</font>
+
+
+<h3 id="计算机架构"><a href="#计算机架构" class="headerlink" title="计算机架构"></a>计算机架构</h3><h4 id="Flynn’s-Taxonomy"><a href="#Flynn’s-Taxonomy" class="headerlink" title="Flynn’s Taxonomy"></a>Flynn’s Taxonomy</h4><p>划分不同计算机结构的方法有很多，广泛使用的一种被称为佛林分类法Flynn’s Taxonomy，他根据指令和数据进入CPU的方式分类，分为以下四类：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/4.png" alt=""></p>
+<p>分别以数据和指令进行分析：</p>
+<ul>
+<li>单指令单数据SISD（传统串行计算机，386）</li>
+<li>单指令多数据SIMD（并行架构，比如向量机，所有核心指令唯一，但是数据不同，现在CPU基本都有这类的向量指令）</li>
+<li>多指令单数据MISD（少见，多个指令围殴一个数据）</li>
+<li>多指令多数据MIMD（并行架构，多核心，多指令，异步处理多个数据流，从而实现空间上的并行，MIMD多数情况下包含SIMD，就是MIMD有很多计算核，计算核支持SIMD）</li>
+</ul>
+<p><font color="FF0000">为了提高并行的计算能力，我们要从架构上实现下面这些性能提升：</font></p>
+<ul>
+<li>降低延迟</li>
+<li>提高带宽</li>
+<li>提高吞吐量</li>
+</ul>
+<p>延迟是指操作从开始到结束所需要的时间，一般用微秒计算，延迟越低越好。<br>带宽是单位时间内处理的数据量，一般用MB/s或者GB/s表示。<br>吞吐量是单位时间内成功处理的运算数量，一般用gflops来表示（十亿次浮点计算），吞吐量和延迟有一定关系，都是反应计算速度的，一个是时间除以运算次数，得到的是单位次数用的时间–延迟，一个是运算次数除以时间，得到的是单位时间执行次数–吞吐量。</p>
+<h4 id="根据内存划分"><a href="#根据内存划分" class="headerlink" title="根据内存划分"></a>根据内存划分</h4><p>计算机架构也可以根据内存进行划分：</p>
+<ol>
+<li>分布式内存的多节点系统</li>
+<li>共享内存的多处理器系统</li>
+</ol>
+<p>第一个更大，通常叫做集群，就是一个机房好多机箱，每个机箱都有内存处理器电源等一些列硬件，通过网络互动，这样组成的就是分布式。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/5.png" alt=""></p>
+<p>第二个是单个主板有多个处理器，他们共享相同的主板上的内存，内存寻址空间相同，通过PCIe和内存互动。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/6.png" alt=""><br>多个处理器可以分多片处理器，和单片多核（众核many-core），也就是有些主板上挂了好多片处理器，也有的是一个主板上就一个处理器，但是这个处理器里面有几百个核。<br>GPU就属于众核系统。当然现在CPU也都是多核的了，但是他们还是有很大区别的：</p>
+<ul>
+<li>CPU适合执行复杂的逻辑，比如多分支，其核心比较重（复杂）</li>
+<li>GPU适合执行简单的逻辑，大量的数据计算，其吞吐量更高，但是核心比较轻（结构简单）</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要介绍了下计算机架构的划分和并行计算的基础简单介绍，后面我们继续介绍异构和CUDA</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构">https://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构</a>转载请标明出处</p>
+
+      
+    </div>
+
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-4-2-内存管理/" rel="bookmark">【CUDA 基础】4.2 内存管理</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-0-Introduction/" rel="bookmark">【Julia】 Julia编程语言介绍</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>联系博主</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"/>
+        <p>博主微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"/>
+        <p>博客公众号</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>谭升</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/" title="【CUDA 基础】1.0 并行计算与计算机架构">http://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+          <div style="color: rgba(0, 0, 0, 0.75); font-size:13px; letter-spacing:3px">(&gt;壮士！看完给洒家个五星，你看行不行！&lt;)</div>
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/CUDA-F-0-0-Tencent-GPU-Cloud/" rel="next" title="【CUDA 基础】0.0 腾讯云CUDA环境搭建">
+                <i class="fa fa-chevron-left"></i> 【CUDA 基础】0.0 腾讯云CUDA环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/CUDA-F-1-1-异构计算-CUDA/" rel="prev" title="【CUDA 基础】1.1 异构计算与CUDA">
+                【CUDA 基础】1.1 异构计算与CUDA <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="2491973880"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+
+          </div>
+          
+
+  
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">261</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并行计算与计算机架构"><span class="nav-number">1.</span> <span class="nav-text">并行计算与计算机架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Big-Picture"><span class="nav-number">1.1.</span> <span class="nav-text">Big Picture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并行计算"><span class="nav-number">1.2.</span> <span class="nav-text">并行计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#并行性"><span class="nav-number">1.2.1.</span> <span class="nav-text">并行性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机架构"><span class="nav-number">1.2.2.</span> <span class="nav-text">计算机架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Flynn’s-Taxonomy"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Flynn’s Taxonomy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据内存划分"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">根据内存划分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
       tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
         processEscapes: true,
         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       },
       TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
       var all = MathJax.Hub.getAllJax(), i;
         for (i=0; i < all.length; i += 1) {
           all[i].SourceElement().parentNode.className += ' has-jax';
         }
-    });</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 14057,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

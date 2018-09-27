@@ -1,13 +1,1263 @@
-<!DOCTYPE html><html class="theme-next pisces use-motion" lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0"><link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Pisces",version:"6.4.0",sidebar:{position:"left",display:"hide",offset:12,b2t:!1,scrollpercent:!0,onmobile:!0},fancybox:!1,fastclick:!1,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors"><meta name="keywords" content="Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors"><meta property="og:type" content="article"><meta property="og:title" content="【线性代数】6-5:正定矩阵(Positive Definite Matrices)"><meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/index.html"><meta property="og:site_name" content="谭升的博客"><meta property="og:description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png"><meta property="og:updated_time" content="2018-09-26T12:01:15.214Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="【线性代数】6-5:正定矩阵(Positive Definite Matrices)"><meta name="twitter:description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors"><meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png"><link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/"><script type="text/javascript" id="page.configurations">CONFIG.page={sidebar:""}</script><title>【线性代数】6-5:正定矩阵(Positive Definite Matrices) | 谭升的博客</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-105335860-3")</script><noscript><style type="text/css">.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.logo-line-after i{right:initial}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">谭升的博客</span> <span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">人工智能基础</h1></div><div class="site-nav-toggle"><button aria-label="切换导航栏"><span class="btn-bar"></span> <span class="btn-bar"></span> <span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-首页"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-数学类博客目录"><a href="/math/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>数学类博客目录</a></li><li class="menu-item menu-item-算法类博客目录"><a href="/ai/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>算法类博客目录</a></li><li class="menu-item menu-item-编程类博客目录"><a href="/program/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>编程类博客目录</a></li><li class="menu-item menu-item-其他笔记目录"><a href="/other/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>其他笔记目录</a></li></ul></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="谭升"><meta itemprop="description" content="强化学习 机器学习 人工智能"><meta itemprop="image" content="/images/avatar.gif"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="谭升的博客"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">【线性代数】6-5:正定矩阵(Positive Definite Matrices)</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2017-11-24 11:24:21" itemprop="dateCreated datePublished" datetime="2017-11-24T11:24:21+08:00">2017-11-24</time> </span><span class="post-category"><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span> ， <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Linear-Algebra/" itemprop="url" rel="index"><span itemprop="name">Linear Algebra</span></a></span> </span><span class="post-meta-divider">|</span> <span class="post-meta-item-icon"><i class="fa fa-eye"></i> 阅读次数： <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body" itemprop="articleBody"><p><strong>Abstract:</strong> 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用<br><strong>Keywords:</strong> Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors</p><a id="more"></a><h1 id="正定矩阵"><a href="#正定矩阵" class="headerlink" title="正定矩阵"></a>正定矩阵</h1><h2 id="正定矩阵-Positive-Definite-Matrices"><a href="#正定矩阵-Positive-Definite-Matrices" class="headerlink" title="正定矩阵(Positive Definite Matrices)"></a>正定矩阵(Positive Definite Matrices)</h2><p>正定矩阵，对这个矩阵印象深刻，知道学了这节以后，才知道，正定矩阵就是”Positive Definite Matrices-正的确定矩阵”，这个翻译也是耿直，</p><blockquote><p>Positive Definite Matrices 定义为，对称矩阵，并且所有特征值全部大于0</p></blockquote><p>那么我们第一个大问题就是如何确定一个矩阵是不是正定矩阵呢，求特征值肯定是根本方法，定义都说了，对称矩阵，特征值大于0，求出所有特征值，那么自然明朗了，但是有时候我们只需要知道是不是正定矩阵，而不需要知道特征值，这样的话计算代价有点大，我们需要找点别的招数，来避免求特征值。<br>接下来我们的目标是：</p><ol><li>找到能快速判断对称矩阵的特征值都是正数</li><li>正定矩阵的重要应用</li></ol><h3 id="2-times-2-矩阵"><a href="#2-times-2-矩阵" class="headerlink" title="$2 \times 2$ 矩阵"></a>$2 \times 2$ 矩阵</h3><p>对于 $A=\begin{bmatrix}a&amp;b\\b&amp;c\end{bmatrix}$ 什么情况下特征值是正的呢？因为只有两个特征值，那么我们考虑第一个条件：</p><ol><li>两个正数相乘，结果是正数</li></ol><p>但是如果两个复数相乘也是复数，所以引入第二个条件：</p><ol start="2"><li>两个正数相加，结果是正数</li></ol><p>那么如果满足，两个特征值相加是正数，相乘也是正数，那么肯定特征值全部都是正数。<br>又因为我们已知特征值相乘等于行列式，相加等于trace，那么：<br>$$<br>a+c&gt;0\\<br>and:\\<br>ac-b^2&gt;0<br>$$<br>就是$2 \times 2$ symmetric Matrices 正定的充分必要条件啦，当然还可以做个简化$ac-b^2&gt;0$ 中如果 $a&gt;0$ 和上面的式子等效：<br>$$<br>a&gt;0\\<br>and:\\<br>ac-b^2&gt;0<br>$$<br>注意关联词哦是and两个必须同时发作，那么这个条件才算是成功了.举两个计算的🌰。<br>$$<br>A_1=\begin{bmatrix}1&amp;2\\2&amp;1\end{bmatrix}\;\;ac-b^2=1-4&lt;0\\<br>A_2\begin{bmatrix}1&amp;-2\newline -2&amp;6\end{bmatrix}\;\;ac-b^2=6-4&gt;0\;\;a=1&gt;0<br>$$<br>结论<br>$A_1$ 不是正定的<br>$A_2$ 是正定的</p><h3 id="不定矩阵，正定矩阵，负定矩阵-Indefinite-Positive-Definite-and-Negative-Definite"><a href="#不定矩阵，正定矩阵，负定矩阵-Indefinite-Positive-Definite-and-Negative-Definite" class="headerlink" title="不定矩阵，正定矩阵，负定矩阵(Indefinite,Positive Definite and Negative Definite)"></a>不定矩阵，正定矩阵，负定矩阵(Indefinite,Positive Definite and Negative Definite)</h3><p>有正定就应该有负定，零正定（这个没有，0被分配到大于等于0的行列叫做半正定）或者不定矩阵。</p><ol><li>Positive Definite：对称矩阵特征值全部为正数</li><li>Negative Definite：对称矩阵特征值全部为负数</li><li>Indefinite： 特征值有正有负，不定矩阵</li><li>Positive Semidefinite：对称矩阵，特征值大于等于0</li></ol><p>正定也好不正定也好，我们可以现在想一想在空间上的操作到底是个什么鬼：<br>学习对称矩阵，我们一直在研究的是对角化，对角化作为一种分解方式和LU，QR等有着相同的身份，但是从书籍上的讲解篇幅和教授描述，都要比LU，QR更具体更深入，所以，对角化应该更有市场，我们接下来就从对角化来说说正定矩阵A:<br>$$<br>A=S\Lambda S^{-1}\\<br>Q=S\\<br>A=Q\Lambda Q^{-1}<br>$$<br>这个是上上上一篇讲述的，但是上一篇有一个惊天的秘密可以足够清晰的帮我们研究正定矩阵，也就是当对称矩阵A和一个向量相乘的时候，从空间的角度来讲，这个向量被投影到了A的列空间，但A的列空间和特征向量的空间不一致（特征向量可能比A的列向量维度大，因为当A存在0特征值的时候，相当于给自己降维了，也就是A是全体特征向量的子空间），那么现在:<br>$$<br>u=c_1q_1+c_2q_2+\dots +c_nq_n=Qc\\<br>A=Q\Lambda Q^{-1}\\<br>Au=Q\Lambda Q^{-1}Qc=Q\Lambda (Q^{-1}Q)c=Q\Lambda (Q^{-1}Q)c=Q\Lambda c\\<br>Q\Lambda c=<br>\begin{bmatrix}&amp;&amp;\\q_1&amp;\dots &amp;q_n\\&amp;&amp;\end{bmatrix}<br>\begin{bmatrix}\lambda_1&amp;&amp;\\&amp;\ddots &amp;\\&amp;&amp;\lambda_n\end{bmatrix}<br>\begin{bmatrix}c_1\\\vdots \\c_n\end{bmatrix}=<br>c_1\lambda_1 q_1+\dots +c_n\lambda_n q_n<br>$$<br>看到什么了？老铁们，一个向量乘以一个对称矩阵，相当于把这个向量以<strong>特征向量们为基</strong>，然后长度伸缩特征值倍，不改变方向且没有0的是正定矩阵，有0的是半正定，这时候有些方向上的长度被消灭了，也就是说向量分解到特征向量基空间少一维，也就是A并不是满空间的，也就是singular矩阵，和前面的0正好对应，如果有正有负，那就是瞎搞了，哈哈哈哈。<br>Negative Definite， Indefinite的🌰就不说了，后面会有一个section专门讲Positive Semidefinite。</p><h2 id="能量基的定义-Energy-based-Definition"><a href="#能量基的定义-Energy-based-Definition" class="headerlink" title="能量基的定义 (Energy-based Definition)"></a>能量基的定义 (Energy-based Definition)</h2><p>能量based的定义，能量一般都是正的，所以这个和正定矩阵有关系也不那么令人惊讶，从源头看$Ax=\lambda x$ 是一个矩阵的特征值和特征向量，如果我们在这两边同时乘上点什么：<br>$$<br>x^TAx=x^T\lambda x=\lambda x^Tx\\<br>x^Tx=|x|^2 \geq 0<br>$$<br>特征向量都是非零向量所以上面等号在特征向量前提下永不成立，那么也就是只要保证 $x^TAx&gt;0$ 那么就有 $\lambda &gt;0$ 得出矩阵可能是正定的，然后检验所有特征向量，这个工作量也有点大，根据其他一些应用，这里提出一个新的定义，关于能量的$x^TAx$ 表示一个系统的能量，其必须大于0.也就是说对于一个矩阵，其能量为正，这个矩阵定义为正定矩阵。<br>上面这个是定义正定矩阵的一个方法，也就是说了一个有点实际意义的定义，而不是上来拿枪指着你，说，“小子，特征值大于0的对称矩阵就是正定矩阵，说不行打死你”，所以这种定义在应用中出现的时候，要想到正定矩阵就好。<br>上一篇有一块介绍pivot和Eigenvalue之间的关系，他们的符号是相同的，也可以测试$x^TAx$是正是负。</p><blockquote><p>Definition: A is positive definite if $x^TAx&gt;0$ for every nonzero vector x:</p></blockquote><p>$$<br>x^TAx=<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}a&amp;b\\b&amp;c\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}=ax^2+2bxy+cy^2&gt;0<br>$$</p><p>这个就是能量观点下定义的完整写法，如果理解了这个过程也就对这个形式没什么困惑了，我记得我之前是老师说，来，把这个公式记住。。。<br>$ax^2+2bxy+cy^2$ 是一个碗的形状，当然xy都不是零的时候。</p><p>根据能量观点可以得到正定矩阵的可加性，也就是规模相同的两个正定矩阵，相加也是正定的，证明过程如下，假设其中A，B规模相同，切都是正定的：<br>$$<br>C=A+B\\<br>x^TAx&gt;0\\<br>x^TBx&gt;0\\<br>x^T(Ax+Bx)=x^T(A+B)x=x^TCx&gt;0<br>$$<br>QED</p><h3 id="R-TR"><a href="#R-TR" class="headerlink" title="$R^TR$"></a>$R^TR$</h3><p>这是一种新的判断正定的方法，通过上面能量的观点$x^TAx$ 延伸，出如果能把A分解成一个矩阵和矩阵的转置相乘的形式，那么就能得到 $(Rx)^T(Rx)$ 的形式 那么这个形式下，如果$Rx\neq 0$ 必然其结果大于0（$Rx$ 是一个向量，所以 $(Rx)^T(Rx)$ 就变成了 $|Rx|$ 是一个长度）那么如果我们假设必然存在R，那么R要满足什么条件呢？ $Rx\neq 0$ 就是条件，对于所有非0向量，也就是R的Nullspace只有0向量，也就是R的<strong>列必须相互独立</strong>,这也是唯一的条件，如果矩阵能分解成$A=R^TR$ 的形式，R的列线性独立，那么A正定。<br>反过来也是正确的，如果矩阵R各列线性独立，那么 $A=R^TR$ A是正定矩阵。</p><h3 id="正定矩阵”五项原则”"><a href="#正定矩阵”五项原则”" class="headerlink" title="正定矩阵”五项原则”"></a>正定矩阵”五项原则”</h3><p>总结下我们判断正定的几种方法，他们互相等效，一个成立便可以推出其他所有：</p><ol><li>All n pivots are Positive</li><li>All n upper left determinants are positive</li><li>All n Eigenvalues are Positive</li><li>$x^TAx$ is positive except at $x=0$ This is the energy-based Definition</li><li>A equal $R^TR$ for a Matrix R with independent columns</li></ol><p>上面的2我们好像没有证明，左上角的行列式的值总和左上角矩阵的pivot有关系，如果第一个行列式为正(也就是1x1的矩阵，即第一个pivot为正)那么第二个矩阵（2x2）的行列式也为正的话，可以得出第二个pivot也是正的，以此类推，就能得到第一条，所有pivot都是正数，这个可以参考行列式文章<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-5-2/" target="_blank" rel="noopener">Permutation</a> 可以有些启发。</p><p>上面的五条基本上可以把线性代数大部分东西全包括进去了，消元，特征值，行列式，子空间，这些都要知道后，才能对上面的五条不存在疑惑，所以直接看本文的同学，不懂往回看。</p><h3 id="从正定返回-R-TR"><a href="#从正定返回-R-TR" class="headerlink" title="从正定返回$R^TR$"></a>从正定返回$R^TR$</h3><p>我们回忆一下最初的分解形式$A=LDU$ 分解 当A是正定矩阵的时候，我们可以得到 $U=L^T$<br>所以$A=LDL^T$ 其中D是对角矩阵，如果给D开个根号是不是很完美，那么前提是D中所有元素都是正的（也就是所有pivots和Eigenvalue都是正的，这里两个概念等价）正定矩阵满足你的需求，所以就可以分解出来：<br>$$<br>A=L\sqrt{D}(\sqrt{D}L)^T<br>$$<br>上面这个是Cholesky Factor，针对正定矩阵的一种分解</p><h2 id="半正定矩阵-Positive-Semidefinite-Matrices"><a href="#半正定矩阵-Positive-Semidefinite-Matrices" class="headerlink" title="半正定矩阵 (Positive Semidefinite Matrices)"></a>半正定矩阵 (Positive Semidefinite Matrices)</h2><p>如果特征值中包含0 ，那么 $x^TAx$ (x是特征向量) 有可能是0，也就是没有能量。并且写成 $R^TR$的形式。R总是有线性相关的列，具体原因看上面的证明自明，也就是奇异矩阵必然不是正定矩阵，但是可以使半正定矩阵，这个结论还是很欣慰的，并没有把奇异矩阵一棒子打死。<br>扩展x为任意变量的时候$x^TAx\geq 0$ 只有当x为对应于特征值为0的特征向量的时候等号成立。</p><h2 id="一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1"><a href="#一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1" class="headerlink" title="一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$"></a>一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$</h2><p>学习线性代数，从向量开始，我就有一种感觉就是线性代数当矩阵维度是2或者3的时候，应该是和几何有关系的，也就是我们能画出来的这些形状有关而不仅仅是解方程这么简单，线性变换，对图形的作用应该是比较直观的，所以我们来看书上的🌰，关于特征值，特征向量，以及椭圆的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png" alt=""><br>两个椭圆，一个倾斜的，一个立正的,两幅图能够看出下面这些信息：</p><ol><li>The tilted ellipse is associated with A. Its equation is $x^TAx=1$</li><li>The lined-up ellipse is associated with $\Lambda$ .Its equation is $x^T\Lambda x=1$</li><li>The rotation matrix that lines up the ellipse is the eigenvector matrix Q</li></ol><p>第一个歪的椭圆的方程是：<br>$$<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}5&amp;4\\4&amp;5\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}=1\\<br>A=\begin{bmatrix}5&amp;4\\4&amp;5\end{bmatrix}\\<br>\lambda_1=9\\<br>\lambda_2=1\\<br>x_1=\begin{bmatrix}1\\1\end{bmatrix}\\<br>x_2=\begin{bmatrix}1\newline -1\end{bmatrix}<br>$$<br>分解成<br>$$<br>A=Q\Lambda Q^T=<br>\frac{1}{\sqrt{2}}\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}9&amp;0\\0&amp;1\end{bmatrix}<br>\frac{1}{\sqrt{2}}\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>$$<br>然后把xy弄进去<br>$$<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>Q\Lambda Q^T<br>\begin{bmatrix}x\\y\end{bmatrix}=<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}9&amp;0\\0&amp;1\end{bmatrix}<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}\\<br>=<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}9&amp;0\\0&amp;0\end{bmatrix}<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}\\<br>+<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}0&amp;0\\0&amp;1\end{bmatrix}<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}\\<br>=<br>9(\frac{x+y}{\sqrt{2}})^2+1(\frac{x-y}{\sqrt{2}})^2<br>$$</p><p>最后一步矩阵计算比较长，这里省略了，中间没有trick，我把分解那步写出来也是为了好看，，结论是正确的，观察上面结果，两个系数居然是特征值，厉害不？不是pivot也不是别人，而是特征值，在两个平方内部，是两组向量 $(1,1)$ 和 $(1,-1)$ 这个是特征向量，也是椭圆轴的方向，所以当矩阵扩展到多维的时候（还是正定矩阵），的时候所有特征向量是这个超椭圆的所有轴，这也是为什么叫主轴定理的原因啦，不光是主轴，特征值还能表示在主轴方向上的长度，这个也很值得重视，因为方向和长度是向量的两个组成因素。<br>进一步，我们看看怎么把歪着的椭圆立起来<br>$$<br>X=\frac{x+y}{\sqrt{2}}\\<br>Y=\frac{x-y}{\sqrt{2}}\\<br>for:\\<br>9(\frac{x+y}{\sqrt{2}})^2+1(\frac{x-y}{\sqrt{2}})^2\\<br>get:\\<br>9X^2+Y^2=1<br>$$<br>那么X最大值是 $\frac{1}{3}$ ,Y 最大值是 $1$ 这两个值的得到方法都是 $\frac{1}{\sqrt{\lambda}}$ 从图上也能看出来，长轴是1对应小的特征值，短轴是$\frac{1}{3}$ 对应长的特征值。<br>在xy中，轴的方向沿着A特征向量方向，在XY中是 $\Lambda$ 的特征向量，也就是坐标轴了，数值上看是这样的，从原理上：</p><p>$$<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>Q\Lambda Q^T<br>\begin{bmatrix}x\\y\end{bmatrix}<br>=\begin{bmatrix}X&amp;Y\end{bmatrix}<br>\Lambda<br>\begin{bmatrix}X\\Y\end{bmatrix}=<br>\lambda_1X^2+\lambda_2Y^2=1<br>$$<br>xy可以表示一个被线性变换后的坐标表示，当这个坐标被Q投影了以后，就变成了图中正的图形了，可以观察特征值决定了椭圆有多椭，当特征值都是1的时候也就是 $\Lambda =I$ 的时候，这个图形就是个圆，如果有负数特征值，那就变成双曲线了，如果都是负的。。这个我也不知道是啥了（就有虚数部分了，这个我还不懂）</p><h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>本文主要讲解正定矩阵，最后的应用是最精彩的部分，前面主要是线性代数知识点的大串讲，可能有些不那么详细，大家可以自己再补充一些，到这里线性代数高潮部分已经完成了一大半，完成了下面就是相似矩阵和svd，线性代数基础部分也就算是快结束了，待续。。</p><p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5">https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5</a>转载请标明出处</p></div><div><div style="padding:10px 0;margin:20px auto;width:90%;text-align:center"><div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div><button id="rewardButton" disable="enable" onclick='var qr=document.getElementById("QR");"none"===qr.style.display?qr.style.display="block":qr.style.display="none"'><span>联系博主</span></button><div id="QR" style="display:none"><div id="wechat" style="display:inline-block"><img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"><p>博主微信</p></div><div id="alipay" style="display:inline-block"><img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"><p>博客公众号</p></div></div></div></div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者： </strong>谭升</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/" title="【线性代数】6-5:正定矩阵(Positive Definite Matrices)">http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/Math-Linear-Algebra-Chapter-6-4/" rel="next" title="【线性代数】6-4:对称矩阵(Symmetric Matrices)"><i class="fa fa-chevron-left"></i> 【线性代数】6-4:对称矩阵(Symmetric Matrices)</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"><a href="/Math-Linear-Algebra-Chapter-6-6/" rel="prev" title="【线性代数】6-6:相似矩阵(Similar Matrices)">【线性代数】6-6:相似矩阵(Similar Matrices) <i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1194454329688573" data-ad-slot="2491973880" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span> <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span> <span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div id="sidebar-dimmer"></div><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap">站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="谭升"><p class="site-author-name" itemprop="name">谭升</p><p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"><a href="/archives"><span class="site-state-item-count">261</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/index.html"><span class="site-state-item-count">20</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/index.html"><span class="site-state-item-count">7</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a> </span><span class="links-of-author-item"><a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a></span></div><div class="post-body"><div class="note info"><div class="links-of-blogroll motion-element links-of-blogroll-block"><div class="links-of-blogroll-title" align="left"><i class="fa fa-history fa-" aria-hidden="true"></i> 近期文章</div><ul class="links-of-blogroll-list" align="left"><li><a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a></li><li><a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a></li><li><a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a></li><li><a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法” 概论</a></li><li><a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a></li></ul></div></div></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正定矩阵"><span class="nav-number">1.</span> <span class="nav-text">正定矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正定矩阵-Positive-Definite-Matrices"><span class="nav-number">1.1.</span> <span class="nav-text">正定矩阵(Positive Definite Matrices)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-times-2-矩阵"><span class="nav-number">1.1.1.</span> <span class="nav-text">$2 \times 2$ 矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不定矩阵，正定矩阵，负定矩阵-Indefinite-Positive-Definite-and-Negative-Definite"><span class="nav-number">1.1.2.</span> <span class="nav-text">不定矩阵，正定矩阵，负定矩阵(Indefinite,Positive Definite and Negative Definite)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#能量基的定义-Energy-based-Definition"><span class="nav-number">1.2.</span> <span class="nav-text">能量基的定义 (Energy-based Definition)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#R-TR"><span class="nav-number">1.2.1.</span> <span class="nav-text">$R^TR$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正定矩阵”五项原则”"><span class="nav-number">1.2.2.</span> <span class="nav-text">正定矩阵”五项原则”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从正定返回-R-TR"><span class="nav-number">1.2.3.</span> <span class="nav-text">从正定返回$R^TR$</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#半正定矩阵-Positive-Semidefinite-Matrices"><span class="nav-number">1.3.</span> <span class="nav-text">半正定矩阵 (Positive Semidefinite Matrices)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1"><span class="nav-number">1.4.</span> <span class="nav-text">一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.5.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2018</span> <span class="with-love" id="animate"><i class="fa fa-"></i> </span><span class="author" itemprop="copyrightHolder">谭升</span></div><div class="busuanzi-count"><script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv" title="总访客量"><i class="fa fa-user"></i> <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> </span><span class="site-pv" title="总访问量"><i class="fa fa-eye"></i> <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/affix.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors">
+<meta name="keywords" content="Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【线性代数】6-5:正定矩阵(Positive Definite Matrices)">
+<meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png">
+<meta property="og:updated_time" content="2018-09-26T12:01:15.214Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【线性代数】6-5:正定矩阵(Positive Definite Matrices)">
+<meta name="twitter:description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【线性代数】6-5:正定矩阵(Positive Definite Matrices) | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学类博客目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法类博客目录">
+    <a href="/ai/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程类博客目录">
+    <a href="/program/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程类博客目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记目录">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />其他笔记目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【线性代数】6-5:正定矩阵(Positive Definite Matrices)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-24 11:24:21" itemprop="dateCreated datePublished" datetime="2017-11-24T11:24:21+08:00">2017-11-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Linear-Algebra/" itemprop="url" rel="index"><span itemprop="name">Linear Algebra</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/Math-Linear-Algebra-Chapter-6-5/" class="leancloud_visitors" data-flag-title="【线性代数】6-5:正定矩阵(Positive Definite Matrices)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用<br><strong>Keywords:</strong> Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors</p>
+<a id="more"></a>
+<h1 id="正定矩阵"><a href="#正定矩阵" class="headerlink" title="正定矩阵"></a>正定矩阵</h1><h2 id="正定矩阵-Positive-Definite-Matrices"><a href="#正定矩阵-Positive-Definite-Matrices" class="headerlink" title="正定矩阵(Positive Definite Matrices)"></a>正定矩阵(Positive Definite Matrices)</h2><p>正定矩阵，对这个矩阵印象深刻，知道学了这节以后，才知道，正定矩阵就是”Positive Definite Matrices-正的确定矩阵”，这个翻译也是耿直，</p>
+<blockquote>
+<p>Positive Definite Matrices 定义为，对称矩阵，并且所有特征值全部大于0</p>
+</blockquote>
+<p>那么我们第一个大问题就是如何确定一个矩阵是不是正定矩阵呢，求特征值肯定是根本方法，定义都说了，对称矩阵，特征值大于0，求出所有特征值，那么自然明朗了，但是有时候我们只需要知道是不是正定矩阵，而不需要知道特征值，这样的话计算代价有点大，我们需要找点别的招数，来避免求特征值。<br>接下来我们的目标是：</p>
+<ol>
+<li>找到能快速判断对称矩阵的特征值都是正数</li>
+<li>正定矩阵的重要应用</li>
+</ol>
+<h3 id="2-times-2-矩阵"><a href="#2-times-2-矩阵" class="headerlink" title="$2 \times 2$ 矩阵"></a>$2 \times 2$ 矩阵</h3><p>对于 $A=\begin{bmatrix}a&amp;b\\b&amp;c\end{bmatrix}$ 什么情况下特征值是正的呢？因为只有两个特征值，那么我们考虑第一个条件：</p>
+<ol>
+<li>两个正数相乘，结果是正数</li>
+</ol>
+<p>但是如果两个复数相乘也是复数，所以引入第二个条件：</p>
+<ol start="2">
+<li>两个正数相加，结果是正数</li>
+</ol>
+<p>那么如果满足，两个特征值相加是正数，相乘也是正数，那么肯定特征值全部都是正数。<br>又因为我们已知特征值相乘等于行列式，相加等于trace，那么：<br>$$<br>a+c&gt;0\\<br>and:\\<br>ac-b^2&gt;0<br>$$<br>就是$2 \times 2$ symmetric Matrices 正定的充分必要条件啦，当然还可以做个简化$ac-b^2&gt;0$ 中如果 $a&gt;0$ 和上面的式子等效：<br>$$<br>a&gt;0\\<br>and:\\<br>ac-b^2&gt;0<br>$$<br>注意关联词哦是and两个必须同时发作，那么这个条件才算是成功了.举两个计算的🌰。<br>$$<br>A_1=\begin{bmatrix}1&amp;2\\2&amp;1\end{bmatrix}\;\;ac-b^2=1-4&lt;0\\<br>A_2\begin{bmatrix}1&amp;-2\newline -2&amp;6\end{bmatrix}\;\;ac-b^2=6-4&gt;0\;\;a=1&gt;0<br>$$<br>结论<br>$A_1$ 不是正定的<br>$A_2$ 是正定的</p>
+<h3 id="不定矩阵，正定矩阵，负定矩阵-Indefinite-Positive-Definite-and-Negative-Definite"><a href="#不定矩阵，正定矩阵，负定矩阵-Indefinite-Positive-Definite-and-Negative-Definite" class="headerlink" title="不定矩阵，正定矩阵，负定矩阵(Indefinite,Positive Definite and Negative Definite)"></a>不定矩阵，正定矩阵，负定矩阵(Indefinite,Positive Definite and Negative Definite)</h3><p>有正定就应该有负定，零正定（这个没有，0被分配到大于等于0的行列叫做半正定）或者不定矩阵。</p>
+<ol>
+<li>Positive Definite：对称矩阵特征值全部为正数</li>
+<li>Negative Definite：对称矩阵特征值全部为负数</li>
+<li>Indefinite： 特征值有正有负，不定矩阵</li>
+<li>Positive Semidefinite：对称矩阵，特征值大于等于0</li>
+</ol>
+<p>正定也好不正定也好，我们可以现在想一想在空间上的操作到底是个什么鬼：<br>学习对称矩阵，我们一直在研究的是对角化，对角化作为一种分解方式和LU，QR等有着相同的身份，但是从书籍上的讲解篇幅和教授描述，都要比LU，QR更具体更深入，所以，对角化应该更有市场，我们接下来就从对角化来说说正定矩阵A:<br>$$<br>A=S\Lambda S^{-1}\\<br>Q=S\\<br>A=Q\Lambda Q^{-1}<br>$$<br>这个是上上上一篇讲述的，但是上一篇有一个惊天的秘密可以足够清晰的帮我们研究正定矩阵，也就是当对称矩阵A和一个向量相乘的时候，从空间的角度来讲，这个向量被投影到了A的列空间，但A的列空间和特征向量的空间不一致（特征向量可能比A的列向量维度大，因为当A存在0特征值的时候，相当于给自己降维了，也就是A是全体特征向量的子空间），那么现在:<br>$$<br>u=c_1q_1+c_2q_2+\dots +c_nq_n=Qc\\<br>A=Q\Lambda Q^{-1}\\<br>Au=Q\Lambda Q^{-1}Qc=Q\Lambda (Q^{-1}Q)c=Q\Lambda (Q^{-1}Q)c=Q\Lambda c\\<br>Q\Lambda c=<br>\begin{bmatrix}&amp;&amp;\\q_1&amp;\dots &amp;q_n\\&amp;&amp;\end{bmatrix}<br>\begin{bmatrix}\lambda_1&amp;&amp;\\&amp;\ddots &amp;\\&amp;&amp;\lambda_n\end{bmatrix}<br>\begin{bmatrix}c_1\\\vdots \\c_n\end{bmatrix}=<br>c_1\lambda_1 q_1+\dots +c_n\lambda_n q_n<br>$$<br>看到什么了？老铁们，一个向量乘以一个对称矩阵，相当于把这个向量以<strong>特征向量们为基</strong>，然后长度伸缩特征值倍，不改变方向且没有0的是正定矩阵，有0的是半正定，这时候有些方向上的长度被消灭了，也就是说向量分解到特征向量基空间少一维，也就是A并不是满空间的，也就是singular矩阵，和前面的0正好对应，如果有正有负，那就是瞎搞了，哈哈哈哈。<br>Negative Definite， Indefinite的🌰就不说了，后面会有一个section专门讲Positive Semidefinite。</p>
+<h2 id="能量基的定义-Energy-based-Definition"><a href="#能量基的定义-Energy-based-Definition" class="headerlink" title="能量基的定义 (Energy-based Definition)"></a>能量基的定义 (Energy-based Definition)</h2><p>能量based的定义，能量一般都是正的，所以这个和正定矩阵有关系也不那么令人惊讶，从源头看$Ax=\lambda x$ 是一个矩阵的特征值和特征向量，如果我们在这两边同时乘上点什么：<br>$$<br>x^TAx=x^T\lambda x=\lambda x^Tx\\<br>x^Tx=|x|^2 \geq 0<br>$$<br>特征向量都是非零向量所以上面等号在特征向量前提下永不成立，那么也就是只要保证 $x^TAx&gt;0$ 那么就有 $\lambda &gt;0$ 得出矩阵可能是正定的，然后检验所有特征向量，这个工作量也有点大，根据其他一些应用，这里提出一个新的定义，关于能量的$x^TAx$ 表示一个系统的能量，其必须大于0.也就是说对于一个矩阵，其能量为正，这个矩阵定义为正定矩阵。<br>上面这个是定义正定矩阵的一个方法，也就是说了一个有点实际意义的定义，而不是上来拿枪指着你，说，“小子，特征值大于0的对称矩阵就是正定矩阵，说不行打死你”，所以这种定义在应用中出现的时候，要想到正定矩阵就好。<br>上一篇有一块介绍pivot和Eigenvalue之间的关系，他们的符号是相同的，也可以测试$x^TAx$是正是负。</p>
+<blockquote>
+<p>Definition: A is positive definite if $x^TAx&gt;0$ for every nonzero vector x:</p>
+</blockquote>
+<p>$$<br>x^TAx=<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}a&amp;b\\b&amp;c\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}=ax^2+2bxy+cy^2&gt;0<br>$$</p>
+<p>这个就是能量观点下定义的完整写法，如果理解了这个过程也就对这个形式没什么困惑了，我记得我之前是老师说，来，把这个公式记住。。。<br>$ax^2+2bxy+cy^2$ 是一个碗的形状，当然xy都不是零的时候。</p>
+<p>根据能量观点可以得到正定矩阵的可加性，也就是规模相同的两个正定矩阵，相加也是正定的，证明过程如下，假设其中A，B规模相同，切都是正定的：<br>$$<br>C=A+B\\<br>x^TAx&gt;0\\<br>x^TBx&gt;0\\<br>x^T(Ax+Bx)=x^T(A+B)x=x^TCx&gt;0<br>$$<br>QED</p>
+<h3 id="R-TR"><a href="#R-TR" class="headerlink" title="$R^TR$"></a>$R^TR$</h3><p>这是一种新的判断正定的方法，通过上面能量的观点$x^TAx$ 延伸，出如果能把A分解成一个矩阵和矩阵的转置相乘的形式，那么就能得到 $(Rx)^T(Rx)$ 的形式 那么这个形式下，如果$Rx\neq 0$ 必然其结果大于0（$Rx$ 是一个向量，所以 $(Rx)^T(Rx)$ 就变成了 $|Rx|$ 是一个长度）那么如果我们假设必然存在R，那么R要满足什么条件呢？ $Rx\neq 0$ 就是条件，对于所有非0向量，也就是R的Nullspace只有0向量，也就是R的<strong>列必须相互独立</strong>,这也是唯一的条件，如果矩阵能分解成$A=R^TR$ 的形式，R的列线性独立，那么A正定。<br>反过来也是正确的，如果矩阵R各列线性独立，那么 $A=R^TR$ A是正定矩阵。</p>
+<h3 id="正定矩阵”五项原则”"><a href="#正定矩阵”五项原则”" class="headerlink" title="正定矩阵”五项原则”"></a>正定矩阵”五项原则”</h3><p>总结下我们判断正定的几种方法，他们互相等效，一个成立便可以推出其他所有：</p>
+<ol>
+<li>All n pivots are Positive</li>
+<li>All n upper left determinants are positive</li>
+<li>All n Eigenvalues are Positive</li>
+<li>$x^TAx$ is positive except at $x=0$ This is the energy-based Definition</li>
+<li>A equal $R^TR$ for a Matrix R with independent columns</li>
+</ol>
+<p>上面的2我们好像没有证明，左上角的行列式的值总和左上角矩阵的pivot有关系，如果第一个行列式为正(也就是1x1的矩阵，即第一个pivot为正)那么第二个矩阵（2x2）的行列式也为正的话，可以得出第二个pivot也是正的，以此类推，就能得到第一条，所有pivot都是正数，这个可以参考行列式文章<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-5-2/" target="_blank" rel="noopener">Permutation</a> 可以有些启发。</p>
+<p>上面的五条基本上可以把线性代数大部分东西全包括进去了，消元，特征值，行列式，子空间，这些都要知道后，才能对上面的五条不存在疑惑，所以直接看本文的同学，不懂往回看。</p>
+<h3 id="从正定返回-R-TR"><a href="#从正定返回-R-TR" class="headerlink" title="从正定返回$R^TR$"></a>从正定返回$R^TR$</h3><p>我们回忆一下最初的分解形式$A=LDU$ 分解 当A是正定矩阵的时候，我们可以得到 $U=L^T$<br>所以$A=LDL^T$ 其中D是对角矩阵，如果给D开个根号是不是很完美，那么前提是D中所有元素都是正的（也就是所有pivots和Eigenvalue都是正的，这里两个概念等价）正定矩阵满足你的需求，所以就可以分解出来：<br>$$<br>A=L\sqrt{D}(\sqrt{D}L)^T<br>$$<br>上面这个是Cholesky Factor，针对正定矩阵的一种分解</p>
+<h2 id="半正定矩阵-Positive-Semidefinite-Matrices"><a href="#半正定矩阵-Positive-Semidefinite-Matrices" class="headerlink" title="半正定矩阵 (Positive Semidefinite Matrices)"></a>半正定矩阵 (Positive Semidefinite Matrices)</h2><p>如果特征值中包含0 ，那么 $x^TAx$ (x是特征向量) 有可能是0，也就是没有能量。并且写成 $R^TR$的形式。R总是有线性相关的列，具体原因看上面的证明自明，也就是奇异矩阵必然不是正定矩阵，但是可以使半正定矩阵，这个结论还是很欣慰的，并没有把奇异矩阵一棒子打死。<br>扩展x为任意变量的时候$x^TAx\geq 0$ 只有当x为对应于特征值为0的特征向量的时候等号成立。</p>
+<h2 id="一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1"><a href="#一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1" class="headerlink" title="一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$"></a>一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$</h2><p>学习线性代数，从向量开始，我就有一种感觉就是线性代数当矩阵维度是2或者3的时候，应该是和几何有关系的，也就是我们能画出来的这些形状有关而不仅仅是解方程这么简单，线性变换，对图形的作用应该是比较直观的，所以我们来看书上的🌰，关于特征值，特征向量，以及椭圆的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png" alt=""><br>两个椭圆，一个倾斜的，一个立正的,两幅图能够看出下面这些信息：</p>
+<ol>
+<li>The tilted ellipse is associated with A. Its equation is $x^TAx=1$</li>
+<li>The lined-up ellipse is associated with $\Lambda$ .Its equation is $x^T\Lambda x=1$</li>
+<li>The rotation matrix that lines up the ellipse is the eigenvector matrix Q</li>
+</ol>
+<p>第一个歪的椭圆的方程是：<br>$$<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}5&amp;4\\4&amp;5\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}=1\\<br>A=\begin{bmatrix}5&amp;4\\4&amp;5\end{bmatrix}\\<br>\lambda_1=9\\<br>\lambda_2=1\\<br>x_1=\begin{bmatrix}1\\1\end{bmatrix}\\<br>x_2=\begin{bmatrix}1\newline -1\end{bmatrix}<br>$$<br>分解成<br>$$<br>A=Q\Lambda Q^T=<br>\frac{1}{\sqrt{2}}\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}9&amp;0\\0&amp;1\end{bmatrix}<br>\frac{1}{\sqrt{2}}\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>$$<br>然后把xy弄进去<br>$$<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>Q\Lambda Q^T<br>\begin{bmatrix}x\\y\end{bmatrix}=<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}9&amp;0\\0&amp;1\end{bmatrix}<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}\\<br>=<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}9&amp;0\\0&amp;0\end{bmatrix}<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}\\<br>+<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}0&amp;0\\0&amp;1\end{bmatrix}<br>\frac{1}{\sqrt{2}}<br>\begin{bmatrix}1&amp;1\\1&amp;-1\end{bmatrix}<br>\begin{bmatrix}x\\y\end{bmatrix}\\<br>=<br>9(\frac{x+y}{\sqrt{2}})^2+1(\frac{x-y}{\sqrt{2}})^2<br>$$</p>
+<p>最后一步矩阵计算比较长，这里省略了，中间没有trick，我把分解那步写出来也是为了好看，，结论是正确的，观察上面结果，两个系数居然是特征值，厉害不？不是pivot也不是别人，而是特征值，在两个平方内部，是两组向量 $(1,1)$ 和 $(1,-1)$ 这个是特征向量，也是椭圆轴的方向，所以当矩阵扩展到多维的时候（还是正定矩阵），的时候所有特征向量是这个超椭圆的所有轴，这也是为什么叫主轴定理的原因啦，不光是主轴，特征值还能表示在主轴方向上的长度，这个也很值得重视，因为方向和长度是向量的两个组成因素。<br>进一步，我们看看怎么把歪着的椭圆立起来<br>$$<br>X=\frac{x+y}{\sqrt{2}}\\<br>Y=\frac{x-y}{\sqrt{2}}\\<br>for:\\<br>9(\frac{x+y}{\sqrt{2}})^2+1(\frac{x-y}{\sqrt{2}})^2\\<br>get:\\<br>9X^2+Y^2=1<br>$$<br>那么X最大值是 $\frac{1}{3}$ ,Y 最大值是 $1$ 这两个值的得到方法都是 $\frac{1}{\sqrt{\lambda}}$ 从图上也能看出来，长轴是1对应小的特征值，短轴是$\frac{1}{3}$ 对应长的特征值。<br>在xy中，轴的方向沿着A特征向量方向，在XY中是 $\Lambda$ 的特征向量，也就是坐标轴了，数值上看是这样的，从原理上：</p>
+<p>$$<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>Q\Lambda Q^T<br>\begin{bmatrix}x\\y\end{bmatrix}<br>=\begin{bmatrix}X&amp;Y\end{bmatrix}<br>\Lambda<br>\begin{bmatrix}X\\Y\end{bmatrix}=<br>\lambda_1X^2+\lambda_2Y^2=1<br>$$<br>xy可以表示一个被线性变换后的坐标表示，当这个坐标被Q投影了以后，就变成了图中正的图形了，可以观察特征值决定了椭圆有多椭，当特征值都是1的时候也就是 $\Lambda =I$ 的时候，这个图形就是个圆，如果有负数特征值，那就变成双曲线了，如果都是负的。。这个我也不知道是啥了（就有虚数部分了，这个我还不懂）</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>本文主要讲解正定矩阵，最后的应用是最精彩的部分，前面主要是线性代数知识点的大串讲，可能有些不那么详细，大家可以自己再补充一些，到这里线性代数高潮部分已经完成了一大半，完成了下面就是相似矩阵和svd，线性代数基础部分也就算是快结束了，待续。。</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5">https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5</a>转载请标明出处</p>
+
+      
+    </div>
+
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-4-1/" rel="bookmark">【线性代数】4-1:四个正交子空间(Orthogonality of the Four Subspace)</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>联系博主</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"/>
+        <p>博主微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"/>
+        <p>博客公众号</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>谭升</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/" title="【线性代数】6-5:正定矩阵(Positive Definite Matrices)">http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+          <div style="color: rgba(0, 0, 0, 0.75); font-size:13px; letter-spacing:3px">(&gt;壮士！看完给洒家个五星，你看行不行！&lt;)</div>
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-6-4/" rel="next" title="【线性代数】6-4:对称矩阵(Symmetric Matrices)">
+                <i class="fa fa-chevron-left"></i> 【线性代数】6-4:对称矩阵(Symmetric Matrices)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-6-6/" rel="prev" title="【线性代数】6-6:相似矩阵(Similar Matrices)">
+                【线性代数】6-6:相似矩阵(Similar Matrices) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="2491973880"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+
+          </div>
+          
+
+  
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">261</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-3-Elements-of-RL/" title="【强化学习】1-3 强化学习的基础元素" target="_blank">【强化学习】1-3 强化学习的基础元素</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正定矩阵"><span class="nav-number">1.</span> <span class="nav-text">正定矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正定矩阵-Positive-Definite-Matrices"><span class="nav-number">1.1.</span> <span class="nav-text">正定矩阵(Positive Definite Matrices)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-times-2-矩阵"><span class="nav-number">1.1.1.</span> <span class="nav-text">$2 \times 2$ 矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不定矩阵，正定矩阵，负定矩阵-Indefinite-Positive-Definite-and-Negative-Definite"><span class="nav-number">1.1.2.</span> <span class="nav-text">不定矩阵，正定矩阵，负定矩阵(Indefinite,Positive Definite and Negative Definite)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#能量基的定义-Energy-based-Definition"><span class="nav-number">1.2.</span> <span class="nav-text">能量基的定义 (Energy-based Definition)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#R-TR"><span class="nav-number">1.2.1.</span> <span class="nav-text">$R^TR$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正定矩阵”五项原则”"><span class="nav-number">1.2.2.</span> <span class="nav-text">正定矩阵”五项原则”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从正定返回-R-TR"><span class="nav-number">1.2.3.</span> <span class="nav-text">从正定返回$R^TR$</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#半正定矩阵-Positive-Semidefinite-Matrices"><span class="nav-number">1.3.</span> <span class="nav-text">半正定矩阵 (Positive Semidefinite Matrices)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1"><span class="nav-number">1.4.</span> <span class="nav-text">一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.5.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
       tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
         processEscapes: true,
         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
       },
       TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
       var all = MathJax.Hub.getAllJax(), i;
         for (i=0; i < all.length; i += 1) {
           all[i].SourceElement().parentNode.className += ' has-jax';
         }
-    });</script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 14057,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>
