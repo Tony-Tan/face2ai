@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #c655ff;
+  background: #fb8bde;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2913,7 +2913,7 @@ embed {
   line-height: 1.5;
 }
 .container {
-  background-color: rgba(250,250,250,0.6);
+  background-color: rgba(20,20,20,0.6);
 }
 .header-inner {
   padding-top: 0px;
