@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #30e9da;
+  background: #df1d38;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3348,7 +3348,7 @@ img:hover {
 }
 @media (max-width: 767px) {
   #top {
-    margin: -93px 15px 50px 15px;
+    margin: 0px 15px 50px 15px;
     padding: 96px 10px 0px 10px;
   }
 }
