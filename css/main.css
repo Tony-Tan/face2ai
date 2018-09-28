@@ -516,11 +516,11 @@ body {
 .header-inner {
   margin: 0 auto;
   padding: 100px 0 70px;
-  width: 900px;
+  width: 700px;
 }
 @media (min-width: 1200px) {
   .container .header-inner {
-    width: 1100px;
+    width: 900px;
   }
 }
 @media (min-width: 1600px) {
@@ -533,11 +533,11 @@ body {
 }
 .main-inner {
   margin: 0 auto;
-  width: 900px;
+  width: 700px;
 }
 @media (min-width: 1200px) {
   .container .main-inner {
-    width: 1100px;
+    width: 900px;
   }
 }
 @media (min-width: 1600px) {
@@ -555,11 +555,11 @@ body {
 .footer-inner {
   box-sizing: border-box;
   margin: 20px auto;
-  width: 900px;
+  width: 700px;
 }
 @media (min-width: 1200px) {
   .container .footer-inner {
-    width: 1100px;
+    width: 900px;
   }
 }
 @media (min-width: 1600px) {
@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #06cdff;
+  background: #e2e57a;
 }
 .links-of-blogroll {
   font-size: 13px;
