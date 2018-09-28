@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #95f122;
+  background: #06cdff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3076,7 +3076,7 @@ embed {
   margin: 80px 0px 40px 0px;
 }
 a {
-  color: #5073b8;
+  color: #6aa84f;
   border-bottom-color: #5073b8;
 }
 a:hover {
@@ -3307,7 +3307,7 @@ img:hover {
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
 }
 .post-block.page {
-  margin-top: 40px;
+  margin-top: 10px;
   color: #fff;
 }
 .category-all-page {
