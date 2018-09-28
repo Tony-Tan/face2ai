@@ -10,4 +10,4 @@ Disallow: /vendors/
 #Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
-Sitemap: https://www.tony4ai.com/sitemap.xml
+Sitemap: https://www.face2ai.com/sitemap.xml
