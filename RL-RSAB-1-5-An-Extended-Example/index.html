@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。">
+<meta name="keywords" content="强化学习,强化学习举例,Tic-Tac-Toe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【强化学习】 1.5 强化学习的一个扩展举例">
+<meta property="og:url" content="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif">
+<meta property="og:updated_time" content="2018-09-28T04:41:51.836Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【强化学习】 1.5 强化学习的一个扩展举例">
+<meta name="twitter:description" content="本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。">
+<meta name="twitter:image" content="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【强化学习】 1.5 强化学习的一个扩展举例 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【强化学习】 1.5 强化学习的一个扩展举例
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-28 08:42:24" itemprop="dateCreated datePublished" datetime="2018-09-28T08:42:24+08:00">2018-09-28</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Reinforcement-Learning/" itemprop="url" rel="index"><span itemprop="name">Reinforcement Learning</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Reinforcement-Learning/RL-An-Introduction/" itemprop="url" rel="index"><span itemprop="name">RL-An Introduction</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/RL-RSAB-1-5-An-Extended-Example/" class="leancloud_visitors" data-flag-title="【强化学习】 1.5 强化学习的一个扩展举例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。</div>
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。<br><strong>Keywords:</strong> 强化学习，强化学习举例，Tic-Tac-Toe<br><a id="more"></a></p>
+<h1 id="强化学习的一个扩展举例"><a href="#强化学习的一个扩展举例" class="headerlink" title="强化学习的一个扩展举例"></a>强化学习的一个扩展举例</h1><p>今天我们来讲一个很有趣的例子，英文名字叫”Tic-Tac-Toe” 中文名字有翻译成“井字棋”或者什么的，我们这里为了方便就称之为“井字棋”，叫井字棋的原因是因为其棋盘是个“井”字形的，玩法简单，但是这个玩的过程可以使用强化学习的方法来学习，这个简单的棋可以让我们从各个细节审视强化学习的特点，有点，缺点，以及一些小技巧。</p>
+<h2 id="“Tic-Tac-Toe”简介"><a href="#“Tic-Tac-Toe”简介" class="headerlink" title="“Tic-Tac-Toe”简介"></a>“Tic-Tac-Toe”简介</h2><h3 id="规则描述"><a href="#规则描述" class="headerlink" title="规则描述"></a>规则描述</h3><p>Tic-Tac-Toe的规则描述如下：</p>
+<ol>
+<li>使用 $3\times 3$ 的正方形棋盘，双方各使用 ‘x’和’o’ 作为棋子，轮流下棋，</li>
+<li>谁的棋子最先连成一行或者一列，或者对角线，那么获胜，棋局结束</li>
+<li>对方完成这个过程，则失败</li>
+<li>如果在最终双方都没能连成一行或者一列，或者对角线的情况下，棋局结束，则为平局。</li>
+</ol>
+<p>下图来自Wikipedia:<a href="https://zh.wikipedia.org/wiki/井字棋" target="_blank" rel="noopener">“井字棋”</a></p>
+<p><img src="RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif" alt=""></p>
+<p>上面的棋局，使用 ‘x’ 的一方率先完成连成一行的准则，故执’x’一方获胜。</p>
+<h3 id="简单规则下的问题"><a href="#简单规则下的问题" class="headerlink" title="简单规则下的问题"></a>简单规则下的问题</h3><p>下面这个视频是我在Google上找到的一个小程序录的一段视频。</p>
+<p>可见，在高级的情况下，双方（我和AI）基本都没法获胜，也就是平局会大量出现，原因是，我们对这种棋的技巧掌握的都很熟练，无法在现行环境（规则）下战胜对方，通过这个观察我们也能发现，在规则相对简单的游戏（“博弈”）中，平局会大量出现。<br>那么问题就要来了，我们 - 也就是人，在这种简单的规则下，多以平局收场，那么这怎么训练agent呢？如果每局训练总是平局，agent就不知道往什么方向走了。这里我们就要做出一些修改，我们让与我们agent下棋的人或者另一个agent不那么高级，换句话说，我们在简单规则下，降低规则执行者的能力，进而模拟出更高级的博弈（所谓更高级的博弈，无非是我们能力不足才会觉得当前环境，或者规则很困难）。<br>在后面的训练里，agent会将平局和失败都当做失败来处理，agent的目标明确，就是胜利。</p>
+<h3 id="非强化学习型的解决方法"><a href="#非强化学习型的解决方法" class="headerlink" title="非强化学习型的解决方法"></a>非强化学习型的解决方法</h3><p>这个棋局太简单，但是在如此简单的规则下，传统方法（非学习方法）都有诸多问题：</p>
+<ol>
+<li>使用传统的“极大极小化”（minimax）方法，这个方法会假定对方按照某个既定方案下棋，而事实是对方可能无既定方案，或者既定方案我们永远无法得知。所以这个传统的博弈思想在此不适用。而且“极大极小化”（minimax）方法有个非常大的缺点：如果其认定当前状态必然失败的情况下，即使后面对手出现重大失误（可以逆转取胜的机会），其也不会采取任何致胜招数，而是按照既定失败的套路继续下去。</li>
+<li>对于这种连续决策型问题的传统的优化方法，例如动态规划(dynamic programming)，可以计算出在对阵任何对手时候的最优解，但是前提是：对手的全部信息要作为输入提前提交给算法，其中包括在某特定情况（棋局）下，对手下一步棋下在哪的概率。如果我们提前不知道这些信息（大部分情况下，这个信息无法获得）</li>
+<li>对于2中的动态规划方法，有另一种改进版就是在训练时和对手多次交手，从而记录学习出对手的信息，或者叫做给对手建模（model）然后再使用动态规划来寻找答案。</li>
+</ol>
+<p>上面3中方法中，1和2对解决问题基本没有帮助，3有帮助。3和我们后面会介绍的很多强化学习方法有着非常相似的思路。</p>
+<h2 id="进化方法-Evolutionary-Method-学习-“Tic-Tac-Toe”"><a href="#进化方法-Evolutionary-Method-学习-“Tic-Tac-Toe”" class="headerlink" title="进化方法(Evolutionary Method)学习 “Tic-Tac-Toe”"></a>进化方法(Evolutionary Method)学习 “Tic-Tac-Toe”</h2><p><a href="https://face2ai.com/RL-RSAB-1-4-0-Limitations-and-Scope/" target="_blank" rel="noopener">进化方法</a> 中讲解了进化方法的缺点，就是没有使用agent和环境之间的交互信息来改变agent。而这里如果把进化方法直接使用到“井字棋”中，其表策略（policy）的特点是：直接search全部可能的位置，找到获胜概率最大的位置，然后下棋。也就是，策略要考虑到当前盘面（ $3\times 3$ 的棋盘上 x和o的分布）并给出获胜概率最大的下棋位置。而这个概率的获得就需要和对手多次下棋，记录，学习出来的。有了这些信息，agent就知道接下来一步或者接下来很多步应该怎么走。<br>一个典型的进化方法就是在“策略空间”的 hill-climb ，这种方法的策略是逐渐找出能提高表现的策略（并不是一下找到最优的方法，而是像爬山一样，每一步都找到一个能提高agent表现的方案，一步一步的向上爬）。<br>遗传方法就更加直接暴力了，直接直接评估大量的策略(policies)，去除不合格的，留下好的，然后产生新一代的，以此迭代，直到问题解决。<br>解决“井字棋”问题，理论上存在很多种不同的优化方法。</p>
+<h2 id="评价函数-Value-Function-学习-“Tic-Tac-Toe”"><a href="#评价函数-Value-Function-学习-“Tic-Tac-Toe”" class="headerlink" title="评价函数(Value Function)学习 “Tic-Tac-Toe”"></a>评价函数(Value Function)学习 “Tic-Tac-Toe”</h2><p>上面我们说了进化方法在井字棋中使用，下面我们就要看看另一个方向的方法 —— 评价函数(value Function)的方法了。</p>
+<h3 id="设计评价函数"><a href="#设计评价函数" class="headerlink" title="设计评价函数"></a>设计评价函数</h3><p>我们列一个表，这个表中的每个格子对应一种状态（state），整张表就对应井字棋的全部情况，这个表的每一项都对应一个概率值，这个概率值表示当前状态下最后获胜的期望，注意两点，一个是当前的状态，第二是最终获胜的期望。这个期望，我们就把其当做评价函数的结果 —— value值。这个表就是我们的评价函数(Value Function)了.<br>在井字棋中，这个表就包含下一步棋应该怎么走的评估。通过当前状态，我们可以缩小下一步可能出现的状态范围，然后比较所有可能的状态，如果A状态比B状态有更高的获胜期望，那么我们认为A状态比B状态好，所以我们倾向于把棋子走到A状态显示的位置。<br>对于这个状态表，假设我们执x，那么如果某状态中包含x在一行或者一列或者对角线，那么这个状态的获胜期望是1，相反，如果o在一行或者一列或者对角线，那么这个状态的获胜期望是0；同样，如果对应状态是棋盘下满，而没有获胜方，这时候期望同样是0 。除了上述这些情况，其他状态的<strong>初始化</strong>值都是0.5，即有一半的可能性会获胜。</p>
+<p>### </p>
+<h2 id="“进化方法”与“评价函数”的区别"><a href="#“进化方法”与“评价函数”的区别" class="headerlink" title="“进化方法”与“评价函数”的区别"></a>“进化方法”与“评价函数”的区别</h2><h2 id="“Tic-Tac-Toe”-中的强化学习"><a href="#“Tic-Tac-Toe”-中的强化学习" class="headerlink" title="“Tic-Tac-Toe” 中的强化学习"></a>“Tic-Tac-Toe” 中的强化学习</h2><h2 id="先验知识-Prior-Knowledge"><a href="#先验知识-Prior-Knowledge" class="headerlink" title="先验知识(Prior Knowledge)"></a>先验知识(Prior Knowledge)</h2><h2 id="模型-Model"><a href="#模型-Model" class="headerlink" title="模型(Model)"></a>模型(Model)</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p>Sutton R S, Barto A G. Reinforcement learning: An introduction[J]. 2011.</p>
+<hr>
+<p><a href="https://face2ai.com/RL-RSAB-1-5-An-Extended-Example" target="_blank" rel="noopener">原文地址: https://face2ai.com/RL-RSAB-1-5-An-Extended-Example</a></p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" rel="bookmark">【强化学习】 1.4.1 强化学习与优化方法</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" rel="bookmark">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-3-Elements-of-RL/" rel="bookmark">【强化学习】1-3 强化学习的基础元素</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-1-4-Reinforcement-Learning/" rel="bookmark">【强化学习】1-1-4 强化学习和人工智能</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-2-Examples/" rel="bookmark">【强化学习】1-2 强化学习举例</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/强化学习/" rel="tag"># 强化学习</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating" >
+          <div style="color: rgba(0, 0, 0, 1); font-size:16px; letter-spacing:3px">(&gt;壮士！看完给洒家个五星，你看行不行！&lt;)</div>
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+        
+        </div>
+      
+      
+
+      
+
+      
+        <div>
+          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>联系博主</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"/>
+        <p>博主微信</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"/>
+        <p>博客公众号</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+        </div>
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" rel="next" title="【强化学习】 1.4.1 强化学习与优化方法">
+                <i class="fa fa-chevron-left"></i> 【强化学习】 1.4.1 强化学习与优化方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="2491973880"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+
+
+          </div>
+          
+
+  
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-5-An-Extended-Example/" title="【强化学习】 1.5 强化学习的一个扩展举例" target="_blank">【强化学习】 1.5 强化学习的一个扩展举例</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" title="【强化学习】 1.4.1 强化学习与优化方法" target="_blank">【强化学习】 1.4.1 强化学习与优化方法</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-0-Introduction/" title="【Julia】 Julia编程语言介绍" target="_blank">【Julia】 Julia编程语言介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/ITILA-Introduction-to-This-Series/" title="【信息论、推理与学习算法】本系列博客介绍" target="_blank">【信息论、推理与学习算法】本系列博客介绍</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-4-0-Limitations-and-Scope/" title="【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论" target="_blank">【强化学习】 1.4.0 “进化方法”和 “决策梯度方法”  概论</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#强化学习的一个扩展举例"><span class="nav-number">1.</span> <span class="nav-text">强化学习的一个扩展举例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#“Tic-Tac-Toe”简介"><span class="nav-number">1.1.</span> <span class="nav-text">“Tic-Tac-Toe”简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规则描述"><span class="nav-number">1.1.1.</span> <span class="nav-text">规则描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单规则下的问题"><span class="nav-number">1.1.2.</span> <span class="nav-text">简单规则下的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非强化学习型的解决方法"><span class="nav-number">1.1.3.</span> <span class="nav-text">非强化学习型的解决方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进化方法-Evolutionary-Method-学习-“Tic-Tac-Toe”"><span class="nav-number">1.2.</span> <span class="nav-text">进化方法(Evolutionary Method)学习 “Tic-Tac-Toe”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#评价函数-Value-Function-学习-“Tic-Tac-Toe”"><span class="nav-number">1.3.</span> <span class="nav-text">评价函数(Value Function)学习 “Tic-Tac-Toe”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计评价函数"><span class="nav-number">1.3.1.</span> <span class="nav-text">设计评价函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“进化方法”与“评价函数”的区别"><span class="nav-number">1.4.</span> <span class="nav-text">“进化方法”与“评价函数”的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“Tic-Tac-Toe”-中的强化学习"><span class="nav-number">1.5.</span> <span class="nav-text">“Tic-Tac-Toe” 中的强化学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#先验知识-Prior-Knowledge"><span class="nav-number">1.6.</span> <span class="nav-text">先验知识(Prior Knowledge)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型-Model"><span class="nav-number">1.7.</span> <span class="nav-text">模型(Model)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">1.9.</span> <span class="nav-text">References</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 14057,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>
