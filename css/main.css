@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #54650f;
+  background: #95f122;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2913,7 +2913,7 @@ embed {
   line-height: 1.5;
 }
 .container {
-  background-color: rgba(50,50,50,0.6);
+  background-color: rgba(20,20,20,0.6);
 }
 .header-inner {
   padding-top: 0px;
@@ -2963,7 +2963,8 @@ embed {
   box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.15);
 }
 .menu .menu-item a {
-  font-size: 15px;
+  font-size: 20px;
+  color: #0a641e;
 }
 .menu .menu-item {
   margin: 5px 15px;
