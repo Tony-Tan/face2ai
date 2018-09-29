@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #c4eeff;
+  background: #4dbb66;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3474,7 +3474,7 @@ code.description {
   }
   .posts-expand {
     margin: 0px;
-    padding-top: 70px;
+    padding-top: 20px;
   }
   .posts-expand .post-title {
     font-size: 22px;
