@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff03eb;
+  background: #ffff32;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2920,7 +2920,7 @@ embed {
   padding-bottom: 0px;
 }
 .posts-expand {
-  padding-top: 80px;
+  padding-top: 20px;
 }
 .posts-expand .post-meta {
   margin: 5px 0px 0px 0px;
