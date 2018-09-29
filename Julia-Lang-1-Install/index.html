@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本介绍Julia环境的搭建，包括在Mac，Linux以及在Windows下的安装过程，最后我们使用atom搭建一个Julia IDEKeywords: Julia环境搭建, Mac,Julia Windows,Julia Linux,Juno">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.face2ai.com/Julia-Lang-1-Install/Julia-Lang-1-Install/julia-web.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/julia-web.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-20180929222929641.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-20180929223057287.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-2018092922315751.png">
@@ -130,11 +130,11 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-20180929230703482.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-20180929231412150.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-20180929232623129.png">
-<meta property="og:updated_time" content="2018-09-29T15:29:45.805Z">
+<meta property="og:updated_time" content="2018-09-29T15:34:59.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Julia】Julia环境搭建（Mac,Windows,Linux）">
 <meta name="twitter:description" content="Abstract: 本介绍Julia环境的搭建，包括在Mac，Linux以及在Windows下的安装过程，最后我们使用atom搭建一个Julia IDEKeywords: Julia环境搭建, Mac,Julia Windows,Julia Linux,Juno">
-<meta name="twitter:image" content="http://www.face2ai.com/Julia-Lang-1-Install/Julia-Lang-1-Install/julia-web.png">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/julia-web.png">
 
 
 
@@ -479,7 +479,7 @@ data-full-width-responsive="true"></ins>
         <p><strong>Abstract:</strong> 本介绍Julia环境的搭建，包括在Mac，Linux以及在Windows下的安装过程，最后我们使用atom搭建一个Julia IDE<br><strong>Keywords:</strong> Julia环境搭建, Mac,Julia Windows,Julia Linux,Juno<br><a id="more"></a></p>
 <h1 id="Julia环境搭建（Mac-Windows-Linux）"><a href="#Julia环境搭建（Mac-Windows-Linux）" class="headerlink" title="Julia环境搭建（Mac,Windows,Linux）"></a>Julia环境搭建（Mac,Windows,Linux）</h1><p>上文我们说到Julia是一种适合数据科学的语言，那么今天我们就研究一下怎么安装Julia，以及完成一套IDE的搭建，很多人，尤其是写程序有一段时间，但是时间又不长的同学经常会纠结各种问题，比如为啥大牛都用VIM，是不是要学会VIM才能继续进步，说实话，不管是IDE还是VIM还是EMACS，不过是个工具，哪个你用的效率最高哪个就是最好的，至于vim的神话，我的解读是，vim必然是个利器，入了门的人得心应手，但是入门困难的就一直处于困难阶段，我们的最终目的是为了完成我的设计的算法，评估测试算法，至于用什么编辑器，什么环境，我觉得你找个最顺手的，那就是最好的。<br>本文我们用到的编辑器是Atom，因为atom中的插件可以直接把一个编辑器扩展成IDE，如果你是资深vim用户，那么你一定有办法自己把编辑器调整到顺手状态。<br>所以我们今天只讲安装和atom下的IDE搭建。</p>
 <h2 id="安装Julia"><a href="#安装Julia" class="headerlink" title="安装Julia"></a>安装Julia</h2><p>安装Julia并不难，到地址 <a href="https://julialang.org/downloads/" target="_blank" rel="noopener">https://julialang.org/downloads/</a><br>下就能看到：</p>
-<p><img src="Julia-Lang-1-Install/julia-web.png" alt="Jupiter-web"></p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/julia-web.png" alt="Jupiter-web"></p>
 <p>可以看到我当前的版本是1.0，目前1.1在测试，所以你们使用的时候可能都2.x了，如果基本套路变了，那么你就要仔细看一下说明了。</p>
 <h3 id="Mac下安装Julia"><a href="#Mac下安装Julia" class="headerlink" title="Mac下安装Julia"></a>Mac下安装Julia</h3><p>我们在表格中找到 Mac对应的安装包 .dmg 格式<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-20180929222929641.png" alt=""><br>然后点击下载（速度有点慢），<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-20180929223057287.png" alt=""><br>按照Mac程序的一般安装方法，拖到应用里面即可。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Julia-Lang-1-Install/markdown-img-paste-2018092922315751.png" alt=""><br>这个时候就算安装完了，但是使用mac的程序员启动这种没界面的应用喜欢使用命令行，这里的做法是，建立一个从应用到命令行搜索目录的软连接：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /Applications/Julia-1.0.app/Contents/Resources/julia/bin/julia /usr/<span class="built_in">local</span>/bin/julia</span><br></pre></td></tr></table></figure></p>
 <p>当前julia版本是1.0。</p>
