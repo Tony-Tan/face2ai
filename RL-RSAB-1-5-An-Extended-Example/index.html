@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。Keywords: 强化学习，强化学习举例，Tic-Tac-Toe">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif">
-<meta property="og:image" content="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/RL-RSAB-1-5-An-Extended-Example/table.png">
-<meta property="og:updated_time" content="2018-09-29T07:40:37.091Z">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/table.png">
+<meta property="og:updated_time" content="2018-09-29T07:49:25.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【强化学习】 1.5 强化学习的一个扩展举例">
 <meta name="twitter:description" content="Abstract: 本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。Keywords: 强化学习，强化学习举例，Tic-Tac-Toe">
-<meta name="twitter:image" content="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif">
 
 
 
@@ -474,9 +474,13 @@ data-full-width-responsive="true"></ins>
 <li>如果在最终双方都没能连成一行或者一列，或者对角线的情况下，棋局结束，则为平局。</li>
 </ol>
 <p>下图来自Wikipedia:<a href="https://zh.wikipedia.org/wiki/井字棋" target="_blank" rel="noopener">“井字棋”</a></p>
-<p><img src="RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif" alt=""></p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif" alt=""></p>
 <p>上面的棋局，使用 ‘x’ 的一方率先完成连成一行的准则，故执’x’一方获胜。</p>
 <h3 id="简单规则下的问题"><a href="#简单规则下的问题" class="headerlink" title="简单规则下的问题"></a>简单规则下的问题</h3><p>下面这个视频是我在Google上找到的一个小程序录的一段视频。</p>
+<video src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/ttt.mov" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;"><br>your browser does not support the video tag<br></video>
+
+
+
 <p>可见，在高级的情况下，双方（我和AI）基本都没法获胜，也就是平局会大量出现，原因是，我们对这种棋的技巧掌握的都很熟练，无法在现行环境（规则）下战胜对方，通过这个观察我们也能发现，在规则相对简单的游戏（“博弈”）中，平局会大量出现。<br>那么问题就要来了，我们 - 也就是人，在这种简单的规则下，多以平局收场，那么这怎么训练agent呢？如果每局训练总是平局，agent就不知道往什么方向走了。这里我们就要做出一些修改，我们让与我们agent下棋的人或者另一个agent不那么高级，换句话说，我们在简单规则下，降低规则执行者的能力，进而模拟出更高级的博弈（所谓更高级的博弈，无非是我们能力不足才会觉得当前环境，或者规则很困难）。<br>在后面的训练里，agent会将平局和失败都当做失败来处理，agent的目标明确，就是胜利。</p>
 <h3 id="非强化学习型的解决方法"><a href="#非强化学习型的解决方法" class="headerlink" title="非强化学习型的解决方法"></a>非强化学习型的解决方法</h3><p>这个棋局太简单，但是在如此简单的规则下，传统方法（非学习方法）都有诸多问题：</p>
 <ol>
@@ -490,7 +494,7 @@ data-full-width-responsive="true"></ins>
 <h3 id="设计评价函数"><a href="#设计评价函数" class="headerlink" title="设计评价函数"></a>设计评价函数</h3><p>我们列一个表，这个表中的每个格子对应一种状态（state），整张表就对应井字棋的全部情况，这个表的每一项都对应一个概率值，这个概率值表示当前状态下最后获胜的期望，注意两点，一个是当前的状态，第二是最终获胜的期望。这个期望，我们就把其当做评价函数的结果，value —— value值。这个表就是我们的评价函数(Value Function)了.<br>在井字棋中，这个表就包含下一步棋应该怎么走的评估。通过当前状态，我们可以缩小下一步可能出现的状态范围，然后比较所有可能的状态，如果A状态比B状态有更高的获胜期望，那么我们认为A状态比B状态好，所以我们倾向于把棋子走到A状态显示的位置。<br>对于这个状态表，假设我们执x，那么如果某状态中包含x在一行或者一列或者对角线，那么这个状态的获胜期望是1，相反，如果o在一行或者一列或者对角线，那么这个状态的获胜期望是0；同样，如果对应状态是棋盘下满，而没有获胜方，这时候期望同样是0 。除了上述这些情况，其他状态的<strong>初始化</strong>值都是0.5，即有一半的可能性会获胜。</p>
 <h3 id="执行-exploitation-和探索-exploration"><a href="#执行-exploitation-和探索-exploration" class="headerlink" title="执行(exploitation)和探索(exploration)"></a>执行(exploitation)和探索(exploration)</h3><p>当我们有了这张表（上面的评价函数）我们就有了制胜法宝，但是具体执行也是有不同方案的，我们可以查找最大value的状态，然后执行贪心(greedily)选择，这是使得获胜期望最大的策略，也就是完全执行表（value function）中的指示，这个被称为exploitation。<br>但是我们有时候（偶尔，occasionally）在某些步骤中不选择最大value的状态，而是选择随机状态，因为这种方式可能带我们到一个前所未见的state下。</p>
 <p>上面两段描述的评价函数，以及状态表在井字棋中可以表现为下图：</p>
-<p><img src="RL-RSAB-1-5-An-Extended-Example/table.png" alt="table"></p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/table.png" alt="table"></p>
 <h3 id="学习评价函数（value-function）"><a href="#学习评价函数（value-function）" class="headerlink" title="学习评价函数（value function）"></a>学习评价函数（value function）</h3><p>在下棋的过程中，我们不断修改已有value function对于井字棋，也就是上面我们提到的那张表，我们的目标是试图使其更加准确，为了达到这个目的，我们增加了一步“返回”（back up） 过程（上图中的红色箭头），这个过程在每一步贪心选择后执行，这一步执行的实质是通过当前状态值（value）来适当修改上一步状态的value，使它更接近现在状态的值（评价函数的结果，value），比如图中的红箭头就是让e的值（评价函数的结果，value）更接近g的值（评价函数的结果，value）。<br>上面的数学表达为，让 $s$ 为贪心选择之前的状态的值（评价函数的结果，value）， $s’$ 为贪心选择后的值（评价函数的结果，value），然后我们的back up更新 $s$ 值，方式是：<br>$$<br>V(s)\leftarrow V(s)+\alpha[V(s’)-V(s)]<br>$$</p>
 <p>其中 $\alpha$ 是一个小的正小数，叫做“步长”（step-size）参数，这个参数影响学习速率（the rate of learning）注意这里rate是速率的意思，而不是比率的意思，所以学习率这种翻译，我觉得欠妥。<br>这种基于 $[V(s’)-V(s)]$ 的变化方式（update rule）被称为“时序差分学习”（temporal-difference learning），字面解释：基于两个不同时间点的值（评价函数的结果，value）的差值的方法，这个解释基本能反应这类方法的特点。<br>这类方法是我们后面要重点学习。</p>
 <p>上述方法对于这个任务可以非常出色的得出不错的结果，例如，<strong>在步长参数（step-size）被精确递减后</strong>，这个算法对于固定的对手是收敛的，每一步都能给出胜算最高的走法。也就是说，这个方法对于一个固定的对手给出了最优策略。这里的一个关键就是 <strong>步长参数（step-size）</strong> 的调整，如果这个参数不调整，那么最后的结果也会收敛，但是速度会慢很多。</p>
