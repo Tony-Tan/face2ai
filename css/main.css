@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #bf8379;
+  background: #ff553c;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3086,12 +3086,24 @@ a:hover {
 hr {
   margin: 10px 0px 30px 0px;
 }
-.post-body h2,
-h3,
-h4,
-h5,
-h6 {
+.post-body h2 {
+  border-left: 4px solid #3dcaab;
+  margin-left: 0px;
+  padding-left: 20px;
+}
+.post-body h3 {
+  border-left: 4px solid #6fcaab;
+  margin-left: 0px;
+  padding-left: 20px;
+}
+.post-body h4 {
   border-left: 4px solid #a1caab;
+  margin-left: 0px;
+  padding-left: 20px;
+}
+.post-body h5,
+h6 {
+  border-left: 4px solid #d3caab;
   margin-left: 0px;
   padding-left: 20px;
 }
