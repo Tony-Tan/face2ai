@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #736521;
+  background: #e9708f;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3330,7 +3330,7 @@ img:hover {
 }
 @media (max-width: 767px) {
   .category-all-page {
-    margin: -73px 15px 50px 15px;
+    margin: 0px 15px 50px 15px;
   }
   .category-all-page .category-all-title {
     margin-top: -5px;
