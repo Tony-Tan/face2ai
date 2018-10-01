@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍如何在命令行中开启、使用、退出Julia，如何执行文件，以及执行Julia时候的可选选项（参数列表）Keywords: Julia，Julia使用，Julia命令行，Julia执行文件">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-01T02:51:55.869Z">
+<meta property="og:updated_time" content="2018-10-01T03:39:53.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Julia】开始使用Julia">
 <meta name="twitter:description" content="Abstract: 本文介绍如何在命令行中开启、使用、退出Julia，如何执行文件，以及执行Julia时候的可选选项（参数列表）Keywords: Julia，Julia使用，Julia命令行，Julia执行文件">
@@ -484,10 +484,11 @@ data-full-width-responsive="true"></ins>
 <li><code>CTRL-d</code> linux和windows下同时按下 <code>ctrl</code> 键和<code>d</code> 键</li>
 <li>输入 <code>exit()</code></li>
 </ol>
-<h2 id="终端执行Julia文件"><a href="#终端执行Julia文件" class="headerlink" title="终端执行Julia文件"></a>终端执行Julia文件</h2><p>在终端下执行Julia文件的方式和其他脚本的执行方式类似：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> julia script.jl arg1 arg2...</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="终端执行Julia文件"><a href="#终端执行Julia文件" class="headerlink" title="终端执行Julia文件"></a>终端执行Julia文件</h2><p>在终端下执行Julia文件的方式和其他脚本的执行方式类似：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> julia script.jl arg1 arg2...</span></span><br></pre></td></tr></table></figure>
 <p>如果我们执行上面我们说到的 <code>file.jl</code>那么在终端下的执行结果如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> julia file.jl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"></span></span><br></pre></td></tr></table></figure></p>
-<p>没有显示结果，因为我们在文件中只有 <code>1+3</code>这条指令，而没有要求他输出什么，在交互模式下，程序自动显示计算结果，但是在终端下执行脚本，只执行脚本中的命令，而不会自己显示什么。<br>接着我们编辑另一个文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```julia</span><br><span class="line">println(PROGRAM_FILE);</span><br><span class="line">for x in ARGS;</span><br><span class="line">    println(x);</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
-<p>然后我们加上参数，这里是<strong>输入给脚本的参数</strong> —— <figure class="highlight plain"><figcaption><span>arg2 ...```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">```shell</span><br><span class="line">$ julia script.jl foo bar</span><br><span class="line">script.jl</span><br><span class="line">foo</span><br><span class="line">bar</span><br><span class="line">$</span><br></pre></td></tr></table></figure></p>
+<p>没有显示结果，因为我们在文件中只有 <code>1+3</code>这条指令，而没有要求他输出什么，在交互模式下，程序自动显示计算结果，但是在终端下执行脚本，只执行脚本中的命令，而不会自己显示什么。<br>接着我们编辑另一个文件<code>script.jl</code>，内容如下：<br><figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="literal">PROGRAM_FILE</span>);</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="literal">ARGS</span>;</span><br><span class="line">    println(x);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>然后我们加上参数，这里是<strong>输入给脚本的参数</strong> —— <code>arg1 arg2 …</code><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> julia script.jl foo bar</span></span><br><span class="line">script.jl</span><br><span class="line">foo</span><br><span class="line">bar</span><br><span class="line"><span class="meta">$</span><span class="bash"></span></span><br></pre></td></tr></table></figure></p>
 <p>这里的三部分分别是 <code>julia</code> (程序名，用于在终端中启动程序，类似于python脚本运行前的python，sh等)、 <code>script.jl</code>（脚本文件名） 以及 <code>foo bar </code>（输入脚本的参数）。</p>
 <h2 id="Julia的参数"><a href="#Julia的参数" class="headerlink" title="Julia的参数"></a>Julia的参数</h2><p>在执行脚本时我们给脚本了两个个参数（<code>foo bar</code>），同时，我们也可以给julia多个参数(上面的例子中 <code>script.jl foo bar</code> 是Julia程序的一个参数 )，加参数方式是在多个参数中间用 <code>–</code> 划分 ,例如上面的例子可以加上如下参数<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">julia --color=yes -O --script.jl foo bar</span><br></pre></td></tr></table></figure></p>
 <p>julia程序包含两个参数，分别是：</p>
@@ -558,13 +559,6 @@ data-full-width-responsive="true"></ins>
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-1-Install/" rel="bookmark">【Julia】Julia环境搭建（Mac,Windows,Linux）</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Julia-Lang-0-Introduction/" rel="bookmark">【Julia】Julia编程语言介绍</a></div>
       
     </li>
@@ -572,14 +566,21 @@ data-full-width-responsive="true"></ins>
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-3-内存访问模式/" rel="bookmark">【CUDA 基础】4.3 内存访问模式</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-1-Install/" rel="bookmark">【Julia】Julia环境搭建（Mac,Windows,Linux）</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-6-5-流回调/" rel="bookmark">【CUDA 基础】6.5 流回调</a></div>
+      <div class="popular-posts-title"><a href="/CUDA-F-3-2-理解线程束执行的本质-P1/" rel="bookmark">【CUDA 基础】3.2 理解线程束执行的本质(Part I)</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-0-0-Tencent-GPU-Cloud/" rel="bookmark">【CUDA 基础】0.0 腾讯云CUDA环境搭建</a></div>
       
     </li>
   
