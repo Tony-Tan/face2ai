@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-03T12:53:43.699Z">
+<meta property="og:updated_time" content="2018-10-03T13:20:23.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Julia】整型和浮点型数字">
 <meta name="twitter:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
@@ -471,7 +471,7 @@ data-full-width-responsive="true"></ins>
 <ul>
 <li>浮点型变量</li>
 </ul>
-<table><tbody><tr><th>类型</th><th>精度</th><th>所占位数</th></tr><tr><td><code>Float16</code></td><td><a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format" target="_blank" rel="noopener">half</a></td><td>16</td></tr><tr><td><code>Float32</code></td><td><a href="https://en.wikipedia.org/wiki/Single_precision_floating-point_format" target="_blank" rel="noopener">single</a></td><td>32</td></tr><tr><td><code>Float64</code></td><td><a href="https://en.wikipedia.org/wiki/Double_precision_floating-point_format" target="_blank" rel="noopener">double</a></td><td>64</td></tr></tbody></table>
+<table><tbody><tr><th>类型</th><th>精度</th><th>所占位数</th></tr><tr><td><code>Float16</code></td><td><a href="https://en.wikipedia.org/wiki/Half-precision_floating-poInt_format" target="_blank" rel="noopener">half</a></td><td>16</td></tr><tr><td><code>Float32</code></td><td><a href="https://en.wikipedia.org/wiki/Single_precision_floating-poInt_format" target="_blank" rel="noopener">single</a></td><td>32</td></tr><tr><td><code>Float64</code></td><td><a href="https://en.wikipedia.org/wiki/Double_precision_floating-poInt_format" target="_blank" rel="noopener">double</a></td><td>64</td></tr></tbody></table>
 
 <p>以上浮点型的三种类型的精度可以点击进入wikipedia查看详情。</p>
 <h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p>在Julia编程中字面值以标准形式表示，比如我们想输入数值1，只需要输入<code>1</code>就可以了，而不需要转换成存储在计算机内存或硬盘中的二进制。<br>比如在交互模式下：</p>
@@ -496,7 +496,7 @@ julia>
 </code></pre>
 
 
-<h3 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a><code>typeof</code></h3><p><code>typeof</code>的用法和c语言中的 <code>sizeof</code>类似，但是<code>sizeof</code>在c/c++中是操作符，而<code>typeof</code>在Julia这里可能是个函数，这需要我们后面深入的研究确定，我们先画个问号在这。在交互模式下我们来看看我们的整形变量1在Julia中的类型：</p>
+<h3 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h3><p><code>typeof</code>的用法和c语言中的 <code>sizeof</code>类似，但是<code>sizeof</code>在c/c++中是操作符，而<code>typeof</code>在Julia这里可能是个函数，这需要我们后面深入的研究确定，我们先画个问号在这。在交互模式下我们来看看我们的整形变量1在Julia中的类型：</p>
 <pre><code>
 julia> typeof(1)
 Int64
@@ -508,7 +508,7 @@ julia>
 </code></pre>
 输出结果是<code>Int64</code>，不是<code>Int32</code>的原因是我们的操作系统是64位操作系统，所以基础类型就是64位的了。
 
-### <code>Sys.WORD_SIZE</code>
+### Sys.WORD_SIZE
 <code>Sys.WORD_SIZE</code>这个内置变量用于指示当前系统是32位还是64位：
 <pre><code>
 julia> Sys.WORD_SIZE
@@ -516,8 +516,8 @@ julia> Sys.WORD_SIZE
 
 julia>
 </code></pre>
- ### <code>int</code>和<code>Uint</code>
- 这两种类型的不同在于是否有符号，数值范围也有区别，具体的可以从上面的表中得出，如果想看当前系统内的<code>int</code>和<code>Uint</code>对应位数，可以直接在交互模式下输入：
+ ### Int 和 UInt
+ 这两种类型的不同在于是否有符号，数值范围也有区别，具体的可以从上面的表中得出，如果想看当前系统内的<code>Int</code>和<code>UInt</code>对应位数，可以直接在交互模式下输入：
  <pre><code class="language-julia-repl hljs"># 32-bit system:
  <span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Int</span>
  </span>Int32
@@ -530,19 +530,23 @@ julia>
  <span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">UInt</span>
  </span>UInt64</code></pre>
  32位系统和64位系统对应如上.
- **注意：Julia大小写敏感，所以uint和UInt是不同**
+ **注意：Julia大小写敏感，所以uInt和UInt是不同**
  <pre><code>
- julia> uint
- ERROR: UndefVarError: uint not defined
+ julia> uInt
+ ERROR: UndefVarError: uInt not defined
 
- julia> Uint
- ERROR: UndefVarError: Uint not defined
+ julia> UInt
+ ERROR: UndefVarError: UInt not defined
 
  julia> UInt
  UInt64
  </code></pre>
 
-<h3 id="输入类型"><a href="#输入类型" class="headerlink" title="输入类型"></a>输入类型</h3><p> 如果我们的系统是32位系统，所以对应的整数默认类型是<code>Int32</code>那么如果整数值超过了32-bit有符号型整数的范围，在C语言中就会发生溢出，但是在Julia中，系统会自动将超过32-bit的数字转换成64-bit形式（C语言中在代码中定义类型，所以输入可能会溢出，但是Julia中不事先定义变量类型，所以可以自主转换）：<br> <pre><code class="language-julia-repl hljs"># 32-bit or 64-bit system:<br><span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(<span class="hljs-number">3000000000</span>)<br></span>Int64</code></pre></p>
+<h3 id="输入类型"><a href="#输入类型" class="headerlink" title="输入类型"></a>输入类型</h3><p>如果我们的系统是32位系统，所以对应的整数默认类型是<code>Int32</code>那么如果整数值超过了32-bit有符号型整数的范围，在C语言中就会发生溢出，但是在Julia中，系统会自动将超过32-bit的数字转换成64-bit形式（C语言中在代码中定义类型，所以输入可能会溢出，但是Julia中不事先定义变量类型，所以可以自主转换）：</p>
+<pre><code class="language-julia-repl hljs"># 32-bit or 64-bit system:
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(<span class="hljs-number">3000000000</span>)
+</span>Int64</code></pre>
+
 <p>所以Julia中不会出现溢出这种风险。</p>
 <h3 id="16进制-base-16"><a href="#16进制-base-16" class="headerlink" title="16进制(base 16)"></a>16进制(base 16)</h3><p>常用的16进制当然也是支持的，16进制以 <code>0x</code> 开头，使用<code>0-9a-f</code>作为每一位字面值的数字，这里的 <code>a-f</code>与<code>A-F</code>是等价的：</p>
 <pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0x1</span>
@@ -600,7 +604,7 @@ julia>
 <li>二进制的表示方式:<code>0b</code>开头，每一位只能是<code>0-1</code></li>
 <li>二进制的表示方式:<code>0o</code>开头，每一位只能是<code>0-7</code></li>
 </ul>
-<p>与16进制相同2进制和8进制的输入，系统也是按照无符号类型处理的。<br>处理输入的2进制或者8进制的位数时则是选择能保存该数值的最小位数，开头的0将会被省略（这样可以节约内存空间），如果想保存原始位数，那么使用1开头即可。<br>如果输入数字不能被<code>Uint128</code>存储下，那么这个字面值不合法。<br>如果输入的2，8，16进制数字前面有符号，那么将会转换成无符号的对应值存储：</p>
+<p>与16进制相同2进制和8进制的输入，系统也是按照无符号类型处理的。<br>处理输入的2进制或者8进制的位数时则是选择能保存该数值的最小位数，开头的0将会被省略（这样可以节约内存空间），如果想保存原始位数，那么使用1开头即可。<br>如果输入数字不能被<code>UInt128</code>存储下，那么这个字面值不合法。<br>如果输入的2，8，16进制数字前面有符号，那么将会转换成无符号的对应值存储：</p>
 <pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> -<span class="hljs-number">0x2</span>
 </span>0xfe
 
@@ -612,7 +616,7 @@ julia>
 </span>(-2147483648, 2147483647)
 
 <span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-keyword">for</span> T <span class="hljs-keyword">in</span> [<span class="hljs-built_in">Int8</span>,<span class="hljs-built_in">Int16</span>,<span class="hljs-built_in">Int32</span>,<span class="hljs-built_in">Int64</span>,<span class="hljs-built_in">Int128</span>,<span class="hljs-built_in">UInt8</span>,<span class="hljs-built_in">UInt16</span>,<span class="hljs-built_in">UInt32</span>,<span class="hljs-built_in">UInt64</span>,<span class="hljs-built_in">UInt128</span>]
-           println(<span class="hljs-string">"<span class="hljs-subst">$(lpad(T,<span class="hljs-number">7</span>)</span>): [<span class="hljs-subst">$(typemin(T)</span>),<span class="hljs-subst">$(typemax(T)</span>)]"</span>)
+           prIntln(<span class="hljs-string">"<span class="hljs-subst">$(lpad(T,<span class="hljs-number">7</span>)</span>): [<span class="hljs-subst">$(typemin(T)</span>),<span class="hljs-subst">$(typemax(T)</span>)]"</span>)
        <span class="hljs-keyword">end</span>
 </span>   Int8: [-128,127]
   Int16: [-32768,32767]
@@ -625,9 +629,11 @@ julia>
  UInt64: [0,18446744073709551615]
 UInt128: [0,340282366920938463463374607431768211455]</code></pre>
 <code>for</code>是循环控制关键字
-<code>println()</code>是打印函数
+<code>prIntln()</code>是打印函数
 还有一些其他的细节，我们还没有学习，具体的用法我们将在后面介绍。
 **注意：<code>typemin</code>函数,<code>typemax</code>函数只支持已经数值类型**
+
+
 ### 溢出特性
 对于有限位数的数值都会存在溢出的现象，这种现象是由于计算机结构的特性造成的，无法避免，可以当错误看待也可以当特性看待：
 <pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> x = typemax(<span class="hljs-built_in">Int64</span>)
@@ -648,29 +654,29 @@ UInt128: [0,340282366920938463463374607431768211455]</code></pre>
 </ul>
 <pre><code>
 julia> div(100,0)
-<font color="ff0000"><b>ERROR: DivideError: integer division error<b></b></b></font>
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
 Stacktrace:
- [1] div(::Int64, ::Int64) at ./int.jl:232
+ [1] div(::Int64, ::Int64) at ./Int.jl:232
  [2] top-level scope at none:0
 
 julia> div(typemin(Int64),-1)
-<font color="ff0000"><b>ERROR: DivideError: integer division error<b></b></b></font>
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
 Stacktrace:
- [1] div(::Int64, ::Int64) at ./int.jl:232
+ [1] div(::Int64, ::Int64) at ./Int.jl:232
  [2] top-level scope at none:0
 
 julia> mod(20,0)
-<font color="ff0000"><b>ERROR: DivideError: integer division error<b></b></b></font>
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
 Stacktrace:
- [1] div at ./int.jl:232 [inlined]
- [2] fld at ./int.jl:241 [inlined]
- [3] mod(::Int64, ::Int64) at ./int.jl:221
+ [1] div at ./Int.jl:232 [inlined]
+ [2] fld at ./Int.jl:241 [inlined]
+ [3] mod(::Int64, ::Int64) at ./Int.jl:221
  [4] top-level scope at none:0
 
 julia> rem(20,0)
-<font color="ff0000"><b>ERROR: DivideError: integer division error<b></b></b></font>
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
 Stacktrace:
- [1] rem(::Int64, ::Int64) at ./int.jl:233
+ [1] rem(::Int64, ::Int64) at ./Int.jl:233
  [2] top-level scope at none:0
 
 julia>
@@ -680,7 +686,7 @@ julia>
 <p>这里面唯一有问题的就是为什么最小的数字除以<code>-1</code>会出现错误，原因很简单，我们假设我们操作4-bit的有符号数字，那么符号位占一位，我们就有如下表格：<br>|十进制数|符号位+ 二进制绝对值的表示方式|ones’ complement|two’s complement|<br>| — | — | — | — |<br>|+7|0111|表示方式不变|表示方式不变|<br>|+6|0110|表示方式不变|表示方式不变|<br>|+5|0101|表示方式不变|表示方式不变|<br>|+4|0100|表示方式不变|表示方式不变|<br>|+3|0011|表示方式不变|表示方式不变|<br>|+2|0010|表示方式不变|表示方式不变|<br>|+1|0001|表示方式不变|表示方式不变|<br>|+0|0000|表示方式不变|表示方式不变|<br>|-0|1000|1111|(1)0000|<br>|-1|1001|1110|1111|<br>|-2|1010|1101|1110|<br>|-3|1011|1100|1101|<br>|-4|1100|1011|1100|<br>|-5|1101|1010|1011|<br>|-6|1110|1001|1010|<br>|-7|1111|1000|1001|<br>|-8    |超出4个bit所能表达范围|    超出4个表达范围|    1000|</p>
 <p>注：要设计硬件区分符号位，比较绝对值大小。无需设计硬件比较大小，但零存在两种表示方法。<br>较好的解决上述问题<br>。由于零只有一种表达方式，所以，可以比别的方式多表达一个-8.<br>(上表来自百度百科：https://baike.baidu.com/item/补码)<br>由于在操作系统中以补码形式存储有符号数，所以，最小的负数值的绝对值比相应的最大的正数值大1，所以，当他除以-1的时候，结果溢出，故除法抛出错误。</p>
 <hr>
-<p><a href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers" target="_blank" rel="noopener">原文地址: https://face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers</a></p>
+<p><a href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers" target="_blank" rel="noopener">原文地址: https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers</a></p>
 
       
     </div>
