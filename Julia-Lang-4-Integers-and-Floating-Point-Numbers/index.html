@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-03T13:20:23.417Z">
+<meta property="og:updated_time" content="2018-10-03T14:12:26.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Julia】整型和浮点型数字">
 <meta name="twitter:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
@@ -516,31 +516,31 @@ julia> Sys.WORD_SIZE
 
 julia>
 </code></pre>
- ### Int 和 UInt
- 这两种类型的不同在于是否有符号，数值范围也有区别，具体的可以从上面的表中得出，如果想看当前系统内的<code>Int</code>和<code>UInt</code>对应位数，可以直接在交互模式下输入：
- <pre><code class="language-julia-repl hljs"># 32-bit system:
- <span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Int</span>
- </span>Int32
- <span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">UInt</span>
- </span>UInt32
 
- # 64-bit system:
- <span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Int</span>
- </span>Int64
- <span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">UInt</span>
- </span>UInt64</code></pre>
- 32位系统和64位系统对应如上.
- **注意：Julia大小写敏感，所以uInt和UInt是不同**
- <pre><code>
- julia> uInt
- ERROR: UndefVarError: uInt not defined
+<h3 id="Int-和-UInt"><a href="#Int-和-UInt" class="headerlink" title="Int 和 UInt"></a>Int 和 UInt</h3><p>这两种类型的不同在于是否有符号，数值范围也有区别，具体的可以从上面的表中得出，如果想看当前系统内的<code>Int</code>和<code>UInt</code>对应位数，可以直接在交互模式下输入：</p>
+<pre><code class="language-julia-repl hljs"># 32-bit system:
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Int</span>
+</span>Int32
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">UInt</span>
+</span>UInt32
 
- julia> UInt
- ERROR: UndefVarError: UInt not defined
+# 64-bit system:
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Int</span>
+</span>Int64
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">UInt</span>
+</span>UInt64</code></pre>
+32位系统和64位系统对应如上.
+**注意：Julia大小写敏感，所以uInt和UInt是不同**
+<pre><code>
+julia> uInt
+ERROR: UndefVarError: uInt not defined
 
- julia> UInt
- UInt64
- </code></pre>
+julia> UInt
+ERROR: UndefVarError: UInt not defined
+
+julia> UInt
+UInt64
+</code></pre>
 
 <h3 id="输入类型"><a href="#输入类型" class="headerlink" title="输入类型"></a>输入类型</h3><p>如果我们的系统是32位系统，所以对应的整数默认类型是<code>Int32</code>那么如果整数值超过了32-bit有符号型整数的范围，在C语言中就会发生溢出，但是在Julia中，系统会自动将超过32-bit的数字转换成64-bit形式（C语言中在代码中定义类型，所以输入可能会溢出，但是Julia中不事先定义变量类型，所以可以自主转换）：</p>
 <pre><code class="language-julia-repl hljs"># 32-bit or 64-bit system:
@@ -1123,7 +1123,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整型和浮点型数字"><span class="nav-number">1.</span> <span class="nav-text">整型和浮点型数字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整型"><span class="nav-number">1.1.</span> <span class="nav-text">整型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof"><span class="nav-number">1.1.1.</span> <span class="nav-text">typeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入类型"><span class="nav-number">1.1.2.</span> <span class="nav-text">输入类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16进制-base-16"><span class="nav-number">1.1.3.</span> <span class="nav-text">16进制(base 16)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2进制，8进制"><span class="nav-number">1.1.4.</span> <span class="nav-text">2进制，8进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typemin函数-typemax函数"><span class="nav-number">1.1.5.</span> <span class="nav-text">typemin函数,typemax函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#除法错误"><span class="nav-number">1.1.6.</span> <span class="nav-text">除法错误</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整型和浮点型数字"><span class="nav-number">1.</span> <span class="nav-text">整型和浮点型数字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整型"><span class="nav-number">1.1.</span> <span class="nav-text">整型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof"><span class="nav-number">1.1.1.</span> <span class="nav-text">typeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Int-和-UInt"><span class="nav-number">1.1.2.</span> <span class="nav-text">Int 和 UInt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入类型"><span class="nav-number">1.1.3.</span> <span class="nav-text">输入类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16进制-base-16"><span class="nav-number">1.1.4.</span> <span class="nav-text">16进制(base 16)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2进制，8进制"><span class="nav-number">1.1.5.</span> <span class="nav-text">2进制，8进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typemin函数-typemax函数"><span class="nav-number">1.1.6.</span> <span class="nav-text">typemin函数,typemax函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#除法错误"><span class="nav-number">1.1.7.</span> <span class="nav-text">除法错误</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
