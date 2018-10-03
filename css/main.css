@@ -2120,7 +2120,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #95d4ff;
+  background: #bf9;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3076,8 +3076,8 @@ embed {
   margin: 80px 0px 40px 0px;
 }
 a {
-  color: #9cc681;
-  border-bottom-color: #5073b8;
+  color: #109e95;
+  border-bottom-color: #109e95;
 }
 a:hover {
   color: #a166ab;
