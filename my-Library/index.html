@@ -117,7 +117,7 @@
 <meta property="og:description" content="我的书昨天把所有的书收集到一起，从2014年7月至此购买收集的所有的书籍，看的不多，所以内心十分惭愧整理这些书籍，如果靠人工，有点困难，主要是博主确实懒得可以，所以，那么我们就用点技术手段，用python来识别出二维码，然后通过isbn查询豆瓣提供的API，然后将部分信息保存出来。代码如下：123456789101112131415161718192021222324252627282930313">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/my_library/book.jpg">
-<meta property="og:updated_time" content="2018-10-05T09:02:25.269Z">
+<meta property="og:updated_time" content="2018-10-05T09:15:48.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我的书">
 <meta name="twitter:description" content="我的书昨天把所有的书收集到一起，从2014年7月至此购买收集的所有的书籍，看的不多，所以内心十分惭愧整理这些书籍，如果靠人工，有点困难，主要是博主确实懒得可以，所以，那么我们就用点技术手段，用python来识别出二维码，然后通过isbn查询豆瓣提供的API，然后将部分信息保存出来。代码如下：123456789101112131415161718192021222324252627282930313">
@@ -398,7 +398,8 @@
         
           <h1 id="我的书"><a href="#我的书" class="headerlink" title="我的书"></a>我的书</h1><p>昨天把所有的书收集到一起，从2014年7月至此购买收集的所有的书籍，看的不多，所以内心十分惭愧<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/my_library/book.jpg" alt=""><br>整理这些书籍，如果靠人工，有点困难，主要是博主确实懒得可以，所以，那么我们就用点技术手段，用python来识别出二维码，然后通过isbn查询豆瓣提供的API，然后将部分信息保存出来。代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pyzbar <span class="keyword">import</span> pyzbar</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">book_library=<span class="string">'book_math_list.csv'</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">searchBooks</span><span class="params">(keyword=None)</span>:</span></span><br><span class="line">    url = <span class="string">'https://api.douban.com/v2/book/search'</span></span><br><span class="line">    params = &#123;<span class="string">'q'</span>:keyword&#125;</span><br><span class="line">    response = requests.get(url, params=params)</span><br><span class="line">    <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    book_list =  open(book_library,<span class="string">'a'</span>)</span><br><span class="line">    cap = cv2.VideoCapture(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># get a frame</span></span><br><span class="line">        ret, frame = cap.read()</span><br><span class="line">        <span class="keyword">if</span> frame==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="comment"># show a frame</span></span><br><span class="line">        cv2.imshow(<span class="string">"Frame"</span>, frame)</span><br><span class="line">        ch= cv2.waitKey(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> ch &amp; <span class="number">0xFF</span> == ord(<span class="string">'r'</span>):</span><br><span class="line">            <span class="keyword">if</span> len(pyzbar.decode(frame))&gt;=<span class="number">1</span>:</span><br><span class="line">                isbn = pyzbar.decode(frame)[<span class="number">0</span>].data</span><br><span class="line">                <span class="keyword">print</span> isbn</span><br><span class="line">                r = searchBooks(isbn)</span><br><span class="line">                bookResult = r.json()</span><br><span class="line">                count = bookResult[<span class="string">'count'</span>]</span><br><span class="line">                <span class="keyword">for</span> x <span class="keyword">in</span> bookResult[<span class="string">'books'</span>]:</span><br><span class="line">                    title = x[<span class="string">'title'</span>]</span><br><span class="line">                    average = x[<span class="string">'rating'</span>][<span class="string">'average'</span>]</span><br><span class="line">                    numRaters = x[<span class="string">'rating'</span>][<span class="string">'numRaters'</span>]</span><br><span class="line">                    alt = x[<span class="string">'alt'</span>]</span><br><span class="line">                    price = x[<span class="string">'price'</span>]</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'-------------------------------------'</span></span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Title:'</span> + title</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Score:'</span> + str(average)</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Numbers:'</span> + str(numRaters)</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Link:'</span> + alt</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Price:'</span> + price</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'-------------------------------------'</span></span><br><span class="line">                    book_list.write(title.encode(<span class="string">"utf-8"</span>)+<span class="string">','</span>+str(average)+<span class="string">','</span>+str(numRaters)+<span class="string">','</span>+alt.encode(<span class="string">"utf-8"</span>)+<span class="string">','</span>+price.encode(<span class="string">"utf-8"</span>)+<span class="string">','</span>+isbn+<span class="string">';\n'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> ch &amp; <span class="number">0xFF</span> == ord(<span class="string">'q'</span>):</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    cap.release()</span><br><span class="line">    book_list.close()</span><br></pre></td></tr></table></figure></p>
 <p>使用到的工具 <code>zbar</code>，需要单独安装。识别过程如下视频：</p>
-<embed src="http://player.youku.com/player.php/sid/XMzg1MDIzNDQ5Mg==/v.swf" allowfullscreen="true" quality="high" width="640" height="480" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">
+<embed src="http://player.youku.com/player.php/sid/XMzg1MDIzNDQ5Mg==/v.swf" allowfullscreen="true" quality="high" width="480" height="400" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">
+
 
 
 <h2 id="数学书"><a href="#数学书" class="headerlink" title="数学书"></a>数学书</h2><p>通过我们上面的代码，统计了下数学书，结果如下：</p>
@@ -407,516 +408,324 @@
 <tr>
 <th>书名</th>
 <th>豆瓣评分</th>
-<th>number</th>
 <th>豆瓣URL</th>
-<th>价格</th>
-<th>isbn</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>普林斯顿微积分读本（修订版）</td>
 <td>9.8</td>
-<td>119</td>
 <td><a href="https://book.douban.com/subject/26899701/" target="_blank" rel="noopener">https://book.douban.com/subject/26899701/</a></td>
-<td>99</td>
-<td>9787115435590</td>
 </tr>
 <tr>
 <td>傅立叶分析导论</td>
 <td>9.8</td>
-<td>13</td>
 <td><a href="https://book.douban.com/subject/20435906/" target="_blank" rel="noopener">https://book.douban.com/subject/20435906/</a></td>
-<td>59</td>
-<td>9787510040559</td>
 </tr>
 <tr>
 <td>吉米多维奇数学分析习题集学习指引（第2册）</td>
 <td>9.7</td>
-<td>14</td>
 <td><a href="https://book.douban.com/subject/6394944/" target="_blank" rel="noopener">https://book.douban.com/subject/6394944/</a></td>
-<td>39</td>
-<td>9787040323566</td>
 </tr>
 <tr>
 <td>具体数学</td>
 <td>9.6</td>
-<td>223</td>
 <td><a href="https://book.douban.com/subject/21323941/" target="_blank" rel="noopener">https://book.douban.com/subject/21323941/</a></td>
-<td>99</td>
-<td>9787115308108</td>
 </tr>
 <tr>
 <td>概率统计</td>
 <td>9.6</td>
-<td>19</td>
 <td><a href="https://book.douban.com/subject/10827481/" target="_blank" rel="noopener">https://book.douban.com/subject/10827481/</a></td>
-<td>139</td>
-<td>9787111387756</td>
 </tr>
 <tr>
 <td>概率论教程</td>
 <td>9.5</td>
-<td>46</td>
 <td><a href="https://book.douban.com/subject/4818683/" target="_blank" rel="noopener">https://book.douban.com/subject/4818683/</a></td>
-<td>49</td>
-<td>9787111302896</td>
 </tr>
 <tr>
 <td>数学分析习题课讲义（上册）</td>
 <td>9.5</td>
-<td>178</td>
 <td><a href="https://book.douban.com/subject/1230275/" target="_blank" rel="noopener">https://book.douban.com/subject/1230275/</a></td>
-<td>35.5</td>
-<td>9787040119220</td>
 </tr>
 <tr>
 <td>数学分析习题集</td>
 <td>9.5</td>
-<td>87</td>
 <td><a href="https://book.douban.com/subject/4902598/" target="_blank" rel="noopener">https://book.douban.com/subject/4902598/</a></td>
-<td>29</td>
-<td>9787040254396</td>
 </tr>
 <tr>
 <td>泛函分析</td>
 <td>9.5</td>
-<td>14</td>
 <td><a href="https://book.douban.com/subject/20381299/" target="_blank" rel="noopener">https://book.douban.com/subject/20381299/</a></td>
-<td>69</td>
-<td>9787510050350</td>
 </tr>
 <tr>
 <td>概率论与数理统计</td>
 <td>9.4</td>
-<td>539</td>
 <td><a href="https://book.douban.com/subject/2201479/" target="_blank" rel="noopener">https://book.douban.com/subject/2201479/</a></td>
-<td>38</td>
-<td>9787312018381</td>
 </tr>
 <tr>
 <td>陶哲轩实分析</td>
 <td>9.4</td>
-<td>439</td>
 <td><a href="https://book.douban.com/subject/3235486/" target="_blank" rel="noopener">https://book.douban.com/subject/3235486/</a></td>
-<td>69</td>
-<td>9787115186935</td>
 </tr>
 <tr>
 <td>数学分析习题课讲义（下册）</td>
 <td>9.4</td>
-<td>105</td>
 <td><a href="https://book.douban.com/subject/1160359/" target="_blank" rel="noopener">https://book.douban.com/subject/1160359/</a></td>
-<td>33.9</td>
-<td>9787040129410</td>
 </tr>
 <tr>
 <td>数学分析新讲（第三册）</td>
 <td>9.3</td>
-<td>222</td>
 <td><a href="https://book.douban.com/subject/1122660/" target="_blank" rel="noopener">https://book.douban.com/subject/1122660/</a></td>
-<td>24</td>
-<td>9787301015773</td>
 </tr>
 <tr>
 <td>概率论及其应用（卷1•第3版）</td>
 <td>9.3</td>
-<td>19</td>
 <td><a href="https://book.douban.com/subject/25794324/" target="_blank" rel="noopener">https://book.douban.com/subject/25794324/</a></td>
-<td>69</td>
-<td>9787115336675</td>
 </tr>
 <tr>
 <td>数理统计学教程</td>
 <td>9.3</td>
-<td>94</td>
 <td><a href="https://book.douban.com/subject/3996242/" target="_blank" rel="noopener">https://book.douban.com/subject/3996242/</a></td>
-<td>38</td>
-<td>9787312022821</td>
 </tr>
 <tr>
 <td>高观点下的初等数学</td>
 <td>9.2</td>
-<td>507</td>
 <td><a href="https://book.douban.com/subject/3249247/" target="_blank" rel="noopener">https://book.douban.com/subject/3249247/</a></td>
-<td>68</td>
-<td>9787309059823</td>
 </tr>
 <tr>
 <td>数学分析新讲（第二册）</td>
 <td>9.2</td>
-<td>258</td>
 <td><a href="https://book.douban.com/subject/1130384/" target="_blank" rel="noopener">https://book.douban.com/subject/1130384/</a></td>
-<td>20</td>
-<td>9787301012284</td>
 </tr>
 <tr>
 <td>数学分析八讲（修订版）</td>
 <td>9.2</td>
-<td>13</td>
 <td><a href="https://book.douban.com/subject/26593890/" target="_blank" rel="noopener">https://book.douban.com/subject/26593890/</a></td>
-<td>29</td>
-<td>9787115397478</td>
 </tr>
 <tr>
 <td>数学分析新讲（第1册）</td>
 <td>9.1</td>
-<td>460</td>
 <td><a href="https://book.douban.com/subject/1130381/" target="_blank" rel="noopener">https://book.douban.com/subject/1130381/</a></td>
-<td>18</td>
-<td>9787301008461</td>
 </tr>
 <tr>
 <td>数学分析原理</td>
 <td>9.1</td>
-<td>331</td>
 <td><a href="https://book.douban.com/subject/1230288/" target="_blank" rel="noopener">https://book.douban.com/subject/1230288/</a></td>
-<td>28</td>
-<td>9787111134176</td>
 </tr>
 <tr>
 <td>概率导论</td>
 <td>9.1</td>
-<td>41</td>
 <td><a href="https://book.douban.com/subject/26694188/" target="_blank" rel="noopener">https://book.douban.com/subject/26694188/</a></td>
-<td>79</td>
-<td>9787115405074</td>
 </tr>
 <tr>
 <td>数学分析中的典型问题与方法</td>
 <td>9</td>
-<td>303</td>
 <td><a href="https://book.douban.com/subject/1813616/" target="_blank" rel="noopener">https://book.douban.com/subject/1813616/</a></td>
-<td>56.8</td>
-<td>9787040184549</td>
 </tr>
 <tr>
 <td>初等概率论（第4版）</td>
 <td>9</td>
-<td>59</td>
 <td><a href="https://book.douban.com/subject/4619399/" target="_blank" rel="noopener">https://book.douban.com/subject/4619399/</a></td>
-<td>45</td>
-<td>9787510004629</td>
 </tr>
 <tr>
 <td>线性代数</td>
 <td>9</td>
-<td>37</td>
 <td><a href="https://book.douban.com/subject/5276440/" target="_blank" rel="noopener">https://book.douban.com/subject/5276440/</a></td>
-<td>65</td>
-<td>9787111313441</td>
 </tr>
 <tr>
 <td>线性代数及其应用（原书第4版）</td>
 <td>9</td>
-<td>22</td>
 <td><a href="https://book.douban.com/subject/27014881/" target="_blank" rel="noopener">https://book.douban.com/subject/27014881/</a></td>
-<td>79</td>
-<td>9787111559788</td>
 </tr>
 <tr>
 <td>高等数理统计学</td>
 <td>8.9</td>
-<td>21</td>
 <td><a href="https://book.douban.com/subject/4102672/" target="_blank" rel="noopener">https://book.douban.com/subject/4102672/</a></td>
-<td>58</td>
-<td>9787312022814</td>
 </tr>
 <tr>
 <td>数学之美 （第二版）</td>
 <td>8.9</td>
-<td>2163</td>
 <td><a href="https://book.douban.com/subject/26163454/" target="_blank" rel="noopener">https://book.douban.com/subject/26163454/</a></td>
-<td>49</td>
-<td>9787115373557</td>
 </tr>
 <tr>
 <td>小波与傅里叶分析基础</td>
 <td>8.9</td>
-<td>20</td>
 <td><a href="https://book.douban.com/subject/4705969/" target="_blank" rel="noopener">https://book.douban.com/subject/4705969/</a></td>
-<td>39</td>
-<td>9787121101779</td>
 </tr>
 <tr>
 <td>拓扑学</td>
 <td>8.9</td>
-<td>164</td>
 <td><a href="https://book.douban.com/subject/1801389/" target="_blank" rel="noopener">https://book.douban.com/subject/1801389/</a></td>
-<td>58</td>
-<td>9787111175070</td>
 </tr>
 <tr>
 <td>线性代数应该这样学</td>
 <td>8.8</td>
-<td>47</td>
 <td><a href="https://book.douban.com/subject/26886299/" target="_blank" rel="noopener">https://book.douban.com/subject/26886299/</a></td>
-<td>49</td>
-<td>9787115431783</td>
 </tr>
 <tr>
 <td>最优化理论与方法</td>
 <td>8.7</td>
-<td>43</td>
 <td><a href="https://book.douban.com/subject/1230338/" target="_blank" rel="noopener">https://book.douban.com/subject/1230338/</a></td>
-<td>38</td>
-<td>9787030054135</td>
 </tr>
 <tr>
 <td>微积分之屠龙宝刀</td>
 <td>8.7</td>
-<td>127</td>
 <td><a href="https://book.douban.com/subject/4897351/" target="_blank" rel="noopener">https://book.douban.com/subject/4897351/</a></td>
-<td>28</td>
-<td>9787535761927</td>
 </tr>
 <tr>
 <td>程序员的数学3</td>
 <td>8.7</td>
-<td>94</td>
 <td><a href="https://book.douban.com/subject/26740548/" target="_blank" rel="noopener">https://book.douban.com/subject/26740548/</a></td>
-<td>79</td>
-<td>9787115417749</td>
 </tr>
 <tr>
 <td>程序员的数学2</td>
 <td>8.6</td>
-<td>105</td>
 <td><a href="https://book.douban.com/subject/26593822/" target="_blank" rel="noopener">https://book.douban.com/subject/26593822/</a></td>
-<td>79</td>
-<td>9787115400512</td>
 </tr>
 <tr>
 <td>集合论</td>
 <td>8.6</td>
-<td>15</td>
 <td><a href="https://book.douban.com/subject/2187552/" target="_blank" rel="noopener">https://book.douban.com/subject/2187552/</a></td>
-<td>78</td>
-<td>9787506282321</td>
 </tr>
 <tr>
 <td>数学分析解题指南</td>
 <td>8.5</td>
-<td>192</td>
 <td><a href="https://book.douban.com/subject/1239173/" target="_blank" rel="noopener">https://book.douban.com/subject/1239173/</a></td>
-<td>20</td>
-<td>9787301065501</td>
 </tr>
 <tr>
 <td>吉米多维奇数学分析习题集学习指引（第1册）</td>
 <td>8.5</td>
-<td>29</td>
 <td><a href="https://book.douban.com/subject/4902599/" target="_blank" rel="noopener">https://book.douban.com/subject/4902599/</a></td>
-<td>39</td>
-<td>9787040295313</td>
 </tr>
 <tr>
 <td>微积分之倚天宝剑</td>
 <td>8.4</td>
-<td>73</td>
 <td><a href="https://book.douban.com/subject/4897350/" target="_blank" rel="noopener">https://book.douban.com/subject/4897350/</a></td>
-<td>32</td>
-<td>9787535761910</td>
 </tr>
 <tr>
 <td>贝叶斯方法</td>
 <td>8.4</td>
-<td>27</td>
 <td><a href="https://book.douban.com/subject/26929874/" target="_blank" rel="noopener">https://book.douban.com/subject/26929874/</a></td>
-<td>59</td>
-<td>9787115438805</td>
 </tr>
 <tr>
 <td>7天搞定微积分</td>
 <td>8.2</td>
-<td>20</td>
 <td><a href="https://book.douban.com/subject/25799160/" target="_blank" rel="noopener">https://book.douban.com/subject/25799160/</a></td>
-<td>36</td>
-<td>9787544268332</td>
 </tr>
 <tr>
 <td>离散数学及其应用（原书第6版·本科教学版）</td>
 <td>8.2</td>
-<td>29</td>
 <td><a href="https://book.douban.com/subject/6891958/" target="_blank" rel="noopener">https://book.douban.com/subject/6891958/</a></td>
-<td>49</td>
-<td>9787111359500</td>
 </tr>
 <tr>
 <td>数理统计引论</td>
 <td>7.9</td>
-<td>11</td>
 <td><a href="https://book.douban.com/subject/1553742/" target="_blank" rel="noopener">https://book.douban.com/subject/1553742/</a></td>
-<td>85</td>
-<td>9787030060471</td>
 </tr>
 <tr>
 <td>随机过程论</td>
 <td>7.9</td>
-<td>14</td>
 <td><a href="https://book.douban.com/subject/3009891/" target="_blank" rel="noopener">https://book.douban.com/subject/3009891/</a></td>
-<td>49</td>
-<td>9787040223590</td>
 </tr>
 <tr>
 <td>常微分方程教程</td>
 <td>7.5</td>
-<td>296</td>
 <td><a href="https://book.douban.com/subject/1191930/" target="_blank" rel="noopener">https://book.douban.com/subject/1191930/</a></td>
-<td>18.5</td>
-<td>9787040143690</td>
 </tr>
 <tr>
 <td>常微分方程</td>
 <td>7.4</td>
-<td>193</td>
 <td><a href="https://book.douban.com/subject/1954348/" target="_blank" rel="noopener">https://book.douban.com/subject/1954348/</a></td>
-<td>19.3</td>
-<td>9787040193664</td>
 </tr>
 <tr>
 <td>程序员的数学</td>
 <td>7.2</td>
-<td>846</td>
 <td><a href="https://book.douban.com/subject/19949020/" target="_blank" rel="noopener">https://book.douban.com/subject/19949020/</a></td>
-<td>49</td>
-<td>9787115293688</td>
 </tr>
 <tr>
 <td>随机过程</td>
 <td>6.9</td>
-<td>10</td>
 <td><a href="https://book.douban.com/subject/1230228/" target="_blank" rel="noopener">https://book.douban.com/subject/1230228/</a></td>
-<td>13</td>
-<td>9787560500515</td>
 </tr>
 <tr>
 <td>多微积分</td>
 <td>0</td>
-<td>3</td>
 <td><a href="https://book.douban.com/subject/10749416/" target="_blank" rel="noopener">https://book.douban.com/subject/10749416/</a></td>
-<td>79</td>
-<td>9787510044076</td>
 </tr>
 <tr>
 <td>随机过程</td>
 <td>0</td>
-<td>1</td>
 <td><a href="https://book.douban.com/subject/4012409/" target="_blank" rel="noopener">https://book.douban.com/subject/4012409/</a></td>
-<td>36</td>
-<td>9787115201195</td>
 </tr>
 <tr>
 <td>线性与非线性泛函分析及其应用(上)/法兰西数学精品译丛</td>
 <td>0</td>
-<td>2</td>
 <td><a href="https://book.douban.com/subject/27095662/" target="_blank" rel="noopener">https://book.douban.com/subject/27095662/</a></td>
-<td>89</td>
-<td>9787040477481</td>
 </tr>
 <tr>
 <td>实分析</td>
 <td>0</td>
-<td>5</td>
 <td><a href="https://book.douban.com/subject/20430402/" target="_blank" rel="noopener">https://book.douban.com/subject/20430402/</a></td>
-<td>59</td>
-<td>9787510040535</td>
 </tr>
 <tr>
 <td>分析入门</td>
 <td>0</td>
-<td>2</td>
 <td><a href="https://book.douban.com/subject/3270462/" target="_blank" rel="noopener">https://book.douban.com/subject/3270462/</a></td>
-<td>39</td>
-<td>9787506292795</td>
 </tr>
 <tr>
 <td>Applied Multivariate Statistical Analysis</td>
 <td>0</td>
-<td>0</td>
 <td><a href="https://book.douban.com/subject/26725358/" target="_blank" rel="noopener">https://book.douban.com/subject/26725358/</a></td>
-<td></td>
-<td>9781292024943</td>
 </tr>
 <tr>
 <td>应用随机过程</td>
 <td>0</td>
-<td>8</td>
 <td><a href="https://book.douban.com/subject/26761202/" target="_blank" rel="noopener">https://book.douban.com/subject/26761202/</a></td>
-<td>99</td>
-<td>9787115404305</td>
 </tr>
 <tr>
 <td>国外优秀数学教材系列</td>
 <td>0</td>
-<td>3</td>
 <td><a href="https://book.douban.com/subject/26413148/" target="_blank" rel="noopener">https://book.douban.com/subject/26413148/</a></td>
-<td>128</td>
-<td>9787111474425</td>
 </tr>
 <tr>
 <td>数值分析</td>
 <td>0</td>
-<td>8</td>
 <td><a href="https://book.douban.com/subject/26600495/" target="_blank" rel="noopener">https://book.douban.com/subject/26600495/</a></td>
-<td>99</td>
-<td>9787111480136</td>
 </tr>
 <tr>
 <td>数值计算方法及其应用</td>
 <td>0</td>
-<td>0</td>
 <td><a href="https://book.douban.com/subject/1707061/" target="_blank" rel="noopener">https://book.douban.com/subject/1707061/</a></td>
-<td>32</td>
-<td>9787030165039</td>
 </tr>
 <tr>
 <td>矩阵分析(原书第2版)</td>
 <td>0</td>
-<td>0</td>
 <td><a href="https://book.douban.com/subject/26594325/" target="_blank" rel="noopener">https://book.douban.com/subject/26594325/</a></td>
-<td>91.4</td>
-<td>9787111477549</td>
 </tr>
 <tr>
 <td>矩阵论</td>
 <td>0</td>
-<td>2</td>
 <td><a href="https://book.douban.com/subject/25913537/" target="_blank" rel="noopener">https://book.douban.com/subject/25913537/</a></td>
-<td>48</td>
-<td>9787302332695</td>
 </tr>
 <tr>
 <td>矩阵论千题习题详解</td>
 <td>0</td>
-<td>1</td>
 <td><a href="https://book.douban.com/subject/26911442/" target="_blank" rel="noopener">https://book.douban.com/subject/26911442/</a></td>
-<td>45</td>
-<td>9787302392743</td>
 </tr>
 <tr>
 <td>贝叶斯可靠性</td>
 <td>0</td>
-<td>0</td>
 <td><a href="https://book.douban.com/subject/26108257/" target="_blank" rel="noopener">https://book.douban.com/subject/26108257/</a></td>
-<td></td>
-<td>9787118093018</td>
 </tr>
 <tr>
 <td>复分析</td>
 <td>0</td>
-<td>6</td>
 <td><a href="https://book.douban.com/subject/20432851/" target="_blank" rel="noopener">https://book.douban.com/subject/20432851/</a></td>
-<td>59</td>
-<td>9787510040542</td>
 </tr>
 <tr>
 <td>概率、随机变量与随机过程</td>
 <td>0</td>
-<td>3</td>
 <td><a href="https://book.douban.com/subject/15994890/" target="_blank" rel="noopener">https://book.douban.com/subject/15994890/</a></td>
-<td>82</td>
-<td>9787560544588</td>
 </tr>
 </tbody>
 </table>
