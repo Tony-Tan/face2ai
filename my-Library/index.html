@@ -117,7 +117,7 @@
 <meta property="og:description" content="我的书昨天把所有的书收集到一起，从2014年7月至此购买收集的所有的书籍，看的不多，所以内心十分惭愧整理这些书籍，如果靠人工，有点困难，主要是博主确实懒得可以，所以，那么我们就用点技术手段，用python来识别出二维码，然后通过isbn查询豆瓣提供的API，然后将部分信息保存出来。代码如下：123456789101112131415161718192021222324252627282930313">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/my_library/book.jpg">
-<meta property="og:updated_time" content="2018-10-05T10:36:29.230Z">
+<meta property="og:updated_time" content="2018-10-06T02:22:03.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我的书">
 <meta name="twitter:description" content="我的书昨天把所有的书收集到一起，从2014年7月至此购买收集的所有的书籍，看的不多，所以内心十分惭愧整理这些书籍，如果靠人工，有点困难，主要是博主确实懒得可以，所以，那么我们就用点技术手段，用python来识别出二维码，然后通过isbn查询豆瓣提供的API，然后将部分信息保存出来。代码如下：123456789101112131415161718192021222324252627282930313">
@@ -404,331 +404,557 @@
 <table>
 <thead>
 <tr>
-<th>书名</th>
-<th>豆瓣评分</th>
-<th>豆瓣URL</th>
+<th style="text-align:center">书名</th>
+<th style="text-align:center">豆瓣评分</th>
+<th style="text-align:center">豆瓣URL</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>普林斯顿微积分读本（修订版）</td>
-<td>9.8</td>
-<td><a href="https://book.douban.com/subject/26899701/" target="_blank" rel="noopener">https://book.douban.com/subject/26899701/</a></td>
+<td style="text-align:center">普林斯顿微积分读本（修订版）</td>
+<td style="text-align:center">9.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26899701/" target="_blank" rel="noopener">https://book.douban.com/subject/26899701/</a></td>
 </tr>
 <tr>
-<td>傅立叶分析导论</td>
-<td>9.8</td>
-<td><a href="https://book.douban.com/subject/20435906/" target="_blank" rel="noopener">https://book.douban.com/subject/20435906/</a></td>
+<td style="text-align:center">傅立叶分析导论</td>
+<td style="text-align:center">9.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20435906/" target="_blank" rel="noopener">https://book.douban.com/subject/20435906/</a></td>
 </tr>
 <tr>
-<td>吉米多维奇数学分析习题集学习指引（第2册）</td>
-<td>9.7</td>
-<td><a href="https://book.douban.com/subject/6394944/" target="_blank" rel="noopener">https://book.douban.com/subject/6394944/</a></td>
+<td style="text-align:center">吉米多维奇数学分析习题集学习指引（第2册）</td>
+<td style="text-align:center">9.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6394944/" target="_blank" rel="noopener">https://book.douban.com/subject/6394944/</a></td>
 </tr>
 <tr>
-<td>具体数学</td>
-<td>9.6</td>
-<td><a href="https://book.douban.com/subject/21323941/" target="_blank" rel="noopener">https://book.douban.com/subject/21323941/</a></td>
+<td style="text-align:center">具体数学</td>
+<td style="text-align:center">9.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/21323941/" target="_blank" rel="noopener">https://book.douban.com/subject/21323941/</a></td>
 </tr>
 <tr>
-<td>概率统计</td>
-<td>9.6</td>
-<td><a href="https://book.douban.com/subject/10827481/" target="_blank" rel="noopener">https://book.douban.com/subject/10827481/</a></td>
+<td style="text-align:center">概率统计</td>
+<td style="text-align:center">9.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10827481/" target="_blank" rel="noopener">https://book.douban.com/subject/10827481/</a></td>
 </tr>
 <tr>
-<td>概率论教程</td>
-<td>9.5</td>
-<td><a href="https://book.douban.com/subject/4818683/" target="_blank" rel="noopener">https://book.douban.com/subject/4818683/</a></td>
+<td style="text-align:center">概率论教程</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4818683/" target="_blank" rel="noopener">https://book.douban.com/subject/4818683/</a></td>
 </tr>
 <tr>
-<td>数学分析习题课讲义（上册）</td>
-<td>9.5</td>
-<td><a href="https://book.douban.com/subject/1230275/" target="_blank" rel="noopener">https://book.douban.com/subject/1230275/</a></td>
+<td style="text-align:center">数学分析习题课讲义（上册）</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230275/" target="_blank" rel="noopener">https://book.douban.com/subject/1230275/</a></td>
 </tr>
 <tr>
-<td>数学分析习题集</td>
-<td>9.5</td>
-<td><a href="https://book.douban.com/subject/4902598/" target="_blank" rel="noopener">https://book.douban.com/subject/4902598/</a></td>
+<td style="text-align:center">数学分析习题集</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4902598/" target="_blank" rel="noopener">https://book.douban.com/subject/4902598/</a></td>
 </tr>
 <tr>
-<td>泛函分析</td>
-<td>9.5</td>
-<td><a href="https://book.douban.com/subject/20381299/" target="_blank" rel="noopener">https://book.douban.com/subject/20381299/</a></td>
+<td style="text-align:center">泛函分析</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20381299/" target="_blank" rel="noopener">https://book.douban.com/subject/20381299/</a></td>
 </tr>
 <tr>
-<td>概率论与数理统计</td>
-<td>9.4</td>
-<td><a href="https://book.douban.com/subject/2201479/" target="_blank" rel="noopener">https://book.douban.com/subject/2201479/</a></td>
+<td style="text-align:center">概率论与数理统计</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2201479/" target="_blank" rel="noopener">https://book.douban.com/subject/2201479/</a></td>
 </tr>
 <tr>
-<td>陶哲轩实分析</td>
-<td>9.4</td>
-<td><a href="https://book.douban.com/subject/3235486/" target="_blank" rel="noopener">https://book.douban.com/subject/3235486/</a></td>
+<td style="text-align:center">陶哲轩实分析</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3235486/" target="_blank" rel="noopener">https://book.douban.com/subject/3235486/</a></td>
 </tr>
 <tr>
-<td>数学分析习题课讲义（下册）</td>
-<td>9.4</td>
-<td><a href="https://book.douban.com/subject/1160359/" target="_blank" rel="noopener">https://book.douban.com/subject/1160359/</a></td>
+<td style="text-align:center">数学分析习题课讲义（下册）</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1160359/" target="_blank" rel="noopener">https://book.douban.com/subject/1160359/</a></td>
 </tr>
 <tr>
-<td>数学分析新讲（第三册）</td>
-<td>9.3</td>
-<td><a href="https://book.douban.com/subject/1122660/" target="_blank" rel="noopener">https://book.douban.com/subject/1122660/</a></td>
+<td style="text-align:center">数学分析新讲（第三册）</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1122660/" target="_blank" rel="noopener">https://book.douban.com/subject/1122660/</a></td>
 </tr>
 <tr>
-<td>概率论及其应用（卷1•第3版）</td>
-<td>9.3</td>
-<td><a href="https://book.douban.com/subject/25794324/" target="_blank" rel="noopener">https://book.douban.com/subject/25794324/</a></td>
+<td style="text-align:center">概率论及其应用（卷1•第3版）</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25794324/" target="_blank" rel="noopener">https://book.douban.com/subject/25794324/</a></td>
 </tr>
 <tr>
-<td>数理统计学教程</td>
-<td>9.3</td>
-<td><a href="https://book.douban.com/subject/3996242/" target="_blank" rel="noopener">https://book.douban.com/subject/3996242/</a></td>
+<td style="text-align:center">数理统计学教程</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3996242/" target="_blank" rel="noopener">https://book.douban.com/subject/3996242/</a></td>
 </tr>
 <tr>
-<td>高观点下的初等数学</td>
-<td>9.2</td>
-<td><a href="https://book.douban.com/subject/3249247/" target="_blank" rel="noopener">https://book.douban.com/subject/3249247/</a></td>
+<td style="text-align:center">高观点下的初等数学</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3249247/" target="_blank" rel="noopener">https://book.douban.com/subject/3249247/</a></td>
 </tr>
 <tr>
-<td>数学分析新讲（第二册）</td>
-<td>9.2</td>
-<td><a href="https://book.douban.com/subject/1130384/" target="_blank" rel="noopener">https://book.douban.com/subject/1130384/</a></td>
+<td style="text-align:center">数学分析新讲（第二册）</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1130384/" target="_blank" rel="noopener">https://book.douban.com/subject/1130384/</a></td>
 </tr>
 <tr>
-<td>数学分析八讲（修订版）</td>
-<td>9.2</td>
-<td><a href="https://book.douban.com/subject/26593890/" target="_blank" rel="noopener">https://book.douban.com/subject/26593890/</a></td>
+<td style="text-align:center">数学分析八讲（修订版）</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26593890/" target="_blank" rel="noopener">https://book.douban.com/subject/26593890/</a></td>
 </tr>
 <tr>
-<td>数学分析新讲（第1册）</td>
-<td>9.1</td>
-<td><a href="https://book.douban.com/subject/1130381/" target="_blank" rel="noopener">https://book.douban.com/subject/1130381/</a></td>
+<td style="text-align:center">数学分析新讲（第1册）</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1130381/" target="_blank" rel="noopener">https://book.douban.com/subject/1130381/</a></td>
 </tr>
 <tr>
-<td>数学分析原理</td>
-<td>9.1</td>
-<td><a href="https://book.douban.com/subject/1230288/" target="_blank" rel="noopener">https://book.douban.com/subject/1230288/</a></td>
+<td style="text-align:center">数学分析原理</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230288/" target="_blank" rel="noopener">https://book.douban.com/subject/1230288/</a></td>
 </tr>
 <tr>
-<td>概率导论</td>
-<td>9.1</td>
-<td><a href="https://book.douban.com/subject/26694188/" target="_blank" rel="noopener">https://book.douban.com/subject/26694188/</a></td>
+<td style="text-align:center">概率导论</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26694188/" target="_blank" rel="noopener">https://book.douban.com/subject/26694188/</a></td>
 </tr>
 <tr>
-<td>数学分析中的典型问题与方法</td>
-<td>9</td>
-<td><a href="https://book.douban.com/subject/1813616/" target="_blank" rel="noopener">https://book.douban.com/subject/1813616/</a></td>
+<td style="text-align:center">数学分析中的典型问题与方法</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1813616/" target="_blank" rel="noopener">https://book.douban.com/subject/1813616/</a></td>
 </tr>
 <tr>
-<td>初等概率论（第4版）</td>
-<td>9</td>
-<td><a href="https://book.douban.com/subject/4619399/" target="_blank" rel="noopener">https://book.douban.com/subject/4619399/</a></td>
+<td style="text-align:center">初等概率论（第4版）</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4619399/" target="_blank" rel="noopener">https://book.douban.com/subject/4619399/</a></td>
 </tr>
 <tr>
-<td>线性代数</td>
-<td>9</td>
-<td><a href="https://book.douban.com/subject/5276440/" target="_blank" rel="noopener">https://book.douban.com/subject/5276440/</a></td>
+<td style="text-align:center">线性代数</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5276440/" target="_blank" rel="noopener">https://book.douban.com/subject/5276440/</a></td>
 </tr>
 <tr>
-<td>线性代数及其应用（原书第4版）</td>
-<td>9</td>
-<td><a href="https://book.douban.com/subject/27014881/" target="_blank" rel="noopener">https://book.douban.com/subject/27014881/</a></td>
+<td style="text-align:center">线性代数及其应用（原书第4版）</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27014881/" target="_blank" rel="noopener">https://book.douban.com/subject/27014881/</a></td>
 </tr>
 <tr>
-<td>高等数理统计学</td>
-<td>8.9</td>
-<td><a href="https://book.douban.com/subject/4102672/" target="_blank" rel="noopener">https://book.douban.com/subject/4102672/</a></td>
+<td style="text-align:center">高等数理统计学</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4102672/" target="_blank" rel="noopener">https://book.douban.com/subject/4102672/</a></td>
 </tr>
 <tr>
-<td>数学之美 （第二版）</td>
-<td>8.9</td>
-<td><a href="https://book.douban.com/subject/26163454/" target="_blank" rel="noopener">https://book.douban.com/subject/26163454/</a></td>
+<td style="text-align:center">数学之美 （第二版）</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26163454/" target="_blank" rel="noopener">https://book.douban.com/subject/26163454/</a></td>
 </tr>
 <tr>
-<td>小波与傅里叶分析基础</td>
-<td>8.9</td>
-<td><a href="https://book.douban.com/subject/4705969/" target="_blank" rel="noopener">https://book.douban.com/subject/4705969/</a></td>
+<td style="text-align:center">小波与傅里叶分析基础</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4705969/" target="_blank" rel="noopener">https://book.douban.com/subject/4705969/</a></td>
 </tr>
 <tr>
-<td>拓扑学</td>
-<td>8.9</td>
-<td><a href="https://book.douban.com/subject/1801389/" target="_blank" rel="noopener">https://book.douban.com/subject/1801389/</a></td>
+<td style="text-align:center">拓扑学</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1801389/" target="_blank" rel="noopener">https://book.douban.com/subject/1801389/</a></td>
 </tr>
 <tr>
-<td>线性代数应该这样学</td>
-<td>8.8</td>
-<td><a href="https://book.douban.com/subject/26886299/" target="_blank" rel="noopener">https://book.douban.com/subject/26886299/</a></td>
+<td style="text-align:center">线性代数应该这样学</td>
+<td style="text-align:center">8.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26886299/" target="_blank" rel="noopener">https://book.douban.com/subject/26886299/</a></td>
 </tr>
 <tr>
-<td>最优化理论与方法</td>
-<td>8.7</td>
-<td><a href="https://book.douban.com/subject/1230338/" target="_blank" rel="noopener">https://book.douban.com/subject/1230338/</a></td>
+<td style="text-align:center">最优化理论与方法</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230338/" target="_blank" rel="noopener">https://book.douban.com/subject/1230338/</a></td>
 </tr>
 <tr>
-<td>微积分之屠龙宝刀</td>
-<td>8.7</td>
-<td><a href="https://book.douban.com/subject/4897351/" target="_blank" rel="noopener">https://book.douban.com/subject/4897351/</a></td>
+<td style="text-align:center">微积分之屠龙宝刀</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4897351/" target="_blank" rel="noopener">https://book.douban.com/subject/4897351/</a></td>
 </tr>
 <tr>
-<td>程序员的数学3</td>
-<td>8.7</td>
-<td><a href="https://book.douban.com/subject/26740548/" target="_blank" rel="noopener">https://book.douban.com/subject/26740548/</a></td>
+<td style="text-align:center">程序员的数学3</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26740548/" target="_blank" rel="noopener">https://book.douban.com/subject/26740548/</a></td>
 </tr>
 <tr>
-<td>程序员的数学2</td>
-<td>8.6</td>
-<td><a href="https://book.douban.com/subject/26593822/" target="_blank" rel="noopener">https://book.douban.com/subject/26593822/</a></td>
+<td style="text-align:center">程序员的数学2</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26593822/" target="_blank" rel="noopener">https://book.douban.com/subject/26593822/</a></td>
 </tr>
 <tr>
-<td>集合论</td>
-<td>8.6</td>
-<td><a href="https://book.douban.com/subject/2187552/" target="_blank" rel="noopener">https://book.douban.com/subject/2187552/</a></td>
+<td style="text-align:center">集合论</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2187552/" target="_blank" rel="noopener">https://book.douban.com/subject/2187552/</a></td>
 </tr>
 <tr>
-<td>数学分析解题指南</td>
-<td>8.5</td>
-<td><a href="https://book.douban.com/subject/1239173/" target="_blank" rel="noopener">https://book.douban.com/subject/1239173/</a></td>
+<td style="text-align:center">数学分析解题指南</td>
+<td style="text-align:center">8.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1239173/" target="_blank" rel="noopener">https://book.douban.com/subject/1239173/</a></td>
 </tr>
 <tr>
-<td>吉米多维奇数学分析习题集学习指引（第1册）</td>
-<td>8.5</td>
-<td><a href="https://book.douban.com/subject/4902599/" target="_blank" rel="noopener">https://book.douban.com/subject/4902599/</a></td>
+<td style="text-align:center">吉米多维奇数学分析习题集学习指引（第1册）</td>
+<td style="text-align:center">8.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4902599/" target="_blank" rel="noopener">https://book.douban.com/subject/4902599/</a></td>
 </tr>
 <tr>
-<td>微积分之倚天宝剑</td>
-<td>8.4</td>
-<td><a href="https://book.douban.com/subject/4897350/" target="_blank" rel="noopener">https://book.douban.com/subject/4897350/</a></td>
+<td style="text-align:center">微积分之倚天宝剑</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4897350/" target="_blank" rel="noopener">https://book.douban.com/subject/4897350/</a></td>
 </tr>
 <tr>
-<td>贝叶斯方法</td>
-<td>8.4</td>
-<td><a href="https://book.douban.com/subject/26929874/" target="_blank" rel="noopener">https://book.douban.com/subject/26929874/</a></td>
+<td style="text-align:center">贝叶斯方法</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26929874/" target="_blank" rel="noopener">https://book.douban.com/subject/26929874/</a></td>
 </tr>
 <tr>
-<td>7天搞定微积分</td>
-<td>8.2</td>
-<td><a href="https://book.douban.com/subject/25799160/" target="_blank" rel="noopener">https://book.douban.com/subject/25799160/</a></td>
+<td style="text-align:center">7天搞定微积分</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25799160/" target="_blank" rel="noopener">https://book.douban.com/subject/25799160/</a></td>
 </tr>
 <tr>
-<td>离散数学及其应用（原书第6版·本科教学版）</td>
-<td>8.2</td>
-<td><a href="https://book.douban.com/subject/6891958/" target="_blank" rel="noopener">https://book.douban.com/subject/6891958/</a></td>
+<td style="text-align:center">离散数学及其应用（原书第6版·本科教学版）</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6891958/" target="_blank" rel="noopener">https://book.douban.com/subject/6891958/</a></td>
 </tr>
 <tr>
-<td>数理统计引论</td>
-<td>7.9</td>
-<td><a href="https://book.douban.com/subject/1553742/" target="_blank" rel="noopener">https://book.douban.com/subject/1553742/</a></td>
+<td style="text-align:center">数理统计引论</td>
+<td style="text-align:center">7.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1553742/" target="_blank" rel="noopener">https://book.douban.com/subject/1553742/</a></td>
 </tr>
 <tr>
-<td>随机过程论</td>
-<td>7.9</td>
-<td><a href="https://book.douban.com/subject/3009891/" target="_blank" rel="noopener">https://book.douban.com/subject/3009891/</a></td>
+<td style="text-align:center">随机过程论</td>
+<td style="text-align:center">7.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3009891/" target="_blank" rel="noopener">https://book.douban.com/subject/3009891/</a></td>
 </tr>
 <tr>
-<td>常微分方程教程</td>
-<td>7.5</td>
-<td><a href="https://book.douban.com/subject/1191930/" target="_blank" rel="noopener">https://book.douban.com/subject/1191930/</a></td>
+<td style="text-align:center">常微分方程教程</td>
+<td style="text-align:center">7.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1191930/" target="_blank" rel="noopener">https://book.douban.com/subject/1191930/</a></td>
 </tr>
 <tr>
-<td>常微分方程</td>
-<td>7.4</td>
-<td><a href="https://book.douban.com/subject/1954348/" target="_blank" rel="noopener">https://book.douban.com/subject/1954348/</a></td>
+<td style="text-align:center">常微分方程</td>
+<td style="text-align:center">7.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1954348/" target="_blank" rel="noopener">https://book.douban.com/subject/1954348/</a></td>
 </tr>
 <tr>
-<td>程序员的数学</td>
-<td>7.2</td>
-<td><a href="https://book.douban.com/subject/19949020/" target="_blank" rel="noopener">https://book.douban.com/subject/19949020/</a></td>
+<td style="text-align:center">程序员的数学</td>
+<td style="text-align:center">7.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/19949020/" target="_blank" rel="noopener">https://book.douban.com/subject/19949020/</a></td>
 </tr>
 <tr>
-<td>随机过程</td>
-<td>6.9</td>
-<td><a href="https://book.douban.com/subject/1230228/" target="_blank" rel="noopener">https://book.douban.com/subject/1230228/</a></td>
+<td style="text-align:center">随机过程</td>
+<td style="text-align:center">6.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230228/" target="_blank" rel="noopener">https://book.douban.com/subject/1230228/</a></td>
 </tr>
 <tr>
-<td>多微积分</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/10749416/" target="_blank" rel="noopener">https://book.douban.com/subject/10749416/</a></td>
+<td style="text-align:center">多微积分</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10749416/" target="_blank" rel="noopener">https://book.douban.com/subject/10749416/</a></td>
 </tr>
 <tr>
-<td>随机过程</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/4012409/" target="_blank" rel="noopener">https://book.douban.com/subject/4012409/</a></td>
+<td style="text-align:center">随机过程</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4012409/" target="_blank" rel="noopener">https://book.douban.com/subject/4012409/</a></td>
 </tr>
 <tr>
-<td>线性与非线性泛函分析及其应用(上)/法兰西数学精品译丛</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/27095662/" target="_blank" rel="noopener">https://book.douban.com/subject/27095662/</a></td>
+<td style="text-align:center">线性与非线性泛函分析及其应用(上)/法兰西数学精品译丛</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27095662/" target="_blank" rel="noopener">https://book.douban.com/subject/27095662/</a></td>
 </tr>
 <tr>
-<td>实分析</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/20430402/" target="_blank" rel="noopener">https://book.douban.com/subject/20430402/</a></td>
+<td style="text-align:center">实分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20430402/" target="_blank" rel="noopener">https://book.douban.com/subject/20430402/</a></td>
 </tr>
 <tr>
-<td>分析入门</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/3270462/" target="_blank" rel="noopener">https://book.douban.com/subject/3270462/</a></td>
+<td style="text-align:center">分析入门</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3270462/" target="_blank" rel="noopener">https://book.douban.com/subject/3270462/</a></td>
 </tr>
 <tr>
-<td>Applied Multivariate Statistical Analysis</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/26725358/" target="_blank" rel="noopener">https://book.douban.com/subject/26725358/</a></td>
+<td style="text-align:center">Applied Multivariate Statistical Analysis</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26725358/" target="_blank" rel="noopener">https://book.douban.com/subject/26725358/</a></td>
 </tr>
 <tr>
-<td>应用随机过程</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/26761202/" target="_blank" rel="noopener">https://book.douban.com/subject/26761202/</a></td>
+<td style="text-align:center">应用随机过程</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26761202/" target="_blank" rel="noopener">https://book.douban.com/subject/26761202/</a></td>
 </tr>
 <tr>
-<td>国外优秀数学教材系列</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/26413148/" target="_blank" rel="noopener">https://book.douban.com/subject/26413148/</a></td>
+<td style="text-align:center">国外优秀数学教材系列</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26413148/" target="_blank" rel="noopener">https://book.douban.com/subject/26413148/</a></td>
 </tr>
 <tr>
-<td>数值分析</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/26600495/" target="_blank" rel="noopener">https://book.douban.com/subject/26600495/</a></td>
+<td style="text-align:center">数值分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26600495/" target="_blank" rel="noopener">https://book.douban.com/subject/26600495/</a></td>
 </tr>
 <tr>
-<td>数值计算方法及其应用</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/1707061/" target="_blank" rel="noopener">https://book.douban.com/subject/1707061/</a></td>
+<td style="text-align:center">数值计算方法及其应用</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1707061/" target="_blank" rel="noopener">https://book.douban.com/subject/1707061/</a></td>
 </tr>
 <tr>
-<td>矩阵分析(原书第2版)</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/26594325/" target="_blank" rel="noopener">https://book.douban.com/subject/26594325/</a></td>
+<td style="text-align:center">矩阵分析(原书第2版)</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26594325/" target="_blank" rel="noopener">https://book.douban.com/subject/26594325/</a></td>
 </tr>
 <tr>
-<td>矩阵论</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/25913537/" target="_blank" rel="noopener">https://book.douban.com/subject/25913537/</a></td>
+<td style="text-align:center">矩阵论</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25913537/" target="_blank" rel="noopener">https://book.douban.com/subject/25913537/</a></td>
 </tr>
 <tr>
-<td>矩阵论千题习题详解</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/26911442/" target="_blank" rel="noopener">https://book.douban.com/subject/26911442/</a></td>
+<td style="text-align:center">矩阵论千题习题详解</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26911442/" target="_blank" rel="noopener">https://book.douban.com/subject/26911442/</a></td>
 </tr>
 <tr>
-<td>贝叶斯可靠性</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/26108257/" target="_blank" rel="noopener">https://book.douban.com/subject/26108257/</a></td>
+<td style="text-align:center">贝叶斯可靠性</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26108257/" target="_blank" rel="noopener">https://book.douban.com/subject/26108257/</a></td>
 </tr>
 <tr>
-<td>复分析</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/20432851/" target="_blank" rel="noopener">https://book.douban.com/subject/20432851/</a></td>
+<td style="text-align:center">复分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20432851/" target="_blank" rel="noopener">https://book.douban.com/subject/20432851/</a></td>
 </tr>
 <tr>
-<td>概率、随机变量与随机过程</td>
-<td>0</td>
-<td><a href="https://book.douban.com/subject/15994890/" target="_blank" rel="noopener">https://book.douban.com/subject/15994890/</a></td>
+<td style="text-align:center">概率、随机变量与随机过程</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/15994890/" target="_blank" rel="noopener">https://book.douban.com/subject/15994890/</a></td>
 </tr>
 </tbody>
 </table>
 <p>以上排名顺序依据豆瓣评分进行排序，0分的不代表最坏，而是有可能读者较少。</p>
-<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><h2 id="编程"><a href="#编程" class="headerlink" title="编程"></a>编程</h2>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">书名</th>
+<th style="text-align:center">豆瓣评分</th>
+<th style="text-align:center">豆瓣URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">计算机程序设计艺术卷1：基本算法(英文版.第3版)</td>
+<td style="text-align:center">9.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5258931/" target="_blank" rel="noopener">https://book.douban.com/subject/5258931/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Pattern Recognition and Machine Learning</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2061116/" target="_blank" rel="noopener">https://book.douban.com/subject/2061116/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">矩阵计算</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25837616/" target="_blank" rel="noopener">https://book.douban.com/subject/25837616/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数字图像处理</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4285832/" target="_blank" rel="noopener">https://book.douban.com/subject/4285832/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">算法导论（原书第2版）</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1885170/" target="_blank" rel="noopener">https://book.douban.com/subject/1885170/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">信息论基础</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2305237/" target="_blank" rel="noopener">https://book.douban.com/subject/2305237/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">统计学习方法</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10590856/" target="_blank" rel="noopener">https://book.douban.com/subject/10590856/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">集体智慧编程</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26348921/" target="_blank" rel="noopener">https://book.douban.com/subject/26348921/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">模式分类</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1138189/" target="_blank" rel="noopener">https://book.douban.com/subject/1138189/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数字图像处理</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6434627/" target="_blank" rel="noopener">https://book.douban.com/subject/6434627/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">算法心得：高效算法的奥秘（原书第2版）</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25837031/" target="_blank" rel="noopener">https://book.douban.com/subject/25837031/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26708119/" target="_blank" rel="noopener">https://book.douban.com/subject/26708119/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数理统计与数据分析</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6508744/" target="_blank" rel="noopener">https://book.douban.com/subject/6508744/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1102235/" target="_blank" rel="noopener">https://book.douban.com/subject/1102235/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">深度学习</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27087503/" target="_blank" rel="noopener">https://book.douban.com/subject/27087503/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">计算机程序设计艺术（第3卷 英文版·第2版）</td>
+<td style="text-align:center">8.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5258933/" target="_blank" rel="noopener">https://book.douban.com/subject/5258933/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">神经网络与机器学习（原书第3版）</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5952531/" target="_blank" rel="noopener">https://book.douban.com/subject/5952531/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">特征提取与图像处理</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5349816/" target="_blank" rel="noopener">https://book.douban.com/subject/5349816/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像局部不变性特征与描述</td>
+<td style="text-align:center">7.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4778377/" target="_blank" rel="noopener">https://book.douban.com/subject/4778377/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">遗传算法与工程优化</td>
+<td style="text-align:center">7.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1154376/" target="_blank" rel="noopener">https://book.douban.com/subject/1154376/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习导论（原书第2版）</td>
+<td style="text-align:center">7.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25881740/" target="_blank" rel="noopener">https://book.douban.com/subject/25881740/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习基础教程</td>
+<td style="text-align:center">7.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25772440/" target="_blank" rel="noopener">https://book.douban.com/subject/25772440/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">深入理解OpenCV</td>
+<td style="text-align:center">7.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26028176/" target="_blank" rel="noopener">https://book.douban.com/subject/26028176/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习导论</td>
+<td style="text-align:center">7.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26936258/" target="_blank" rel="noopener">https://book.douban.com/subject/26936258/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理、分析与机器视觉</td>
+<td style="text-align:center">7.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5921462/" target="_blank" rel="noopener">https://book.douban.com/subject/5921462/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图解机器学习</td>
+<td style="text-align:center">6.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26363531/" target="_blank" rel="noopener">https://book.douban.com/subject/26363531/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习</td>
+<td style="text-align:center">6.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26681609/" target="_blank" rel="noopener">https://book.douban.com/subject/26681609/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">深入理解机器学习：从原理到算法</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26838345/" target="_blank" rel="noopener">https://book.douban.com/subject/26838345/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数字信号处理</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/7058940/" target="_blank" rel="noopener">https://book.douban.com/subject/7058940/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">离散时间信号处理</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5400863/" target="_blank" rel="noopener">https://book.douban.com/subject/5400863/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">计算机视觉特征提取与图像处理（第三版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26605693/" target="_blank" rel="noopener">https://book.douban.com/subject/26605693/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理与分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6534752/" target="_blank" rel="noopener">https://book.douban.com/subject/6534752/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理与计算机视觉算法及应用</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10748865/" target="_blank" rel="noopener">https://book.douban.com/subject/10748865/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">计算机程序设计艺术（第2卷 英文版·第3版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5258932/" target="_blank" rel="noopener">https://book.douban.com/subject/5258932/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数值方法：设计、分析和算法实现</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26863824/" target="_blank" rel="noopener">https://book.douban.com/subject/26863824/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">艾伦·图灵</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26986470/" target="_blank" rel="noopener">https://book.douban.com/subject/26986470/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">凸优化算法</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26810882/" target="_blank" rel="noopener">https://book.douban.com/subject/26810882/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">快速傅里叶变换</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/22685925/" target="_blank" rel="noopener">https://book.douban.com/subject/22685925/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">小波十讲</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6896046/" target="_blank" rel="noopener">https://book.douban.com/subject/6896046/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">小波与小波变换导论</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26344081/" target="_blank" rel="noopener">https://book.douban.com/subject/26344081/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">现代智能优化混合算法及其应用（第2版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26208157/" target="_blank" rel="noopener">https://book.douban.com/subject/26208157/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">彩色数字图像处理</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4287399/" target="_blank" rel="noopener">https://book.douban.com/subject/4287399/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理基础（第2版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25731155/" target="_blank" rel="noopener">https://book.douban.com/subject/25731155/</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="编程"><a href="#编程" class="headerlink" title="编程"></a>编程</h2>
         
       </div>
       
