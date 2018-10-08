@@ -117,7 +117,7 @@
 <meta property="og:description" content="Abstract:Keywords:">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://www.face2ai.com/RL-RSAB-2-1-A-k-armed-Bandit-Problem/armed_bandit.jpg">
-<meta property="og:updated_time" content="2018-10-08T15:46:29.359Z">
+<meta property="og:updated_time" content="2018-10-08T16:01:27.908Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【强化学习】2.1 k臂赌博机(k-armed bandits)问题">
 <meta name="twitter:description" content="Abstract:Keywords:">
@@ -500,7 +500,7 @@ data-full-width-responsive="true"></ins>
 <li><strong>可选行为</strong> 对应 <strong>可选的治疗方案</strong></li>
 <li><strong>每个行为对应的奖励信号的随机分布</strong> 对应 <strong>每种治疗方案对当前患者的效果的随机分布</strong></li>
 </ul>
-<h3 id="数学描述"><a href="#数学描述" class="headerlink" title="数学描述"></a>数学描述</h3><p>把上面的语言描述转换成数学描述就是如下了：<br>当前为第 $t$ 次选择(对应赌博中的第 $t$ 局，医生的第 $t$ 个患者), 有 $k$ 中选择，我们在此次选择的行为是： $A_t$ 对应获得的奖励信号是 $R_t$ ，那么对于这一轮选择，假设我们选择了 $a$ 我们获得奖励信号的期望 $q_<em>$ 就是：<br>$$<br>q_</em>(a)\doteq\mathbb{E}[R_t|A_t=a]<br>$$</p>
+<h3 id="数学描述"><a href="#数学描述" class="headerlink" title="数学描述"></a>数学描述</h3><p>把上面的语言描述转换成数学描述就是如下了：<br>当前为第 $t$ 次选择(对应赌博中的第 $t$ 局，医生的第 $t$ 个患者), 有 $k$ 中选择，我们在此次选择的行为是： $A_t$ 对应获得的奖励信号是 $R_t$ ，那么对于这一轮选择，假设我们选择了 $a$ 我们获得奖励信号的期望 $q_*$ 就是：<br>$$<br>q_{\ast}(a)\doteq\mathbb{E}[R_t|A_t=a]<br>$$</p>
 <p>如果你对 $A_t$ 和 $a$ 搞不清楚，我可以大概说一下，$A_t$ 是一个总称，本轮的所有选择的总称， 而  $a$  是特定的一个行为，所以期望的公式就可以解释的清楚了，因为不同行为对应不同的分布，而我们希望使用期望来衡量这个行为的奖励信号。<br>如果我们明确知道每一步(局)每个行为(机器)将会出什么结果，那么我们就不需要选择了，直接选最大的那个就好了，所以我们这里假定我们不知道，也许你大概知道期望，但是对结果还是无法确定的（你可以一直观察某个赌博机的结果，利用大数定理通过采样结果来估计原始分布的结果）<br>这里我们对 $t$ 步的特定行为 $a$ 的评价(前面说的value function中value，和rewarding signal直接相关)的期望进行定义：<br>$$<br>Q_t(a)\approx q_*(a)<br>$$</p>
 <p>这样就可以利用我们上面对问题的分析，以及使用前面提到的value function来解决这个问题了</p>
 <h2 id="强化学习解决k臂赌博机问题"><a href="#强化学习解决k臂赌博机问题" class="headerlink" title="强化学习解决k臂赌博机问题"></a>强化学习解决k臂赌博机问题</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
