@@ -86,7 +86,7 @@
     root: '/',
     scheme: 'Muse',
     version: '6.4.0',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -221,10 +221,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -313,9 +311,9 @@
         
         
           
-          <li class="menu-item menu-item-我的书">
+          <li class="menu-item menu-item-关于作者">
     <a href="/my-Library/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />我的书</a>
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
   </li>
         
         
@@ -600,51 +598,10 @@ data-full-width-responsive="true"></ins>
 
       
       
-        <div class="post-widgets">
-        
-          <div class="wp_rating" >
-          <div style="color: rgba(0, 0, 0, 1); font-size:16px; letter-spacing:3px">(&gt;壮士！看完给洒家个五星，你看行不行！&lt;)</div>
-            <div id="wpac-rating"></div>
-          </div>
-        
-
-        
-        
-        </div>
-      
       
 
       
 
-      
-        <div>
-          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>关注公众号或添加博主微信，反馈问题，获取资讯（暗号:face2ai）</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>联系博主</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/weixin.png" alt="谭升 博主微信"/>
-        <p>博主微信</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="谭升 博客公众号"/>
-        <p>博客公众号</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-        </div>
       
 
 
@@ -685,7 +642,7 @@ data-full-width-responsive="true"></ins>
 
           </div>
           
-
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
   
     <div class="comments" id="comments">
       <div id="SOHUCS" sid="【数字图像处理】5.8:灰度图像-图像增强 Robert算子、Sobel算子"></div>
@@ -2285,23 +2242,6 @@ show_date_time();
 
   
   
-  <script type="text/javascript">
-  wpac_init = window.wpac_init || [];
-  wpac_init.push({widget: 'Rating', id: 14057,
-    el: 'wpac-rating',
-    color: 'fc6423'
-  });
-  (function() {
-    if ('WIDGETPACK_LOADED' in window) return;
-    WIDGETPACK_LOADED = true;
-    var mc = document.createElement('script');
-    mc.type = 'text/javascript';
-    mc.async = true;
-    mc.src = '//embed.widgetpack.com/widget.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
-  })();
-  </script>
-
 
   
 
