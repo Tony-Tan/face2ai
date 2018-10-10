@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
+<meta name="keywords" content="强化学习,多臂赌博机,k臂赌博机,利用,探索,行为评价方法,样本均值方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【强化学习】2.2 行为评价方法(Action-value Methods)">
+<meta property="og:url" content="http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-10T15:32:49.277Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【强化学习】2.2 行为评价方法(Action-value Methods)">
+<meta name="twitter:description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【强化学习】2.2 行为评价方法(Action-value Methods) | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-julia">
+    <a href="/Julia/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Julia</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【强化学习】2.2 行为评价方法(Action-value Methods)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-10 22:03:20" itemprop="dateCreated datePublished" datetime="2018-10-10T22:03:20+08:00">2018-10-10</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Reinforcement-Learning/" itemprop="url" rel="index"><span itemprop="name">Reinforcement Learning</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Reinforcement-Learning/RL-An-Introduction/" itemprop="url" rel="index"><span itemprop="name">RL-An Introduction</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/RL-RSAB-2-2-Action-value-Methods/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/RL-RSAB-2-2-Action-value-Methods/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/RL-RSAB-2-2-Action-value-Methods/" class="leancloud_visitors" data-flag-title="【强化学习】2.2 行为评价方法(Action-value Methods)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路<br><strong>Keywords:</strong> 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法<br><a id="more"></a></p>
+<h1 id="行为评价方法-Action-value-Methods"><a href="#行为评价方法-Action-value-Methods" class="headerlink" title="行为评价方法(Action-value Methods)"></a>行为评价方法(Action-value Methods)</h1><p>本文介绍解决k-臂赌博机的第一种简单的naive的方法，注意区分两个重要的概念，评价方法(value function)产生的值(value)和奖励信号(reward signal)之间的区别。</p>
+<h2 id="评价方法和奖励信号的回顾"><a href="#评价方法和奖励信号的回顾" class="headerlink" title="评价方法和奖励信号的回顾"></a>评价方法和奖励信号的回顾</h2><p>注意我们前面介绍的两个概念，相似但是完全不同，就是评价方法(value function)产生的对行为的评价，以及行为执行后的奖励信号(reward signal)。</p>
+<div class="note infor"><p>这里再举个小栗子🌰吧，加入你是个超级富豪，你去街边游戏厅玩一块钱一次的赌博机，当然游戏厅有一排赌博机，假设有 $k$ 个，你随身都带着助理，你的助理是哈佛耶鲁MIT三大名校的统计学博士，你俩去玩赌博机，玩之前，你的助理会告诉你你下一局应该把你的一块钱下注到哪台机器，你肯定要问他他是怎么算出来的，于是，他拿出笔记本电脑，连接到了超级服务器上，用一个超级复杂的公式，评估出了所有赌博机的输赢概率，最后得出，第二台赌博机，赢的概率最大，为90(这个数是博士设计出来的公式的结果)比别的赌博机的对应值都高，所以你心悦诚服的去把你的一块钱压到了二号赌博机。<br>这个例子，你的博士助理就是一个value function或者说他的那套算法是value function也可以，那个90就是某个行为(选择的某台机器的value值)。<br>于是你就去赌博了，堵你的一块钱，经过赌博机的一些列运行，果不其然，你赢了两块钱，你很高兴的买了一个冰棍，你和你的博士朋友一起吃了起来 —— 这里面的两块钱就是reward signal。<br>可见value是和reward signal 完全不同但又息息相关的概念</p></div>
+<p>上面我们应该大概能区分action的value和reward signal了。<br>我们继续回顾我们上文（<a href="https://face2ai.com/RL-RSAB-2-1-A-k-armed-Bandit-Problem" target="_blank" rel="noopener">点击查看详情</a>）讲到的这个公式：<br>$$<br>q_{\ast}(a)\doteq\mathbb{E}[R_t|A_t=a]<br>$$</p>
+<p>公式中 $q_{\ast}(a)$ 是一个函数，表示reward signal的期望，公式中包含了 $R_t$ 为对应的第 $t$ 个过程中的 Reward Signal ，而接着就用<br>$$<br>Q_t(a)\approx q_*(a)<br>$$<br>来定义了个value function：换句话说，我们刚弄了个每一步的reward signal的期望，就被人顺水推舟做了value function，因为value function 总是要和reward signal相关的value变大的时候reward signal一定也要对应的变大或者变小也可以，只要他们之间的变化时按照固定规律进行的，我们就能通过value function来最大化reward signal。<br>还有一个区别value 和reward signal的办法是value时选择action之前用的，reward是action之后(甚至是多个actions之后)得到的，来自environment的反馈。</p>
+<p><strong>一定要注意的就是value function和reward signal之间的关联和相互利用，不要糊涂了，我们的最终目的是最大化reward signal</strong></p>
+<h2 id="样本均值-sample-average-method-方法"><a href="#样本均值-sample-average-method-方法" class="headerlink" title="样本均值(sample-average method)方法"></a>样本均值(sample-average method)方法</h2><p>上面已经用reward signal的期望来做value function了，那么我们第一种方法也就这么来了，我们计算 $\text{action}_a$ 在过去所有步骤中出现的时候得到的reward signal平均值，作为$\text{action}_a$ 的value，这就产生了下面这个value function:</p>
+<p>$$<br>Q_t(a)\doteq\frac{\text{a出现的时候reward signal的和}}{\text{a出现的次数}}=\frac{\sum^{t-1}_{i=1}R_i\cdot1_{A_i=a}}{\sum^{t-1}_{i=1}1_{A_i=a}}<br>$$<br>这里面唯一不好理解的就是符号 $1_{A_i=a}$ 这里的1不是一个数值，你可以把它理解为一个布尔变量，他不是值，他是个指示变量，当第 $t$ 步骤中 $A_t$ 采用的是a的话，那么这个值$1_{A_t=a}=1$ 否则 $1_{A_t=a}=0$<br> $R_i$ 就是对应的第 $i$ 步获得的reward signal。所以这个奖励信号就和一个指示函数相乘了，最后求出来当a被使用的时候的reward signal的和了，分母是同样的原理，是一个计数器。<br>如果你学过数字信号或者模拟信号，你会了解有一个叫做使能信号的东西，$1_{A_t=a}$ 与之类似。<br>但是这里有除法就要注意如果我们之前一直没有采用过$\text{action}_a$  那么分母就是0了，所以我们可以硬性规定一下，如果分母为0，那么 $Q_t(a)=0$<br>根据大数定理，当我们的action使用的足够多的时候，样本的期望就是随机变量的期望，对大数定理不太了解的同学可以参考:<a href="https://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/">大数定理</a>也就是说，当我们步骤足够多的话，action也都被大量使用时，$Q_t(a)$ 收敛于 $q_*(a)$ 。<br>以上只是一种非常简单的value function的设计，有效与否要等到后面的试验，但是从理论上来说，他是可以满足我们的需求的。<br>那么上面我们就完成value function的设计，接着我们要考虑的就是如何选择action了，是exploitation和exploration呢？</p>
+<h2 id="varepsilon-greedy方法"><a href="#varepsilon-greedy方法" class="headerlink" title="$\varepsilon$-greedy方法"></a>$\varepsilon$-greedy方法</h2><p>第一种，最传统的办法，选择期望最高的，也就是贪心的选择，对应的action就属于exploitation，使用数学表达这个过程就是 在$t$ 步选择$A^{\ast}_{t}$使得 $Q_{t}(A^{\ast}_{t})=\text{max}_aQ_t(a)$ 贪心选择的整体被写作：</p>
+<p>$$<br>A_t\doteq \mathop{\arg\max}_{a} Q_t(a)<br>$$<br>上面这个符号 $\mathop{\arg\max}_{a}$ 会在你的人工智能历程中一直跟你纠缠不休，用中文解释就是在所有可行的 $a$ 中，找到一个能使 $Q_t(a)$ 最大的，并返回这个 $a$ ，也就是$A_t$ 每一步都是使用时 $Q_t(a)$ 最大的 $a$。</p>
+<p><strong>贪心方法最大的问题就是，他每次都使用前面所有行为中看起来最大收益的行为，但是他无法保证这个行为确实是最好的，比如，有一种行为更好，但是前面的几次都发挥失常，没有得到较好的reward signal，这种情况是完全有可能的，而贪心算法解决不了这个问题。</strong></p>
+<p>一种改进就是以一定概率 $\varepsilon$ (相对较小)执行随机选择的行为，选择范围是所有可行的行为，且他们被选择的概率相等,这种随机选择的action就是我们前面提到的exploration，这种方法叫做$\varepsilon$-greedy方法。<br>这种方法的优点是随着学习的不断增长，所有的行为的被执行次数都是趋近于无穷的，那么这时候可以保证 $Q_t(a)$ 收敛于 $q_<em>(a)$。因为我们执行exploitation的概率是 $1-\varepsilon$ 其数值是接近1的，而exploration的概率$\varepsilon$ 是接近0的，当执行了非常多的过程后$Q_t(a)$ 收敛于 $q_</em>(a)$，此时我们有$1-\varepsilon$ 的比例是执行的贪心过程，那么我们的所有步骤中就有不小于 $1-\varepsilon$ 的比例是选择的最大收益的行为，这种结果将会是相当客观的。<br>上面这套理论从字面上看起来近乎完美，但是这个收敛是个渐进的保证，换句话说学习次数在现实中不可能趋近于无限，我们的训练次数也是有限的，我们目前还不能根据一个理论上的极限情况来断定在实际执行过程中也获得很好的表现。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了value function的设计，以及两种方法来选择action，我们从此篇开始，正式进入强化学习的大门。</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
+<li>Sutton R S, Barto A G. Reinforcement learning: An introduction[J]. 2011.</li>
+</ol>
+<hr>
+<p>原文地址: <a href="https://face2ai.com/RL-RSAB-2-2-Action-value-Methods" target="_blank" rel="noopener">https://face2ai.com/RL-RSAB-2-2-Action-value-Methods</a></p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" rel="bookmark">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" rel="bookmark">【强化学习】2.0 多臂赌博机</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-6-Summary-History/" rel="bookmark">【强化学习】1.6 本章总结、强化学习历史简述</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-3-Elements-of-RL/" rel="bookmark">【强化学习】1.3 强化学习的基础元素</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-5-An-Extended-Example/" rel="bookmark">【强化学习】 1.5 强化学习的一个扩展举例</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/强化学习/" rel="tag"># 强化学习</a>
+          
+            <a href="/tags/多臂赌博机/" rel="tag"># 多臂赌博机</a>
+          
+            <a href="/tags/k臂赌博机/" rel="tag"># k臂赌博机</a>
+          
+            <a href="/tags/利用/" rel="tag"># 利用</a>
+          
+            <a href="/tags/探索/" rel="tag"># 探索</a>
+          
+            <a href="/tags/行为评价方法/" rel="tag"># 行为评价方法</a>
+          
+            <a href="/tags/样本均值方法/" rel="tag"># 样本均值方法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/other-Hexo-next-valine-leancloud/" rel="next" title="Hexo下next主题valine强化版本的改造">
+                <i class="fa fa-chevron-left"></i> Hexo下next主题valine强化版本的改造
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+          </div>
+          
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">272</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">521</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="Hexo下next主题valine强化版本的改造" target="_blank">Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" title="【强化学习】2.0 多臂赌博机" target="_blank">【强化学习】2.0 多臂赌博机</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字" target="_blank">【Julia】整型和浮点型数字</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#行为评价方法-Action-value-Methods"><span class="nav-number">1.</span> <span class="nav-text">行为评价方法(Action-value Methods)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#评价方法和奖励信号的回顾"><span class="nav-number">1.1.</span> <span class="nav-text">评价方法和奖励信号的回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样本均值-sample-average-method-方法"><span class="nav-number">1.2.</span> <span class="nav-text">样本均值(sample-average method)方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#varepsilon-greedy方法"><span class="nav-number">1.3.</span> <span class="nav-text">$\varepsilon$-greedy方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">1.5.</span> <span class="nav-text">References</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: false,
+        appId: 'rPrP8o4eOcKBbGgojFM5h0c2-gzGzoHsz',
+        appKey: 'bi1R0D5QzAhYbIb3itBn8O7m',
+        placeholder: '无需注册，填写正确的邮箱，评论被回复就有邮件通知了~',
+        avatar:'retro',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>
