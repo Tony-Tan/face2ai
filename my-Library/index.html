@@ -1,0 +1,2941 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="我我是谁我是Tony，人工智能爱好者，一直从事相关行业，爱写点博客，原因是当年最落魄，最无奈的时候，靠着看书和写博客不断进步，正确的认识了自己，也走出了困境，所以觉得写博客是个好习惯，即帮助别人，也能帮助自己。 联系我您可以通过文章留言给我，我会第一时间回复，也可以发邮件，可能回复不及时，但是看到了一定会回复，还可以加我的微信，我们有专门的讨论群，分享最新的知识，扫描二维码，添加我：或者添加我们的">
+<meta name="keywords" content="强化学习算法，机器学习算法，人工智能，CUDA编程，模式识别算法">
+<meta property="og:type" content="website">
+<meta property="og:title" content="我">
+<meta property="og:url" content="http://www.face2ai.com/my-Library/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="我我是谁我是Tony，人工智能爱好者，一直从事相关行业，爱写点博客，原因是当年最落魄，最无奈的时候，靠着看书和写博客不断进步，正确的认识了自己，也走出了困境，所以觉得写博客是个好习惯，即帮助别人，也能帮助自己。 联系我您可以通过文章留言给我，我会第一时间回复，也可以发邮件，可能回复不及时，但是看到了一定会回复，还可以加我的微信，我们有专门的讨论群，分享最新的知识，扫描二维码，添加我：或者添加我们的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixin.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/gongzhonghao.jpg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/my_library/book.jpg">
+<meta property="og:updated_time" content="2018-10-08T02:19:17.367Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我">
+<meta name="twitter:description" content="我我是谁我是Tony，人工智能爱好者，一直从事相关行业，爱写点博客，原因是当年最落魄，最无奈的时候，靠着看书和写博客不断进步，正确的认识了自己，也走出了困境，所以觉得写博客是个好习惯，即帮助别人，也能帮助自己。 联系我您可以通过文章留言给我，我会第一时间回复，也可以发邮件，可能回复不及时，但是看到了一定会回复，还可以加我的微信，我们有专门的讨论群，分享最新的知识，扫描二维码，添加我：或者添加我们的">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixin.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/my-Library/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>我 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-julia">
+    <a href="/Julia/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Julia</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者 menu-item-active">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- footer -->
+  <ins class="adsbygoogle"
+  style="display:block"
+  data-ad-client="ca-pub-1194454329688573"
+  data-ad-slot="2491973880"
+  data-ad-format="auto"
+  data-full-width-responsive="true"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+<h2 class="post-title" itemprop="name headline">我</h2>
+
+<div class="post-meta">
+  
+  
+
+
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h1 id="我"><a href="#我" class="headerlink" title="我"></a>我</h1><h2 id="我是谁"><a href="#我是谁" class="headerlink" title="我是谁"></a>我是谁</h2><p>我是Tony，人工智能爱好者，一直从事相关行业，爱写点博客，原因是当年最落魄，最无奈的时候，靠着看书和写博客不断进步，正确的认识了自己，也走出了困境，所以觉得写博客是个好习惯，即帮助别人，也能帮助自己。</p>
+<h2 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h2><p>您可以通过文章留言给我，我会第一时间回复，也可以发邮件，可能回复不及时，但是看到了一定会回复，还可以加我的微信，我们有专门的讨论群，分享最新的知识，扫描二维码，添加我：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixin.png" alt=""><br>或者添加我们的公众号（博客内容整理，每周234发送一篇推文）：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/gongzhonghao.jpg" alt=""></p>
+<h2 id="我的书"><a href="#我的书" class="headerlink" title="我的书"></a>我的书</h2><p>昨天(20181007)把所有的书收集到一起，从2014年7月至此购买收集的所有的书籍，看的不多，所以内心十分惭愧<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/my_library/book.jpg" alt=""><br>整理这些书籍，如果靠人工，有点困难，主要是博主确实懒得可以，所以，那么我们就用点技术手段，用python来识别出二维码，然后通过isbn查询豆瓣提供的API，然后将部分信息保存出来。代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pyzbar <span class="keyword">import</span> pyzbar</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">book_library=<span class="string">'book_math_list.csv'</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">searchBooks</span><span class="params">(keyword=None)</span>:</span></span><br><span class="line">    url = <span class="string">'https://api.douban.com/v2/book/search'</span></span><br><span class="line">    params = &#123;<span class="string">'q'</span>:keyword&#125;</span><br><span class="line">    response = requests.get(url, params=params)</span><br><span class="line">    <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    book_list =  open(book_library,<span class="string">'a'</span>)</span><br><span class="line">    cap = cv2.VideoCapture(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># get a frame</span></span><br><span class="line">        ret, frame = cap.read()</span><br><span class="line">        <span class="keyword">if</span> frame==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="comment"># show a frame</span></span><br><span class="line">        cv2.imshow(<span class="string">"Frame"</span>, frame)</span><br><span class="line">        ch= cv2.waitKey(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> ch &amp; <span class="number">0xFF</span> == ord(<span class="string">'r'</span>):</span><br><span class="line">            <span class="keyword">if</span> len(pyzbar.decode(frame))&gt;=<span class="number">1</span>:</span><br><span class="line">                isbn = pyzbar.decode(frame)[<span class="number">0</span>].data</span><br><span class="line">                <span class="keyword">print</span> isbn</span><br><span class="line">                r = searchBooks(isbn)</span><br><span class="line">                bookResult = r.json()</span><br><span class="line">                count = bookResult[<span class="string">'count'</span>]</span><br><span class="line">                <span class="keyword">for</span> x <span class="keyword">in</span> bookResult[<span class="string">'books'</span>]:</span><br><span class="line">                    title = x[<span class="string">'title'</span>]</span><br><span class="line">                    average = x[<span class="string">'rating'</span>][<span class="string">'average'</span>]</span><br><span class="line">                    numRaters = x[<span class="string">'rating'</span>][<span class="string">'numRaters'</span>]</span><br><span class="line">                    alt = x[<span class="string">'alt'</span>]</span><br><span class="line">                    price = x[<span class="string">'price'</span>]</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'-------------------------------------'</span></span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Title:'</span> + title</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Score:'</span> + str(average)</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Numbers:'</span> + str(numRaters)</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Link:'</span> + alt</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'Price:'</span> + price</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'-------------------------------------'</span></span><br><span class="line">                    book_list.write(title.encode(<span class="string">"utf-8"</span>)+<span class="string">','</span>+str(average)+<span class="string">','</span>+str(numRaters)+<span class="string">','</span>+alt.encode(<span class="string">"utf-8"</span>)+<span class="string">','</span>+price.encode(<span class="string">"utf-8"</span>)+<span class="string">','</span>+isbn+<span class="string">';\n'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> ch &amp; <span class="number">0xFF</span> == ord(<span class="string">'q'</span>):</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    cap.release()</span><br><span class="line">    book_list.close()</span><br></pre></td></tr></table></figure></p>
+<p>使用到的工具 <code>zbar</code>，需要单独安装。识别过程如下视频：</p>
+<iframe height="480" width="640" src="https://player.youku.com/embed/XMzg1MDIzNDQ5Mg==" frameborder="0" 'allowfullscreen'=""></iframe>
+
+<h2 id="数学书"><a href="#数学书" class="headerlink" title="数学书"></a>数学书</h2><p>通过我们上面的代码，统计了下数学书，结果如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">书名</th>
+<th style="text-align:center">豆瓣评分</th>
+<th style="text-align:center">豆瓣URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">普林斯顿微积分读本（修订版）</td>
+<td style="text-align:center">9.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26899701/" target="_blank" rel="noopener">https://book.douban.com/subject/26899701/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">傅立叶分析导论</td>
+<td style="text-align:center">9.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20435906/" target="_blank" rel="noopener">https://book.douban.com/subject/20435906/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">吉米多维奇数学分析习题集学习指引（第2册）</td>
+<td style="text-align:center">9.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6394944/" target="_blank" rel="noopener">https://book.douban.com/subject/6394944/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">具体数学</td>
+<td style="text-align:center">9.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/21323941/" target="_blank" rel="noopener">https://book.douban.com/subject/21323941/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">概率统计</td>
+<td style="text-align:center">9.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10827481/" target="_blank" rel="noopener">https://book.douban.com/subject/10827481/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">概率论教程</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4818683/" target="_blank" rel="noopener">https://book.douban.com/subject/4818683/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析习题课讲义（上册）</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230275/" target="_blank" rel="noopener">https://book.douban.com/subject/1230275/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析习题集</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4902598/" target="_blank" rel="noopener">https://book.douban.com/subject/4902598/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">泛函分析</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20381299/" target="_blank" rel="noopener">https://book.douban.com/subject/20381299/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">概率论与数理统计</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2201479/" target="_blank" rel="noopener">https://book.douban.com/subject/2201479/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">陶哲轩实分析</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3235486/" target="_blank" rel="noopener">https://book.douban.com/subject/3235486/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析习题课讲义（下册）</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1160359/" target="_blank" rel="noopener">https://book.douban.com/subject/1160359/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析新讲（第三册）</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1122660/" target="_blank" rel="noopener">https://book.douban.com/subject/1122660/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">概率论及其应用（卷1•第3版）</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25794324/" target="_blank" rel="noopener">https://book.douban.com/subject/25794324/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数理统计学教程</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3996242/" target="_blank" rel="noopener">https://book.douban.com/subject/3996242/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">高观点下的初等数学</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3249247/" target="_blank" rel="noopener">https://book.douban.com/subject/3249247/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析新讲（第二册）</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1130384/" target="_blank" rel="noopener">https://book.douban.com/subject/1130384/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析八讲（修订版）</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26593890/" target="_blank" rel="noopener">https://book.douban.com/subject/26593890/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析新讲（第1册）</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1130381/" target="_blank" rel="noopener">https://book.douban.com/subject/1130381/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析原理</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230288/" target="_blank" rel="noopener">https://book.douban.com/subject/1230288/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">概率导论</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26694188/" target="_blank" rel="noopener">https://book.douban.com/subject/26694188/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析中的典型问题与方法</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1813616/" target="_blank" rel="noopener">https://book.douban.com/subject/1813616/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">初等概率论（第4版）</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4619399/" target="_blank" rel="noopener">https://book.douban.com/subject/4619399/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">线性代数</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5276440/" target="_blank" rel="noopener">https://book.douban.com/subject/5276440/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">线性代数及其应用（原书第4版）</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27014881/" target="_blank" rel="noopener">https://book.douban.com/subject/27014881/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">高等数理统计学</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4102672/" target="_blank" rel="noopener">https://book.douban.com/subject/4102672/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学之美 （第二版）</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26163454/" target="_blank" rel="noopener">https://book.douban.com/subject/26163454/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">小波与傅里叶分析基础</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4705969/" target="_blank" rel="noopener">https://book.douban.com/subject/4705969/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">拓扑学</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1801389/" target="_blank" rel="noopener">https://book.douban.com/subject/1801389/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">线性代数应该这样学</td>
+<td style="text-align:center">8.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26886299/" target="_blank" rel="noopener">https://book.douban.com/subject/26886299/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">最优化理论与方法</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230338/" target="_blank" rel="noopener">https://book.douban.com/subject/1230338/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">微积分之屠龙宝刀</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4897351/" target="_blank" rel="noopener">https://book.douban.com/subject/4897351/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">程序员的数学3</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26740548/" target="_blank" rel="noopener">https://book.douban.com/subject/26740548/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">程序员的数学2</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26593822/" target="_blank" rel="noopener">https://book.douban.com/subject/26593822/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">集合论</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2187552/" target="_blank" rel="noopener">https://book.douban.com/subject/2187552/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数学分析解题指南</td>
+<td style="text-align:center">8.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1239173/" target="_blank" rel="noopener">https://book.douban.com/subject/1239173/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">吉米多维奇数学分析习题集学习指引（第1册）</td>
+<td style="text-align:center">8.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4902599/" target="_blank" rel="noopener">https://book.douban.com/subject/4902599/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">微积分之倚天宝剑</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4897350/" target="_blank" rel="noopener">https://book.douban.com/subject/4897350/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">贝叶斯方法</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26929874/" target="_blank" rel="noopener">https://book.douban.com/subject/26929874/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">7天搞定微积分</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25799160/" target="_blank" rel="noopener">https://book.douban.com/subject/25799160/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">离散数学及其应用（原书第6版·本科教学版）</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6891958/" target="_blank" rel="noopener">https://book.douban.com/subject/6891958/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数理统计引论</td>
+<td style="text-align:center">7.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1553742/" target="_blank" rel="noopener">https://book.douban.com/subject/1553742/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">随机过程论</td>
+<td style="text-align:center">7.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3009891/" target="_blank" rel="noopener">https://book.douban.com/subject/3009891/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">常微分方程教程</td>
+<td style="text-align:center">7.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1191930/" target="_blank" rel="noopener">https://book.douban.com/subject/1191930/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">常微分方程</td>
+<td style="text-align:center">7.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1954348/" target="_blank" rel="noopener">https://book.douban.com/subject/1954348/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">程序员的数学</td>
+<td style="text-align:center">7.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/19949020/" target="_blank" rel="noopener">https://book.douban.com/subject/19949020/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">随机过程</td>
+<td style="text-align:center">6.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1230228/" target="_blank" rel="noopener">https://book.douban.com/subject/1230228/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">多微积分</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10749416/" target="_blank" rel="noopener">https://book.douban.com/subject/10749416/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">随机过程</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4012409/" target="_blank" rel="noopener">https://book.douban.com/subject/4012409/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">线性与非线性泛函分析及其应用(上)/法兰西数学精品译丛</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27095662/" target="_blank" rel="noopener">https://book.douban.com/subject/27095662/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">实分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20430402/" target="_blank" rel="noopener">https://book.douban.com/subject/20430402/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">分析入门</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3270462/" target="_blank" rel="noopener">https://book.douban.com/subject/3270462/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Applied Multivariate Statistical Analysis</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26725358/" target="_blank" rel="noopener">https://book.douban.com/subject/26725358/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">应用随机过程</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26761202/" target="_blank" rel="noopener">https://book.douban.com/subject/26761202/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">国外优秀数学教材系列</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26413148/" target="_blank" rel="noopener">https://book.douban.com/subject/26413148/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数值分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26600495/" target="_blank" rel="noopener">https://book.douban.com/subject/26600495/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数值计算方法及其应用</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1707061/" target="_blank" rel="noopener">https://book.douban.com/subject/1707061/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">矩阵分析(原书第2版)</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26594325/" target="_blank" rel="noopener">https://book.douban.com/subject/26594325/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">矩阵论</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25913537/" target="_blank" rel="noopener">https://book.douban.com/subject/25913537/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">矩阵论千题习题详解</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26911442/" target="_blank" rel="noopener">https://book.douban.com/subject/26911442/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">贝叶斯可靠性</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26108257/" target="_blank" rel="noopener">https://book.douban.com/subject/26108257/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">复分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20432851/" target="_blank" rel="noopener">https://book.douban.com/subject/20432851/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">概率、随机变量与随机过程</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/15994890/" target="_blank" rel="noopener">https://book.douban.com/subject/15994890/</a></td>
+</tr>
+</tbody>
+</table>
+<p>以上排名顺序依据豆瓣评分进行排序，0分的不代表最坏，而是有可能读者较少。</p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">书名</th>
+<th style="text-align:center">豆瓣评分</th>
+<th style="text-align:center">豆瓣URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">计算机程序设计艺术卷1：基本算法(英文版.第3版)</td>
+<td style="text-align:center">9.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5258931/" target="_blank" rel="noopener">https://book.douban.com/subject/5258931/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Pattern Recognition and Machine Learning</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2061116/" target="_blank" rel="noopener">https://book.douban.com/subject/2061116/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">矩阵计算</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25837616/" target="_blank" rel="noopener">https://book.douban.com/subject/25837616/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数字图像处理</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4285832/" target="_blank" rel="noopener">https://book.douban.com/subject/4285832/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">算法导论（原书第2版）</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1885170/" target="_blank" rel="noopener">https://book.douban.com/subject/1885170/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">信息论基础</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2305237/" target="_blank" rel="noopener">https://book.douban.com/subject/2305237/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">统计学习方法</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10590856/" target="_blank" rel="noopener">https://book.douban.com/subject/10590856/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">集体智慧编程</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26348921/" target="_blank" rel="noopener">https://book.douban.com/subject/26348921/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">模式分类</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1138189/" target="_blank" rel="noopener">https://book.douban.com/subject/1138189/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数字图像处理</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6434627/" target="_blank" rel="noopener">https://book.douban.com/subject/6434627/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">算法心得：高效算法的奥秘（原书第2版）</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25837031/" target="_blank" rel="noopener">https://book.douban.com/subject/25837031/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26708119/" target="_blank" rel="noopener">https://book.douban.com/subject/26708119/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数理统计与数据分析</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6508744/" target="_blank" rel="noopener">https://book.douban.com/subject/6508744/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1102235/" target="_blank" rel="noopener">https://book.douban.com/subject/1102235/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">深度学习</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27087503/" target="_blank" rel="noopener">https://book.douban.com/subject/27087503/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">计算机程序设计艺术（第3卷 英文版·第2版）</td>
+<td style="text-align:center">8.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5258933/" target="_blank" rel="noopener">https://book.douban.com/subject/5258933/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">神经网络与机器学习（原书第3版）</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5952531/" target="_blank" rel="noopener">https://book.douban.com/subject/5952531/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">特征提取与图像处理</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5349816/" target="_blank" rel="noopener">https://book.douban.com/subject/5349816/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像局部不变性特征与描述</td>
+<td style="text-align:center">7.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4778377/" target="_blank" rel="noopener">https://book.douban.com/subject/4778377/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">遗传算法与工程优化</td>
+<td style="text-align:center">7.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1154376/" target="_blank" rel="noopener">https://book.douban.com/subject/1154376/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习导论（原书第2版）</td>
+<td style="text-align:center">7.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25881740/" target="_blank" rel="noopener">https://book.douban.com/subject/25881740/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习基础教程</td>
+<td style="text-align:center">7.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25772440/" target="_blank" rel="noopener">https://book.douban.com/subject/25772440/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">深入理解OpenCV</td>
+<td style="text-align:center">7.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26028176/" target="_blank" rel="noopener">https://book.douban.com/subject/26028176/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习导论</td>
+<td style="text-align:center">7.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26936258/" target="_blank" rel="noopener">https://book.douban.com/subject/26936258/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理、分析与机器视觉</td>
+<td style="text-align:center">7.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5921462/" target="_blank" rel="noopener">https://book.douban.com/subject/5921462/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图解机器学习</td>
+<td style="text-align:center">6.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26363531/" target="_blank" rel="noopener">https://book.douban.com/subject/26363531/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习</td>
+<td style="text-align:center">6.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26681609/" target="_blank" rel="noopener">https://book.douban.com/subject/26681609/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">深入理解机器学习：从原理到算法</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26838345/" target="_blank" rel="noopener">https://book.douban.com/subject/26838345/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数字信号处理</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/7058940/" target="_blank" rel="noopener">https://book.douban.com/subject/7058940/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">离散时间信号处理</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5400863/" target="_blank" rel="noopener">https://book.douban.com/subject/5400863/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">计算机视觉特征提取与图像处理（第三版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26605693/" target="_blank" rel="noopener">https://book.douban.com/subject/26605693/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理与分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6534752/" target="_blank" rel="noopener">https://book.douban.com/subject/6534752/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理与计算机视觉算法及应用</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10748865/" target="_blank" rel="noopener">https://book.douban.com/subject/10748865/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">计算机程序设计艺术（第2卷 英文版·第3版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5258932/" target="_blank" rel="noopener">https://book.douban.com/subject/5258932/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数值方法：设计、分析和算法实现</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26863824/" target="_blank" rel="noopener">https://book.douban.com/subject/26863824/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">艾伦·图灵</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26986470/" target="_blank" rel="noopener">https://book.douban.com/subject/26986470/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">凸优化算法</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26810882/" target="_blank" rel="noopener">https://book.douban.com/subject/26810882/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">快速傅里叶变换</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/22685925/" target="_blank" rel="noopener">https://book.douban.com/subject/22685925/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">小波十讲</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6896046/" target="_blank" rel="noopener">https://book.douban.com/subject/6896046/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">小波与小波变换导论</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26344081/" target="_blank" rel="noopener">https://book.douban.com/subject/26344081/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">现代智能优化混合算法及其应用（第2版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26208157/" target="_blank" rel="noopener">https://book.douban.com/subject/26208157/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">彩色数字图像处理</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4287399/" target="_blank" rel="noopener">https://book.douban.com/subject/4287399/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理基础（第2版）</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25731155/" target="_blank" rel="noopener">https://book.douban.com/subject/25731155/</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="编程"><a href="#编程" class="headerlink" title="编程"></a>编程</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">书名</th>
+<th style="text-align:center">豆瓣评分</th>
+<th style="text-align:center">豆瓣URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">深入理解计算机系统（原书第2版）</td>
+<td style="text-align:center">9.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5333562/" target="_blank" rel="noopener">https://book.douban.com/subject/5333562/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Effective C++</td>
+<td style="text-align:center">9.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5387403/" target="_blank" rel="noopener">https://book.douban.com/subject/5387403/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">神经生物学</td>
+<td style="text-align:center">9.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26248628/" target="_blank" rel="noopener">https://book.douban.com/subject/26248628/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">UNIX环境高级编程</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1788421/" target="_blank" rel="noopener">https://book.douban.com/subject/1788421/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C程序设计语言</td>
+<td style="text-align:center">9.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1139336/" target="_blank" rel="noopener">https://book.douban.com/subject/1139336/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">代码大全（第2版）</td>
+<td style="text-align:center">9.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1477390/" target="_blank" rel="noopener">https://book.douban.com/subject/1477390/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">R语言入门与实践</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26808217/" target="_blank" rel="noopener">https://book.douban.com/subject/26808217/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">操作系统设计与实现（上册）</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2044818/" target="_blank" rel="noopener">https://book.douban.com/subject/2044818/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">重构</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26575459/" target="_blank" rel="noopener">https://book.douban.com/subject/26575459/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C专家编程</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2377310/" target="_blank" rel="noopener">https://book.douban.com/subject/2377310/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">UNIX网络编程 卷1：套接字联网API（第3版）</td>
+<td style="text-align:center">9.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26434583/" target="_blank" rel="noopener">https://book.douban.com/subject/26434583/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C语言接口与实现</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6801697/" target="_blank" rel="noopener">https://book.douban.com/subject/6801697/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C++Primer(英文版)(第4版)</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1900687/" target="_blank" rel="noopener">https://book.douban.com/subject/1900687/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">编程珠玑</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3227098/" target="_blank" rel="noopener">https://book.douban.com/subject/3227098/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">设计模式</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1052241/" target="_blank" rel="noopener">https://book.douban.com/subject/1052241/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">编译原理</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5416783/" target="_blank" rel="noopener">https://book.douban.com/subject/5416783/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C Primer Plus</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1240002/" target="_blank" rel="noopener">https://book.douban.com/subject/1240002/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Vim实用技巧</td>
+<td style="text-align:center">9.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25869486/" target="_blank" rel="noopener">https://book.douban.com/subject/25869486/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Essential C++中文版</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/24868427/" target="_blank" rel="noopener">https://book.douban.com/subject/24868427/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">深度探索C++对象模型</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10427315/" target="_blank" rel="noopener">https://book.douban.com/subject/10427315/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C陷阱与缺陷</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2778632/" target="_blank" rel="noopener">https://book.douban.com/subject/2778632/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器视觉</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25950517/" target="_blank" rel="noopener">https://book.douban.com/subject/25950517/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数据结构与算法分析</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/1139426/" target="_blank" rel="noopener">https://book.douban.com/subject/1139426/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">x86汇编语言</td>
+<td style="text-align:center">8.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20492528/" target="_blank" rel="noopener">https://book.douban.com/subject/20492528/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">程序员修炼之道</td>
+<td style="text-align:center">8.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/5387402/" target="_blank" rel="noopener">https://book.douban.com/subject/5387402/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Effective Python</td>
+<td style="text-align:center">8.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26709315/" target="_blank" rel="noopener">https://book.douban.com/subject/26709315/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">R语言实战（第2版）</td>
+<td style="text-align:center">8.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26785199/" target="_blank" rel="noopener">https://book.douban.com/subject/26785199/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">R语言编程艺术</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/24699632/" target="_blank" rel="noopener">https://book.douban.com/subject/24699632/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">代码整洁之道</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4199741/" target="_blank" rel="noopener">https://book.douban.com/subject/4199741/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Linux内核设计与实现(原书第3版)</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6097773/" target="_blank" rel="noopener">https://book.douban.com/subject/6097773/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">人月神话</td>
+<td style="text-align:center">8.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/2230248/" target="_blank" rel="noopener">https://book.douban.com/subject/2230248/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">利用Python进行数据分析</td>
+<td style="text-align:center">8.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25779298/" target="_blank" rel="noopener">https://book.douban.com/subject/25779298/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C++编程思想（两卷合订本）</td>
+<td style="text-align:center">8.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6558198/" target="_blank" rel="noopener">https://book.douban.com/subject/6558198/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习与R语言</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26409413/" target="_blank" rel="noopener">https://book.douban.com/subject/26409413/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">CUDA并行程序设计：GPU编程指南</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25813577/" target="_blank" rel="noopener">https://book.douban.com/subject/25813577/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">编程之美</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3004255/" target="_blank" rel="noopener">https://book.douban.com/subject/3004255/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Tensorflow：实战Google深度学习框架</td>
+<td style="text-align:center">8.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26976457/" target="_blank" rel="noopener">https://book.douban.com/subject/26976457/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">数据科学实战</td>
+<td style="text-align:center">8.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26320485/" target="_blank" rel="noopener">https://book.douban.com/subject/26320485/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">学习OpenCV（中文版）</td>
+<td style="text-align:center">8.2</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/4033320/" target="_blank" rel="noopener">https://book.douban.com/subject/4033320/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python编程第4版</td>
+<td style="text-align:center">8.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26314833/" target="_blank" rel="noopener">https://book.douban.com/subject/26314833/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python编程第4版</td>
+<td style="text-align:center">8.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26314833/" target="_blank" rel="noopener">https://book.douban.com/subject/26314833/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python高手之路</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26389274/" target="_blank" rel="noopener">https://book.douban.com/subject/26389274/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python核心编程（第3版）</td>
+<td style="text-align:center">7.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26801374/" target="_blank" rel="noopener">https://book.douban.com/subject/26801374/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">大话数据结构</td>
+<td style="text-align:center">7.9</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/6424904/" target="_blank" rel="noopener">https://book.douban.com/subject/6424904/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python核心编程（第二版）</td>
+<td style="text-align:center">7.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/3112503/" target="_blank" rel="noopener">https://book.douban.com/subject/3112503/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python网络数据采集</td>
+<td style="text-align:center">7.7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26740503/" target="_blank" rel="noopener">https://book.douban.com/subject/26740503/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">python黑帽子</td>
+<td style="text-align:center">7.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26590145/" target="_blank" rel="noopener">https://book.douban.com/subject/26590145/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">计算机视觉</td>
+<td style="text-align:center">7.5</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/10465997/" target="_blank" rel="noopener">https://book.douban.com/subject/10465997/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python数据分析基础</td>
+<td style="text-align:center">7.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27100480/" target="_blank" rel="noopener">https://book.douban.com/subject/27100480/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">python绝技：运用python成为顶级黑客</td>
+<td style="text-align:center">7.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26702570/" target="_blank" rel="noopener">https://book.douban.com/subject/26702570/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">用Python写网络爬虫</td>
+<td style="text-align:center">7.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26869992/" target="_blank" rel="noopener">https://book.douban.com/subject/26869992/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">并行程序设计导论</td>
+<td style="text-align:center">7.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20374756/" target="_blank" rel="noopener">https://book.douban.com/subject/20374756/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">贝叶斯思维</td>
+<td style="text-align:center">7.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26340992/" target="_blank" rel="noopener">https://book.douban.com/subject/26340992/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">TensorFlow实战</td>
+<td style="text-align:center">7.3</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26974266/" target="_blank" rel="noopener">https://book.douban.com/subject/26974266/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python基础教程（第2版•修订版）</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25880388/" target="_blank" rel="noopener">https://book.douban.com/subject/25880388/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python机器学习实践指南</td>
+<td style="text-align:center">6.8</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27073447/" target="_blank" rel="noopener">https://book.douban.com/subject/27073447/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">C程序性能优化</td>
+<td style="text-align:center">6.6</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/20501302/" target="_blank" rel="noopener">https://book.douban.com/subject/20501302/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python机器学习</td>
+<td style="text-align:center">6.4</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26931280/" target="_blank" rel="noopener">https://book.douban.com/subject/26931280/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">机器学习实践指南</td>
+<td style="text-align:center">6.1</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/25879705/" target="_blank" rel="noopener">https://book.douban.com/subject/25879705/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">CUDA C编程权威指南</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27108836/" target="_blank" rel="noopener">https://book.douban.com/subject/27108836/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Julia数据科学应用</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/30292811/" target="_blank" rel="noopener">https://book.douban.com/subject/30292811/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">R语言数据分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26925450/" target="_blank" rel="noopener">https://book.douban.com/subject/26925450/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">SEO实战密码</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26685767/" target="_blank" rel="noopener">https://book.douban.com/subject/26685767/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">并行编程模式</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26339911/" target="_blank" rel="noopener">https://book.douban.com/subject/26339911/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Python数据可视化/数据分析与决策技术丛书</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/27022925/" target="_blank" rel="noopener">https://book.douban.com/subject/27022925/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">模式识别原理及工程应用</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/24744805/" target="_blank" rel="noopener">https://book.douban.com/subject/24744805/</a></td>
+</tr>
+<tr>
+<td style="text-align:center">独立成分分析</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><a href="https://book.douban.com/subject/26410920/" target="_blank" rel="noopener">https://book.douban.com/subject/26410920/</a></td>
+</tr>
+</tbody>
+</table>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+
+
+
+    
+    
+    
+
+
+          </div>
+          
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">270</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">517</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" title="【强化学习】2.0 多臂赌博机" target="_blank">【强化学习】2.0 多臂赌博机</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字" target="_blank">【Julia】整型和浮点型数字</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-6-Summary-History/" title="【强化学习】1.6 本章总结、强化学习历史简述" target="_blank">【强化学习】1.6 本章总结、强化学习历史简述</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-3-Variables/" title="【Julia】变量" target="_blank">【Julia】变量</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#我"><span class="nav-number">1.</span> <span class="nav-text">我</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#我是谁"><span class="nav-number">1.1.</span> <span class="nav-text">我是谁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联系我"><span class="nav-number">1.2.</span> <span class="nav-text">联系我</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我的书"><span class="nav-number">1.3.</span> <span class="nav-text">我的书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数学书"><span class="nav-number">1.4.</span> <span class="nav-text">数学书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法"><span class="nav-number">1.5.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程"><span class="nav-number">1.6.</span> <span class="nav-text">编程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV,
+        el: '#comments' ,
+        appId: 'rPrP8o4eOcKBbGgojFM5h0c2-gzGzoHsz',
+        appKey: 'bi1R0D5QzAhYbIb3itBn8O7m',
+        placeholder: '无需注册，填写正确的邮箱，评论被回复就有邮件通知了~',
+    });
+  </script>
+
+ 
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function showTime(Counter) {
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
+        .done(function ({ results }) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.url;
+            var time = item.time;
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          if ($('.post-title-link').length >= 1) {
+            showTime(Counter);
+          }
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

@@ -1,0 +1,2243 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 数字图像处理：第54天Keywords: OTSU算法">
+<meta name="keywords" content="OTSU算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数字图像处理】7.5:灰度图像-图像分割 阈值处理之OTSU阈值">
+<meta property="og:url" content="http://www.face2ai.com/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 数字图像处理：第54天Keywords: OTSU算法">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308140256646.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152743862.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152907539.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152918272.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152814765.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152827323.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152836777.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153000860.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153012264.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152915106.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152932001.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153053245.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153102277.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153112137.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153008599.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153300433.jpeg">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153428432.jpeg">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【数字图像处理】7.5:灰度图像-图像分割 阈值处理之OTSU阈值">
+<meta name="twitter:description" content="Abstract: 数字图像处理：第54天Keywords: OTSU算法">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308140256646.jpeg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【数字图像处理】7.5:灰度图像-图像分割 阈值处理之OTSU阈值 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-julia">
+    <a href="/Julia/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Julia</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【数字图像处理】7.5:灰度图像-图像分割 阈值处理之OTSU阈值
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-03-08 12:35:00" itemprop="dateCreated datePublished" datetime="2015-03-08T12:35:00+08:00">2015-03-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DIP/" itemprop="url" rel="index"><span itemprop="name">DIP</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/" class="leancloud_visitors" data-flag-title="【数字图像处理】7.5:灰度图像-图像分割 阈值处理之OTSU阈值">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 数字图像处理：第54天<br><strong>Keywords:</strong> OTSU算法<br><a id="more"></a></p>
+<p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p>
+<h1 id="灰度图像-图像分割-阈值处理之OTSU阈值"><a href="#灰度图像-图像分割-阈值处理之OTSU阈值" class="headerlink" title="灰度图像-图像分割 阈值处理之OTSU阈值"></a>灰度图像-图像分割 阈值处理之OTSU阈值</h1><p>废话开始，今天介绍OTSU算法，本算法比前面给出的算法更能够给出数学上的最佳阈值，不需要任何输入附加参数、与同样不需要输入附加参数的迭代均值和均值阈值来比较，OTSU给出的阈值能使分类更加均匀。<br>阈值处理将灰度值分为两类，而对于分类问题，已有的一种最优闭合解–贝叶斯决策规则。</p>
+<h2 id="贝叶斯决策规则"><a href="#贝叶斯决策规则" class="headerlink" title="贝叶斯决策规则"></a>贝叶斯决策规则</h2><p>首先介绍下贝叶斯公式的形象化理解，考虑下图<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308140256646.jpeg" alt=""></p>
+<p>上面的12幅图中有手枪和弹夹，只有弹夹和手枪出现在同一个盒子的时候才有杀伤力，也就是你拿到一个盒子，你不知道里面是什么，有可能是枪，有可能是弹夹，有可能同时有枪和弹夹。下面来从概率学角度分析<br>设盒子里有枪为事件A，那么A出现的概率设为 $p(A)$ 。<br>设盒子里有弹夹为事件B，那么B出现的概率设为 $p(B)$ 。<br>那么同时出现事件A和事件B的概率为 $p(AB)$<br>看图可以知道<br>$p(A)=\frac{8}{12}=\frac{2}{3}$ ……….(1)<br>$p(B)=\frac{7}{12}$ ……….(2)<br>$p(AB)=\frac{3}{12}=\frac{1}{4}$ ……….(3)</p>
+<p>考虑我们随机抽出一个盒子，先拿出一个东西，比如先拿出一把枪，那么也就是事件A发生了，那么我们继续从盒子里拿东西，有可能拿到弹夹，也有可能啥也没有，那么拿到弹夹的概率就如下：<br>$p(B|A)=\frac{3}{8}$ ……….(4)</p>
+<p>同理，如果先拿出来的是个弹夹，那么接下来拿出枪的概率是：<br>$p(A|B)=\frac{3}{7}$ ……….(5)</p>
+<p>结合(1)(2)(3)(4)(5)，可以得到：<br>$p(AB)=p(A|B)\times p(B)=p(B|A)\times p(A)$ ……….(6)</p>
+<hr>
+<p>假设下面情形：<br>已知拿出枪的概率是：<br>$p(A)=\frac{2}{3}$</p>
+<p>拿出枪以后拿出弹夹的概率<br>$p(B|A)=\frac{3}{8}$</p>
+<p>拿出弹夹的概率：<br>$p(B)=\frac{7}{12}$</p>
+<p>求拿出弹夹以后拿出枪的概率<br>$p(A|B)=\frac{p(B|A)\times p(A)}{p(B)}$</p>
+<p>以上就是贝叶斯公式的一般形式，更复杂的形式会在后面的文章中详细介绍。（更复杂的形式是指盒子里有枪，子弹，弹夹，手榴弹。。。。。。）</p>
+<h2 id="数学原理"><a href="#数学原理" class="headerlink" title="数学原理"></a>数学原理</h2><p>OTSU算法可以基于直方图计算，考虑灰度级为{0，1，2……..L-1}大小为 $M \times N$ 的图像，设 $n_i$ 为灰度级为i的像素的总数量，那么:<br>$M \times N=\sum^{L-1}_{i=0}n_i$</p>
+<p>$p(n_i)=\frac{n_i}{M \times N}$</p>
+<p>$\sum^{L-1}_{i=0}p_i=1$</p>
+<p>假设阈值为k将直方图分成两部分。<br>部分1$(C_1)$的概率为：<br>$p_1(k)=\sum^{k}_{i=0}p_i$</p>
+<p>部分2$(C_2)$的概率为：<br>$p_2(k)=\sum^{L-1}_{i=k+1}p_i$</p>
+<p>部分1$(C_1)$的平均数：<br>$m_1(k)=\sum^{k}_{i=0}i\times P(i|C_1)=\sum^{k}_{i=0}i\times \frac{P(C_1|i)\times P(i)}{P(C_1)}$</p>
+<p>$P(C_1|i)$ 的值为1，因为 $i$ 是属于 $C_1$ 的，所以发生$i$ 以后发生 $C_1$ 的概率是100%，所以<br>$m_1(k)=\frac{1}{P_1(k)}\sum^{k}_{i=0}i\times p_i$</p>
+<p>部分2$(C_2)$ 的平均数：<br>$m_2(k)=\frac{1}{P_2(k)} \sum^{L-1}_{k+1}i\times p_i$</p>
+<p>全图的均值<br>$m_G=\sum^{L-1}_{i=0}iP_i$</p>
+<p>上面的式子可以由下面验证：<br>$P_1m_1+P_2m_2=m_G$</p>
+<p>$P_1+P_2=1$</p>
+<p>下面就是关键部分了，如何评价一个阈值的好坏，提出一个阈值，将像素灰度分为两类，通过以下的公式来评价阈值质量：</p>
+<p>$\eta=\frac{\delta_B^2}{\delta_G^2}$</p>
+<p>$\delta_G^2=\sum^{L-1}_{i=0}(i-m_G)^2\times p_i$</p>
+<p>$\delta_B^2$是类间方差，其定义为：<br>$\delta_B^2=P_1(m_1-m_G)^2+P_2(m_2-m_G)^2$</p>
+<p>公式还可以写成：<br>$\delta^2_B=P_1P_2(m_1-m_2)^2=\frac{P_1(m_1-m_G)^2}{1-P_1}$</p>
+<p>于是最佳阈值$k^{<em>}$ 由下面得出：<br>$\delta^2_B(k^{</em>})=max_{0\leq k \leq L-1}\delta^2_B(k)$</p>
+<p>通过上式可以通过迭代计算出最佳的k值。使用k作为阈值，对图像进行处理。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *OTSU 算法</span></span><br><span class="line"><span class="comment"> *otsu 算法使用贝叶斯分类原理得到最好聚类</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//归一化直方图</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setHist2One</span><span class="params">(<span class="keyword">double</span> *hist_d,<span class="keyword">double</span> *dst_hist_d)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> sum=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;GRAY_LEVEL;i++)</span><br><span class="line">        sum+=hist_d[i];</span><br><span class="line">    <span class="keyword">if</span>(sum!=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;GRAY_LEVEL;i++)</span><br><span class="line">            dst_hist_d[i]=hist_d[i]/sum;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//计算公式中最大的deta，并返回直方图灰度</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">findMaxDeta</span><span class="params">(<span class="keyword">double</span> *hist_d)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> max_deta=<span class="number">-1.0</span>;</span><br><span class="line">    <span class="keyword">double</span> max_deta_location=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">double</span> m_g=<span class="number">0.0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;GRAY_LEVEL;i++)</span><br><span class="line">        m_g+=i*hist_d[i];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;GRAY_LEVEL;i++)&#123;</span><br><span class="line">        <span class="keyword">double</span> p1=<span class="number">0.0</span>;</span><br><span class="line">        <span class="keyword">double</span> m1=<span class="number">0.0</span>;</span><br><span class="line">        <span class="keyword">double</span> deta=<span class="number">0.0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            p1+=hist_d[j];</span><br><span class="line">            m1+=j*hist_d[j];</span><br><span class="line">        &#125;</span><br><span class="line">        deta=p1*(m1-m_g)*(m1-m_g)/(<span class="number">1</span>-p1);</span><br><span class="line">        <span class="keyword">if</span>(deta&gt;max_deta)&#123;</span><br><span class="line">            max_deta_location=i;</span><br><span class="line">            max_deta=deta;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max_deta_location;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OTSUThreshold</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> type)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> hist[GRAY_LEVEL];</span><br><span class="line">    <span class="keyword">double</span> hist_d[GRAY_LEVEL];</span><br><span class="line">    setHistogram(src, hist, width, height);</span><br><span class="line">    Hist_int2double(hist, hist_d);</span><br><span class="line">    setHist2One(hist_d, hist_d);</span><br><span class="line">    <span class="keyword">double</span> threshold=findMaxDeta(hist_d);</span><br><span class="line">    Threshold(src, dst, width, height, threshold, type);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="观察结果"><a href="#观察结果" class="headerlink" title="观察结果"></a>观察结果</h2><p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152743862.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152907539.jpeg" alt=""></p>
+<p>加入1%的高斯噪声：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152918272.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152814765.jpeg" alt=""></p>
+<p>加入3%的高斯噪声：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152827323.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152836777.jpeg" alt=""></p>
+<p>加入5%的高斯噪声：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153000860.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153012264.jpeg" alt=""></p>
+<p>加入7%的高斯噪声：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152915106.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308152932001.jpeg" alt=""></p>
+<p>加入9%的高斯噪声：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153053245.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153102277.jpeg" alt=""></p>
+<p>加入11%的高斯噪声：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153112137.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153008599.jpeg" alt=""></p>
+<p>lena:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153300433.jpeg" alt=""></p>
+<p>baboon:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值/20150308153428432.jpeg" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>OTSU算法产生的阈值是数学角度上的最佳分类，数学基础的贝叶斯公式，但应用也有一定的局限性，比如，前面说过最多的，对全局阈值，目标与背景的大小关系，当目标和背景大小相差很多时，或者噪声很大的时候，对OTSU产生影响较大。<br>待续。。。</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值">https://www.face2ai.com/DIP-7-5-灰度图像-图像分割-阈值处理之OTSU阈值</a>转载请标明出处</p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OTSU算法/" rel="tag"># OTSU算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/DIP-7-4-灰度图像-图像分割-阈值处理之谷底阈值-峰顶平均/" rel="next" title="【数字图像处理】7.4:灰度图像-图像分割 阈值处理之谷底阈值、峰顶平均">
+                <i class="fa fa-chevron-left"></i> 【数字图像处理】7.4:灰度图像-图像分割 阈值处理之谷底阈值、峰顶平均
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/DIP-7-6-灰度图像-图像分割-阈值处理之补充说明/" rel="prev" title="【数字图像处理】7.6:灰度图像--图像分割 阈值处理之补充说明">
+                【数字图像处理】7.6:灰度图像--图像分割 阈值处理之补充说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+          </div>
+          
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">270</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">517</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" title="【强化学习】2.0 多臂赌博机" target="_blank">【强化学习】2.0 多臂赌博机</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字" target="_blank">【Julia】整型和浮点型数字</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-6-Summary-History/" title="【强化学习】1.6 本章总结、强化学习历史简述" target="_blank">【强化学习】1.6 本章总结、强化学习历史简述</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-3-Variables/" title="【Julia】变量" target="_blank">【Julia】变量</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#灰度图像-图像分割-阈值处理之OTSU阈值"><span class="nav-number">1.</span> <span class="nav-text">灰度图像-图像分割 阈值处理之OTSU阈值</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯决策规则"><span class="nav-number">1.1.</span> <span class="nav-text">贝叶斯决策规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数学原理"><span class="nav-number">1.2.</span> <span class="nav-text">数学原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">1.3.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察结果"><span class="nav-number">1.4.</span> <span class="nav-text">观察结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV,
+        el: '#comments' ,
+        appId: 'rPrP8o4eOcKBbGgojFM5h0c2-gzGzoHsz',
+        appKey: 'bi1R0D5QzAhYbIb3itBn8O7m',
+        placeholder: '无需注册，填写正确的邮箱，评论被回复就有邮件通知了~',
+    });
+  </script>
+
+ 
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

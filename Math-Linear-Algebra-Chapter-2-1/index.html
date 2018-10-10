@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 通过不同的角度解方程组$Ax=b$Keywords: row picture，column Picture，system of equations">
+<meta name="keywords" content="row picture,column Picture,system of equations">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【线性代数】2-1:解方程组(Ax=b)">
+<meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-1/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 通过不同的角度解方程组$Ax=b$Keywords: row picture，column Picture，system of equations">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-1/row_picture.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-1/column_picture.png">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.851Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【线性代数】2-1:解方程组(Ax=b)">
+<meta name="twitter:description" content="Abstract: 通过不同的角度解方程组$Ax=b$Keywords: row picture，column Picture，system of equations">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-1/row_picture.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-1/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【线性代数】2-1:解方程组(Ax=b) | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-julia">
+    <a href="/Julia/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Julia</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【线性代数】2-1:解方程组(Ax=b)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-31 15:08:37" itemprop="dateCreated datePublished" datetime="2017-08-31T15:08:37+08:00">2017-08-31</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Linear-Algebra/" itemprop="url" rel="index"><span itemprop="name">Linear Algebra</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/Math-Linear-Algebra-Chapter-2-1/" class="leancloud_visitors" data-flag-title="【线性代数】2-1:解方程组(Ax=b)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 通过不同的角度解方程组$Ax=b$<br><strong>Keywords:</strong> row picture，column Picture，system of equations<br><a id="more"></a></p>
+<h1 id="解方程组"><a href="#解方程组" class="headerlink" title="解方程组"></a>解方程组</h1><h2 id="解方程组-1"><a href="#解方程组-1" class="headerlink" title="解方程组"></a>解方程组</h2><p>$$<br>  x-2y=1 \\<br>  3x+2y=11<br>$$<br>同志们，来解方程组，这是小学四五年级的数学题，也是线性代数的核心问题，解方程组，没错2x2的方程组没啥好说的，咔咔咔，就算粗来了，但是200x200的规模就有点大了，所以线性代数知识就有用了。</p>
+<h2 id="行视角-Row-Picture"><a href="#行视角-Row-Picture" class="headerlink" title="行视角(Row Picture)"></a>行视角(Row Picture)</h2><p>不知道Picture这个词本身就是这种含义，还是Pro Strang喜欢这么说，Open Course和书上都是各种各样的Picture。<br>什么是Row Picture？<br>看到方程组中的两个等式么，每一行就是一个Picture，或者叫做Graph，在二维坐标系下，表现出来的是一条直线，同样第二个方程也是一条直线，直线上所有的点都满足方程，所以两条直线相交处就是方程组的解。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-1/row_picture.png" alt=""></p>
+<h2 id="列视角-Column-Picture"><a href="#列视角-Column-Picture" class="headerlink" title="列视角(Column Picture)"></a>列视角(Column Picture)</h2><p>这个是重点了，因为这个能引出后面一些列的知识，如果我们竖着看，把方程的系数排列整齐，把每个未知数的所有系数按照列向量排列：<br>$$<br>x\begin{bmatrix} 1\\1 \end{bmatrix}+y\begin{bmatrix}-2\\2 \end{bmatrix}=\begin{bmatrix}1\\11 \end{bmatrix}=\textbf{b}<br>$$<br>怎么样，意外不意外，惊喜不惊喜，和前面讲到的Linear Combination是不是一毛一样，经过scale的两个向量相加得到另一个向量，接着我们就开始寻求scalars了。</p>
+<p><strong><em>也就是我们通过寻找特定的scalars，来组合出我们规定的 $\textbf{b}$ </em></strong></p>
+<p>在图像上，column picture 就变成了两个（或若干个）向量组合得到目标向量了，如图：</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-1/column_picture.png" alt=""></p>
+<h2 id="系数矩阵-Coefficient-Matrix"><a href="#系数矩阵-Coefficient-Matrix" class="headerlink" title="系数矩阵(Coefficient Matrix)"></a>系数矩阵(Coefficient Matrix)</h2><p>下面矩阵正式出场，我们把上面那两个系数向量挨着拼接起来，就能得到一个系数矩阵(Coefficient Matrix)<br>$$<br>A=\begin{bmatrix}1&amp;-2\\3&amp;2\end{bmatrix}<br>$$<br>然后写成方程形式就是：<br>$$<br>A\textbf{x}=\textbf{b}<br>$$<br>其中 $\textbf{x}=\begin{bmatrix}x\\y\end{bmatrix}$,x 和 y就是上面的未知数。</p>
+<h2 id="矩阵乘向量-Matrix-·-Vector"><a href="#矩阵乘向量-Matrix-·-Vector" class="headerlink" title="矩阵乘向量(Matrix · Vector)"></a>矩阵乘向量(Matrix · Vector)</h2><p>没错，上面的表示就是一个系数矩阵x向量，更通用一些，我们不在局限于上面的2x2的A，而是放飞自我的A，x也是放飞自我的x，那么</p>
+<h3 id="行Row"><a href="#行Row" class="headerlink" title="行Row"></a>行Row</h3><p>$$<br>A\textbf{x}=\begin{bmatrix}<br>row(1)\cdot \textbf{x}\\<br>row(2)\cdot \textbf{x}\\<br>\dots\\<br>row(n)\cdot \textbf{x}\\<br>\end{bmatrix}<br>$$<br>系数矩阵每一行和未知数向量点乘，得到的就是方程组的原始形式。</p>
+<h3 id="列Column"><a href="#列Column" class="headerlink" title="列Column"></a>列Column</h3><p>$$<br>A\textbf{x}=col(1)x_1+rcol(2)x_2+\dots+col(n)x_n\\<br>$$<br>系数矩阵的每一列的线性组合</p>
+<h2 id="单位矩阵-Identity-Matrix"><a href="#单位矩阵-Identity-Matrix" class="headerlink" title="单位矩阵(Identity Matrix)"></a>单位矩阵(Identity Matrix)</h2><p>神奇矩阵$I$，$IA=A$看到没，这就是他牛的地方，和谁乘在一起都是谁<br>$$<br>\begin{equation}<br>I=\begin{bmatrix}<br>1\\<br>&amp;1 &amp; &amp; \\<br>&amp;&amp;\ddots\\<br>&amp;&amp;&amp; 1\\<br>&amp;&amp;&amp;&amp; 1<br>\end{bmatrix}<br>\end{equation}<br>$$<br>空白处全是0<br>左乘右乘都不变！</p>
+<h2 id="更多未知数"><a href="#更多未知数" class="headerlink" title="更多未知数"></a>更多未知数</h2><p>当n超过3的是后row picture就不能picture了，三维以上的就画不粗来了，当然column Picture也画不出来，但是多维向量更容易想象，并不是说column picture比row好，但是从线性代数角度，col的意义更丰富.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这是线性最基础，最核心的思想之一，虽然简单，但却是所有知识的源头。</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-2-1">https://www.face2ai.com/Math-Linear-Algebra-Chapter-2-1</a>转载请标明出处</p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-4-1/" rel="bookmark">【线性代数】4-1:四个正交子空间(Orthogonality of the Four Subspace)</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/row-picture/" rel="tag"># row picture</a>
+          
+            <a href="/tags/column-Picture/" rel="tag"># column Picture</a>
+          
+            <a href="/tags/system-of-equations/" rel="tag"># system of equations</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-1-2/" rel="next" title="【线性代数】1-2:点乘和长度(Dot Products and Length)">
+                <i class="fa fa-chevron-left"></i> 【线性代数】1-2:点乘和长度(Dot Products and Length)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Linear-Algebra-Chapter-2-2/" rel="prev" title="【线性代数】2-2:消元(Eliminate)">
+                【线性代数】2-2:消元(Eliminate) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+          </div>
+          
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">270</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">517</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" title="【强化学习】2.0 多臂赌博机" target="_blank">【强化学习】2.0 多臂赌博机</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字" target="_blank">【Julia】整型和浮点型数字</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-6-Summary-History/" title="【强化学习】1.6 本章总结、强化学习历史简述" target="_blank">【强化学习】1.6 本章总结、强化学习历史简述</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-3-Variables/" title="【Julia】变量" target="_blank">【Julia】变量</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解方程组"><span class="nav-number">1.</span> <span class="nav-text">解方程组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解方程组-1"><span class="nav-number">1.1.</span> <span class="nav-text">解方程组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行视角-Row-Picture"><span class="nav-number">1.2.</span> <span class="nav-text">行视角(Row Picture)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列视角-Column-Picture"><span class="nav-number">1.3.</span> <span class="nav-text">列视角(Column Picture)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系数矩阵-Coefficient-Matrix"><span class="nav-number">1.4.</span> <span class="nav-text">系数矩阵(Coefficient Matrix)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵乘向量-Matrix-·-Vector"><span class="nav-number">1.5.</span> <span class="nav-text">矩阵乘向量(Matrix · Vector)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行Row"><span class="nav-number">1.5.1.</span> <span class="nav-text">行Row</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列Column"><span class="nav-number">1.5.2.</span> <span class="nav-text">列Column</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单位矩阵-Identity-Matrix"><span class="nav-number">1.6.</span> <span class="nav-text">单位矩阵(Identity Matrix)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多未知数"><span class="nav-number">1.7.</span> <span class="nav-text">更多未知数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV,
+        el: '#comments' ,
+        appId: 'rPrP8o4eOcKBbGgojFM5h0c2-gzGzoHsz',
+        appKey: 'bi1R0D5QzAhYbIb3itBn8O7m',
+        placeholder: '无需注册，填写正确的邮箱，评论被回复就有邮件通知了~',
+    });
+  </script>
+
+ 
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

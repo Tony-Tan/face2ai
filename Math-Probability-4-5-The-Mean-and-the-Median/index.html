@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍均值和中值的对比，以及最小平方误差，最小绝对误差Keywords: Mean，Median，Mean Squared Error，Mean Absolute Error">
+<meta name="keywords" content="均值,中值,最小均值误差,最小绝对误差">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【概率论】4-5:均值和中值(The Mean and the Median)">
+<meta property="og:url" content="http://www.face2ai.com/Math-Probability-4-5-The-Mean-and-the-Median/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍均值和中值的对比，以及最小平方误差，最小绝对误差Keywords: Mean，Median，Mean Squared Error，Mean Absolute Error">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-04T15:20:13.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【概率论】4-5:均值和中值(The Mean and the Median)">
+<meta name="twitter:description" content="Abstract: 本文介绍均值和中值的对比，以及最小平方误差，最小绝对误差Keywords: Mean，Median，Mean Squared Error，Mean Absolute Error">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-4-5-The-Mean-and-the-Median/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【概率论】4-5:均值和中值(The Mean and the Median) | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-julia">
+    <a href="/Julia/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Julia</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-4-5-The-Mean-and-the-Median/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【概率论】4-5:均值和中值(The Mean and the Median)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-25 21:01:04" itemprop="dateCreated datePublished" datetime="2018-03-25T21:01:04+08:00">2018-03-25</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Probability/" itemprop="url" rel="index"><span itemprop="name">Probability</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/Math-Probability-4-5-The-Mean-and-the-Median/" class="leancloud_visitors" data-flag-title="【概率论】4-5:均值和中值(The Mean and the Median)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍均值和中值的对比，以及最小平方误差，最小绝对误差<br><strong>Keywords:</strong> Mean，Median，Mean Squared Error，Mean Absolute Error</p>
+<a id="more"></a>
+<h1 id="均值和中值"><a href="#均值和中值" class="headerlink" title="均值和中值"></a>均值和中值</h1><p>昨天犯了个大错误，google分析配置出错了，所以这两天博客访问一直显示零，所以昨天都很沮丧，生活有时候就这样，一些错误，后果非常让人非常沮丧，我们在面对这些沮丧的结果时的态度能决定我们的所有。<br>均值是度量分布中心位置的一种方法，中值也是，这就是我们上一篇说到的，关于一个属性的定义，我们现在定义分布的中心位置，就有了两种方法，这两种都能定义中心的合理方法，各有各的优点，也有自己的缺点，所以我们今天就来对比下这两种中心位置的数字特点。</p>
+<h2 id="中位数-The-Median"><a href="#中位数-The-Median" class="headerlink" title="中位数 The Median"></a>中位数 The Median</h2><p>4.1中介绍过一个分布的的期望，是在随机变量所在的数轴的重心位置，这种角度下，期望是一个中心位置。<br>另一种就是假设存在某个随机变量 $m_0$ 小于 $m_0$ 对应的概率是 $1/2$ 大于 $m_0$ 的对应概率为 $1/2$ 这从某种意义上说也是一个中心位置。<br>两个不一样的定义方式，就有两种不同的方法用于不同的问题<br>最简单的例子就是图像处理里面两种不同的滤波，均值滤波和中值滤波，对应处理的噪声也完全不同。<br>均值，也就是期望我们已经研究了4篇了，今天我们主要研究一下中值，虽然在c.d.f中有介绍，但是我们还是重新说说。<br>值得一提的是与均值不同，分布的均值可以有一个或者没有，而中值可以有一个，还可以有很多个，这个我们后面会说到。</p>
+<blockquote>
+<p>Definition Median.Let $X$ be a random varibale.Every number $m$ with the following prperty is called a median of the distribution of $X$:<br>$$<br>\begin{aligned}<br>Pr(X\leq m)\geq 1/2\<br>\end{aligned}<br>\text{ and  }<br>\begin{aligned}<br>Pr(X\geq m)\geq 1/2<br>\end{aligned}<br>$$</p>
+</blockquote>
+<p>中值的定义如上，还有一种跟奇特的说法和上面是等价的。</p>
+<blockquote>
+<p>Firest,if m is included with the values of X to the left of m,then<br>$$<br>Pr(X\leq m)\geq Pr(X&gt;m)<br>$$</p>
+</blockquote>
+<blockquote>
+<p>seconde ,if m is included with the values of X to the right of m,then<br>$$<br>Pr(X\geq m)\geq Pr(X&lt;m)<br>$$</p>
+</blockquote>
+<blockquote>
+<p>If there is a number $m$ such that $Pr(X &lt;  m)=Pr(X &gt; m)$ ,that is,if the number $m$ does actually divide the total Probability into two equal parts,then $m$ will of course be a median of the distribution of $X$</p>
+</blockquote>
+<p>两种定义中值的方法得到一样的结果。值得注意的就是一点，中值可能不止一个，当中值不止一个的时候我们这里选用最小的作为中值，当然，也可以选中间的，或者最大的，这取决于你自己的需求。</p>
+<p>文章写到这里，书上开始写🌰，目测有一斤🌰 。例子的核心就是中值不一定只有一个。</p>
+<h2 id="均值和中值的比较-Comparison-of-the-Mean-and-the-median"><a href="#均值和中值的比较-Comparison-of-the-Mean-and-the-median" class="headerlink" title="均值和中值的比较 Comparison of the Mean and the median"></a>均值和中值的比较 Comparison of the Mean and the median</h2><p>最重要的一个区别就是期望有些分布是没有的，但是中值绝对存在，而且有很多时候还不止一个。所以对于某些应用中值的稳定性更好，最简单的例子就是我们伟大祖国各个城市的平均收入贼高，但是你和周围的小伙伴总发现自己拖后腿，那么这时候平均值可能真的不能反映实际的情况，需要用中值，如果你的工资连中值都没到，说明你确实不行，你说你比不过马云马化腾我们理解，你连你隔壁都不如，那就是你的问题了。<br>下面定义一个双射函数，这个证明我不写了，书上有，但是我觉得不完美，因为我马上要在数学分析那个系列里面讲这个情况，所以这里只给出定理，着急的小伙伴就自己查查资料，不着急的，等我数学分析。</p>
+<blockquote>
+<p>Theorem One-to-One Function.Let $X$ be a random variable that takes values in an interval $I$ of real numbers.Let $r$ be a one-to-one function defined on the interval $I$.If $m$ is a median of $X$ ,then $r(m)$ is a median of $r(X)$</p>
+</blockquote>
+<p>其实用到的主要特性是双射函数的可逆性质，换句话说就是能找到反函数。</p>
+<p>接下来我们开始进入到很贴近应用的部分了。</p>
+<h2 id="最小均方误差-Minimizing-the-Mean-Squared-Error"><a href="#最小均方误差-Minimizing-the-Mean-Squared-Error" class="headerlink" title="最小均方误差 Minimizing the Mean Squared Error"></a>最小均方误差 Minimizing the Mean Squared Error</h2><p>假设某随机变量 $X$ 其期望是 $\mu$ 方差是 $\sigma^2$ ，并且假设，$X$ 是通过某种试验得到的结果，现在我们还没有做实验，但是我们希望预测下结果，应该怎么做。<br>这个课题熟悉不？买彩票，买股票，赌博，各位老铁，激动了么，说实话，想指着学了这点概率发家致富，你还是去睡觉吧，可能睡觉致富更快一点。<br>为了预测出一个靠谱的结果，我们要做的第一件事不是找结果，而是告诉大家啥样的猜测算靠谱。你总预测我能当美国总统也不现实。<br>靠谱，就是错误小，没法生的时候，就是发生错误的可能性小，换句话说，就是犯错的期望值最小。</p>
+<blockquote>
+<p>Definition Mean Squared Error/M.S.E.. The number $E[(X-d)^2]$ is called the mean squared error(M.S.E) of prediction $d$ .</p>
+</blockquote>
+<p>这个地方定义了错误，也就是什么是不靠谱的概率，也就是靠谱的概率。</p>
+<blockquote>
+<p>Theorem Let $X$ be a random varibale with finite variance $\sigma^2$ ,and let $\mu=E(X)$ .For every number $d$ ,<br>$$<br>E[(X-\mu)^2]\leq E[(X-d)^2]<br>$$<br>Furthermore ,there will be equality in the relation if and only if $d=\mu$</p>
+</blockquote>
+<p>上面这个定理是说任何随机变量的均方误差都是大于等于方差的，等于号当且仅当d是均值的时候成立，我们需要证明下：<br>$$<br>\begin{aligned}<br>E[(X-d)^2]&amp;=E(X^2+2dX+d^2)\\<br>&amp;=E(X^2)-2d\mu+d^2<br>\end{aligned}<br>$$</p>
+<p>上面式子中，只有当 $d=\mu$ 的时候才能得到最小值，这个最小值也就是方差，简单的求最值，这里就不啰嗦了。</p>
+<p>所以在一个分布已知的情况下，预测就预测均值，其均方误差一定是最小的。</p>
+<h2 id="最小化绝对误差均值-Minimizing-the-Mean-Absolute-Error"><a href="#最小化绝对误差均值-Minimizing-the-Mean-Absolute-Error" class="headerlink" title="最小化绝对误差均值 Minimizing the Mean Absolute Error"></a>最小化绝对误差均值 Minimizing the Mean Absolute Error</h2><p>跟上面的最小均方误差出发点类似的，也是我们先要定义一个误差，这个误差越大表示结果越不好，那么：</p>
+<blockquote>
+<p>Definition Mean Absolute Error/M.A.E. The number $E(|X-d|)$ is called the mean absolute error (M.A.E) of the prediction $d$ .</p>
+</blockquote>
+<p>接下来我们要看到的是，在这种误差定义下，我们得到的最优猜测是中值，而不是均值。</p>
+<blockquote>
+<p>Theorem Let $X$ be a random variable with finite mean,and let $m$ be a median of the distribution of $X$ .For every number $d$ ,<br>$$<br>E(|X-m|)\leq E(|X-d|)<br>$$<br>Furthermore,there will be equality in the relation if and only if $d$ is also a median of the distribution of $X$</p>
+</blockquote>
+<p>上面定义的绝对误差期望 M.A.E.在最小化时得到的最优猜测是中值，我们必须要证明一下。<br>证明：<br>我们假设连续随机变量 $X$ 的p.d.f.是 $f$ 所有不同的分布都是类似的。<br>首先假设 $d &gt; m$ 其中 $m$ 是中值</p>
+<p>$$<br>E(|X-d|)-E(|X-m|)=\int^{\infty}_{-\infty}(|x-d|-|x-m|)f(x)dx\\<br>=\int^{m}_{-\infty}(d-m)f(x)dx+\int^{d}_{m}(d+m-2x)fxdx+\int^{\infty}_{d}(m-d)f(x)dx\\<br>\geq \int^{m}_{-\infty}(d-m)f(x)dx+\int^{d}_{m}(d+m)fxdx+\int^{\infty}_{d}(m-d)f(x)dx\\<br>=(d-m)[Pr(X\leq m)-Pr(X &gt; m)]<br>$$</p>
+<p>因为 $d &gt; m$  且 $m$ 是中值,那么：<br>$$<br>Pr(X\leq m)\geq 1/2 \geq Pr(X&gt;m)<br>$$<br>所以上的结果必然是个非负数，最小值只能是当 $d=m$ 时候才相等，因此 $E(|X-d|)\geq E(|X-m|)$.</p>
+<p>同理可以证明 $d &lt; m$ 时候的情况。</p>
+<h2 id="关于M-S-E-和M-S-A-是否有限的重要结论"><a href="#关于M-S-E-和M-S-A-是否有限的重要结论" class="headerlink" title="关于M.S.E. 和M.S.A. 是否有限的重要结论"></a>关于M.S.E. 和M.S.A. 是否有限的重要结论</h2><p>观察 M.S.E和M.A.E我们发现，每个分布都有中值，但是这两个误差是否有限其实和中值无关，从定义上看，只有随机变量的方差存在的时候，M.S.E才有限，只有当分布的期望存在时， M.A.E 才有限。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对标均值和中值，得到一些重要的结论，尤其是后面有关于预测的部分，这个是机器学习里面比较常用到的基础知识，大家要好好掌握！<br>待续。。。</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-4-5-The-Mean-and-the-Median">https://www.face2ai.com/Math-Probability-4-5-The-Mean-and-the-Median</a>转载请标明出处</p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/均值/" rel="tag"># 均值</a>
+          
+            <a href="/tags/中值/" rel="tag"># 中值</a>
+          
+            <a href="/tags/最小均值误差/" rel="tag"># 最小均值误差</a>
+          
+            <a href="/tags/最小绝对误差/" rel="tag"># 最小绝对误差</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Probability-4-4-Moments/" rel="next" title="【概率论】4-4:距(Moments)">
+                <i class="fa fa-chevron-left"></i> 【概率论】4-4:距(Moments)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Probability-4-6-Covariance-and-Correlation/" rel="prev" title="【概率论】4-6:协方差和相关性(Covariance and Correlation)">
+                【概率论】4-6:协方差和相关性(Covariance and Correlation) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+          </div>
+          
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">270</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">517</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" title="【强化学习】2.0 多臂赌博机" target="_blank">【强化学习】2.0 多臂赌博机</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字" target="_blank">【Julia】整型和浮点型数字</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-6-Summary-History/" title="【强化学习】1.6 本章总结、强化学习历史简述" target="_blank">【强化学习】1.6 本章总结、强化学习历史简述</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-3-Variables/" title="【Julia】变量" target="_blank">【Julia】变量</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#均值和中值"><span class="nav-number">1.</span> <span class="nav-text">均值和中值</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#中位数-The-Median"><span class="nav-number">1.1.</span> <span class="nav-text">中位数 The Median</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#均值和中值的比较-Comparison-of-the-Mean-and-the-median"><span class="nav-number">1.2.</span> <span class="nav-text">均值和中值的比较 Comparison of the Mean and the median</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最小均方误差-Minimizing-the-Mean-Squared-Error"><span class="nav-number">1.3.</span> <span class="nav-text">最小均方误差 Minimizing the Mean Squared Error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最小化绝对误差均值-Minimizing-the-Mean-Absolute-Error"><span class="nav-number">1.4.</span> <span class="nav-text">最小化绝对误差均值 Minimizing the Mean Absolute Error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于M-S-E-和M-S-A-是否有限的重要结论"><span class="nav-number">1.5.</span> <span class="nav-text">关于M.S.E. 和M.S.A. 是否有限的重要结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV,
+        el: '#comments' ,
+        appId: 'rPrP8o4eOcKBbGgojFM5h0c2-gzGzoHsz',
+        appKey: 'bi1R0D5QzAhYbIb3itBn8O7m',
+        placeholder: '无需注册，填写正确的邮箱，评论被回复就有邮件通知了~',
+    });
+  </script>
+
+ 
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

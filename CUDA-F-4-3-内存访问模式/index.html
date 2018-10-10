@@ -1,0 +1,2380 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍内存的访问过程，也就是从应用发起请求到硬件实现的完整操作过程，这里是优化内存瓶颈的关键之处，也是CUDA程序优化的基础。Keywords: 内存访问模式，对齐，合并，缓存，结构体数组，数组结构体">
+<meta name="keywords" content="合并,内存访问模式,对齐,缓存,结构体数组,数组结构体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CUDA 基础】4.3 内存访问模式">
+<meta property="og:url" content="http://www.face2ai.com/CUDA-F-4-3-内存访问模式/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍内存的访问过程，也就是从应用发起请求到硬件实现的完整操作过程，这里是优化内存瓶颈的关键之处，也是CUDA程序优化的基础。Keywords: 内存访问模式，对齐，合并，缓存，结构体数组，数组结构体">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/1-1.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-6.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-8.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-9.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-10.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-11.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-12.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-13.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-14.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-15.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-16.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-17.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-18.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-1.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-cg_nvprof.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-2.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-ca_nvprof.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-19.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-20.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-21.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-22.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/aos.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/aos2.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/soa-ca.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/soa-cg.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/unrolling-1.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/unrolling-nv.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-block.png">
+<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-off-set-11.png">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.884Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CUDA 基础】4.3 内存访问模式">
+<meta name="twitter:description" content="Abstract: 本文介绍内存的访问过程，也就是从应用发起请求到硬件实现的完整操作过程，这里是优化内存瓶颈的关键之处，也是CUDA程序优化的基础。Keywords: 内存访问模式，对齐，合并，缓存，结构体数组，数组结构体">
+<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/1-1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-4-3-内存访问模式/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【CUDA 基础】4.3 内存访问模式 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-julia">
+    <a href="/Julia/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Julia</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-4-3-内存访问模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【CUDA 基础】4.3 内存访问模式
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-03 22:08:07" itemprop="dateCreated datePublished" datetime="2018-05-03T22:08:07+08:00">2018-05-03</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/CUDA-F-4-3-内存访问模式/" class="leancloud_visitors" data-flag-title="【CUDA 基础】4.3 内存访问模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍内存的访问过程，也就是从应用发起请求到硬件实现的完整操作过程，这里是优化内存瓶颈的关键之处，也是CUDA程序优化的基础。<br><strong>Keywords:</strong> 内存访问模式，对齐，合并，缓存，结构体数组，数组结构体</p>
+<a id="more"></a>
+<h1 id="内存访问模式"><a href="#内存访问模式" class="headerlink" title="内存访问模式"></a>内存访问模式</h1><blockquote>
+<p>“物有本末，事有终始，知所先后，则近道矣”<br>——《大学·大学之道章》</p>
+</blockquote>
+<p>这句话出自大学，大学非我们现在上的大学，而我不知道我们现在的大学为什么叫大学，是否和《大学》有关系，但是大学第一章，就是讲道，让读书人懂得道：”格物，致知，诚意，正心，修身，齐家，治国，平天下”，但是我们现在似乎所有的课程都不讲这些了——可能是因为时间过去太久了，所以成了糟粕，但是我觉得对我还是有些启发的。<br>第一句引用的话没有官方解释，我觉得小学时候学的语文，概括中心思想，我觉得都是扯淡，一百个人有一百种想法，但是答案却是统一的，所以，我觉得这种就是培养有流水线上的机器，我只说这句话对我的启发，而且我们就从机器学习这个角度说。<br>举个例子，忽略时间，单从技术的角度，神经网络算是始还是终？是本还是末？我觉得不是始，也不是终。更不是本。<br>对于人工智能领域，我们的始是对于智慧的理解和再造，终点就是制造出人类智慧的机器，而神经网络只是我们要探索的深林里面一个大数，当有人认为这是最高峰的时候，那么他会不断地向上爬，直到最顶端，也许发现到达了我们的最终目的，但更大的可能性是周围还有更高的树。所以神经网络不是始也不是终，只是中间的一个过程，必须承认，我们走了三四十年才看到这棵这么大的树，但是如果还没爬到最顶端，就认定这个树就是终点了，似乎缺少一些谨慎。<br>而整个学科的本，我认为是数学，当如果哪一天证明，数学的整个体系在人工智能面前崩溃了，各种反公理，反定理的事件都在人工智能中发生了，那就证明我错了。但目前，本还是本。<br>废话有点多，今天我们要学习的也是CUDA中最最最重要的课程之一，当然我不会一口气写完，可能要写两天，但是以一篇的篇幅发表，力求写清楚写明白。用一些简单通俗，但是足够恰当的比喻和一些实例，让大家更容易了解。</p>
+<p>多数GPU程序容易受到内存带宽的限制，所以最大程度的利用全局内存带宽，提高全局加载效率（后面会详细说明），是调控内核函数性能的基本条件。如果不能正确调控全局内存使用，那么优化方案可能收效甚微。<br>CUDA执行模型告诉我们，CUDA执行的基本单位是线程束，所以，内存访问也是以线程束为基本单位发布和执行的，存储也一致。我们本文研究的就是这一个线程束的内存访问，不同线程的内存请求，其目标位置的不同，可以产生非常多种情况。所以本篇就是研究这些不同情况的，以及如何实现最佳的全局内存访问。<br>注意：访问可以是加载，也可以是存储。<br>注意，我们本文使用命令进行编译，省去反复修改CMakelist的麻烦.</p>
+<h2 id="对齐与合并访问"><a href="#对齐与合并访问" class="headerlink" title="对齐与合并访问"></a>对齐与合并访问</h2><p>全局内存通过缓存实现加载和存储的过程如下图<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/1-1.png" alt="1-1"><br>全局内存是一个逻辑层面的模型，我们编程的时候有两种模型考虑：一种是逻辑层面的，也就是我们在写程序的时候（包括串行程序和并行程序），写的一维（多维）数组，结构体，定义的变量，这些都是在逻辑层面的；一种是硬件角度，就是一块DRAM上的电信号，以及最底层内存驱动代码所完成数字信号的处理。<br>L1表示一级缓存，每个SM都有自己L1，但是L2是所有SM公用的，除了L1缓存外，还有只读缓存和常量缓存，这个我们后面会详细介绍。<br>核函数运行时需要从全局内存（DRAM）中读取数据，只有两种粒度，这个是关键的：</p>
+<ul>
+<li>128字节</li>
+<li>32字节</li>
+</ul>
+<p>解释下“粒度”，可以理解为最小单位，也就是核函数运行时每次读内存，哪怕是读一个字节的变量，也要读128字节，或者32字节，而具体是到底是32还是128还是要看访问方式：</p>
+<ul>
+<li>使用一级缓存</li>
+<li>不使用一级缓存</li>
+</ul>
+<p>对于CPU来说，一级缓存或者二级缓存是不能被编程的，但是CUDA是支持通过编译指令停用一级缓存的。如果启用一级缓存，那么每次从DRAM上加载数据的粒度是128字节，如果不适用一级缓存，只是用二级缓存，那么粒度是32字节。<br>还要强调一下CUDA内存模型的内存读写，我们现在讨论的都是单个SM上的情况，多个SM只是下面我们描述的情形的复制：SM执行的基础是线程束，也就是说，当一个SM中正在被执行的某个线程需要访问内存，那么，和它同线程束的其他31个线程也要访问内存，这个基础就表示，即使每个线程只访问一个字节，那么在执行的时候，只要有内存请求，至少是32个字节，所以不使用一级缓存的内存加载，一次粒度是32字节而不是更小。<br>在优化内存的时候，我们要最关注的是以下两个特性</p>
+<ul>
+<li>对齐内存访问</li>
+<li>合并内存访问</li>
+</ul>
+<p>我们把一次内存请求——也就是从内核函数发起请求，到硬件响应返回数据这个过程称为一个内存事务（加载和存储都行）。<br>当一个内存事务的首个访问地址是缓存粒度（32或128字节）的偶数倍的时候：比如二级缓存32字节的偶数倍64，128字节的偶数倍256的时候，这个时候被称为对齐内存访问，非对齐访问就是除上述的其他情况，非对齐的内存访问会造成带宽浪费。<br>当一个线程束内的线程访问的内存都在一个内存块里的时候，就会出现合并访问。<br>对齐合并访问的状态是理想化的，也是最高速的访问方式，当线程束内的所有线程访问的数据在一个内存块，并且数据是从内存块的首地址开始被需要的，那么对齐合并访问出现了。为了最大化全局内存访问的理想状态，尽量将线程束访问内存组织成对齐合并的方式，这样的效率是最高的。下面看一个例子。</p>
+<ul>
+<li>一个线程束加载数据，使用一级缓存，并且这个事务所请求的所有数据在一个128字节的对齐的地址段上（对齐的地址段是我自己发明的名字，就是首地址是粒度的偶数倍，那么上面这句话的意思是，所有请求的数据在某个首地址是粒度偶数倍的后128个字节里），具体形式如下图，这里请求的数据是连续的，其实可以不连续，但是不要越界就好。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-6.png" alt="4-6"><br>上面蓝色表示全局内存，下面橙色是线程束要的数据，绿色就是我称为对齐的地址段。</li>
+<li>如果一个事务加载的数据分布在不一个对齐的地址段上，就会有以下两种情况：<ol>
+<li>连续的，但是不在一个对齐的段上，比如，请求访问的数据分布在内存地址1~128，那么0~127和128~255这两段数据要传递两次到SM</li>
+<li>不连续的，也不在一个对齐的段上，比如，请求访问的数据分布在内存地址0~63和128~191上，明显这也需要两次加载。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-8.png" alt="4-8"><br>上图就是典型的一个线程束，数据分散开了，thread0的请求在128之前，后面还有请求在256之后，所以需要三个内存事务，而利用率，也就是从主存取回来的数据被使用到的比例，只有 $\frac{128}{128\times 3}$ 的比例。这个比例低会造成带宽的浪费，最极端的表现，就是如果每个线程的请求都在不同的段，也就是一个128字节的事务只有1个字节是有用的，那么利用率只有 $\frac{1}{128}$</li>
+</ol>
+</li>
+</ul>
+<p>这里总结一下内存事务的优化关键：用最少的事务次数满足最多的内存请求。事务数量和吞吐量的需求随设备的计算能力变化。</p>
+<h2 id="全局内存读取"><a href="#全局内存读取" class="headerlink" title="全局内存读取"></a>全局内存读取</h2><p>注意我们说的都是读取，也就是加载过程，写或者叫做存储是另外一回事！<br>SM加载数据，根据不同的设备和类型分为三种路径：</p>
+<ol>
+<li>一级和二级缓存</li>
+<li>常量缓存</li>
+<li>只读缓存</li>
+</ol>
+<p>常规的路径是一级和二级缓存，需要使用常量和只读缓存的需要在代码中显式声明。但是提高性能，主要还是要取决于访问模式。<br>控制全局加载操作是否通过一级缓存可以通过编译选项来控制，当然比较老的设备可能就没有一级缓存。<br>编译器禁用一级缓存的选项是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xptxas -dlcm=cg</span><br></pre></td></tr></table></figure></p>
+<p>编译器启用一级缓存的选项是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xptxas -dlcm=ca</span><br></pre></td></tr></table></figure></p>
+<p>当一级缓存被禁用的时候，对全局内存的加载请求直接进入二级缓存，如果二级缓存缺失，则由DRAM完成请求。<br>每次内存事务可由一个两个或者四个部分执行，每个部分有32个字节，也就是32，64或者128字节一次（注意前面我们讲到是否使用一级缓存决定了读取粒度是128还是32字节，这里增加的64并不在此情况，所以需要注意）。<br>启用一级缓存后，当SM有全局加载请求会首先通过尝试一级缓存，如果一级缓存缺失，则尝试二级缓存，如果二级缓存也没有，那么直接DRAM。<br>在有些设备上一级缓存不用来缓存全局内存访问，而是只用来存储寄存器溢出的本地数据，比如Kepler 的K10,K20。<br>内存加载可以分为两类：</p>
+<ul>
+<li>缓存加载</li>
+<li>没有缓存的加载</li>
+</ul>
+<p>内存访问有以下特点：</p>
+<ul>
+<li>是否使用缓存：一级缓存是否介入加载过程</li>
+<li>对齐与非对齐的：如果访问的第一个地址是32的倍数（<font color="ff0000">前面说是32或者128的偶数倍，这里似乎产生了矛盾，为什么我现在也很迷惑</font>）</li>
+<li>合并与非合并，访问连续数据块则是合并的</li>
+</ul>
+<h3 id="缓存加载"><a href="#缓存加载" class="headerlink" title="缓存加载"></a>缓存加载</h3><p>下面是使用一级缓存的加载过程，图片表达很清楚，我们只用少量文字进行说明：</p>
+<ol>
+<li><p>对齐合并的访问，利用率100%<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-9.png" alt="4-9"></p>
+</li>
+<li><p>对齐的，但是不是连续的，每个线程访问的数据都在一个块内，但是位置是交叉的，利用率100%<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-10.png" alt="4-10"></p>
+</li>
+<li><p>连续非对齐的，线程束请求一个连续的非对齐的，32个4字节数据，那么会出现，数据横跨两个块，但是没有对齐，当启用一级缓存的时候，就要两个128字节的事务来完成<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-11.png" alt="4-11"></p>
+</li>
+<li><p>线程束所有线程请求同一个地址，那么肯定落在一个缓存行范围（缓存行的概念没提到过，就是主存上一个可以被一次读到缓存中的一段数据。），那么如果按照请求的是4字节数据来说，使用一级缓存的利用率是 $\frac{4}{128}=3.125\%$<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-12.png" alt="4-12"></p>
+</li>
+<li><p>比较坏的情况，前面提到过最坏的，就是每个线程束内的线程请求的都是不同的缓存行内，这里比较坏的情况就是，所有数据分布在 $N$ 个缓存行上，其中 $1\leq N\leq 32$，那么请求32个4字节的数据，就需要 $N$ 个事务来完成，利用率也是 $\frac{1}{N}$<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-13.png" alt="4-13"></p>
+</li>
+</ol>
+<p>CPU和GPU的一级缓存有显著的差异，GPU的一级缓存可以通过编译选项等控制，CPU不可以，而且CPU的一级缓存是的替换算法是有使用频率和时间局部性的，GPU则没有。</p>
+<h3 id="没有缓存的加载"><a href="#没有缓存的加载" class="headerlink" title="没有缓存的加载"></a>没有缓存的加载</h3><p>没有缓存的加载是指的没有通过一级缓存，二级缓存则是不得不经过的。<br>当不使用一级缓存的时候，内存事务的粒度变为32字节，更细粒度的好处是提高利用律，这个很好理解，比如你每次喝水只能选择一瓶大瓶500ml的或则一个小瓶的250ml，当你非常渴的时候需要400ml水分，喝大瓶的，比较方便，因为如果喝小瓶的一瓶不够，还需要再喝一瓶，此时大瓶的方便.但如果你需要200ml的水分的时候，小瓶的利用率就高很多。细粒度的访问就是用小瓶喝水，虽然体积小，但是每次的利用率都高了不少，针对上面使用缓存的情况5，可能效果会更好。<br>继续我们的图解：</p>
+<ol>
+<li>对齐合并访问128字节，不用说，还是最理想的情况，使用4个段，利用率 $100\%$<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-14.png" alt="4-14"></li>
+<li><p>对齐不连续访问128字节，都在四个段内，且互不相同，这样的利用率也是  $100\%$<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-15.png" alt="4-15"></p>
+</li>
+<li><p>连续不对齐，一个段32字节，所以，一个连续的128字节的请求，即使不对齐，最多也不会超过五个段，所以利用率是 $\frac{4}{5}=80\%$ ,如果不明白为啥不能超过5个段，请注意前提是连续的，这个时候不可能超过五段<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-16.png" alt="4-16"></p>
+</li>
+<li><p>所有线程访问一个4字节的数据，那么此时的利用率是 $\frac{4}{32}=12.5\%$<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-17.png" alt="4-17"></p>
+</li>
+<li><p>最欢的情况，所有目标数据分散在内存的各个角落，那么需要 N个内存段， 此时与使用一级缓存的作比较也是有优势的因为 $N\times 128$ 还是要比 $N\times 32$ 大不少，这里假设 $N$ 不会因为 $128$ 还是 $32$ 而变的，而实际情况，当使用大粒度的缓存行的时候， $N$ 有可能会减小<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-18.png" alt="4-18"></p>
+</li>
+</ol>
+<h3 id="非对齐读取示例"><a href="#非对齐读取示例" class="headerlink" title="非对齐读取示例"></a>非对齐读取示例</h3><p>下面就非对齐读取进行演示，<br>代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"freshman.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sumArrays</span><span class="params">(<span class="keyword">float</span> * a,<span class="keyword">float</span> * b,<span class="keyword">float</span> * res,<span class="keyword">int</span> offset,<span class="keyword">const</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>,k=offset;k&lt;size;i++,k++)</span><br><span class="line">    &#123;</span><br><span class="line">        res[i]=a[k]+b[k];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumArraysGPU</span><span class="params">(<span class="keyword">float</span>*a,<span class="keyword">float</span>*b,<span class="keyword">float</span>*res,<span class="keyword">int</span> offset,<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//int i=threadIdx.x;</span></span><br><span class="line">  <span class="keyword">int</span> i=blockIdx.x*blockDim.x+threadIdx.x;</span><br><span class="line">  <span class="keyword">int</span> k=i+offset;</span><br><span class="line">  <span class="keyword">if</span>(k&lt;n)</span><br><span class="line">    res[i]=a[k]+b[k];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> dev = <span class="number">0</span>;</span><br><span class="line">  cudaSetDevice(dev);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> nElem=<span class="number">1</span>&lt;&lt;<span class="number">18</span>;</span><br><span class="line">  <span class="keyword">int</span> offset=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(argc&gt;=<span class="number">2</span>)</span><br><span class="line">    offset=atoi(argv[<span class="number">1</span>]);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Vector size:%d\n"</span>,nElem);</span><br><span class="line">  <span class="keyword">int</span> nByte=<span class="keyword">sizeof</span>(<span class="keyword">float</span>)*nElem;</span><br><span class="line">  <span class="keyword">float</span> *a_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *b_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *res_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *res_from_gpu_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_h,<span class="number">0</span>,nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_from_gpu_h,<span class="number">0</span>,nByte);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">float</span> *a_d,*b_d,*res_d;</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;res_d,nByte));</span><br><span class="line">  CHECK(cudaMemset(res_d,<span class="number">0</span>,nByte));</span><br><span class="line">  initialData(a_h,nElem);</span><br><span class="line">  initialData(b_h,nElem);</span><br><span class="line"></span><br><span class="line">  CHECK(cudaMemcpy(a_d,a_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line">  CHECK(cudaMemcpy(b_d,b_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line"></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">1024</span>)</span></span>;</span><br><span class="line">  <span class="function">dim3 <span class="title">grid</span><span class="params">(nElem/block.x)</span></span>;</span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,offset,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  CHECK(cudaMemcpy(res_from_gpu_h,res_d,nByte,cudaMemcpyDeviceToHost));</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Execution configuration&lt;&lt;&lt;%d,%d&gt;&gt;&gt; Time elapsed %f sec --offset:%d \n"</span>,grid.x,block.x,iElaps,offset);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  sumArrays(a_h,b_h,res_h,offset,nElem);</span><br><span class="line"></span><br><span class="line">  checkResult(res_h,res_from_gpu_h,nElem);</span><br><span class="line">  cudaFree(a_d);</span><br><span class="line">  cudaFree(b_d);</span><br><span class="line">  cudaFree(res_d);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(a_h);</span><br><span class="line">  <span class="built_in">free</span>(b_h);</span><br><span class="line">  <span class="built_in">free</span>(res_h);</span><br><span class="line">  <span class="built_in">free</span>(res_from_gpu_h);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编译指令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tony@tony-Lenovo:~/Project/CUDA_Freshman/18_sum_array_offset$ nvcc -O3 -arch=sm_35 -Xptxas -dlcm=cg -I ../include/ sum_array_offset.cu -o sum_array_offset</span><br></pre></td></tr></table></figure></p>
+<p>运行结果</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-1.png" alt="res-1"></p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-cg_nvprof.png" alt="res-cg_nvprof"></p>
+<p>编译指令，启用一级缓存：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tony@tony-Lenovo:~/Project/CUDA_Freshman/18_sum_array_offset$ nvcc -O3 -arch=sm_35 -Xptxas -dlcm=ca -I ../include/ sum_array_offset.cu -o sum_array_offset</span><br></pre></td></tr></table></figure>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-2.png" alt="res-2"></p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-ca_nvprof.png" alt="res-ca_nvprof"></p>
+<p>这里我们使用的指标是：<br>$$<br>全局加载效率=\frac{请求的全局内存加载吞吐量}{所需的全局内存加载吞吐量}<br>$$</p>
+<h3 id="只读缓存"><a href="#只读缓存" class="headerlink" title="只读缓存"></a>只读缓存</h3><p>只读缓存最初是留给纹理内存加载用的，在3.5以上的设备，只读缓存也支持使用全局内存加载代替一级缓存。也就是说3.5以后的设备，可以通过只读缓存从全局内存中读数据了。<br>只读缓存粒度32字节，对于分散读取，细粒度优于一级缓存<br>有两种方法指导内存从只读缓存读取：</p>
+<ol>
+<li>使用函数 _ldg</li>
+<li>在间接引用的指针上使用修饰符</li>
+</ol>
+<p>代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">copyKernel</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span>* out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> idx=blockDim*blockIdx.x+threadIdx.x;</span><br><span class="line">    out[idx]=__ldg(&amp;in[idx]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意函数参数，然后就能强制使用只读缓存了。</p>
+<h2 id="全局内存写入"><a href="#全局内存写入" class="headerlink" title="全局内存写入"></a>全局内存写入</h2><p>内存的写入和读取（或者叫做加载）是完全不同的，并且写入相对简单很多。一级缓存不能用在 Fermi 和 Kepler GPU上进行存储操作，发送到设备前，只经过二级缓存，存储操作在32个字节的粒度上执行，内存事物也被分为一段两端或者四段，如果两个地址在一个128字节的段内但不在64字节范围内，则会产生一个四段的事务，其他情况以此类推。<br>我们将内存写入也参考前面的加载分为下面这些情况：</p>
+<ol>
+<li><p>对齐的，访问一个连续的128字节范围。存储操作使用一个4段事务完成：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-19.png" alt="4-19"></p>
+</li>
+<li><p>分散在一个192字节的范围内，不连续，使用3个一段事务来搞定<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-20.png" alt="4-20"></p>
+</li>
+<li><p>对齐的，在一个64字节的范围内，使用一个两段事务完成。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-21.png" alt="4-21"></p>
+<h3 id="非对齐写入示例"><a href="#非对齐写入示例" class="headerlink" title="非对齐写入示例"></a>非对齐写入示例</h3><p>与读取情况类似，且更简单，因为始终不经过一级缓存，所以略过此实验。</p>
+</li>
+</ol>
+<h2 id="结构体数组与数组结构体"><a href="#结构体数组与数组结构体" class="headerlink" title="结构体数组与数组结构体"></a>结构体数组与数组结构体</h2><p>写过C语言的人对结构体都应该非常了解，结构体说白了就是基础数据类型组合出来的新的数据类型，这个新的数据类型在内存中表现是：结构中的成员在内存里对齐的依次排开，然后我们我们就有了接下来的话题，数组的结构体，和结构体的数组。<br>数组结构体（AoS）就是一个数组，每个元素都是一个结构体，而结构体数组（SoA）就是结构体中的成员是数组用代码表示：<br>AoS<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> <span class="title">a</span>[<span class="title">N</span>];</span></span><br></pre></td></tr></table></figure></p>
+<p>SoA<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> a[N];</span><br><span class="line">    <span class="keyword">int</span> b[N]</span><br><span class="line">&#125;a;</span><br></pre></td></tr></table></figure></p>
+<p>如果你分不清这两个名字，没关系，我也分不清，记住AoS是数组就行了，CUDA对细粒度数组是非常友好的，但是对粗粒度如结构体组成的数组就不太友好了，具体表现在，内存访问利用率低。比如当一个线程要访问结构体中的某个成员的时候，当三十二个线程同时访问的时候，SoA的访问就是连续的，而AoS则是不连续：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/4-22.png" alt="4-22"><br>这样看来AoS访问效率只有 $50\%$<br>对比AoS和SoA的内存布局，我们能得到下面结论。</p>
+<ul>
+<li>并行编程范式，尤其是SIMD（单指令多数据）对SoA更友好。CUDA中普遍倾向于SoA因为这种内存访问可以有效地合并。</li>
+</ul>
+<h3 id="AoS数据布局的简单数学运算"><a href="#AoS数据布局的简单数学运算" class="headerlink" title="AoS数据布局的简单数学运算"></a>AoS数据布局的简单数学运算</h3><p>我们看一下AoS的例子</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"freshman.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">naiveStruct</span>&#123;</span></span><br><span class="line">    <span class="keyword">float</span> a;</span><br><span class="line">    <span class="keyword">float</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sumArrays</span><span class="params">(<span class="keyword">float</span> * a,<span class="keyword">float</span> * b,<span class="keyword">float</span> * res,<span class="keyword">const</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        res[i]=a[i]+b[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumArraysGPU</span><span class="params">(<span class="keyword">float</span>*a,<span class="keyword">float</span>*b,struct naiveStruct* res,<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//int i=threadIdx.x;</span></span><br><span class="line">  <span class="keyword">int</span> i=blockIdx.x*blockDim.x+threadIdx.x;</span><br><span class="line">  <span class="keyword">if</span>(i&lt;n)</span><br><span class="line">    res[i].a=a[i]+b[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">checkResult_struct</span><span class="params">(<span class="keyword">float</span>* res_h,struct naiveStruct*res_from_gpu_h,<span class="keyword">int</span> nElem)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nElem;i++)</span><br><span class="line">        <span class="keyword">if</span> (res_h[i]!=res_from_gpu_h[i].a)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"check fail!\n"</span>);</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"result check success!\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> dev = <span class="number">0</span>;</span><br><span class="line">  cudaSetDevice(dev);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> nElem=<span class="number">1</span>&lt;&lt;<span class="number">18</span>;</span><br><span class="line">  <span class="keyword">int</span> offset=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(argc&gt;=<span class="number">2</span>)</span><br><span class="line">    offset=atoi(argv[<span class="number">1</span>]);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Vector size:%d\n"</span>,nElem);</span><br><span class="line">  <span class="keyword">int</span> nByte=<span class="keyword">sizeof</span>(<span class="keyword">float</span>)*nElem;</span><br><span class="line">  <span class="keyword">int</span> nByte_struct=<span class="keyword">sizeof</span>(struct naiveStruct)*nElem;</span><br><span class="line">  <span class="keyword">float</span> *a_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *b_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *res_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte_struct);</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">naiveStruct</span> *<span class="title">res_from_gpu_h</span>=(<span class="title">struct</span> <span class="title">naiveStruct</span>*)<span class="title">malloc</span>(<span class="title">nByte_struct</span>);</span></span><br><span class="line">  <span class="built_in">memset</span>(res_h,<span class="number">0</span>,nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_from_gpu_h,<span class="number">0</span>,nByte);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">float</span> *a_d,*b_d;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">naiveStruct</span>* <span class="title">res_d</span>;</span></span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((struct naiveStruct**)&amp;res_d,nByte_struct));</span><br><span class="line">  CHECK(cudaMemset(res_d,<span class="number">0</span>,nByte_struct));</span><br><span class="line">  initialData(a_h,nElem);</span><br><span class="line">  initialData(b_h,nElem);</span><br><span class="line"></span><br><span class="line">  CHECK(cudaMemcpy(a_d,a_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line">  CHECK(cudaMemcpy(b_d,b_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line"></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">1024</span>)</span></span>;</span><br><span class="line">  <span class="function">dim3 <span class="title">grid</span><span class="params">(nElem/block.x)</span></span>;</span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  CHECK(cudaMemcpy(res_from_gpu_h,res_d,nByte_struct,cudaMemcpyDeviceToHost));</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Execution configuration&lt;&lt;&lt;%d,%d&gt;&gt;&gt; Time elapsed %f sec\n"</span>,grid.x,block.x,iElaps);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  sumArrays(a_h,b_h,res_h,nElem);</span><br><span class="line"></span><br><span class="line">  checkResult_struct(res_h,res_from_gpu_h,nElem);</span><br><span class="line">  cudaFree(a_d);</span><br><span class="line">  cudaFree(b_d);</span><br><span class="line">  cudaFree(res_d);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(a_h);</span><br><span class="line">  <span class="built_in">free</span>(b_h);</span><br><span class="line">  <span class="built_in">free</span>(res_h);</span><br><span class="line">  <span class="built_in">free</span>(res_from_gpu_h);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -O3 -arch=sm_35 -Xptxas -dlcm=ca -I ../include/ AoS.cu -o  AoS</span><br></pre></td></tr></table></figure>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/aos.png" alt="AoS"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -O3 -arch=sm_35 -Xptxas -dlcm=cg -I ../include/ AoS.cu -o  AoS</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/aos2.png" alt="AoS2"></p>
+<h3 id="SoA数据布局的简单数学运算"><a href="#SoA数据布局的简单数学运算" class="headerlink" title="SoA数据布局的简单数学运算"></a>SoA数据布局的简单数学运算</h3><p>然后看SoA的例子<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"freshman.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sumArrays</span><span class="params">(<span class="keyword">float</span> * a,<span class="keyword">float</span> * b,<span class="keyword">float</span> * res,<span class="keyword">int</span> offset,<span class="keyword">const</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>,k=offset;k&lt;size;i++,k++)</span><br><span class="line">    &#123;</span><br><span class="line">        res[i]=a[k]+b[k];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumArraysGPU</span><span class="params">(<span class="keyword">float</span>*a,<span class="keyword">float</span>*b,<span class="keyword">float</span>*res,<span class="keyword">int</span> offset,<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//int i=threadIdx.x;</span></span><br><span class="line">  <span class="keyword">int</span> i=blockIdx.x*blockDim.x*<span class="number">4</span>+threadIdx.x;</span><br><span class="line">  <span class="keyword">int</span> k=i+offset;</span><br><span class="line">  <span class="keyword">if</span>(k+<span class="number">3</span>*blockDim.x&lt;n)</span><br><span class="line">  &#123;</span><br><span class="line">      res[i]=a[k]+b[k];</span><br><span class="line">      res[i+blockDim.x]=a[k+blockDim.x]+b[k+blockDim.x];</span><br><span class="line">      res[i+blockDim.x*<span class="number">2</span>]=a[k+blockDim.x*<span class="number">2</span>]+b[k+blockDim.x*<span class="number">2</span>];</span><br><span class="line">      res[i+blockDim.x*<span class="number">3</span>]=a[k+blockDim.x*<span class="number">3</span>]+b[k+blockDim.x*<span class="number">3</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> dev = <span class="number">0</span>;</span><br><span class="line">  cudaSetDevice(dev);</span><br><span class="line">  <span class="keyword">int</span> block_x=<span class="number">512</span>;</span><br><span class="line">  <span class="keyword">int</span> nElem=<span class="number">1</span>&lt;&lt;<span class="number">18</span>;</span><br><span class="line">  <span class="keyword">int</span> offset=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(argc==<span class="number">2</span>)</span><br><span class="line">    offset=atoi(argv[<span class="number">1</span>]);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(argc==<span class="number">3</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        offset=atoi(argv[<span class="number">1</span>]);</span><br><span class="line">        block_x=atoi(argv[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Vector size:%d\n"</span>,nElem);</span><br><span class="line">  <span class="keyword">int</span> nByte=<span class="keyword">sizeof</span>(<span class="keyword">float</span>)*nElem;</span><br><span class="line">  <span class="keyword">float</span> *a_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *b_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *res_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *res_from_gpu_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_h,<span class="number">0</span>,nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_from_gpu_h,<span class="number">0</span>,nByte);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">float</span> *a_d,*b_d,*res_d;</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;res_d,nByte));</span><br><span class="line">  CHECK(cudaMemset(res_d,<span class="number">0</span>,nByte));</span><br><span class="line">  initialData(a_h,nElem);</span><br><span class="line">  initialData(b_h,nElem);</span><br><span class="line"></span><br><span class="line">  CHECK(cudaMemcpy(a_d,a_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line">  CHECK(cudaMemcpy(b_d,b_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line"></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(block_x)</span></span>;</span><br><span class="line">  <span class="function">dim3 <span class="title">grid</span><span class="params">(nElem/block.x)</span></span>;</span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,offset,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"warmup Time elapsed %f sec\n"</span>,iElaps);</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,offset,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  CHECK(cudaMemcpy(res_from_gpu_h,res_d,nByte,cudaMemcpyDeviceToHost));</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Execution configuration&lt;&lt;&lt;%d,%d&gt;&gt;&gt; Time elapsed %f sec --offset:%d \n"</span>,grid.x,block.x,iElaps,offset);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  sumArrays(a_h,b_h,res_h,offset,nElem);</span><br><span class="line"></span><br><span class="line">  checkResult(res_h,res_from_gpu_h,nElem<span class="number">-4</span>*block_x);</span><br><span class="line">  cudaFree(a_d);</span><br><span class="line">  cudaFree(b_d);</span><br><span class="line">  cudaFree(res_d);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(a_h);</span><br><span class="line">  <span class="built_in">free</span>(b_h);</span><br><span class="line">  <span class="built_in">free</span>(res_h);</span><br><span class="line">  <span class="built_in">free</span>(res_from_gpu_h);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -O3 -arch=sm_35 -Xptxas -dlcm=ca -I ../include/ SoA.cu -o SoA</span><br></pre></td></tr></table></figure>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/soa-ca.png" alt="SoA-ca"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -O3 -arch=sm_35 -Xptxas -dlcm=cg -I ../include/ SoA.cu -o SoA</span><br></pre></td></tr></table></figure>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/soa-cg.png" alt="SoA-cg"></p>
+<h2 id="性能调整"><a href="#性能调整" class="headerlink" title="性能调整"></a>性能调整</h2><p>优化设备内存带宽利用率有两个目标：</p>
+<ol>
+<li>对齐合并内存访问，以减少带宽的浪费</li>
+<li>足够的并发内存操作，以隐藏内存延迟</li>
+</ol>
+<p>第三章我们讲过优化指令吞吐量的核函数，实现并发内存访问量最大化是通过以下方式得到的：</p>
+<ol>
+<li>增加每个线程中执行独立内存操作的数量</li>
+<li>对核函数启动的执行配置进行试验，已充分体现每个SM的并行性</li>
+</ol>
+<p>接下来我们就按照这个思路对程序进行优化试验：展开技术和增大并行性。</p>
+<h3 id="展开技术"><a href="#展开技术" class="headerlink" title="展开技术"></a>展开技术</h3><p>把前面讲到的展开技术用到向量加法上，我们来看看其对内存效率的影响：<br>代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"freshman.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sumArrays</span><span class="params">(<span class="keyword">float</span> * a,<span class="keyword">float</span> * b,<span class="keyword">float</span> * res,<span class="keyword">int</span> offset,<span class="keyword">const</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>,k=offset;k&lt;size;i++,k++)</span><br><span class="line">    &#123;</span><br><span class="line">        res[i]=a[k]+b[k];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumArraysGPU</span><span class="params">(<span class="keyword">float</span>*a,<span class="keyword">float</span>*b,<span class="keyword">float</span>*res,<span class="keyword">int</span> offset,<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//int i=threadIdx.x;</span></span><br><span class="line">  <span class="keyword">int</span> i=blockIdx.x*blockDim.x*<span class="number">4</span>+threadIdx.x;</span><br><span class="line">  <span class="keyword">int</span> k=i+offset;</span><br><span class="line">  <span class="keyword">if</span>(k+<span class="number">3</span>*blockDim.x&lt;n)</span><br><span class="line">  &#123;</span><br><span class="line">      res[i]=a[k]+b[k];</span><br><span class="line">      res[i+blockDim.x]=a[k+blockDim.x]+b[k+blockDim.x];</span><br><span class="line">      res[i+blockDim.x*<span class="number">2</span>]=a[k+blockDim.x*<span class="number">2</span>]+b[k+blockDim.x*<span class="number">2</span>];</span><br><span class="line">      res[i+blockDim.x*<span class="number">3</span>]=a[k+blockDim.x*<span class="number">3</span>]+b[k+blockDim.x*<span class="number">3</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> dev = <span class="number">0</span>;</span><br><span class="line">  cudaSetDevice(dev);</span><br><span class="line">  <span class="keyword">int</span> block_x=<span class="number">512</span>;</span><br><span class="line">  <span class="keyword">int</span> nElem=<span class="number">1</span>&lt;&lt;<span class="number">18</span>;</span><br><span class="line">  <span class="keyword">int</span> offset=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(argc==<span class="number">2</span>)</span><br><span class="line">    offset=atoi(argv[<span class="number">1</span>]);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(argc==<span class="number">3</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        offset=atoi(argv[<span class="number">1</span>]);</span><br><span class="line">        block_x=atoi(argv[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Vector size:%d\n"</span>,nElem);</span><br><span class="line">  <span class="keyword">int</span> nByte=<span class="keyword">sizeof</span>(<span class="keyword">float</span>)*nElem;</span><br><span class="line">  <span class="keyword">float</span> *a_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *b_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *res_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="keyword">float</span> *res_from_gpu_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_h,<span class="number">0</span>,nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_from_gpu_h,<span class="number">0</span>,nByte);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">float</span> *a_d,*b_d,*res_d;</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">float</span>**)&amp;res_d,nByte));</span><br><span class="line">  CHECK(cudaMemset(res_d,<span class="number">0</span>,nByte));</span><br><span class="line">  initialData(a_h,nElem);</span><br><span class="line">  initialData(b_h,nElem);</span><br><span class="line"></span><br><span class="line">  CHECK(cudaMemcpy(a_d,a_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line">  CHECK(cudaMemcpy(b_d,b_h,nByte,cudaMemcpyHostToDevice));</span><br><span class="line"></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(block_x)</span></span>;</span><br><span class="line">  <span class="function">dim3 <span class="title">grid</span><span class="params">(nElem/block.x)</span></span>;</span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,offset,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"warmup Time elapsed %f sec\n"</span>,iElaps);</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,offset,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  CHECK(cudaMemcpy(res_from_gpu_h,res_d,nByte,cudaMemcpyDeviceToHost));</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Execution configuration&lt;&lt;&lt;%d,%d&gt;&gt;&gt; Time elapsed %f sec --offset:%d \n"</span>,grid.x,block.x,iElaps,offset);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  sumArrays(a_h,b_h,res_h,offset,nElem);</span><br><span class="line"></span><br><span class="line">  checkResult(res_h,res_from_gpu_h,nElem<span class="number">-4</span>*block_x);</span><br><span class="line">  cudaFree(a_d);</span><br><span class="line">  cudaFree(b_d);</span><br><span class="line">  cudaFree(res_d);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(a_h);</span><br><span class="line">  <span class="built_in">free</span>(b_h);</span><br><span class="line">  <span class="built_in">free</span>(res_h);</span><br><span class="line">  <span class="built_in">free</span>(res_from_gpu_h);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译指令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -O3 sum_array_offset_unrolling.cu -o sum_array_offset_unrolling -arch=sm_35 -Xptxas -dlcm=cg -I ../include/</span><br></pre></td></tr></table></figure>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/unrolling-1.png" alt="unrolling-1"></p>
+<p>nvprof 内存效率</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/unrolling-nv.png" alt="unrolling-nv"></p>
+<h3 id="增大并行性"><a href="#增大并行性" class="headerlink" title="增大并行性"></a>增大并行性</h3><p>通过调整块的大小来实现并行性调整，也是前面讲过的套路，我们关注的还是内存利用效率<br>代码同上面的展开技术。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-block.png" alt="res-block"></p>
+<p>offset=11的时候</p>
+<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-3-内存访问模式/res-off-set-11.png" alt="res-off-set-11"></p>
+<p>由于数据量少，所以时间差距不大，512有最佳速度，不仅因为内存，还有并行性等多方面因素，这个前面我们也曾提到过。要看综合能力。</p>
+<p>本文全部代码都在Github上有完整版，请访问：<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这是我今年写作时间最长的一篇博客，写了三天，主要是代码比较多，结果也比较多<br>这里我们没用Cmake，而是用的指令，原因是方便修改编译选项，试验时间结果不明显的原因是数据量小，部分结果和书上不一致，主要是书的时间比较久了，GPU换代太快。<br>全局内存本篇算是比较完整了，后面还有其他内存知识，我们继续。</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-3-内存访问模式">https://www.face2ai.com/CUDA-F-4-3-内存访问模式</a>转载请标明出处</p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-5-4-合并的全局内存访问/" rel="bookmark">【CUDA 基础】5.4 合并的全局内存访问</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/合并/" rel="tag"># 合并</a>
+          
+            <a href="/tags/内存访问模式/" rel="tag"># 内存访问模式</a>
+          
+            <a href="/tags/对齐/" rel="tag"># 对齐</a>
+          
+            <a href="/tags/缓存/" rel="tag"># 缓存</a>
+          
+            <a href="/tags/结构体数组/" rel="tag"># 结构体数组</a>
+          
+            <a href="/tags/数组结构体/" rel="tag"># 数组结构体</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Statistics-2-2-De-Moivre-Naive-Result/" rel="next" title="【数理统计学简史】2.2 狄莫弗的初步结果">
+                <i class="fa fa-chevron-left"></i> 【数理统计学简史】2.2 狄莫弗的初步结果
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Statistics-2-3-Communication-With-Stirling/" rel="prev" title="【数理统计学简史】2.3 狄莫弗初步结果的改进，与斯特林的联系">
+                【数理统计学简史】2.3 狄莫弗初步结果的改进，与斯特林的联系 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+          </div>
+          
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">270</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">517</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" title="【强化学习】2.0 多臂赌博机" target="_blank">【强化学习】2.0 多臂赌博机</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字" target="_blank">【Julia】整型和浮点型数字</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-6-Summary-History/" title="【强化学习】1.6 本章总结、强化学习历史简述" target="_blank">【强化学习】1.6 本章总结、强化学习历史简述</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-3-Variables/" title="【Julia】变量" target="_blank">【Julia】变量</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内存访问模式"><span class="nav-number">1.</span> <span class="nav-text">内存访问模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对齐与合并访问"><span class="nav-number">1.1.</span> <span class="nav-text">对齐与合并访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局内存读取"><span class="nav-number">1.2.</span> <span class="nav-text">全局内存读取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存加载"><span class="nav-number">1.2.1.</span> <span class="nav-text">缓存加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#没有缓存的加载"><span class="nav-number">1.2.2.</span> <span class="nav-text">没有缓存的加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非对齐读取示例"><span class="nav-number">1.2.3.</span> <span class="nav-text">非对齐读取示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只读缓存"><span class="nav-number">1.2.4.</span> <span class="nav-text">只读缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局内存写入"><span class="nav-number">1.3.</span> <span class="nav-text">全局内存写入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非对齐写入示例"><span class="nav-number">1.3.1.</span> <span class="nav-text">非对齐写入示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体数组与数组结构体"><span class="nav-number">1.4.</span> <span class="nav-text">结构体数组与数组结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AoS数据布局的简单数学运算"><span class="nav-number">1.4.1.</span> <span class="nav-text">AoS数据布局的简单数学运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SoA数据布局的简单数学运算"><span class="nav-number">1.4.2.</span> <span class="nav-text">SoA数据布局的简单数学运算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能调整"><span class="nav-number">1.5.</span> <span class="nav-text">性能调整</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#展开技术"><span class="nav-number">1.5.1.</span> <span class="nav-text">展开技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增大并行性"><span class="nav-number">1.5.2.</span> <span class="nav-text">增大并行性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV,
+        el: '#comments' ,
+        appId: 'rPrP8o4eOcKBbGgojFM5h0c2-gzGzoHsz',
+        appKey: 'bi1R0D5QzAhYbIb3itBn8O7m',
+        placeholder: '无需注册，填写正确的邮箱，评论被回复就有邮件通知了~',
+    });
+  </script>
+
+ 
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>

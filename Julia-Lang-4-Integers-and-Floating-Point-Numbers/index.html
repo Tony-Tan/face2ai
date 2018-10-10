@@ -1,0 +1,2862 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
+<meta name="keywords" content="Julia,浮点型数字,整型数字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Julia】整型和浮点型数字">
+<meta property="og:url" content="http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-06T13:38:52.067Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Julia】整型和浮点型数字">
+<meta name="twitter:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【Julia】整型和浮点型数字 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-julia">
+    <a href="/Julia/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Julia</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-其他笔记">
+    <a href="/other-note/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />其他笔记</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【Julia】整型和浮点型数字
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-03 18:04:56" itemprop="dateCreated datePublished" datetime="2018-10-03T18:04:56+08:00">2018-10-03</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Julia/" itemprop="url" rel="index"><span itemprop="name">Julia</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Julia/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" class="leancloud_visitors" data-flag-title="【Julia】整型和浮点型数字">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍Julia语言的整型和浮点型数字的<br><strong>Keywords:</strong><br><a id="more"></a></p>
+<h1 id="整型和浮点型数字"><a href="#整型和浮点型数字" class="headerlink" title="整型和浮点型数字"></a>整型和浮点型数字</h1><p>整数或者浮点数在编程中被大量使用，由于大部分程序面对的问题都是处理数字计算相关的问题，所以数字的表示变成了代码中最重要的一部分。不论是加减乘除，还是积分微分，在计算机中，都要使用整型和浮点型来完成，至于整型和浮点型计算过程中需要注意的事项，这是在数值分析，数值计算课程中需要考虑的，<a href="https://www.face2ai.com/categories/Mathematic/Numerical-Analysis/">数值分析课程传送门</a>，整形变量例如 <code>1</code> 浮点型变量例如<code>1.0</code>。<br>这两个例子中的数字是我们在日常和编码的时候使用的，我们称之为<strong>字面值</strong>（immediate values，对于翻译成立即数的那些教材，我们不予评价，嘻嘻）。而他们在内存中的二进制形式，被称为<strong>原始值</strong>（numeric primitives）。<br>Julia提供了宽泛的原始值类型，和定义在他们之上的一个完整数字计算操作、按位计算操作以及数值函数操作。这些原始值类型都是现在计算机原生支持的，所以Julia可以高效利用计算机的计算资源。Julia也提供了主观定义的计算操作（arbitrary precision arithmetic），这些操作不被硬件支持，在计算过程中速度将会变得比较慢。</p>
+<ul>
+<li>整型变量</li>
+</ul>
+<table><tbody><tr><th>类型</th><th>是否有符号?</th><th>所占位数</th><th>最小值</th><th>最大值</th></tr><tr><td><code>Int8</code></td><td>✓</td><td>8</td><td>-2^7</td><td>2^7 - 1</td></tr><tr><td><code>UInt8</code></td><td></td><td>8</td><td>0</td><td>2^8 - 1</td></tr><tr><td><code>Int16</code></td><td>✓</td><td>16</td><td>-2^15</td><td>2^15 - 1</td></tr><tr><td><code>UInt16</code></td><td></td><td>16</td><td>0</td><td>2^16 - 1</td></tr><tr><td><code>Int32</code></td><td>✓</td><td>32</td><td>-2^31</td><td>2^31 - 1</td></tr><tr><td><code>UInt32</code></td><td></td><td>32</td><td>0</td><td>2^32 - 1</td></tr><tr><td><code>Int64</code></td><td>✓</td><td>64</td><td>-2^63</td><td>2^63 - 1</td></tr><tr><td><code>UInt64</code></td><td></td><td>64</td><td>0</td><td>2^64 - 1</td></tr><tr><td><code>Int128</code></td><td>✓</td><td>128</td><td>-2^127</td><td>2^127 - 1</td></tr><tr><td><code>UInt128</code></td><td></td><td>128</td><td>0</td><td>2^128 - 1</td></tr><tr><td><code>Bool</code></td><td>N/A</td><td>8</td><td><code>false</code> (0)</td><td><code>true</code> (1)</td></tr></tbody></table>
+
+<ul>
+<li>浮点型变量</li>
+</ul>
+<table><tbody><tr><th>类型</th><th>精度</th><th>所占位数</th></tr><tr><td><code>Float16</code></td><td><a href="https://en.wikipedia.org/wiki/Half-precision_floating-poInt_format" target="_blank" rel="noopener">half</a></td><td>16</td></tr><tr><td><code>Float32</code></td><td><a href="https://en.wikipedia.org/wiki/Single_precision_floating-poInt_format" target="_blank" rel="noopener">single</a></td><td>32</td></tr><tr><td><code>Float64</code></td><td><a href="https://en.wikipedia.org/wiki/Double_precision_floating-poInt_format" target="_blank" rel="noopener">double</a></td><td>64</td></tr></tbody></table>
+
+<p>以上浮点型的三种类型的精度可以点击进入wikipedia查看详情。</p>
+<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p>在Julia编程中字面值以标准形式表示，比如我们想输入数值1，只需要输入<code>1</code>就可以了，而不需要转换成存储在计算机内存或硬盘中的二进制。<br>比如在交互模式下：</p>
+<pre><code>
+$ julia
+               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.0.0 (2018-08-08)
+ _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
+|__/                   |
+
+julia> 1
+1
+
+julia> 123
+123
+
+julia>
+</code></pre>
+
+
+<h3 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h3><p><code>typeof</code>的用法和c语言中的 <code>sizeof</code>类似，但是<code>sizeof</code>在c/c++中是操作符，而<code>typeof</code>在Julia这里可能是个函数，这需要我们后面深入的研究确定，我们先画个问号在这。在交互模式下我们来看看我们的整形变量1在Julia中的类型：</p>
+<pre><code>
+julia> typeof(1)
+Int64
+
+julia> typeof(123)
+Int64
+
+julia>
+</code></pre>
+输出结果是<code>Int64</code>，不是<code>Int32</code>的原因是我们的操作系统是64位操作系统，所以基础类型就是64位的了。
+
+### Sys.WORD_SIZE
+<code>Sys.WORD_SIZE</code>这个内置变量用于指示当前系统是32位还是64位：
+<pre><code>
+julia> Sys.WORD_SIZE
+64
+
+julia>
+</code></pre>
+
+<h3 id="Int-和-UInt"><a href="#Int-和-UInt" class="headerlink" title="Int 和 UInt"></a>Int 和 UInt</h3><p>这两种类型的不同在于是否有符号，数值范围也有区别，具体的可以从上面的表中得出，如果想看当前系统内的<code>Int</code>和<code>UInt</code>对应位数，可以直接在交互模式下输入：</p>
+<pre><code class="language-julia-repl hljs"># 32-bit system:
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Int</span>
+</span>Int32
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">UInt</span>
+</span>UInt32
+
+# 64-bit system:
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Int</span>
+</span>Int64
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">UInt</span>
+</span>UInt64</code></pre>
+32位系统和64位系统对应如上.
+**注意：Julia大小写敏感，所以uInt和UInt是不同**
+<pre><code>
+julia> uInt
+ERROR: UndefVarError: uInt not defined
+
+julia> UInt
+ERROR: UndefVarError: UInt not defined
+
+julia> UInt
+UInt64
+</code></pre>
+
+<h3 id="输入类型"><a href="#输入类型" class="headerlink" title="输入类型"></a>输入类型</h3><p>如果我们的系统是32位系统，所以对应的整数默认类型是<code>Int32</code>那么如果整数值超过了32-bit有符号型整数的范围，在C语言中就会发生溢出，但是在Julia中，系统会自动将超过32-bit的数字转换成64-bit形式（C语言中在代码中定义类型，所以输入可能会溢出，但是Julia中不事先定义变量类型，所以可以自主转换）：</p>
+<pre><code class="language-julia-repl hljs"># 32-bit or 64-bit system:
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(<span class="hljs-number">3000000000</span>)
+</span>Int64</code></pre>
+
+<p>所以Julia中不会出现溢出这种风险。</p>
+<h3 id="16进制-base-16"><a href="#16进制-base-16" class="headerlink" title="16进制(base 16)"></a>16进制(base 16)</h3><p>常用的16进制当然也是支持的，16进制以 <code>0x</code> 开头，使用<code>0-9a-f</code>作为每一位字面值的数字，这里的 <code>a-f</code>与<code>A-F</code>是等价的：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0x1</span>
+</span>0x01
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt8
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0x123</span>
+</span>0x0123
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt16
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0x1234567</span>
+</span>0x01234567
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt32
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0x123456789abcdef</span>
+</span>0x0123456789abcdef
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt64
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0x11112222333344445555666677778888</span>
+</span>0x11112222333344445555666677778888
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt128</code></pre>
+
+<p>16进制输入的数字最终都会被系统解释为无符号的类型。<br>这是因为16进制输入一般都不是表示数值，而是一个数字序列。</p>
+<p><strong>注意：</strong><code>ans</code><strong>只有在交互模式下可以如此使用</strong></p>
+<h3 id="2进制，8进制"><a href="#2进制，8进制" class="headerlink" title="2进制，8进制"></a>2进制，8进制</h3><p>16进制是允许的，那么2进制和8进制当然也是可以的：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0b10</span>
+</span>0x02
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt8
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0o010</span>
+</span>0x08
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt8
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0x00000000000000001111222233334444</span>
+</span>0x00000000000000001111222233334444
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>UInt128</code></pre>
+
+<ul>
+<li>二进制的表示方式:<code>0b</code>开头，每一位只能是<code>0-1</code></li>
+<li>二进制的表示方式:<code>0o</code>开头，每一位只能是<code>0-7</code></li>
+</ul>
+<p>与16进制相同2进制和8进制的输入，系统也是按照无符号类型处理的。<br>处理输入的2进制或者8进制的位数时则是选择能保存该数值的最小位数，开头的0将会被省略（这样可以节约内存空间），如果想保存原始位数，那么使用1开头即可。<br>如果输入数字不能被<code>UInt128</code>存储下，那么这个字面值不合法。<br>如果输入的2，8，16进制数字前面有符号，那么将会转换成无符号的对应值存储：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> -<span class="hljs-number">0x2</span>
+</span>0xfe
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> -<span class="hljs-number">0x0002</span>
+</span>0xfffe</code></pre>
+
+<h3 id="typemin函数-typemax函数"><a href="#typemin函数-typemax函数" class="headerlink" title="typemin函数,typemax函数"></a><code>typemin</code>函数,<code>typemax</code>函数</h3><p>如果想获得某类型的最大最小值，那么就可以使用<code>typemin</code>函数,<code>typemax</code>函数：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> (typemin(<span class="hljs-built_in">Int32</span>), typemax(<span class="hljs-built_in">Int32</span>))
+</span>(-2147483648, 2147483647)
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-keyword">for</span> T <span class="hljs-keyword">in</span> [<span class="hljs-built_in">Int8</span>,<span class="hljs-built_in">Int16</span>,<span class="hljs-built_in">Int32</span>,<span class="hljs-built_in">Int64</span>,<span class="hljs-built_in">Int128</span>,<span class="hljs-built_in">UInt8</span>,<span class="hljs-built_in">UInt16</span>,<span class="hljs-built_in">UInt32</span>,<span class="hljs-built_in">UInt64</span>,<span class="hljs-built_in">UInt128</span>]
+           prIntln(<span class="hljs-string">"<span class="hljs-subst">$(lpad(T,<span class="hljs-number">7</span>)</span>): [<span class="hljs-subst">$(typemin(T)</span>),<span class="hljs-subst">$(typemax(T)</span>)]"</span>)
+       <span class="hljs-keyword">end</span>
+</span>   Int8: [-128,127]
+  Int16: [-32768,32767]
+  Int32: [-2147483648,2147483647]
+  Int64: [-9223372036854775808,9223372036854775807]
+ Int128: [-170141183460469231731687303715884105728,170141183460469231731687303715884105727]
+  UInt8: [0,255]
+ UInt16: [0,65535]
+ UInt32: [0,4294967295]
+ UInt64: [0,18446744073709551615]
+UInt128: [0,340282366920938463463374607431768211455]</code></pre>
+<code>for</code>是循环控制关键字
+<code>prIntln()</code>是打印函数
+还有一些其他的细节，我们还没有学习，具体的用法我们将在后面介绍。
+**注意：<code>typemin</code>函数,<code>typemax</code>函数只支持已经数值类型**
+
+
+### 溢出特性
+对于有限位数的数值都会存在溢出的现象，这种现象是由于计算机结构的特性造成的，无法避免，可以当错误看待也可以当特性看待：
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> x = typemax(<span class="hljs-built_in">Int64</span>)
+</span>9223372036854775807
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> x + <span class="hljs-number">1</span>
+</span>-9223372036854775808
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> x + <span class="hljs-number">1</span> == typemin(<span class="hljs-built_in">Int64</span>)
+</span>true</code></pre>
+
+<p>这种溢出现象，可以看做是模运算，模运算也是现计算机的重要特性。<br>在应用中出现溢出是可能的，检测溢出现象也是必须的，或者可以尝试使用更高级的类型<code>BigInt</code> 但是虽然溢出问题可以通过该类型解决，但是效率可能会下降，所以，这里就需要程序员自己平衡了。</p>
+<h3 id="除法错误"><a href="#除法错误" class="headerlink" title="除法错误"></a>除法错误</h3><p>除法错误的根本原因是除数为<code>0</code>,但是这只是其中一种，或者说，这是错误的根基，但是表现出来有以下几种：</p>
+<ul>
+<li><code>div</code>函数中除数是<code>0</code></li>
+<li>最小的负数（typemin(Int32)）除以<code>-1</code></li>
+<li>取模操作的操作数是<code>0</code>也会出现除法错误：</li>
+</ul>
+<pre><code>
+julia> div(100,0)
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
+Stacktrace:
+ [1] div(::Int64, ::Int64) at ./Int.jl:232
+ [2] top-level scope at none:0
+
+julia> div(typemin(Int64),-1)
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
+Stacktrace:
+ [1] div(::Int64, ::Int64) at ./Int.jl:232
+ [2] top-level scope at none:0
+
+julia> mod(20,0)
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
+Stacktrace:
+ [1] div at ./Int.jl:232 [inlined]
+ [2] fld at ./Int.jl:241 [inlined]
+ [3] mod(::Int64, ::Int64) at ./Int.jl:221
+ [4] top-level scope at none:0
+
+julia> rem(20,0)
+<font color="ff0000"><b>ERROR: DivideError: Integer division error<b></b></b></font>
+Stacktrace:
+ [1] rem(::Int64, ::Int64) at ./Int.jl:233
+ [2] top-level scope at none:0
+
+julia></code></pre>
+
+<p>这里面唯一有问题的就是为什么最小的数字除以<code>-1</code>会出现错误，原因很简单，我们假设我们操作4-bit的有符号数字，那么符号位占一位，我们就有如下表格：</p>
+<table>
+<thead>
+<tr>
+<th>十进制数</th>
+<th>符号位+ 二进制绝对值的表示方式</th>
+<th>ones’ complement</th>
+<th>two’s complement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+7</td>
+<td>0111</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>+6</td>
+<td>0110</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>+5</td>
+<td>0101</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>+4</td>
+<td>0100</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>+3</td>
+<td>0011</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>+2</td>
+<td>0010</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>+1</td>
+<td>0001</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>+0</td>
+<td>0000</td>
+<td>表示方式不变</td>
+<td>表示方式不变</td>
+</tr>
+<tr>
+<td>-0</td>
+<td>1000</td>
+<td>1111</td>
+<td>(1)0000</td>
+</tr>
+<tr>
+<td>-1</td>
+<td>1001</td>
+<td>1110</td>
+<td>1111</td>
+</tr>
+<tr>
+<td>-2</td>
+<td>1010</td>
+<td>1101</td>
+<td>1110</td>
+</tr>
+<tr>
+<td>-3</td>
+<td>1011</td>
+<td>1100</td>
+<td>1101</td>
+</tr>
+<tr>
+<td>-4</td>
+<td>1100</td>
+<td>1011</td>
+<td>1100</td>
+</tr>
+<tr>
+<td>-5</td>
+<td>1101</td>
+<td>1010</td>
+<td>1011</td>
+</tr>
+<tr>
+<td>-6</td>
+<td>1110</td>
+<td>1001</td>
+<td>1010</td>
+</tr>
+<tr>
+<td>-7</td>
+<td>1111</td>
+<td>1000</td>
+<td>1001</td>
+</tr>
+<tr>
+<td>-8</td>
+<td>超出4个bit所能表达范围</td>
+<td>超出4个表达范围</td>
+<td>1000</td>
+</tr>
+</tbody>
+</table>
+<p>注：要设计硬件区分符号位，比较绝对值大小。无需设计硬件比较大小，但零存在两种表示方法。<br>较好的解决上述问题<br>。由于零只有一种表达方式，所以，可以比别的方式多表达一个-8.<br>(上表来自百度百科：https://baike.baidu.com/item/补码)<br>由于在操作系统中以补码形式存储有符号数，所以，最小的负数值的绝对值比相应的最大的正数值大1，所以，当他除以-1的时候，结果溢出，故除法抛出错误。</p>
+<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>整型表示的数字都是整数，现在我们该研究一下小数了，带小数的字面值，用浮点型表示</p>
+<h3 id="常用浮点类型"><a href="#常用浮点类型" class="headerlink" title="常用浮点类型"></a>常用浮点类型</h3><h4 id="Float64"><a href="#Float64" class="headerlink" title="Float64"></a>Float64</h4><p>正常输入不加任何修饰、转化的小数字面值都用 <code>Float64</code> 类型存储</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">1.0</span>
+</span>1.0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">1.</span>
+</span>1.0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0.5</span>
+</span>0.5
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">.5</span>
+</span>0.5
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> -<span class="hljs-number">1.23</span>
+</span>-1.23
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">1e10</span>
+</span>1.0e10
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">2.5e-4</span>
+</span>0.00025</code></pre>
+
+
+<h4 id="Float32"><a href="#Float32" class="headerlink" title="Float32"></a>Float32</h4><p>以上这些数字以<code>Float64</code> 形式存储，<code>e</code>就是数学中的科学计数法，如果想用单精度浮点数表示，那么就要在数字中加<code>f0</code> 或者如果已经是科学计数法的数字，用<code>f</code>来来替代<code>e</code>，对于单精度双精度不太了解的同学，可以参考：<a href="https://www.face2ai.com/Math-Numerical-Analysis-0-3-Float/"> 数值分析-浮点数</a>或者google查询更详细的关于浮点数的介绍，Julia中的用法如下：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0.5f0</span>
+</span>0.5f0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>Float32
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">2.5f-4</span>
+</span>0.00025f0</code></pre>
+
+<p>转化成<code>Float32</code>的方式如下：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">Float32</span>(-<span class="hljs-number">1.5</span>)
+</span>-1.5f0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(ans)
+</span>Float32</code></pre>
+
+<h4 id="Float16"><a href="#Float16" class="headerlink" title="Float16"></a>Float16</h4><p><code>Float16</code>当然也是支持的，虽然可能使用不多，但是有时候在要在更小的内存设备上使用一些数字16位类型就派上用场了，但是注意，在计算的时候，16位的浮点数会被补全成32位的Float32进行计算，这是因为硬件上的浮点数加法器，乘法器，一般都是32位或者更高的，16位已经退出历史舞台了</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> sizeof(<span class="hljs-built_in">Float16</span>(<span class="hljs-number">4.</span>))
+</span>2
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">2</span>*<span class="hljs-built_in">Float16</span>(<span class="hljs-number">4.</span>)
+</span>Float16(8.0)</code></pre>
+
+
+<p>16 位的<code>Float16</code>占两个字节，共16位<br><code>sizeof()</code> 函数用来计算变量在内存中使用的空间，等效于c/c++ 中的 sizeof()。</p>
+<h4 id="下划线-‘-’"><a href="#下划线-‘-’" class="headerlink" title="下划线 ‘_’"></a>下划线 ‘_’</h4><p>在数字中，下划线在数字中间以分隔符的作用出现，就像我们平时写论文或者写其他比较正式的文章的时候，超过三位的数字，会没三位加逗号，这个逗号在程序里被改成了下划线</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">10_000</span>, <span class="hljs-number">0.000_000_005</span>, <span class="hljs-number">0xdead_beef</span>, <span class="hljs-number">0b1011_0010</span>
+</span>(10000, 5.0e-9, 0xdeadbeef, 0xb2)</code></pre>
+
+<h3 id="0的浮点数"><a href="#0的浮点数" class="headerlink" title="0的浮点数"></a>0的浮点数</h3><p>浮点数的0有两种表示方法：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0.0</span> == -<span class="hljs-number">0.0</span>
+</span>true
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> bitstring(<span class="hljs-number">0.0</span>)
+</span>"0000000000000000000000000000000000000000000000000000000000000000"
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> bitstring(-<span class="hljs-number">0.0</span>)
+</span>"1000000000000000000000000000000000000000000000000000000000000000"</code></pre>
+
+<p>正负0相等，但是浮点的二进制形式差一个符号位。<br><code>bitstring</code> 函数的作用是将变量在内存中的二进制形式按位形成一个字符串。</p>
+<h3 id="特殊的浮点数"><a href="#特殊的浮点数" class="headerlink" title="特殊的浮点数"></a>特殊的浮点数</h3><p>有三个特殊的标准浮点值，这三个值在实数轴上没有对应点，可能大家已经猜到了， $\pm \infty$ 还有就是 “not a number”</p>
+<table><tbody><tr><th><code>Float16</code></th><th><code>Float32</code></th><th><code>Float64</code></th><th>Name</th><th>Description</th></tr><tr><td><code>Inf16</code></td><td><code>Inf32</code></td><td><code>Inf</code></td><td>正无穷</td><td>大于所有能表示出来的浮点数值</td></tr><tr><td><code>-Inf16</code></td><td><code>-Inf32</code></td><td><code>-Inf</code></td><td>负无穷</td><td>小于所有能表示出来的浮点数值</td></tr><tr><td><code>NaN16</code></td><td><code>NaN32</code></td><td><code>NaN</code></td><td>不是一个数字</td><td>结果不等于任何一个浮点数字</td></tr></tbody></table>
+
+<p>上表就是<code>Float16</code>、<code>Float64</code>、<code>Float32</code> 对应的无穷和Nan的表格，这三个非标准浮点数会经常出现在编程中，尤其是有bug的地方。<br>更多相关内容我们会在后面 “Numeric Comparisons” 中介绍。<br>IEEE 754 标准规定包含特殊浮点数的计算结果如下：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">1</span>/<span class="hljs-literal">Inf</span>
+</span>0.0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">1</span>/<span class="hljs-number">0</span>
+</span>Inf
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> -<span class="hljs-number">5</span>/<span class="hljs-number">0</span>
+</span>-Inf
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0.000001</span>/<span class="hljs-number">0</span>
+</span>Inf
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0</span>/<span class="hljs-number">0</span>
+</span>NaN
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">500</span> + <span class="hljs-literal">Inf</span>
+</span>Inf
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">500</span> - <span class="hljs-literal">Inf</span>
+</span>-Inf
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-literal">Inf</span> + <span class="hljs-literal">Inf</span>
+</span>Inf
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-literal">Inf</span> - <span class="hljs-literal">Inf</span>
+</span>NaN
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-literal">Inf</span> * <span class="hljs-literal">Inf</span>
+</span>Inf
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-literal">Inf</span> / <span class="hljs-literal">Inf</span>
+</span>NaN
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0</span> * <span class="hljs-literal">Inf</span>
+</span>NaN</code></pre>
+
+<p><code>typemin()</code> 和 <code>typemax()</code> 函数可以用于浮点类型，结果如下：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> (typemin(<span class="hljs-built_in">Float16</span>),typemax(<span class="hljs-built_in">Float16</span>))
+</span>(-Inf16, Inf16)
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> (typemin(<span class="hljs-built_in">Float32</span>),typemax(<span class="hljs-built_in">Float32</span>))
+</span>(-Inf32, Inf32)
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> (typemin(<span class="hljs-built_in">Float64</span>),typemax(<span class="hljs-built_in">Float64</span>))
+</span>(-Inf, Inf)</code></pre>
+
+<h3 id="机器精度（eps-函数）"><a href="#机器精度（eps-函数）" class="headerlink" title="机器精度（eps 函数）"></a>机器精度（<code>eps</code> 函数）</h3><p>大多数实数是不能用机器数准确表达的，所以这就涉及到精度问题，本站<a href="https://www.face2ai.com/categories/Mathematic/Numerical-Analysis/">数值分析</a>主要研究这方面内容，而每种浮点类型的误差已经在其设计时就已经被确定了，当我们要用到相关的准确度的时候，只需要查询语言内置的函数就可以，这属于系统误差，一直都在，如果这个误差影响了程序，那么就要通过数值分析来找办法，<code>eps</code> 函数就是语言内置的查询精度值的函数。</p>
+<h4 id="eps-Float"><a href="#eps-Float" class="headerlink" title="eps(Float)"></a><code>eps(Float)</code></h4><p>其参数是浮点类型时，结果如下：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> eps(<span class="hljs-built_in">Float32</span>)
+</span>1.1920929f-7
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> eps(<span class="hljs-built_in">Float64</span>)
+</span>2.220446049250313e-16
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> eps() <span class="hljs-comment"># same as eps(Float64)</span>
+</span>2.220446049250313e-16</code></pre>
+[ 数值分析-浮点数](https://www.face2ai.com/Math-Numerical-Analysis-0-3-Float/)文中有介绍这个精确度是怎么计算出来的。这个精度的字面定义是 浮点数 1.0和与他最近的另一个该类型的浮点数之间的差。
+
+#### <code>eps(100.0)</code>
+<code>eps</code> 函数也能接受浮点数作为参数：
+
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> eps(<span class="hljs-number">1.0</span>)
+</span>2.220446049250313e-16
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> eps(<span class="hljs-number">1000.</span>)
+</span>1.1368683772161603e-13
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> eps(<span class="hljs-number">1e-27</span>)
+</span>1.793662034335766e-43
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> eps(<span class="hljs-number">0.0</span>)
+</span>5.0e-324</code></pre>
+
+<p>当<code>eps</code> 函数以浮点数作为输入的时候，结果是输入的浮点数与最接近的他的浮点数之间的差。</p>
+<h4 id="prevfolat-和nextfloat-函数"><a href="#prevfolat-和nextfloat-函数" class="headerlink" title="prevfolat()和nextfloat()函数"></a><code>prevfolat()</code>和<code>nextfloat()</code>函数</h4><p>使用上面<code>eps</code> 函数的结果可以计算出当前浮点数的最近的上一个浮点数和下一个浮点数：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> x = <span class="hljs-number">1.25f0</span>
+</span>1.25f0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> nextfloat(x)
+</span>1.2500001f0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> prevfloat(x)
+</span>1.2499999f0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> bitstring(prevfloat(x))
+</span>"00111111100111111111111111111111"
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> bitstring(x)
+</span>"00111111101000000000000000000000"
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> bitstring(nextfloat(x))
+</span>"00111111101000000000000000000001"</code></pre>
+
+<p>相邻的浮点数的背后是相邻的二进制机器数，二进制的特性导致了浮点数误差的性质，而我们经常忽视这些误差，这明显是不对的，这么小小的误差就会导致火箭会坠毁。</p>
+<h4 id="“近似”-模型"><a href="#“近似”-模型" class="headerlink" title="“近似” 模型"></a>“近似” 模型</h4><p>当我们的字面值没有对应的准确浮点表达的时候，我们就要进行近似了 —— 向上取近似还是向下取近似。IEEE 754标准有明确的相关的操作。<br><code>RoundNearest</code>对这个过程进行操作，在进阶部分我们会对其过程进行剖析。</p>
+<h4 id="背景知识和引用"><a href="#背景知识和引用" class="headerlink" title="背景知识和引用"></a>背景知识和引用</h4><ul><li>The definitive guide to floating point arithmetic is the <a href="http://standards.ieee.org/findstds/standard/754-2008.html" target="_blank" rel="noopener">IEEE 754-2008 Standard</a>; however, it is not available for free online.</li><li>For a brief but lucid presentation of how floating-point numbers are represented, see John D. Cook’s <a href="https://www.johndcook.com/blog/2009/04/06/anatomy-of-a-floating-point-number/" target="_blank" rel="noopener">article</a> on the subject as well as his <a href="https://www.johndcook.com/blog/2009/04/06/numbers-are-a-leaky-abstraction/" target="_blank" rel="noopener">introduction</a> to some of the issues arising from how this representation differs in behavior from the idealized abstraction of real numbers.</li><li>Also recommended is Bruce Dawson’s <a href="https://randomascii.wordpress.com/2012/05/20/thats-not-normalthe-performance-of-odd-floats/" target="_blank" rel="noopener">series of blog posts on floating-point numbers</a>.</li><li>For an excellent, in-depth discussion of floating-point numbers and issues of numerical accuracy encountered when computing with them, see David Goldberg’s paper <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.6768&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">What Every Computer Scientist Should Know About Floating-Point Arithmetic</a>.</li><li>For even more extensive documentation of the history of, rationale for, and issues with floating-point numbers, as well as discussion of many other topics in numerical computing, see the <a href="https://people.eecs.berkeley.edu/~wkahan/" target="_blank" rel="noopener">collected writings</a> of <a href="https://en.wikipedia.org/wiki/William_Kahan" target="_blank" rel="noopener">William Kahan</a>, commonly known as the “Father of Floating-Point”. Of particular interest may be <a href="https://people.eecs.berkeley.edu/~wkahan/ieee754status/754story.html" target="_blank" rel="noopener">An Interview with the Old Man of Floating-Point</a>.</li></ul>
+
+
+
+<h2 id="任意准确度数字"><a href="#任意准确度数字" class="headerlink" title="任意准确度数字"></a>任意准确度数字</h2><p>以上我们研究的数字都受到设计时的精度限制，Julia提供一种不限制大小的数字表达方式，换句话说，这种精度是自定义的，和你输入的数字永远一致，听起来更像把数字字符串化，看起来类似，但是这些字符串是可以进行计算的，Julia打包了GMP(GNU Multiple Precision Arithmetic Library)协议和GNU MPER Library 开发出了 <code>BigInt</code>和<code>BigFloat</code>类型，这两个类型可以表示任意精度的整数或浮点数。<br><code>parse</code>函数提供了将字符串转化成<code>BigInt</code>和<code>BigFloat</code>类型的一种方式，为什么要用这个函数，因为你没办法用其他数值类型保存任意长度的数字，这样操作，一旦<code>BigInt</code>和<code>BigFloat</code>类型的数字完成定义就可以和任意类型的数字进行计算了，这要归功于Julia的内部类型转换机制（后面进阶部分会介绍）</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">BigInt</span>(typemax(<span class="hljs-built_in">Int64</span>)) + <span class="hljs-number">1</span>
+</span>9223372036854775808
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> parse(<span class="hljs-built_in">BigInt</span>, <span class="hljs-string">"123456789012345678901234567890"</span>) + <span class="hljs-number">1</span>
+</span>123456789012345678901234567891
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> parse(<span class="hljs-built_in">BigFloat</span>, <span class="hljs-string">"1.23456789012345678901"</span>)
+</span>1.234567890123456789010000000000000000000000000000000000000000000000000000000004
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-built_in">BigFloat</span>(<span class="hljs-number">2.0</span>^<span class="hljs-number">66</span>) / <span class="hljs-number">3</span>
+</span>2.459565876494606882133333333333333333333333333333333333333333333333333333333344e+19
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> factorial(<span class="hljs-built_in">BigInt</span>(<span class="hljs-number">40</span>))
+</span>815915283247897734345611269596115894272000000000</code></pre>
+
+<p>虽然可以进行<code>BigInt</code>和<code>BigFloat</code>类型和常规类型的数值计算的时候，Julia会自己进行类型转换，但是如果操作中没有<code>BigInt</code>和<code>BigFloat</code>类型则还是会产生溢出，即当计算式中没有<code>BigInt</code>或<code>BigFloat</code>类型Julia不会自动的调整数值到<code>BigInt</code>或<code>BigFloat</code>类型：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> x = typemin(<span class="hljs-built_in">Int64</span>)
+</span>-9223372036854775808
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> x = x - <span class="hljs-number">1</span>
+</span>9223372036854775807
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(x)
+</span>Int64
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> y = <span class="hljs-built_in">BigInt</span>(typemin(<span class="hljs-built_in">Int64</span>))
+</span>-9223372036854775808
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> y = y - <span class="hljs-number">1</span>
+</span>-9223372036854775809
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> typeof(y)
+</span>BigInt</code></pre>
+常规类型的数字计算还是会溢出。
+
+前面提到的近似模型，在BigFloat中将会被改变，其可以被手工指定，利用<code>setprecision</code> 和 <code>setrounding</code> 函数可以进行全局设置。或者如果只想在某个代码块内改变近似模型，则可以使用<code>do</code> 代码块：
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> setrounding(<span class="hljs-built_in">BigFloat</span>, <span class="hljs-literal">RoundUp</span>) <span class="hljs-keyword">do</span>
+           <span class="hljs-built_in">BigFloat</span>(<span class="hljs-number">1</span>) + parse(<span class="hljs-built_in">BigFloat</span>, <span class="hljs-string">"0.1"</span>)
+       <span class="hljs-keyword">end</span>
+</span>1.100000000000000000000000000000000000000000000000000000000000000000000000000003
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> setrounding(<span class="hljs-built_in">BigFloat</span>, <span class="hljs-literal">RoundDown</span>) <span class="hljs-keyword">do</span>
+           <span class="hljs-built_in">BigFloat</span>(<span class="hljs-number">1</span>) + parse(<span class="hljs-built_in">BigFloat</span>, <span class="hljs-string">"0.1"</span>)
+       <span class="hljs-keyword">end</span>
+</span>1.099999999999999999999999999999999999999999999999999999999999999999999999999986
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> setprecision(<span class="hljs-number">40</span>) <span class="hljs-keyword">do</span>
+           <span class="hljs-built_in">BigFloat</span>(<span class="hljs-number">1</span>) + parse(<span class="hljs-built_in">BigFloat</span>, <span class="hljs-string">"0.1"</span>)
+       <span class="hljs-keyword">end</span>
+</span>1.1000000000004</code></pre>
+
+
+
+<h2 id="数字系数"><a href="#数字系数" class="headerlink" title="数字系数"></a>数字系数</h2><h3 id="数值作为系数"><a href="#数值作为系数" class="headerlink" title="数值作为系数"></a>数值作为系数</h3><p>在其他编程语言中，数字变量就是一个操作数，当他作为式子的参数的时候，必须要用操作符连接，比如在c++或者python中我们想表达 $y=2x+1$ 这个表达式的时候一定是:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=<span class="number">2</span>*x+<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>但是在Julia中数字参数可以用另一种形式表示，回归到其参数的地位，而不是c++或者python中的操作数的身份，在Julia中，数字参数可以这么写：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> x = <span class="hljs-number">3</span>
+</span>3
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">2</span>x^<span class="hljs-number">2</span> - <span class="hljs-number">3</span>x + <span class="hljs-number">1</span>
+</span>10
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">1.5</span>x^<span class="hljs-number">2</span> - <span class="hljs-number">.5</span>x + <span class="hljs-number">1</span>
+</span>13.0</code></pre>
+
+<p>虽然就差一个操作符号，但是这种系数形式更加贴近原始公式，当然这里交换律不行，不能把数字放到后面，那样就成了一个新的变量了：</p>
+<pre><code>
+julia> x=2
+2
+
+julia> y=2x+1
+5
+
+julia> y=x2+1
+<b><font color="ff0000">ERROR: UndefVarError: x2 not defined</font></b>
+Stacktrace:
+ [1] top-level scope at none:0
+
+julia>
+</code></pre>
+以下形式表示 $2^{2x}$ 而不是 $2^2x$
+<pre><code class="language-julia-repl hljs">
+julia> x=3
+3
+
+julia> 2^2x
+64</code></pre>
+
+<p>这种表达的一个问题就是我们将会对结合顺序产生疑惑，比如：</p>
+<ul>
+<li><code>-2x</code> 表示<code>(-2)x</code></li>
+<li><code>√2x</code>是表示 <code>(√2)x</code></li>
+<li><code>2x^3</code>是表示 <code>2*(x^3)</code></li>
+</ul>
+<p>前两个比较好理解，对于幂，系数的结合方式类似于一元操作符，比如 <code>-x^2</code>大家都会理解为<code> -(x^2)</code> 这里的符号和系数的语法上的解释是一样的</p>
+<div class="note info"><p>注意：数值系数操作(乘法)优先级高于其他二元操作，比如乘法或者除法：</p><ul><li><code>1 / 2im == -0.5im</code> 而不是<code>0.5im</code></li><li><code>6 // 2(2 + 1) == 1 // 1</code> 而不是 <code>(6 // 2)*3 = 9</code></li></ul></div>
+<h3 id="加了括号的表达式也可以作为系数"><a href="#加了括号的表达式也可以作为系数" class="headerlink" title="加了括号的表达式也可以作为系数"></a>加了括号的表达式也可以作为系数</h3><p>加了括号的表达式可以作为系数，比如：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> (x-<span class="hljs-number">1</span>)x
+</span>6</code></pre>
+
+<p>但是没有加括号的表达式，或者两个操作数都有括号，就不可以这么写了：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> (x-<span class="hljs-number">1</span>)(x+<span class="hljs-number">1</span>)
+</span>ERROR: MethodError: objects of type Int64 are not callable
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> x(x+<span class="hljs-number">1</span>)
+</span>ERROR: MethodError: objects of type Int64 are not callable</code></pre>
+
+
+<p>上面这两种写法报错的原因是，这两种写法和函数的写法撞车了，所以不可能允许这种计算。</p>
+<p>上面这两种写法给我们写公式的时候带来了很大的方便，注意不要在系数后面加空格，也不要在括号系数后加空格。</p>
+<h3 id="句法争议"><a href="#句法争议" class="headerlink" title="句法争议"></a>句法争议</h3><p>上面的参数写法不被其他语言采纳的原因是会造成其他句法混淆，比如十六进制和科学计数法：</p>
+<ul>
+<li>十六进制数字 <code>0xff</code> 将会被解释成：参数 <code>0</code> 乘以变量 <code>xff</code>.</li>
+<li>浮点数 <code>1e10</code>会被解释成：参数 <code>1</code> 乘以变量 <code>e10</code>， <code>E</code>形式类似</li>
+<li>32位浮点数 <code>1.5f22</code> 被解释为：参数<code>1.5</code> 乘以变量<code>f22</code>.</li>
+</ul>
+<p>对于上述争端，Julia给出的解释是：</p>
+<ul>
+<li><code>0x</code>被解释为16进制字符，不会被理解成别的</li>
+<li>一个数字后面跟了 <code>e</code> 或者 <code>E</code> 将会被解释为浮点数</li>
+<li>一个数字后面跟了 <code>f</code>将会被解释为32-bit浮点数，<strong>但是F不会被解释为32-bit浮点数，而是按照系数解释</strong></li>
+</ul>
+<h2 id="“清零”-和-“归一”"><a href="#“清零”-和-“归一”" class="headerlink" title="“清零” 和 “归一”"></a>“清零” 和 “归一”</h2><p>Julia提供了一个函数来产生0，和1，这个作用听起来有点费解，这不就是赋值么？为什么还要函数，因为不同的数值类型对应着不同的0的表示法，比如不同长度的浮点数的0就有很多种，所以一个函数搞定还是方便的：</p>
+<table><tbody><tr><th>Function</th><th>Description</th></tr><tr><td><a href="../../base/numbers/#Base.zero"><code>zero(x)</code></a></td><td>Literal zero of type <code>x</code> or type of variable <code>x</code></td></tr><tr><td><a href="../../base/numbers/#Base.one"><code>one(x)</code></a></td><td>Literal one of type <code>x</code> or type of variable <code>x</code></td></tr></tbody></table>
+
+<p>其操作结果：</p>
+<pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> zero(<span class="hljs-built_in">Float32</span>)
+</span>0.0f0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> zero(<span class="hljs-number">1.0</span>)
+</span>0.0
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> one(<span class="hljs-built_in">Int32</span>)
+</span>1
+
+<span class="hljs-meta">julia&gt;</span><span class="julia"> one(<span class="hljs-built_in">BigFloat</span>)
+</span>1.0</code></pre>
+
+
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/" target="_blank" rel="noopener">https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/</a></li>
+</ol>
+<hr>
+<p><a href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers" target="_blank" rel="noopener">原文地址: https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers</a></p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-2-Getting-Started/" rel="bookmark">【Julia】开始使用Julia</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-1-Install/" rel="bookmark">【Julia】Julia环境搭建（Mac,Windows,Linux）</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-0-Introduction/" rel="bookmark">【Julia】Julia编程语言介绍</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Julia/" rel="tag"># Julia</a>
+          
+            <a href="/tags/浮点型数字/" rel="tag"># 浮点型数字</a>
+          
+            <a href="/tags/整型数字/" rel="tag"># 整型数字</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/RL-RSAB-1-6-Summary-History/" rel="next" title="【强化学习】1.6 本章总结、强化学习历史简述">
+                <i class="fa fa-chevron-left"></i> 【强化学习】1.6 本章总结、强化学习历史简述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" rel="prev" title="【强化学习】2.0 多臂赌博机">
+                【强化学习】2.0 多臂赌博机 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+          </div>
+          
+<image src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/weixingongzhonghao.jpg"></image>
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">270</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">517</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-0-Multi-Armed-Bandits/" title="【强化学习】2.0 多臂赌博机" target="_blank">【强化学习】2.0 多臂赌博机</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字" target="_blank">【Julia】整型和浮点型数字</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-1-6-Summary-History/" title="【强化学习】1.6 本章总结、强化学习历史简述" target="_blank">【强化学习】1.6 本章总结、强化学习历史简述</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/Julia-Lang-3-Variables/" title="【Julia】变量" target="_blank">【Julia】变量</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date(" 11/27/2013 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="第一篇博客至今已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整型和浮点型数字"><span class="nav-number">1.</span> <span class="nav-text">整型和浮点型数字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整型"><span class="nav-number">1.1.</span> <span class="nav-text">整型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof"><span class="nav-number">1.1.1.</span> <span class="nav-text">typeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Int-和-UInt"><span class="nav-number">1.1.2.</span> <span class="nav-text">Int 和 UInt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入类型"><span class="nav-number">1.1.3.</span> <span class="nav-text">输入类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16进制-base-16"><span class="nav-number">1.1.4.</span> <span class="nav-text">16进制(base 16)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2进制，8进制"><span class="nav-number">1.1.5.</span> <span class="nav-text">2进制，8进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typemin函数-typemax函数"><span class="nav-number">1.1.6.</span> <span class="nav-text">typemin函数,typemax函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#除法错误"><span class="nav-number">1.1.7.</span> <span class="nav-text">除法错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数"><span class="nav-number">1.2.</span> <span class="nav-text">浮点数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用浮点类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">常用浮点类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Float64"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Float64</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Float32"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">Float32</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Float16"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">Float16</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下划线-‘-’"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">下划线 ‘_’</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0的浮点数"><span class="nav-number">1.2.2.</span> <span class="nav-text">0的浮点数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊的浮点数"><span class="nav-number">1.2.3.</span> <span class="nav-text">特殊的浮点数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器精度（eps-函数）"><span class="nav-number">1.2.4.</span> <span class="nav-text">机器精度（eps 函数）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#eps-Float"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">eps(Float)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prevfolat-和nextfloat-函数"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">prevfolat()和nextfloat()函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#“近似”-模型"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">“近似” 模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#背景知识和引用"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">背景知识和引用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任意准确度数字"><span class="nav-number">1.3.</span> <span class="nav-text">任意准确度数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字系数"><span class="nav-number">1.4.</span> <span class="nav-text">数字系数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数值作为系数"><span class="nav-number">1.4.1.</span> <span class="nav-text">数值作为系数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加了括号的表达式也可以作为系数"><span class="nav-number">1.4.2.</span> <span class="nav-text">加了括号的表达式也可以作为系数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#句法争议"><span class="nav-number">1.4.3.</span> <span class="nav-text">句法争议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“清零”-和-“归一”"><span class="nav-number">1.5.</span> <span class="nav-text">“清零” 和 “归一”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">1.6.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV,
+        el: '#comments' ,
+        appId: 'rPrP8o4eOcKBbGgojFM5h0c2-gzGzoHsz',
+        appKey: 'bi1R0D5QzAhYbIb3itBn8O7m',
+        placeholder: '无需注册，填写正确的邮箱，评论被回复就有邮件通知了~',
+    });
+  </script>
+
+ 
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "99mvzicXt5ABYCU385fe5J1B-gzGzoHsz",
+                'X-LC-Key': "JcquIPFohejA5x6cn1xIVomJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/background.jpg")
+  </script>
+</body>
+</html>
