@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-11T03:01:50.825Z">
+<meta property="og:updated_time" content="2018-10-11T03:20:05.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【强化学习】2.2 行为评价方法(Action-value Methods)">
 <meta name="twitter:description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
@@ -478,7 +478,7 @@ data-full-width-responsive="true"></ins>
         <p><strong>Abstract:</strong> 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路<br><strong>Keywords:</strong> 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法<br><a id="more"></a></p>
 <h1 id="行为评价方法-Action-value-Methods"><a href="#行为评价方法-Action-value-Methods" class="headerlink" title="行为评价方法(Action-value Methods)"></a>行为评价方法(Action-value Methods)</h1><p>本文介绍解决k-臂赌博机的第一种简单的naive的方法，注意区分两个重要的概念，评价方法(value function)产生的值(value)和奖励信号(reward signal)之间的区别。</p>
 <h2 id="评价方法和奖励信号的回顾"><a href="#评价方法和奖励信号的回顾" class="headerlink" title="评价方法和奖励信号的回顾"></a>评价方法和奖励信号的回顾</h2><p>注意我们前面介绍的两个概念，相似但是完全不同，就是评价方法(value function)产生的对行为的评价，以及行为执行后的奖励信号(reward signal)。</p>
-<div class="note infor"><p>这里再举个小栗子🌰吧，加入你是个超级富豪，你去街边游戏厅玩一块钱一次的赌博机，当然游戏厅有一排赌博机，假设有 $k$ 个，你随身都带着助理，你的助理是哈佛耶鲁MIT三大名校的统计学博士，你俩去玩赌博机，玩之前，你的助理会告诉你你下一局应该把你的一块钱下注到哪台机器，你肯定要问他他是怎么算出来的，于是，他拿出笔记本电脑，连接到了超级服务器上，用一个超级复杂的公式，评估出了所有赌博机的输赢概率，最后得出，第二台赌博机，赢的概率最大，为90(这个数是博士设计出来的公式的结果)比别的赌博机的对应值都高，所以你心悦诚服的去把你的一块钱压到了二号赌博机。<br>这个例子，你的博士助理就是一个value function或者说他的那套算法是value function也可以，那个90就是某个行为(选择的某台机器的value值)。<br>于是你就去赌博了，堵你的一块钱，经过赌博机的一些列运行，果不其然，你赢了两块钱，你很高兴的买了一个冰棍，你和你的博士朋友一起吃了起来 —— 这里面的两块钱就是reward signal。<br>可见value是和reward signal 完全不同但又息息相关的概念</p></div>
+<div class="note info"><p>这里再举个小栗子🌰吧，加入你是个超级富豪，你去街边游戏厅玩一块钱一次的赌博机，当然游戏厅有一排赌博机，假设有 $k$ 个，你随身都带着助理，你的助理是哈佛耶鲁MIT三大名校的统计学博士，你俩去玩赌博机，玩之前，你的助理会告诉你你下一局应该把你的一块钱下注到哪台机器，你肯定要问他他是怎么算出来的，于是，他拿出笔记本电脑，连接到了超级服务器上，用一个超级复杂的公式，评估出了所有赌博机的输赢概率，最后得出，第二台赌博机，赢的概率最大，为90(这个数是博士设计出来的公式的结果)比别的赌博机的对应值都高，所以你心悦诚服的去把你的一块钱压到了二号赌博机。<br>这个例子，你的博士助理就是一个value function或者说他的那套算法是value function也可以，那个90就是某个行为(选择的某台机器的value值)。<br>于是你就去赌博了，堵你的一块钱，经过赌博机的一些列运行，果不其然，你赢了两块钱，你很高兴的买了一个冰棍，你和你的博士朋友一起吃了起来 —— 这里面的两块钱就是reward signal。<br>可见value是和reward signal 完全不同但又息息相关的概念</p></div>
 <p>上面我们应该大概能区分action的value和reward signal了。<br>我们继续回顾我们上文（<a href="https://face2ai.com/RL-RSAB-2-1-A-k-armed-Bandit-Problem" target="_blank" rel="noopener">点击查看详情</a>）讲到的这个公式：<br>$$<br>q_{\ast}(a)\doteq\mathbb{E}[R_t|A_t=a]<br>$$</p>
 <p>公式中 $q_{\ast}(a)$ 是一个函数，表示reward signal的期望，公式中包含了 $R_t$ 为对应的第 $t$ 个过程中的 Reward Signal ，而接着就用<br>$$<br>Q_t(a)\approx q_\ast(a)<br>$$<br>来定义了个value function：换句话说，我们刚弄了个每一步的reward signal的期望，就被人顺水推舟做了value function，因为value function 总是要和reward signal相关的value变大的时候reward signal一定也要对应的变大或者变小也可以，只要他们之间的变化时按照固定规律进行的，我们就能通过value function来最大化reward signal。<br>还有一个区别value 和reward signal的办法是value时选择action之前用的，reward是action之后(甚至是多个actions之后)得到的，来自environment的反馈。</p>
 <p><strong>一定要注意的就是value function和reward signal之间的关联和相互利用，不要糊涂了，我们的最终目的是最大化reward signal</strong></p>
