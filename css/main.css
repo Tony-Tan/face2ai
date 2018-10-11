@@ -1963,7 +1963,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffffb8;
+  background: #be98ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2929,7 +2929,7 @@ a:hover {
   border-bottom-color: #a166ab;
 }
 hr {
-  margin: 10px 0px 30px 0px;
+  margin: 10px 0px 25px 0px;
 }
 .post-body h2 {
   border-left: 6px solid #e7d45b;
