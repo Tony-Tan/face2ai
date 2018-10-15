@@ -2164,7 +2164,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff98ab;
+  background: #ee7a81;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3402,9 +3402,7 @@ img:hover {
   }
 }
 #top {
-  display: block;
   text-align: center;
-  padding: 16px 36px 10px 36px;
 }
 @media (max-width: 767px) {
   #top {
