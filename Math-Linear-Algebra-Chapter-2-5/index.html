@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 矩阵的“逆”，以及相关计算Keywords: Inverse，Singular，Gauss-Jordan">
-<meta name="keywords" content="主值,矩阵逆,奇异矩阵,高斯-乔丹,左逆,右逆">
+<meta name="keywords" content="矩阵逆,奇异矩阵,主值,高斯-乔丹,左逆,右逆">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】2-5:矩阵的逆(Inverse)">
 <meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-5/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 矩阵的“逆”，以及相关计算Keywords: Inverse，Singular，Gauss-Jordan">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:02:42.941Z">
+<meta property="og:updated_time" content="2018-11-04T13:21:26.214Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】2-5:矩阵的逆(Inverse)">
 <meta name="twitter:description" content="Abstract: 矩阵的“逆”，以及相关计算Keywords: Inverse，Singular，Gauss-Jordan">
@@ -506,13 +506,13 @@ data-full-width-responsive="true"></ins>
 <blockquote>
 <p>Note3:<br>if A is invertible, the one and only solution to $Ax=b$ is $x=A^{-1}b$</p>
 </blockquote>
-<p>这个Note主要是说明$Ax=b$有解的情况，也就是系数矩阵可逆，或者说主元数量为N<br>证明：<br>$$<br>Ax=b<br>$$<br>Then:<br>$$<br>x=A^{-1}Ax=A^{-1}b\\<br>x=A^{-1}b<br>$$</p>
+<p>这个Note主要是说明$Ax=b$有解的情况，也就是系数矩阵可逆，或者说主元数量为N<br>证明：<br>$$<br>Ax=b<br>$$<br>Then:<br>$$<br>x=A^{-1}Ax=A^{-1}b\\\\<br>x=A^{-1}b<br>$$</p>
 <blockquote>
 <p><strong><em>Note4</em></strong>:<br>This is important,Suppose there is nonzero vector $\textbf{x}$ such that $Ax=0$ then Acannot have an inverse . No matrix can bring $\textbf{0}$ back to $\textbf{x}$</p>
 </blockquote>
 <p>解释一下，这一条是重要的一个note，这是后面向量空间的一个重要结论（后面再说，这个不着急，这是线性代数的最核心内容），如果 $Ax=0$ ,其中x不是0，那么A没有逆，证明如下：<br>$$<br>Ax=0\\<br>A^{-1}Ax=A^{-1}0\\<br>x=A^{-1}0<br>$$<br>上面式子中$x\neq0$所以等号不可能成立，那么$A^{-1}$不存在</p>
 <blockquote>
-<p>Note5:<br>A 2x2 matrix is invertible if and only if $ad-bc$ is not zero:<br>$$<br>\begin{bmatrix}a&amp;b\\c&amp;d\end{bmatrix}^{-1} =  \frac{1}{ad-bc}\begin{bmatrix}d&amp;-b\{-c}&amp;a\end{bmatrix}<br>$$<br>本note的解释就是，后面讲到行列式的时候就会有详细的证明了</p>
+<p>Note5:<br>A 2x2 matrix is invertible if and only if $ad-bc$ is not zero:<br>$$<br>\begin{bmatrix}<br>a&amp;b\newline<br>c&amp;d\end{bmatrix}^{-1} =  \frac{1}{ad-bc}\begin{bmatrix}d&amp;-b\newline{-c}&amp;a\end{bmatrix}<br>$$<br>本note的解释就是，后面讲到行列式的时候就会有详细的证明了</p>
 </blockquote>
 <blockquote>
 <p>Note6:<br>A diagonal matrix has an inverse provided no diagonal entries are zero:</p>
@@ -611,11 +611,11 @@ data-full-width-responsive="true"></ins>
       
         <div class="post-tags">
           
-            <a href="/tags/主值/" rel="tag"># 主值</a>
-          
             <a href="/tags/矩阵逆/" rel="tag"># 矩阵逆</a>
           
             <a href="/tags/奇异矩阵/" rel="tag"># 奇异矩阵</a>
+          
+            <a href="/tags/主值/" rel="tag"># 主值</a>
           
             <a href="/tags/高斯-乔丹/" rel="tag"># 高斯-乔丹</a>
           
