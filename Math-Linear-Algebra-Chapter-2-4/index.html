@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 矩阵基本计算，包括加减乘法，主要是乘法的几种不同的理解 Keywords: Addition，Subtraction，Multiplication，Inner Product，Outer Product">
-<meta name="keywords" content="矩阵加法,矩阵减法,矩阵乘法,内乘,外乘">
+<meta name="keywords" content="矩阵乘法,矩阵加法,矩阵减法,内乘,外乘">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】2-4:矩阵操作(Matrix Operations)">
 <meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-4/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 矩阵基本计算，包括加减乘法，主要是乘法的几种不同的理解 Keywords: Addition，Subtraction，Multiplication，Inner Product，Outer Product">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:02:08.822Z">
+<meta property="og:updated_time" content="2019-01-16T11:15:27.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】2-4:矩阵操作(Matrix Operations)">
 <meta name="twitter:description" content="Abstract: 矩阵基本计算，包括加减乘法，主要是乘法的几种不同的理解 Keywords: Addition，Subtraction，Multiplication，Inner Product，Outer Product">
@@ -492,6 +492,7 @@
       
         <p><strong>Abstract:</strong> 矩阵基本计算，包括加减乘法，主要是乘法的几种不同的理解</p>
 <p><strong>Keywords:</strong> Addition，Subtraction，Multiplication，Inner Product，Outer Product<br><a id="more"></a></p>
+<p>本课视频课程已上线：4 <a href="http://v.xue.taobao.com/learn.htm?spm=a2174.7365753.0.0.L746oB&amp;courseId=105250&amp;chapterId=8920828&amp;sectionId=8920828" target="_blank" rel="noopener">矩阵计算法则</a></p>
 <h1 id="矩阵操作"><a href="#矩阵操作" class="headerlink" title="矩阵操作"></a>矩阵操作</h1><h2 id="矩阵加法、减法"><a href="#矩阵加法、减法" class="headerlink" title="矩阵加法、减法"></a>矩阵加法、减法</h2><p>矩阵加减法，规则很简单，矩阵要求尺寸一样，row一样，column也得一样，这样按照对位相加减就行了。<br>$$<br>\begin{bmatrix}a_{11}&amp;&amp;a_{12}&amp;&amp;a_{13}\\<br>a_{21}&amp;&amp;a_{22}&amp;&amp;a_{23}\\<br>a_{31}&amp;&amp;a_{32}&amp;&amp;a_{33}\end{bmatrix}<br>\pm<br>\begin{bmatrix}b_{11}&amp;&amp;b_{12}&amp;&amp;b_{13}\\<br>b_{21}&amp;&amp;b_{22}&amp;&amp;b_{23}\\<br>b_{31}&amp;&amp;b_{32}&amp;&amp;b_{33}\end{bmatrix}\\=<br>\begin{bmatrix}a_{11}\pm a_{11}&amp;&amp;a_{12}\pm b_{12}&amp;&amp;a_{13}\pm b_{13}\\<br>a_{21}\pm b_{21}&amp;&amp;a_{22}\pm b_{22}&amp;&amp;a_{23}\pm b_{23}\\<br>a_{31}\pm b_{31}&amp;&amp;a_{32}\pm b_{32}&amp;&amp;a_{33}\pm b_{33}\end{bmatrix}<br>$$<br>这个没啥好说的，别减错地方就行。一对一进行</p>
 <h2 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h2><p>乘法才是矩阵计算的关键，计算意义，计算量，等很多是些非常有意义的研究课题，我记得本科学习线性代数的时候，老师先来将行列式，接着就是矩阵的计算法则，然后接着就是rank类的东西了，确实书本是这么讲的，但是现在想想，好像没啥逻辑，所以就没去上课了（给自己随便找个借口逃课）。</p>
 <h3 id="矩阵规模"><a href="#矩阵规模" class="headerlink" title="矩阵规模"></a>矩阵规模</h3><p>相乘的两个矩阵尺寸上有些要求，例如对于： $AB$<br><strong><em>If A has n column,B must have n rows</em></strong><br>如果A为$m\times n$，B为 $n\times p$那么他们相乘的结果：<br>$$<br>(m\times n)(n \times p)=(m\times p)<br>$$</p>
@@ -597,11 +598,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/矩阵乘法/" rel="tag"># 矩阵乘法</a>
+          
             <a href="/tags/矩阵加法/" rel="tag"># 矩阵加法</a>
           
             <a href="/tags/矩阵减法/" rel="tag"># 矩阵减法</a>
-          
-            <a href="/tags/矩阵乘法/" rel="tag"># 矩阵乘法</a>
           
             <a href="/tags/内乘/" rel="tag"># 内乘</a>
           
@@ -616,6 +617,30 @@
 
       
 
+      
+        <div>
+          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>帮帮点一点（不用付费哒~）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>顶一下</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+
+    
+
+    
+      <div id="bitcoin" style="display: inline-block">
+        <img id="bitcoin_qr" src="/images/ad.gif" alt="谭升 一下就可以（不要多哦~）"/>
+        <p>一下就可以（不要多哦~）</p>
+      </div>
+    
+
+  </div>
+</div>
+
+        </div>
       
 
 

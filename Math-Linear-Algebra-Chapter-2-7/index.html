@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 矩阵的转置和行变换（permutation），包含一些运算的转置，以及对称概念的提出和相关性质Keywords: Transposes,Permutation,Symmetric,Inner Products,R’R">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:03:34.601Z">
+<meta property="og:updated_time" content="2019-01-16T11:14:10.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】2-7:转置与变换(Transposes and Permutation)">
 <meta name="twitter:description" content="Abstract: 矩阵的转置和行变换（permutation），包含一些运算的转置，以及对称概念的提出和相关性质Keywords: Transposes,Permutation,Symmetric,Inner Products,R’R">
@@ -491,6 +491,7 @@
 
       
         <p><strong>Abstract:</strong> 矩阵的转置和行变换（permutation），包含一些运算的转置，以及对称概念的提出和相关性质<br><strong>Keywords:</strong> Transposes,Permutation,Symmetric,Inner Products,R’R<br><a id="more"></a></p>
+<p>本课视频课程已上线：<a href="http://v.xue.taobao.com/learn.htm?spm=a2174.7365753.0.0.L746oB&amp;courseId=105250&amp;chapterId=8920832&amp;sectionId=8920832" target="_blank" rel="noopener">转置和换行</a></p>
 <h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>这些基本运算的篇，好难写，公式和基本逻辑太多，说少了说不明白，说多了又啰嗦。本来计划的是写短小精悍的，基本每篇就写一个知识点，现在看看是不行了，这些东西都太连贯了，没办法拆开，争取后面到了高级算法的时候就可以每篇写很短，写精髓了，这一些就是一两千字，对我有点挑战啊，哈哈哈。如果各位有看不懂的，请回顾以前的文章，因为我是按照基本逻辑来的，就是一个知识点衍生另一，不会凭空就搞出来什么知识点，那样又变成大学上课了，big Picture一定要有，就是我们第一篇线性代数的，big Picture！</p>
 <h2 id="转置-Transposes"><a href="#转置-Transposes" class="headerlink" title="转置(Transposes)"></a>转置(Transposes)</h2><h3 id="转置-Transposes-1"><a href="#转置-Transposes-1" class="headerlink" title="转置(Transposes)"></a>转置(Transposes)</h3><p>转置是矩阵特有的计算，他的根本就是矩阵是一块数字，其中有顺序和位置关系，今天说的转置和置换，都是针对位置的，也就是元素的数值并不改变，要改变的是元素的位置关系，permutation我们后面再说，transpose的计算规则的就是，对于某元素，其位置行和列相互交换<br>$$<br>(A^T)_{ij}=A_{ji}<br>$$<br>一个下三角矩阵的transpose是上三角矩阵。<br>但是下三角矩阵的逆还是下三角矩阵。</p>
 <h3 id="映射-Properties"><a href="#映射-Properties" class="headerlink" title="映射(Properties)"></a>映射(Properties)</h3><p>sum:<br>$$(A+B)^T=A^T+B^T$$<br>Products:<br>$$(AB)^{T}=B^{T}A^{T}$$<br>Inverse:<br>$$<br>(A^{-1})^T=(A^T)^{-1}<br>$$<br>这里唯一有点疑惑的可能就是Product需要调换位置了，想要理解为啥要换位置，可以回归最简单的<br>$Ax=b$ 等号有个很好的作用就是，如果对两侧同时做某一操作的时候，等号不会改变，<br>$$<br>(Ax)^T=b^T<br>$$<br>我们来分析下，如果按照我们之前的解释，Ax是x作为系数关于A的线性组合，从矩阵乘法的角度就Column Model，其结果是b，一个列向量，用A各列线性组合出来的结果。如果b转置了，变成了一个行向量，那么我们对应的也应该改成Row Model来调整等号前面的结构了，所以<br>$$<br>b^T=x^TA^T<br>$$<br>x转置变成了行，A的列也变成了行，那么行模型可以很好的让他们的结果与b的行形式相等<br>没明白的同学，拿笔算算，就会发现确实是这样的，而且如果不调换位置，矩阵不满足乘法要求，尺寸对不上。<br>那么根据上面的特征，组合多个x得到矩阵B<br>$$<br>B=\begin{bmatrix}x_1&amp;x_2\end{bmatrix}<br>AB=\begin{bmatrix}Ax_1&amp;Ax_2\end{bmatrix}<br>B^TA^T=\begin{bmatrix}x_1^TAT\\x_2^TA^T\end{bmatrix}<br>$$<br>与上面情况吻合，证明在矩阵与矩阵相乘过程也符合情况。<br>在更多的矩阵相乘的时候，与逆的情况类似<br>比如上一节的男猪脚：<br>$$<br>A=LDU\\<br>A^T=U^TD^TL^T\\<br>D^T=D\\<br>$$</p>
@@ -618,6 +619,30 @@
 
       
 
+      
+        <div>
+          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>帮帮点一点（不用付费哒~）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>顶一下</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+
+    
+
+    
+      <div id="bitcoin" style="display: inline-block">
+        <img id="bitcoin_qr" src="/images/ad.gif" alt="谭升 一下就可以（不要多哦~）"/>
+        <p>一下就可以（不要多哦~）</p>
+      </div>
+    
+
+  </div>
+</div>
+
+        </div>
       
 
 

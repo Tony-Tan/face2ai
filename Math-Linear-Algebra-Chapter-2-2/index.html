@@ -117,7 +117,7 @@
 <meta property="og:description" content="Abstract: 从小学解方程的消元开始，推导出线性代数的知识，包括先关矩阵计算Keywords: Eliminate 消元，Pivot 主元，Row Exchange 行交换，Upper Triangular 上三角矩阵">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-2/eliminate_faile.png">
-<meta property="og:updated_time" content="2018-10-04T15:01:10.358Z">
+<meta property="og:updated_time" content="2019-01-16T11:16:43.433Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】2-2:消元(Eliminate)">
 <meta name="twitter:description" content="Abstract: 从小学解方程的消元开始，推导出线性代数的知识，包括先关矩阵计算Keywords: Eliminate 消元，Pivot 主元，Row Exchange 行交换，Upper Triangular 上三角矩阵">
@@ -492,7 +492,7 @@
       
 
       
-        <p><strong>Abstract:</strong> 从小学解方程的消元开始，推导出线性代数的知识，包括先关矩阵计算<br><strong>Keywords:</strong> Eliminate 消元，Pivot 主元，Row Exchange 行交换，Upper Triangular 上三角矩阵<br><a id="more"></a></p>
+        <p><strong>Abstract:</strong> 从小学解方程的消元开始，推导出线性代数的知识，包括先关矩阵计算<br><strong>Keywords:</strong> Eliminate 消元，Pivot 主元，Row Exchange 行交换，Upper Triangular 上三角矩阵<br><a id="more"></a><br>本课视频课程已上线：<a href="http://v.xue.taobao.com/learn.htm?spm=a2174.7365753.0.0.L746oB&amp;courseId=105250&amp;chapterId=8920826&amp;sectionId=8920826" target="_blank" rel="noopener">消元思想</a></p>
 <h1 id="消元"><a href="#消元" class="headerlink" title="消元"></a>消元</h1><p>小学老师教我们解方程，受限就是把两个未知数变换成一个未知数，或者说用另一个未知数来表示当前未知数。</p>
 <p>$$<br>x+y=1\\<br>x-y=0\\<br>$$<br>我们会把第一个方程变形，然后和第一个方程做减法或者加法计算<br>$$<br>-x-y=-1……..(1_{temp})<br>$$<br>左右同时和(2)相加<br>$$<br>-2y=-1………(2)<br>$$<br>当这步完成时，第一步方程没变，我们减去的变形版本是个中间版本，所以方程组：<br>$$<br>x+y=1\\<br>0x+y=\frac{1}{2}<br>$$<br>消元的顺序很多，这个只是我的习惯，不过和线性代数书上刚好差不多，经过消元，我们得到了Upper Triangular Matrix $A=\begin{bmatrix}1&amp;1\\0&amp;1 \end{bmatrix}$</p>
 <h2 id="上三角矩阵-Upper-Triangular-Matrix"><a href="#上三角矩阵-Upper-Triangular-Matrix" class="headerlink" title="上三角矩阵(Upper Triangular Matrix)"></a>上三角矩阵(Upper Triangular Matrix)</h2><p>只有对角线，及对角线上方数字不为0，其他部分都是0的矩阵<br>$$<br>\left(\begin{array}{cccc}<br>a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\<br>       &amp;a_{22}  &amp; \cdots &amp;a_{2n}  \\<br>       &amp;        &amp; \ddots &amp; \vdots \\<br>       &amp;        &amp;        &amp;a_{nn}<br>\end{array}\right)<br>$$<br>没错，a不能全为0<br>消元的最后终结果就是上一篇中的 $A\textbf{x}=\textbf{b}$ 变成了<br>$$<br>U\textbf{x}=\textbf{c}<br>$$</p>
@@ -610,6 +610,30 @@
 
       
 
+      
+        <div>
+          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>帮帮点一点（不用付费哒~）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>顶一下</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+
+    
+
+    
+      <div id="bitcoin" style="display: inline-block">
+        <img id="bitcoin_qr" src="/images/ad.gif" alt="谭升 一下就可以（不要多哦~）"/>
+        <p>一下就可以（不要多哦~）</p>
+      </div>
+    
+
+  </div>
+</div>
+
+        </div>
       
 
 

@@ -109,7 +109,7 @@
 
 
   <meta name="description" content="Abstract: 用大学的方法消元，也就是整个消元过程矩阵化，引出矩阵乘法Keywords: Elimination Matrix，Matrix Multiplication，Augmented Matrix">
-<meta name="keywords" content="行变换,矩阵乘法,消元矩阵,曾广矩阵">
+<meta name="keywords" content="行变换,消元矩阵,矩阵乘法,曾广矩阵">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】2-3:消元与矩阵的关系(Elimination and Matrix)">
 <meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-2-3/index.html">
@@ -118,7 +118,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-3/formular.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-3/elimination.png">
-<meta property="og:updated_time" content="2018-10-22T14:40:30.267Z">
+<meta property="og:updated_time" content="2019-01-16T11:16:53.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】2-3:消元与矩阵的关系(Elimination and Matrix)">
 <meta name="twitter:description" content="Abstract: 用大学的方法消元，也就是整个消元过程矩阵化，引出矩阵乘法Keywords: Elimination Matrix，Matrix Multiplication，Augmented Matrix">
@@ -494,6 +494,7 @@
 
       
         <p><strong>Abstract:</strong> 用大学的方法消元，也就是整个消元过程矩阵化，引出矩阵乘法<br><strong>Keywords:</strong> Elimination Matrix，Matrix Multiplication，Augmented Matrix<br><a id="more"></a></p>
+<p>本课视频课程已上线：<a href="http://v.xue.taobao.com/learn.htm?spm=a2174.7365753.0.0.L746oB&amp;courseId=105250&amp;chapterId=8920827&amp;sectionId=8920827" target="_blank" rel="noopener">使用矩阵消元</a></p>
 <h1 id="消元与矩阵的关系"><a href="#消元与矩阵的关系" class="headerlink" title="消元与矩阵的关系"></a>消元与矩阵的关系</h1><p>发现这个教材真的很有章法，从big picture 的角度来看，所有知识环环相扣，每一环单独看还都不难，组合起来发现整个知识体系就完整了，我至今不懂为啥我们伟大社会主义中国的学者们写书都是从行列式开始干，自学看书根本看不懂，当年线代上机考试之前三个小时还在玩魔兽世界🐶🐶🐶，这个故事告诉我们，出来混迟早要还的😂😂😂😂</p>
 <h2 id="用矩阵消元-Elimination-Using-Matrix"><a href="#用矩阵消元-Elimination-Using-Matrix" class="headerlink" title="用矩阵消元(Elimination Using Matrix)"></a>用矩阵消元(Elimination Using Matrix)</h2><p>本节的主要目的就是告诉你，小子，矩阵是用来解方程的，你会算行列式只能考上研究生，哈哈哈（博主吃不到狐狸说葡萄酸）<br>来个方程：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-2-3/formular.png" alt=""><br>$$<br>\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}<br>$$<br>是一个n维<strong><em>空间(space)</em></strong>，在这个空间里，我们找一个特定或者若干个特定的vector使得$ Ax=b $成立<br>根据<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-2-1/" target="_blank" rel="noopener">row picture</a>，和<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-2-1/" target="_blank" rel="noopener">column pictur</a><br>:<br>$$<br>A\textbf{x}=col(1)x_1+rcol(2)x_2+\dots+col(n)x_n\\<br>$$<br>所以，Ax的第j行的元素结果是<br>$$<br>(A\textbf{x})_j=col(j,1)x_1+rcol(j,2)x_2+\dots+col(j,n)x_n\\<br>$$<br>观察上面的式子不难发现，Ax的第j个元素就是A的第j行和x的乘积<br>that is<br>$$<br>  \sum_{j=i}^{n}a_{ji}x_i<br>$$<br>各位注意啦，这步放在这里主要是为了后面算矩阵乘以矩阵的，虽然看起来有点啰嗦，但是这样下来整个思路是完整的，不会出现漏洞</p>
 <h2 id="矩阵形式-Matrix-form"><a href="#矩阵形式-Matrix-form" class="headerlink" title="矩阵形式(Matrix form)"></a>矩阵形式(Matrix form)</h2><p>还是刚才说的，这节就是把消元的所有动作集成在一个矩阵里，我们的目的是<br>$$<br>A\textbf{x}=\textbf{b}\\<br>EA\textbf{x}=E\textbf{b}\\<br>U\textbf{x}=E\textbf{b}\\<br>$$<br>U是上三角矩阵<br>目标明确以后，对于上面的图片中的矩阵，我们开始消元，第一步， $(第二个方程)-2\times (第一个方程)$<br>得到的右侧b：</p>
@@ -598,9 +599,9 @@
           
             <a href="/tags/行变换/" rel="tag"># 行变换</a>
           
-            <a href="/tags/矩阵乘法/" rel="tag"># 矩阵乘法</a>
-          
             <a href="/tags/消元矩阵/" rel="tag"># 消元矩阵</a>
+          
+            <a href="/tags/矩阵乘法/" rel="tag"># 矩阵乘法</a>
           
             <a href="/tags/曾广矩阵/" rel="tag"># 曾广矩阵</a>
           
@@ -613,6 +614,30 @@
 
       
 
+      
+        <div>
+          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>帮帮点一点（不用付费哒~）</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>顶一下</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+
+    
+
+    
+      <div id="bitcoin" style="display: inline-block">
+        <img id="bitcoin_qr" src="/images/ad.gif" alt="谭升 一下就可以（不要多哦~）"/>
+        <p>一下就可以（不要多哦~）</p>
+      </div>
+    
+
+  </div>
+</div>
+
+        </div>
       
 
 
