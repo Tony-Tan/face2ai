@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍内核的并发执行，以及相关的知识Keywords: 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为">
+<meta name="keywords" content="流,事件,深度优先,广度优先,硬件工作队列,默认流阻塞行为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CUDA 基础】6.2 并发内核执行">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍内核的并发执行，以及相关的知识Keywords: 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/1-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/1-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-4.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-5.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-6.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-7.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-8.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【CUDA 基础】6.2 并发内核执行">
+<meta name="twitter:description" content="Abstract: 本文介绍内核的并发执行，以及相关的知识Keywords: 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="谭升的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-6-2-并发内核执行/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【CUDA 基础】6.2 并发内核执行 | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-视频课程❤️">
+    <a href="/video-courses/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />视频课程❤️</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-友情链接">
+    <a href="/friendly-links/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />友情链接</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+    
+      
+    
+    <a href="https://github.com/Tony-Tan" class="github-corner" target="_blank" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
+    
+      </a>
+    
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="3166961220"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-6-2-并发内核执行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/tony.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【CUDA 基础】6.2 并发内核执行
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-18 22:04:08" itemprop="dateCreated datePublished" datetime="2018-06-18T22:04:08+08:00">2018-06-18</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/" itemprop="url" rel="index"><span itemprop="name">CUDA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CUDA/Freshman/" itemprop="url" rel="index"><span itemprop="name">Freshman</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍内核的并发执行，以及相关的知识<br><strong>Keywords:</strong> 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为</p>
+<a id="more"></a>
+<h1 id="并发内核执行"><a href="#并发内核执行" class="headerlink" title="并发内核执行"></a>并发内核执行</h1><p>继续前面的内容，上文中我们说到了流，事件和同步等的概念，以及一些函数的用法，接下来的几个例子，介绍并发内核的几个基本问题，包括不限于以下几个方面：</p>
+<ul>
+<li>使用深度优先或者广度优先方法的调度工作</li>
+<li>调整硬件工作队列</li>
+<li>在Kepler设备和Fermi设备上避免虚假的依赖关系</li>
+<li>检查默认流的阻塞行为</li>
+<li>在非默认流之间添加依赖关系</li>
+<li>检查资源使用是如何影响并发的</li>
+</ul>
+<h2 id="非空流中的并发内核"><a href="#非空流中的并发内核" class="headerlink" title="非空流中的并发内核"></a>非空流中的并发内核</h2><p>本文我们开始使用NVIDIA提供的另一个可视化工具nvvp进行性能分析，其最大用途在于可视化并发核函数的执行，第一个例子中我们就能清楚地看到各个核函数是如何执行的，本例子中使用了同一个核函数，并将其复制多份，并确保每个核函数的计算要消耗足够的时间，保证执行过程能够被性能分析工具准确的捕捉到。<br>我们的核函数是：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">kernel_1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> sum=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">        sum=sum+<span class="built_in">tan</span>(<span class="number">0.1</span>)*<span class="built_in">tan</span>(<span class="number">0.1</span>);</span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">kernel_2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> sum=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">        sum=sum+<span class="built_in">tan</span>(<span class="number">0.1</span>)*<span class="built_in">tan</span>(<span class="number">0.1</span>);</span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">kernel_3</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> sum=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">        sum=sum+<span class="built_in">tan</span>(<span class="number">0.1</span>)*<span class="built_in">tan</span>(<span class="number">0.1</span>);</span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">kernel_4</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> sum=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">        sum=sum+<span class="built_in">tan</span>(<span class="number">0.1</span>)*<span class="built_in">tan</span>(<span class="number">0.1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>四个核函数，N是100，tan计算在GPU中应该有优化过的高速版本，但是就算优化，这个也是相对耗时的，足够我们进行观察了。<br>接着我们按照上节课的套路，创建流，把不同的核函数或者指令放到不同的流中，然后看一下他们的表现。<br>本文完整的代码在github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a>（欢迎随手star😝 ）</p>
+<p>我们本章主要关注主机代码，下面是创建流的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cudaStream_t *stream=(cudaStream_t*)<span class="built_in">malloc</span>(n_stream*<span class="keyword">sizeof</span>(cudaStream_t));</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    cudaStreamCreate(&amp;stream[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先声明一个流的头结构，是malloc的注意后面要free掉<br>然后为每个流的头结构分配资源，也就是Create的过程，这样我们就有n_stream个流可以使用了，接着，我们添加核函数到流，并观察运行效果</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line"><span class="function">dim3 <span class="title">grid</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">cudaEvent_t start,stop;</span><br><span class="line">cudaEventCreate(&amp;start);</span><br><span class="line">cudaEventCreate(&amp;stop);</span><br><span class="line">cudaEventRecord(start);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_3&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line">cudaEventRecord(stop);</span><br><span class="line">CHECK(cudaEventSynchronize(stop));</span><br><span class="line"><span class="keyword">float</span> elapsed_time;</span><br><span class="line">cudaEventElapsedTime(&amp;elapsed_time,start,stop);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"elapsed time:%f ms\n"</span>,elapsed_time);</span><br></pre></td></tr></table></figure>
+<p>这不是完整的代码，这个循环是将每个核函数都放入不同的流之中，也就是假设我们有10个流，那么这10个流中每个流都要按照上面的顺序执行这4个核函数。<br>注意如果没有<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaEventSynchronize(stop)</span><br></pre></td></tr></table></figure></p>
+<p>nvvp将会无法运行，因为所有这些都是异步操作，不会等到操作完再返回，而是启动后自动把控制权返回主机，如果没有一个阻塞指令，主机进程就会执行完毕推出，这样就跟设备失联了，nvvp也会相应的报错。<br>然后我们创建两个事件，然后记录事件之间的时间间隔。这个间隔是不太准确的，因为是异步的。<br>运行结果如下：</p>
+<p><img src="./re-1.png" alt="re-1"></p>
+<p>使用nvvp检测，结果如下：</p>
+<p><img src="./nvvp-1.png" alt="nvvp-1"></p>
+<h2 id="Fermi-GPU-上的虚假依赖关系"><a href="#Fermi-GPU-上的虚假依赖关系" class="headerlink" title="Fermi GPU 上的虚假依赖关系"></a>Fermi GPU 上的虚假依赖关系</h2><p>虚假依赖我们在上文中讲到过了，这种情况通常出现在只有在比较古老的Fermi架构上出现，原因是其只有一个硬件工作队列，由于我们现在很难找到Fermi架构的GPU了，所以，只能看看书上给出的nvvp结果图了：</p>
+<p><img src="./nvvp-2.png" alt="nvvp-2"></p>
+<p>虚假依赖的问题我们在<a href="https://face2ai.com/CUDA-F-6-1-流和事件概述/">流和事件概述</a>已经描述了引起此问题的理论原因，这里就不再解释了。<br>如果你手头只有老机器，这种虚假依赖关系也是可以解决的，原理就是使用广度优先的方法，组织各任务的方式如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dispatch job with breadth first way</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_1&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_2&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_3&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_4&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>这样逻辑图就不是:</p>
+<p><img src="./1-1.png" alt="1-1"></p>
+<p>而是</p>
+<p><img src="./1-2.png" alt="1-2"></p>
+<p>这样了，这就可以从抽象模型层面避免问题。<br>广度优先的nvvp结果是：</p>
+<p><img src="./nvvp-3.png" alt="nvvp-3"></p>
+<p>注意，以上结论都是我从书上原封不动弄下来的。</p>
+<h2 id="使用OpenMP的调度操作"><a href="#使用OpenMP的调度操作" class="headerlink" title="使用OpenMP的调度操作"></a>使用OpenMP的调度操作</h2><p>OpenMP是一种非常好用的并行工具，比pthread更加好用，但是没有pthread那么灵活，这里我们不光要让核函数或者设备操作用多个流处理，同时也让主机在多线程下工作，我们尝试使用每个线程来操作一个流：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">omp_set_num_thread(n_stream);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> omp parallel</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> i=omp_get_thread_num();</span><br><span class="line">        kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">        kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">        kernel_3&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">        kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>解释下代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">omp_set_num_thread(n_stream);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> omp parallel</span></span><br></pre></td></tr></table></figure></p>
+<p>调用OpenMP的API创建n_stream个线程，然后宏指令告诉编译器下面大括号中的部分就是每个线程都要执行的部分，有点类似于核函数，或者叫做并行单元。</p>
+<p>其他代码和上面常规代码都一样，但是注意，OpenMP在mac上支持的不是很好，需要安装GCC，在Linux和Windows下配置非常简单，Linux下只要连接库函数就行，Windows下如果使用vs系列IDE直接在属性中打开一个开关就可以，我们来观察一下运行结果，注意，这段代码没有使用cmake管理，而是使用命令行编译执行的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc  -O3 -Xcompiler -fopenmp stream_omp.cu -o stream_omp -lgomp -I ../include/</span><br></pre></td></tr></table></figure></p>
+<p><img src="./re-2.png" alt="re-2"></p>
+<p>CUDA进阶系列还会有OpenMP和CUDA配合的部分，后面会详细说。</p>
+<h2 id="用环境变量调整流行为"><a href="#用环境变量调整流行为" class="headerlink" title="用环境变量调整流行为"></a>用环境变量调整流行为</h2><p>Kepler支持的最大Hyper-Q 工作队列数是32 ，但是在默认情况下并不是全部开启，而是被限制成8个，原因是每个工作队列只要开启就会有资源消耗，如果用不到32个可以把资源留给需要的8个队列，修改这个配置的方法是修改主机系统的环境变量。<br>对于Linux系统中，修改方式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#For Bash or Bourne Shell:</span></span><br><span class="line"><span class="built_in">export</span> CUDA_DEVICE_MAX_CONNECTIONS=32</span><br><span class="line"><span class="comment">#For C-Shell:</span></span><br><span class="line">setenv CUDA_DEVICE_MAX_CONNECTIONS 32</span><br></pre></td></tr></table></figure></p>
+<p>另一种修改方法是直接在程序里写，这种方法更好用通过底层驱动修改硬件配置：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenv(<span class="string">"CUDA_DEVICE_MAX_CONNECTIONS"</span>, <span class="string">"32"</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
+<p>然后我们把前面的深度优先的代码改一下，加入上面这句指令,并把n_stream改成16，就可以得到如下结果：</p>
+<p><img src="./re-3.png" alt="re-3"></p>
+<p>16个流，8个工作队列的结果：</p>
+<p><img src="./nvvp-4.png" alt="nvvp-4"></p>
+<p>调用<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenv(<span class="string">"CUDA_DEVICE_MAX_CONNECTIONS"</span>, <span class="string">"32"</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
+<p>修改成32个队列<br>16个流，32个工作队列的结果：</p>
+<p><img src="./nvvp-5.png" alt="nvvp-5"></p>
+<h2 id="GPU资源的并发限制"><a href="#GPU资源的并发限制" class="headerlink" title="GPU资源的并发限制"></a>GPU资源的并发限制</h2><p>限制内核并发数量的最根本的还是GPU上面的资源，资源才是性能的极限，性能最高无非是在不考虑算法进化的前提下，资源利用率最高的结果。当每个内核的线程数增加的时候，内核级别的并行数量就会下降，比如，我们把<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line"><span class="function">dim3 <span class="title">grid</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>升级到</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">16</span>,<span class="number">32</span>)</span></span>;</span><br><span class="line"><span class="function">dim3 <span class="title">grid</span><span class="params">(<span class="number">32</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>4个流，nvvp结果是：</p>
+<p><img src="./nvvp-6.png" alt="nvvp-6"></p>
+<h2 id="默认流的阻塞行为"><a href="#默认流的阻塞行为" class="headerlink" title="默认流的阻塞行为"></a>默认流的阻塞行为</h2><p>默认流也就是空流对于飞空流中的阻塞流是有阻塞作用的，这句话有点难懂，首先我们没有声明流的那些GPU操作指令，核函数是在空流上执行的，空流是阻塞流，同时我们声明定义的流如果没有特别指出，声明的也是阻塞流，换句话说，这些流的共同特点，无论空流与非空流，都是阻塞的。<br>那么这时候空流（默认流）对非空流的阻塞操作就要注意一下了。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_3&lt;&lt;&lt;grid,block&gt;&gt;&gt;();</span><br><span class="line">    kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意，kernel_3是在空流（默认流）上的，从NVVP的结果中可以看出，所有kernel_3 启动以后，所有其他的流中的操作全部被阻塞：</p>
+<p><img src="./nvvp-7.png" alt="nvvp-7"></p>
+<h2 id="创建流间依赖关系"><a href="#创建流间依赖关系" class="headerlink" title="创建流间依赖关系"></a>创建流间依赖关系</h2><p>流之间的虚假依赖关系是需要避免的，而经过我们设计的依赖又可以保证流之间的同步性，避免内存竞争，这时候我们要使用的就是事件这个工具了，换句话说，我们可以让某个特定流等待某个特定的事件，这个事件可以再任何流中，只有此事件完成才能进一步执行等待此事件的流继续执行。<br>这种事件往往不用于计时，所以可以在生命的时候声明成 cudaEventDisableTiming 的同步事件：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cudaEvent_t * event=(cudaEvent_t *)<span class="built_in">malloc</span>(n_stream*<span class="keyword">sizeof</span>(cudaEvent_t));</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    cudaEventCreateWithFlag(&amp;event[i],cudaEventDisableTiming);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在流中加入指令:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_3&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    cudaEventRecord(event[i],stream[i]);</span><br><span class="line">    cudaStreamWaitEvent(stream[n_stream<span class="number">-1</span>],event[i],<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这时候，最后一个流（第5个流）都会等到前面所有流中的事件完成，自己才会完成，nvvp结果如下</p>
+<p><img src="./nvvp-8.png" alt="nvvp-8"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文研究了如何使用并发内核提高应用整体的效率，以及流阻塞的相关知识。<br>下一篇我们介绍一个更加实用的技术——通过流来屏蔽数据传输延迟。</p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>谭升</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://face2ai.com/CUDA-F-6-2-并发内核执行/" title="【CUDA 基础】6.2 并发内核执行">https://face2ai.com/CUDA-F-6-2-并发内核执行/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-6-1-流和事件概述/" rel="bookmark">【CUDA 基础】6.1 流和事件概述</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-6-0-流和并发/" rel="bookmark">【CUDA 基础】6.0 流和并发</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-2-Getting-Started/" rel="bookmark">【Julia】开始使用Julia</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/流/" rel="tag"># 流</a>
+          
+            <a href="/tags/事件/" rel="tag"># 事件</a>
+          
+            <a href="/tags/深度优先/" rel="tag"># 深度优先</a>
+          
+            <a href="/tags/广度优先/" rel="tag"># 广度优先</a>
+          
+            <a href="/tags/硬件工作队列/" rel="tag"># 硬件工作队列</a>
+          
+            <a href="/tags/默认流阻塞行为/" rel="tag"># 默认流阻塞行为</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Numerical-Analysis-0-4-Significant-Digit/" rel="next" title="【数值分析】0.4 有效数字缺失">
+                <i class="fa fa-chevron-left"></i> 【数值分析】0.4 有效数字缺失
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/CUDA-F-6-3-重叠内核执行和数据传输/" rel="prev" title="【CUDA 基础】6.3 重叠内核执行和数据传输">
+                【CUDA 基础】6.3 重叠内核执行和数据传输 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="9802585940"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+          </div>
+          
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/tony.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">274</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">522</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          
+<hr style="width: 95%; height: 3px; border: none; background-color: #282828">
+<p>
+<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+</p>
+<hr style="width: 95%; height: 3px; border: none; background-color: #282828">
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date(" 11/27/2013 00:00:00");
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+        {i="0" + i};
+    return i;
+}
+    show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并发内核执行"><span class="nav-number">1.</span> <span class="nav-text">并发内核执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#非空流中的并发内核"><span class="nav-number">1.1.</span> <span class="nav-text">非空流中的并发内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fermi-GPU-上的虚假依赖关系"><span class="nav-number">1.2.</span> <span class="nav-text">Fermi GPU 上的虚假依赖关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用OpenMP的调度操作"><span class="nav-number">1.3.</span> <span class="nav-text">使用OpenMP的调度操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用环境变量调整流行为"><span class="nav-number">1.4.</span> <span class="nav-text">用环境变量调整流行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU资源的并发限制"><span class="nav-number">1.5.</span> <span class="nav-text">GPU资源的并发限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认流的阻塞行为"><span class="nav-number">1.6.</span> <span class="nav-text">默认流的阻塞行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建流间依赖关系"><span class="nav-number">1.7.</span> <span class="nav-text">创建流间依赖关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("/images/background.jpg")
+  </script>
+</body>
+</html>

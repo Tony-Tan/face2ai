@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=6.4.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png?v=6.4.0">
+
+
+  <link rel="mask-icon" href="/images/logo.png?v=6.4.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.0',
+    sidebar: {"display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract: 本文介绍第一个多变量连续分布——双变量正态分布(本篇内有未证明定理，需要后续要补充 )Keywords: The Bivariate Normal Distributions">
+<meta name="keywords" content="二维正态分布">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/index.html">
+<meta property="og:site_name" content="谭升的博客">
+<meta property="og:description" content="Abstract: 本文介绍第一个多变量连续分布——双变量正态分布(本篇内有未证明定理，需要后续要补充 )Keywords: The Bivariate Normal Distributions">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.182Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)">
+<meta name="twitter:description" content="Abstract: 本文介绍第一个多变量连续分布——双变量正态分布(本篇内有未证明定理，需要后续要补充 )Keywords: The Bivariate Normal Distributions">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="谭升的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【概率论】5-10:二维正态分布(The Bivariate Normal Distributions) | 谭升的博客</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105335860-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-105335860-3');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谭升的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">人工智能基础</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-数学目录">
+    <a href="/math/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />数学目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-算法目录">
+    <a href="/ai-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />算法目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-编程目录">
+    <a href="/program-blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />编程目录</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-阅读排行榜">
+    <a href="/top/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-signal"></i> <br />阅读排行榜</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-视频课程❤️">
+    <a href="/video-courses/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />视频课程❤️</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于作者">
+    <a href="/my-Library/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />关于作者</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-友情链接">
+    <a href="/friendly-links/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />友情链接</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+    
+      
+    
+    <a href="https://github.com/Tony-Tan" class="github-corner" target="_blank" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
+    
+      </a>
+    
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="3166961220"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谭升">
+      <meta itemprop="description" content="强化学习 机器学习 人工智能">
+      <meta itemprop="image" content="/images/tony.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谭升的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-05 22:03:55" itemprop="dateCreated datePublished" datetime="2018-04-05T22:03:55+08:00">2018-04-05</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/" itemprop="url" rel="index"><span itemprop="name">Mathematic</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mathematic/Probability/" itemprop="url" rel="index"><span itemprop="name">Probability</span></a></span>
+
+                
+                
+              
+            </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Abstract:</strong> 本文介绍第一个多变量连续分布——双变量正态分布(<font color="ff0000">本篇内有未证明定理，需要后续要补充</font> )<br><strong>Keywords:</strong> The Bivariate Normal Distributions</p>
+<a id="more"></a>
+<h1 id="二维正态分布"><a href="#二维正态分布" class="headerlink" title="二维正态分布"></a>二维正态分布</h1><p>今天的废话想说说我们周围会有各种各样的事，各种各样的诱惑，各种各样的理由来告诉我们读书学习很苦而不学习也可以活的很好，但是坚持还是放弃只能选择一次，所以要慎重，开弓没有回头箭，放弃学习，就相当于放弃了一条抗争的路。</p>
+<blockquote>
+<p>万般皆下品惟有读书高</p>
+</blockquote>
+<p>今天我们来研究双变量的正态分布，多变量，连续分布。<br>对于某些研究者，可能用正态分布来非常好的描述某个随机变量，那么如果我们有两个随机变量，都可以用正态分布描述，而且他们之间存在关系，这时候我们就可以用一个双变量正态分布来描述了这两个变量之间的关系，并且这个二维分布的边缘分布，还是这两个随机变量单变量的分布。<a href="https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P3/">5.6中</a> 我们介绍了某些有正态分布的独立随机变量的线性组合还是正态分布。但是双变量正态分布（联合分布）可以是相关的。</p>
+<h2 id="二维正态分布的定义和来源-Definition-and-Derivation-of-Bivariate-Normal-Distributions"><a href="#二维正态分布的定义和来源-Definition-and-Derivation-of-Bivariate-Normal-Distributions" class="headerlink" title="二维正态分布的定义和来源 Definition and Derivation of Bivariate Normal Distributions"></a>二维正态分布的定义和来源 Definition and Derivation of Bivariate Normal Distributions</h2><blockquote>
+<p>Theorem Suppose that $Z_1$ and $Z_2$ are independent random variables,each of which has the standard normal distribution.Let $\mu_1,\mu_2,\sigma_1,\sigma_2$ ,and $\rho$ be constants such that $-\infty&lt;\mu_i&lt;\infty(i=1,2)$ , $\sigma_i&gt;0(i=1,2)$  ,and $-1&lt;\rho&lt;1$ . Define two new random variables $X_1$ and $X_2$ as follows:<br>$$<br>X_1=\sigma_1Z_1+\mu_1\\<br>X_2=\sigma_2[\rho Z_1+(1-\rho^2)^{\frac{1}{2}}Z_2]+\mu_2 \tag{5.10.1}<br>$$<br>The joint p.d.f. of $X_1$ and $X_2$ is<br>$$<br>f(x_1,x_2)=\frac{1}{2\pi(1-\rho^2)^{\frac{1}{2}}\sigma_1\sigma_2}e^{-\frac{1}{2(1-\rho^2)}[(\frac{x_1-\mu_1}{\sigma_1})^2-2\rho(\frac{x_1-\mu_1}{\sigma_1})(\frac{x_2-\mu_2}{\sigma_2})+(\frac{x_2-\mu_2}{\sigma_2})^2]}<br>\tag{5.10.2}<br>$$</p>
+</blockquote>
+<p>上面这个定理的证明需要定理3.9.5 ，而定理3.9.5是个选证题，也就是说会在我们后面的高级课程中进行证明，所以这个定理也就没法证明了，在证明了3.9.5 以后，我们会对此定理进行证明。</p>
+<blockquote>
+<p>Theorem Suppose that $X_1$ and $X_2$ have the joint distribution whose p.d.f. is given by Eq.(5.10.2) Then there exist independent standard normal random variables $Z_1$ and $Z_2$ such that Eqs (5.10.1) hold .Also,the mean of $X_i$ is $\mu_i$ and the variance  of $X_i$ is $\sigma_i^2$ for $i=1,2$ .Furthermore the correlation between $X_1$ and $X_2$ is $\rho$ .Finally,the marginal distribution of $X_i$ is the normal distribution with mean $\mu_i$ and variance $\sigma_i^2$ for $i=1,2$</p>
+</blockquote>
+<p>此定理的证明也需要 3.9.5 的结论，所以我们目前只做不严谨的推理，两个联合分布如5.10.2，那么他们中的一个随机变量的分布（也就是联合变量的边缘分布）就是一个正态分布。均值和方差可求。</p>
+<blockquote>
+<p>Definition Bivariate Normal Distributions.When the joint p.d.f. of two random variables $X_1$ and $X_2$ is of the form in Eq(5.10.2),it is said that $X_1$ and $X_2$ have the bivariate normal distribution with mean $\mu_1$ and $\mu_2$ variance $\sigma_1^2$ and $\sigma_2^2$ ,and correlation $\rho$</p>
+</blockquote>
+<p>以上就是第一部分要讲的内容，两个没证明的定理，和一个定义，这篇文章看起来有点水，确实是这样，但是如果没有知识又不完全，算是个占位符，但是双变量正态分布这个用途确实太多了，举个最简单的例子，我们的身高体重，就经常用双变量的正态分布来建模。</p>
+<h2 id="二维正态分布的性质-Properties-of-Bivariate-Normal-Distributions"><a href="#二维正态分布的性质-Properties-of-Bivariate-Normal-Distributions" class="headerlink" title="二维正态分布的性质 Properties of Bivariate Normal Distributions"></a>二维正态分布的性质 Properties of Bivariate Normal Distributions</h2><p>接下来我们来研究一下双变量正态分布的性质</p>
+<blockquote>
+<p>Theorem Independence and Correlation.Two random variables $X_1$ and $X_2$ that have a bivariate normal distribution are independent if and only if they are uncorrelated.</p>
+</blockquote>
+<p>两个随机变量有一个双变量正态分布，那么他们独立的充分必要条件是他们不相关。<br>来回忆一下<a href="https://face2ai.com/Math-Probability-3-5-Marginal-Distributions/">独立性</a>和<a href="https://face2ai.com/Math-Probability-4-6-Covariance-and-Correlation/">相关性</a>，独立性是两个随机变量分布之间满足 $f(x,y)=f_1(x)f_2(y)$ 这时 $X,Y$ 独立，不相关是说 $\rho(X,Y)=\frac{Cov(X,Y)}{\sigma_X^2\sigma_Y^2}=0$ 的时候两个变量不相关，<a href="https://face2ai.com/Math-Probability-4-6-Covariance-and-Correlation/">相关性(点击传送)</a>的介绍中对于任何随机变量的分布，独立性都能推出不相关，但是不相关不能推出独立，所以为了证明本定理我们可以只证明，if过程，也就是不相关来推到独立，另一部分在相关性的文章中已经证明了。<br>证明 if 过程：<br>假设两个变量不相关，所以当 $\rho=0$ 从公式 5.10.2 中可以看出 $f(x_1,x_2)$ 可以被分解成两个分布相乘的形式，所以，我们可以得到这两个边缘分布独立。<br>证毕。<br>双变量的正态分布，不相关就独立，独立就不相关，在别的分布下不一定成立！<br>当相关性不为0的时候，我们会得到下面这个定理，就是一个变量再另一个变量给定情况下的分布。</p>
+<blockquote>
+<p>Theorem Conditional Distribution.Let $X_1$ and $X_2$ have the bivariate normal distribution whose p.d.f. is Eq.(5.10.2) .The conditional distribution of $X_2$ given that $X_1=x_1$ is the normal distribution with mean and variance given by<br>$$<br>\begin{aligned}<br>E(X_2|x_1)&amp;=\mu_2+\rho\sigma_2(\frac{x_1-\mu_1}{\sigma_1})\\<br>Var(X_2|x_1)&amp;=(1-\rho^2)\sigma_2^2<br>\end{aligned}<br>$$</p>
+</blockquote>
+<p>当两个变量的联合分布为双变量正态分布，并且他们相关的时候，已知一个变量怎么来计算条件分布呢？<br>证明：</p>
+<ol>
+<li>给定条件 $X_1=x_1$ 等价于给定 $Z_1=\frac{x_1-\mu_1}{\sigma_1}$</li>
+<li>那么我们只需要证明给定条件 $Z_1=\frac{x_1-\mu_1}{\sigma_1}$ 下的 $X_2$ 的分布。</li>
+<li>那么把 $Z_1=\frac{x_1-\mu_1}{\sigma_1}$ 带入到式子 5.10.1中的第二个公式。</li>
+<li>那么给定条件 $X_1=x_1$ 下的 $X_2$ 的分布，等价于给定条件 $Z_1=\frac{(x_1-\mu_1)}{\sigma_1}$ 下，以下关系式的分布：<br>$$<br>(1-\rho^2)^{1/2}\sigma_2Z_2+\mu_2+\rho\sigma_2(\frac{x_1-\mu_1}{\sigma_1})\tag{5.10.7}<br>$$</li>
+<li>上式可见 $Z_2$ 是唯一的随机变量，并且 $Z_1$ 和 $Z_2$ 是独立的，所以 $X_2$ 在给定 $X_1=x_1$ 的条件下是 5.10.7 的边缘分布</li>
+<li>所以条件期望和条件方差如 5.10.6 所写。</li>
+<li>证毕</li>
+</ol>
+<p>同理可以证明，<br>给定条件 $X_2=x_2$ 时 $X_1$ 的分布也是正态分布，并且其期望和方差如下<br>$$<br>E(X_1|x_2)=\mu_1+\rho\sigma_1(\frac{x_2-\mu_2}{\sigma_2})\\<br>Var(X_1|x_2)=(1-\rho^2)\sigma_1^2<br>$$</p>
+<p>上面这两个结论可以看出，当两个变量相关的 $\rho\neq 0$ 时， $E(X_2|x_1)$ 是 $x_1$ 的线性函数，并且 $\rho$ 是斜率。并且此时条件方差是不依赖于条件的。条件方差比边缘概率的方差小，也就是说 $Var(X_1|X_2=x_2)&lt; \sigma_2$ .</p>
+<hr>
+<p>这里可以简单的给个🌰 的大概描述：<br>在一群人中进行建模，得到一个身高和体重的二维联合分布，是正态分布。已知一个人的身高预测他的体重，和不知道身高预测体重，是完全不同的两个过程，一个是条件期望，一个是边缘分布的期望，因为两个随机变量相关，所以必然用条件期望更准确一些（误差更小一点）。</p>
+<hr>
+<h2 id="Linear-Combination"><a href="#Linear-Combination" class="headerlink" title="Linear Combination"></a>Linear Combination</h2><p>线性组合我们只证明一个定理：</p>
+<blockquote>
+<p>Theorem Linear Combination of Bivariate Normals.Suppose that two random variables $X_1$ and $X_2$ have a bivariate normal distribution ,for which the p.d.f is specified by Eq.(5.10.2).Let $Y=a_1X_1+a_2X_2+b$ ,where $a_1,a_2$ and $b$ are arbitrary given constants .Then $Y$ has the normal distribution with mean $a_1\mu_1+a_2\mu_2+b$ and variance<br>$$<br>a_1^2\sigma_1^2+a_2^2\sigma_2^2+2a_1a_2\rho\sigma_1\sigma_2<br>$$</p>
+</blockquote>
+<p>当两个变量的联合分布是双变量正态分布的时，其和是一个正态分布，并且期望和方差满足上述关系。</p>
+<p>证明：</p>
+<ol>
+<li>依据双变量正态分布的定义，我们可以用 $Z_1$ 和 $Z_2$ 的线性组合来表示 $X_1$ 和 $X_2$ 的线性组合。</li>
+<li>$Z_1$ 和 $Z_2$ 独立（已知条件）</li>
+<li>$Y$ 可以表示成$Z_1$ 和 $Z_2$ 的线性组合</li>
+<li>根据5.6中推论 Y还是正态分布，并且期望为：<br>$$<br>\begin{aligned}<br>E(Y)&amp;=a_1E(X_1)+a_2E(X_2)+b\\<br>&amp;=a_1\mu_1+a_2\mu_2+b<br>\end{aligned}<br>$$</li>
+<li>根据4.6 中的推论： $Var(Y)=a_1^2 Var(X_1)+a_2^2 Var(X_2)+2a_1a_2 Cov(X_1,X_2)$</li>
+<li>证毕</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>给出了两个变量的正态分布的定义（这个定理中给出了双变量正态分布的所有有用性质的根本），双变量正态分布的性质的证明主要用到这个定理（本篇第一个定理），所以本篇第一个定理是关键中的关键。</p>
+
+      
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>谭升</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/" title="【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)">https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+    
+      
+
+<div class="post-body">
+<div class="note info">
+  
+  <rl class="recommended">相关文章</rl>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-6-3-The-Central-Limit-Theorem/" rel="bookmark">【概率论】6-3:中心极限定理(The Central Limit Theorem)</a></div>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+
+
+    
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/二维正态分布/" rel="tag"># 二维正态分布</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+
+
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Math-Probability-5-9-Multinomial-Distribution/" rel="next" title="【概率论】5-9:多项式分布(The Multinomial Distributions)">
+                <i class="fa fa-chevron-left"></i> 【概率论】5-9:多项式分布(The Multinomial Distributions)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Math-Probability-6-1-Large-Random-Samples-Introduction/" rel="prev" title="【概率论】6-1:大样本介绍(Large Random Samples Introduction)">
+                【概率论】6-1:大样本介绍(Large Random Samples Introduction) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-1194454329688573"
+     data-ad-slot="9802585940"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+          </div>
+          
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- footer -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-1194454329688573"
+data-ad-slot="2491973880"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/tony.gif"
+                alt="谭升" />
+            
+              <p class="site-author-name" itemprop="name">谭升</p>
+              <p class="site-description motion-element" itemprop="description">强化学习 机器学习 人工智能</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">274</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">522</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tony-tan" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:tony.face2ai@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Tony_Face2AI" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+              <div class="links-of-blogroll motion-element links-of-blogroll-block"  >
+                <div class="links-of-blogroll-title" align="left">
+                  <!-- modify icon to fire by szw -->
+                  <i class="fa fa-history fa-" aria-hidden="true"></i>
+                  近期文章
+                </div>
+                <ul class="links-of-blogroll-list" align="left">
+                  
+                  
+                    <li>
+                      <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
+                    </li>
+                  
+                </ul>
+          
+
+
+          
+            
+          
+          
+<hr style="width: 95%; height: 3px; border: none; background-color: #282828">
+<p>
+<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+</p>
+<hr style="width: 95%; height: 3px; border: none; background-color: #282828">
+
+<div id="days"></div>
+<script>
+function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date(" 11/27/2013 00:00:00");
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    document.getElementById('days').innerHTML="已创作"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+function setzero(i){
+    if (i<10)
+        {i="0" + i};
+    return i;
+}
+    show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二维正态分布"><span class="nav-number">1.</span> <span class="nav-text">二维正态分布</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二维正态分布的定义和来源-Definition-and-Derivation-of-Bivariate-Normal-Distributions"><span class="nav-number">1.1.</span> <span class="nav-text">二维正态分布的定义和来源 Definition and Derivation of Bivariate Normal Distributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二维正态分布的性质-Properties-of-Bivariate-Normal-Distributions"><span class="nav-number">1.2.</span> <span class="nav-text">二维正态分布的性质 Properties of Bivariate Normal Distributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Combination"><span class="nav-number">1.3.</span> <span class="nav-text">Linear Combination</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谭升</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+  <script>
+    $("body").backstretch("/images/background.jpg")
+  </script>
+</body>
+</html>
