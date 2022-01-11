@@ -112,11 +112,11 @@
 <meta name="keywords" content="狄莫弗,二项概率逼近">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数理统计学简史】2.0 狄莫弗的二项概率逼近">
-<meta property="og:url" content="http://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文作为第二章的开篇，主要介绍狄莫弗在二项概率逼近方面的研究，顺便解决了前面一篇我们说的伯努利大数定律中 $N$ 的确定方式。Keywords: 狄莫弗，二项概率逼近">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.872Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数理统计学简史】2.0 狄莫弗的二项概率逼近">
 <meta name="twitter:description" content="Abstract: 本文作为第二章的开篇，主要介绍狄莫弗在二项概率逼近方面的研究，顺便解决了前面一篇我们说的伯努利大数定律中 $N$ 的确定方式。Keywords: 狄莫弗，二项概率逼近">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -494,7 +494,7 @@
 <a id="more"></a>
 <h1 id="狄莫弗的二项概率逼近"><a href="#狄莫弗的二项概率逼近" class="headerlink" title="狄莫弗的二项概率逼近"></a>狄莫弗的二项概率逼近</h1><h2 id="本章开篇"><a href="#本章开篇" class="headerlink" title="本章开篇"></a>本章开篇</h2><p>前面提到的设某事件A的概率为 p未知，在同样的条件下独立进行N次试验，或者观察，其中同样的条件表明事件A出现的概率p在每次试验中都保持不变。发现事件A发生 $X$ 次, $\frac{X}{N}$ 称为事件A在这N次试验中的的频率，用现在数学语言描述，伯努利的大数定律就是说当 $N\to \infty$ 的时候，频率 $\frac{X}{N}$ 收敛于 $p$ ，然后伯努利就开始研究这个 $N$ 最少需要多大才能满足 $P(|\frac{X}{N}-p|\leq \varepsilon)\geq \frac{c}{c+1}$ 其中 $\varepsilon&gt;0$ 为常数并且很小， $c&gt;0$ 为常数并且很大。<br>伯努利给出的答案上文已经有描述，其侄儿尼古拉斯，也就是负责整理《推测术》的尼古拉斯也给出了自己的结论，和伯努利固定 $\frac{c}{c+1}$ 找 $N$ 的套路不同，尼古拉斯用了下面的描述方式<br>$$<br>P_d=P(|X-N_p|\leq d)\tag{1}<br>$$<br>这个公式显然是上面伯努利表示法的一个变形，尼古拉斯是固定 $N$ 来找 $P_d$ 。他的得到的结果是：<br>$$<br>P_d\geq1-max(a,b)\\<br>a=(\frac{[N(1-p)-d+1]Np^2}{(N_p+d)(N_p+1)(1-p)})^{\frac{d}{2}}\\<br>b=(\frac{(N_p-d+1)N(1-p)^2}{[N(1-p)+d][N(1-p)+1]p})^{\frac{d}{2}}<br>$$<br>当要满足 $P_d\geq \frac{c}{c+1}$ 则要找到最小的 $N$ 使满足：<br>$$<br>a\leq (c+1)^{-1}\\<br>b\leq (c+1)^{-1}<br>$$<br>上一章最后给出过具体的数字，尼古拉斯的解比伯努利的解有相当的改进，但是通过上面式子观察我们发现，$a,b$ 的计算依赖于 $p$ 这就有点不科学了，因为我们的目的就是为了推测 $p$ 是啥，当做已知数处理有点不太合理，如果用 $\frac{X}{N}$ 代替 $p$ 更是不合理，因为我们要求的就是 $N$ 所以不太合理，另一种做法是：把 $P_d$ 作为 $p$ 的函数，在 $p=\frac{1}{2}$ 处达到最小，因此只须对 $p=\frac{1}{2}$ 进行证明。<br>尼古拉斯的解有改进，但是还是没到完美，其根本原因是 $P_d$ 是一些二项概率之和，当时的条件下，还没有处理这种问题的方法。<br>狄莫弗从处理二项概率入手，取得了本质的突破，其成就对后世有极大影响，所以我们用一章来记录其过程</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本章主要讲解狄莫弗的研究结果，其对概率和数理统计的贡献大小不亚于伯努利。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution">https://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution" target="_blank" rel="noopener">https://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution</a>转载请标明出处</p>
 
       
     </div>
@@ -520,7 +520,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/" title="【数理统计学简史】2.0 狄莫弗的二项概率逼近">http://www.face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/</a>
+    <a href="https://face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/" title="【数理统计学简史】2.0 狄莫弗的二项概率逼近">https://face2ai.com/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -547,14 +547,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-1-6-Some-Idea-of-Probability/" rel="bookmark">【数理统计学简史】1.6 关于概率的几点看法</a></div>
+      <div class="popular-posts-title"><a href="/Math-Statistics-Basis-0-0-Big-Picture/" rel="bookmark">【数理统计理论基础】 概览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-Basis-0-0-Big-Picture/" rel="bookmark">【数理统计理论基础】 概览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Statistics-Basis-1-1-Introduction/" rel="bookmark">【数理统计理论基础】 1.1 导言</a></div>
       
     </li>
   
@@ -1930,7 +1930,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1994,7 +1994,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

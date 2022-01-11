@@ -112,12 +112,12 @@
 <meta name="keywords" content="DFT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】2.2:二维DFT">
-<meta property="og:url" content="http://www.face2ai.com/DIP-2-2-二维DFT/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-2-2-二维DFT/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第4天Keywords: DFT, 离散傅里叶变换">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-2-2-二维DFT/20141117154113661.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.920Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】2.2:二维DFT">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第4天Keywords: DFT, 离散傅里叶变换">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-2-2-二维DFT/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-2-2-二维DFT/"/>
 
 
 
@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-2-2-二维DFT/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-2-2-二维DFT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -492,7 +492,7 @@
 <p>上代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.c</span></span><br><span class="line"><span class="comment">//  Fourer2D</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by 谭升 on 14/11/17.</span></span><br><span class="line"><span class="comment">//  Copyright (c) 2014年 谭升. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> VALUE_MAX 255</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> WIDTH 5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HEIGHT 5</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex_</span>&#123;</span></span><br><span class="line">    <span class="keyword">double</span> real;</span><br><span class="line">    <span class="keyword">double</span> imagin;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Complex_</span> <span class="title">Complex</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int Initdata(double (*src)[WIDTH],int size_w,int size_h)&#123;</span><br><span class="line">    srand((<span class="keyword">int</span>)time(<span class="number">0</span>));</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size_w;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;size_h;j++)&#123;</span><br><span class="line">            src[i][j]=rand()%VALUE_MAX;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%lf "</span>,src[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">";\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">int DFT2D(double (*src)[WIDTH],Complex (*dst)[WIDTH],int size_w,int size_h)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> u=<span class="number">0</span>;u&lt;size_w;u++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> v=<span class="number">0</span>;v&lt;size_h;v++)&#123;</span><br><span class="line">            <span class="keyword">double</span> real=<span class="number">0.0</span>;</span><br><span class="line">            <span class="keyword">double</span> imagin=<span class="number">0.0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size_w;i++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;size_h;j++)&#123;</span><br><span class="line">                    <span class="keyword">double</span> I=src[i][j];</span><br><span class="line">                    <span class="keyword">double</span> x=M_PI*<span class="number">2</span>*((<span class="keyword">double</span>)i*u/(<span class="keyword">double</span>)size_w+(<span class="keyword">double</span>)j*v/(<span class="keyword">double</span>)size_h);</span><br><span class="line">                    real+=<span class="built_in">cos</span>(x)*I;</span><br><span class="line">                    imagin+=-<span class="built_in">sin</span>(x)*I;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            dst[u][v].real=real;</span><br><span class="line">            dst[u][v].imagin=imagin;</span><br><span class="line">            <span class="keyword">if</span>(imagin&gt;=<span class="number">0</span>)</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%lf+%lfj "</span>,real,imagin);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%lf%lfj "</span>,real,imagin);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">";\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">int IDFT2D(Complex (*src)[WIDTH],Complex (*dst)[WIDTH],int size_w,int size_h)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size_w;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;size_h;j++)&#123;</span><br><span class="line">            <span class="keyword">double</span> real=<span class="number">0.0</span>;</span><br><span class="line">            <span class="keyword">double</span> imagin=<span class="number">0.0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> u=<span class="number">0</span>;u&lt;size_w;u++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> v=<span class="number">0</span>;v&lt;size_h;v++)&#123;</span><br><span class="line">                    <span class="keyword">double</span> R=src[u][v].real;</span><br><span class="line">                    <span class="keyword">double</span> I=src[u][v].imagin;</span><br><span class="line">                    <span class="keyword">double</span> x=M_PI*<span class="number">2</span>*((<span class="keyword">double</span>)i*u/(<span class="keyword">double</span>)size_w+(<span class="keyword">double</span>)j*v/(<span class="keyword">double</span>)size_h);</span><br><span class="line">                    real+=R*<span class="built_in">cos</span>(x)-I*<span class="built_in">sin</span>(x);</span><br><span class="line">                    imagin+=I*<span class="built_in">cos</span>(x)+R*<span class="built_in">sin</span>(x);</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            dst[i][j].real=(<span class="number">1.</span>/(size_w*size_h))*real;</span><br><span class="line">            dst[i][j].imagin=(<span class="number">1.</span>/(size_w*size_h))*imagin;</span><br><span class="line">            <span class="keyword">if</span>(imagin&gt;=<span class="number">0</span>)</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%lf+%lfj "</span>,dst[i][j].real,dst[i][j].imagin);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%lf%lfj "</span>,dst[i][j].real,dst[i][j].imagin);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">";\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> src[WIDTH][HEIGHT];</span><br><span class="line">    Complex dst[WIDTH][HEIGHT];</span><br><span class="line">    Complex dst_[WIDTH][HEIGHT];</span><br><span class="line">    Initdata(src, WIDTH, HEIGHT);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n\n"</span>);</span><br><span class="line">    DFT2D(src,dst,WIDTH,HEIGHT);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n\n"</span>);</span><br><span class="line">    IDFT2D(dst,dst_,WIDTH,HEIGHT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>由于只是为了观察结果，所以使用了固定大小的二维数组，若实际工作中应该根据需要动态分配内存。如下结果：上面为原始数据，中间为DFT后的数据，最下面为IDFT后的结果。</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-2-2-二维DFT/20141117154113661.png" alt=""></p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-2-2-二维DFT">https://www.face2ai.com/DIP-2-2-二维DFT</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-2-2-二维DFT" target="_blank" rel="noopener">https://www.face2ai.com/DIP-2-2-二维DFT</a>转载请标明出处</p>
 
       
     </div>
@@ -518,7 +518,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-2-2-二维DFT/" title="【数字图像处理】2.2:二维DFT">http://www.face2ai.com/DIP-2-2-二维DFT/</a>
+    <a href="https://face2ai.com/DIP-2-2-二维DFT/" title="【数字图像处理】2.2:二维DFT">https://face2ai.com/DIP-2-2-二维DFT/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -545,14 +545,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1917,7 +1917,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1965,7 +1965,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

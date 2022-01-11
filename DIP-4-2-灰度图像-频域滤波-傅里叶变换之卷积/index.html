@@ -112,7 +112,7 @@
 <meta name="keywords" content="傅里叶变换,卷积">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】4.2:灰度图像-频域滤波 傅里叶变换之卷积">
-<meta property="og:url" content="http://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第15天Keywords: 卷积，傅里叶变换">
 <meta property="og:locale" content="zh-CN">
@@ -129,7 +129,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123919343.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107124052202.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107124053515.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.916Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】4.2:灰度图像-频域滤波 傅里叶变换之卷积">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第15天Keywords: 卷积，傅里叶变换">
@@ -142,7 +142,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/"/>
 
 
 
@@ -380,7 +380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -502,7 +502,7 @@
 <h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>依旧是废话，傅里叶变换大学学了等于白学，首先问题在自己，自己当时就没把心思投入到学习中，第二，老师讲的真的是，现在回想，看看斯坦福的公开课“傅里叶变换及其应用”感觉差距不是一般的大。不是对老师的不尊，也不是崇洋媚外，事实摆在那里，一看就知道。把复杂的讲简单了，讲出自己的理解的老师，我上学的时候应该只遇到过一个，可惜是教大学物理的而不是专业课，而且本人大一的时候不好好学习，错过了唯一一位讲课用心的老师（略表惭愧，老师姓弓，西安电子科技大学，在此对弓老师表示敬意）。</p>
 <h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>卷积，大部分老师是说，对于离散序列，两个序列的卷积就是，一个序列翻转，顺次划过另一个，然后对应的乘积再求和，没错，公式上写的就是那样。而且一般的课程都是先讲连续形式的卷积，即把乘积求和变成乘积的积分。其实我觉得，卷积一般用在离散信号，所以先讲离散的应该比较好理解，再说积分会打击很多人的信心。毕竟小学就会加法，而积分到了大学才学，应该先学简单的。来看官方的（wiki）定义：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107135516150.png" alt="Center"><br>两个序列卷积，完成的仅仅是一个计算过程，没有物理意义，也没有工程意义，所以，我要是老师我会这么跟大家说。<br>首先，我们有一个阶梯，每个阶梯上都有一个秤，所有秤都会连接到服务器（额，这个有点扯），每节台阶上的秤得到的结果会加不同的权，然后到服务器求和，也就是说，如果我们有且只有一个标准重量（例如1kg）物体，把它放到第一台阶的秤上，系统输出就是其重量（1kg）加权（例如：权重为2）的结果2。假设系统有三节台阶，每个台阶的权分别为 ${2，3，4}$ ，那么标准重量物体随等间隔时间t依次上台阶，系统输出就是 ${2，3，4}$ ，哈哈，恭喜你，标准物体就是冲击（自行翻阅信号与系统的书籍），输出的 ${2，3，4}$ 就是系统（这个阶梯秤系统）的冲击响应。可能不严谨，但是这个绝对比书上的形象。<br>还没看懂的话下面更形象：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107121954906.png" alt="Center 1"><br>上图是我们的完整系统，output为输出，其中s1到s4为各个阶梯上的秤的度数，每个阶梯下面对应的权重，也就是system{1，2，3，4}，输入是我们一群已经排好队的球，每个球的位置已经确定，即有序的，每个球的重量一定，不随时间变化。所以input为 ${1，2，4，2，2，2}$ 下面就开始卷积了，卷积过程就是一个系统对一个输入的响应过程；<br>STEP0:调转队列（翻转的过程），准备上楼梯<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123112006.png" alt="Center 2"><br>STEP1:上楼开始，头先上<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123541153.png" alt="Center 3"><br>STEP2:这是一个球的一小步，却是输入信号的一大步<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123638078.png" alt="Center 4"><br>STEP3:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123725252.png" alt="Center 5"><br>STEP4:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123750181.png" alt="SouthEast"><br>STEP5:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123755859.png" alt="SouthEast 1"><br>STEP6:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123821562.png" alt="SouthEast 2"><br>STEP7:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123855234.png" alt="SouthEast 3"><br>STEP8:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107123919343.png" alt="SouthEast 4"><br>STEP9:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107124052202.png" alt="SouthEast 5"><br>STEP10:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/20150107124053515.png" alt="SouthEast 6"></p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>卷积可以按照以上来理解，之前网上有对卷积通俗的解释，是打人，先打一顿肿了，第二天还没好又打了一顿，感觉这种解释太血腥，而且不直观，不够数据化，所以想出来上面的解释，但数学是数学，理解归理解，数学还是更严谨些。希望大家能对卷积有更好的认识。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积">https://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积" target="_blank" rel="noopener">https://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积</a>转载请标明出处</p>
 
       
     </div>
@@ -528,7 +528,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/" title="【数字图像处理】4.2:灰度图像-频域滤波 傅里叶变换之卷积">http://www.face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/</a>
+    <a href="https://face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/" title="【数字图像处理】4.2:灰度图像-频域滤波 傅里叶变换之卷积">https://face2ai.com/DIP-4-2-灰度图像-频域滤波-傅里叶变换之卷积/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -562,14 +562,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1945,7 +1945,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2009,7 +2009,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

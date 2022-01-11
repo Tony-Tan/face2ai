@@ -112,7 +112,7 @@
 <meta name="keywords" content="拉普拉斯算子">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】5.6:灰度图像--图像增强 拉普拉斯算子">
-<meta property="og:url" content="http://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第32天Keywords: 拉普拉斯算子">
 <meta property="og:locale" content="zh-CN">
@@ -136,7 +136,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144243711.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144403099.jpg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144304927.jpg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.864Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】5.6:灰度图像--图像增强 拉普拉斯算子">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第32天Keywords: 拉普拉斯算子">
@@ -149,7 +149,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/"/>
 
 
 
@@ -387,7 +387,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -512,7 +512,7 @@
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Laplace</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> mask_type)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> LaplaceMask0[<span class="number">9</span>]=&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-4</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> LaplaceMask1[<span class="number">9</span>]=&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">-8</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> LaplaceMask2[<span class="number">9</span>]=&#123;<span class="number">0</span>,<span class="number">-1</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">4</span>,<span class="number">-1</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> LaplaceMask3[<span class="number">9</span>]=&#123;<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">8</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>&#125;;</span><br><span class="line">    <span class="keyword">switch</span>(mask_type)&#123;</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_0:</span><br><span class="line">            RealRelevant(src, dst, LaplaceMask0, width, height, LAPLACE_MASK_SIZE,LAPLACE_MASK_SIZE);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_1:</span><br><span class="line">            RealRelevant(src, dst, LaplaceMask1, width, height, LAPLACE_MASK_SIZE,LAPLACE_MASK_SIZE);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_2:</span><br><span class="line">            RealRelevant(src, dst, LaplaceMask2, width, height, LAPLACE_MASK_SIZE,LAPLACE_MASK_SIZE);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_3:</span><br><span class="line">            RealRelevant(src, dst, LaplaceMask3, width, height, LAPLACE_MASK_SIZE,LAPLACE_MASK_SIZE);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"wrong mask type\n"</span>);</span><br><span class="line">            matrixCopy(src, dst, width, height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LaplaceSharpen</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> mask_type,<span class="keyword">double</span> c)</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Laplace(src,dst,width,height,mask_type);</span><br><span class="line">    matrixMultreal(dst,dst,c,width,height);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span>(mask_type)&#123;</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_0:</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_1:</span><br><span class="line">            matrixSub(src,dst,dst,width,height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_2:</span><br><span class="line">        <span class="keyword">case</span> SHARPEN_LAP_3:</span><br><span class="line">            matrixAdd(src,dst,dst,width,height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"wrong mask type\n"</span>);</span><br><span class="line">            matrixCopy(src, dst, width, height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>来看对一副月球图片的锐化效果，分别使用四种模板，其结果是四邻接的两个模板结果相同，八邻接的结果相同，观察两个不同的系数，分别c=0.5和c=0.8，具体系数已经标注在图片上了：<br>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131143951412.png" alt="Center 6"><br>原图灰度图像：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144013096.jpg" alt="Center 7"><br>细节提取：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144029815.png" alt="Center 8"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144115262.png" alt="Center 9"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144127055.png" alt="Center 10"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144555794.png" alt="Center 11"><br>锐化图像：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144006837.png" alt="Center 12"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144208536.png" alt="Center 13"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144226304.jpg" alt="Center 14"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144206021.jpg" alt="Center 15"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144301092.png" alt="Center 16"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144243711.png" alt="Center 17"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144403099.jpg" alt="Center 18"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/20150131144304927.jpg" alt="Center 19"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结就是，二阶微分拉普拉斯算子对图像的锐化效果很不错，但对噪声敏感，后面介绍非锐化掩蔽，和一阶微分算子</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子">https://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子" target="_blank" rel="noopener">https://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子</a>转载请标明出处</p>
 
       
     </div>
@@ -538,7 +538,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/" title="【数字图像处理】5.6:灰度图像--图像增强 拉普拉斯算子">http://www.face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/</a>
+    <a href="https://face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/" title="【数字图像处理】5.6:灰度图像--图像增强 拉普拉斯算子">https://face2ai.com/DIP-5-6-灰度图像-图像增强-拉普拉斯算子/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -565,13 +565,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
@@ -580,6 +573,13 @@
       
       
       <div class="popular-posts-title"><a href="/DIP-10-2-彩色图像-图像增强-图像平滑/" rel="bookmark">【数字图像处理】10.2:彩色图像-图像增强 图像平滑</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/DIP-10-1-彩色图像-图像增强-直方图增强/" rel="bookmark">【数字图像处理】10.1:彩色图像-图像增强 直方图增强</a></div>
       
     </li>
   
@@ -1946,7 +1946,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2010,7 +2010,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

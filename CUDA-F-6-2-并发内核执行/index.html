@@ -112,7 +112,7 @@
 <meta name="keywords" content="流,事件,深度优先,广度优先,硬件工作队列,默认流阻塞行为">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】6.2 并发内核执行">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-6-2-并发内核执行/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍内核的并发执行，以及相关的知识Keywords: 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为">
 <meta property="og:locale" content="zh-CN">
@@ -129,7 +129,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-6.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-7.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-8.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.857Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】6.2 并发内核执行">
 <meta name="twitter:description" content="Abstract: 本文介绍内核的并发执行，以及相关的知识Keywords: 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为">
@@ -142,7 +142,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-6-2-并发内核执行/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-6-2-并发内核执行/"/>
 
 
 
@@ -380,7 +380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-6-2-并发内核执行/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-6-2-并发内核执行/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -529,7 +529,7 @@
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-1.png" alt="nvvp-1"></p>
 <h2 id="Fermi-GPU-上的虚假依赖关系"><a href="#Fermi-GPU-上的虚假依赖关系" class="headerlink" title="Fermi GPU 上的虚假依赖关系"></a>Fermi GPU 上的虚假依赖关系</h2><p>虚假依赖我们在上文中讲到过了，这种情况通常出现在只有在比较古老的Fermi架构上出现，原因是其只有一个硬件工作队列，由于我们现在很难找到Fermi架构的GPU了，所以，只能看看书上给出的nvvp结果图了：</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-2.png" alt="nvvp-2"></p>
-<p>虚假依赖的问题我们在<a href="https://face2ai.com/CUDA-F-6-1-流和事件概述/" target="_blank" rel="noopener">流和事件概述</a>已经描述了引起此问题的理论原因，这里就不再解释了。<br>如果你手头只有老机器，这种虚假依赖关系也是可以解决的，原理就是使用广度优先的方法，组织各任务的方式如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dispatch job with breadth first way</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_1&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_2&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_3&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_4&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>虚假依赖的问题我们在<a href="https://face2ai.com/CUDA-F-6-1-流和事件概述/">流和事件概述</a>已经描述了引起此问题的理论原因，这里就不再解释了。<br>如果你手头只有老机器，这种虚假依赖关系也是可以解决的，原理就是使用广度优先的方法，组织各任务的方式如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dispatch job with breadth first way</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_1&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_2&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_3&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_4&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure></p>
 <p>这样逻辑图就不是:</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/1-1.png" alt="1-1"></p>
 <p>而是</p>
@@ -565,7 +565,7 @@
 <p>这时候，最后一个流（第5个流）都会等到前面所有流中的事件完成，自己才会完成，nvvp结果如下</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-8.png" alt="nvvp-8"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文研究了如何使用并发内核提高应用整体的效率，以及流阻塞的相关知识。<br>下一篇我们介绍一个更加实用的技术——通过流来屏蔽数据传输延迟。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-2-并发内核执行">https://www.face2ai.com/CUDA-F-6-2-并发内核执行</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-2-并发内核执行" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-6-2-并发内核执行</a>转载请标明出处</p>
 
       
     </div>
@@ -591,7 +591,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-6-2-并发内核执行/" title="【CUDA 基础】6.2 并发内核执行">http://www.face2ai.com/CUDA-F-6-2-并发内核执行/</a>
+    <a href="https://face2ai.com/CUDA-F-6-2-并发内核执行/" title="【CUDA 基础】6.2 并发内核执行">https://face2ai.com/CUDA-F-6-2-并发内核执行/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -625,14 +625,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
@@ -2016,7 +2016,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2080,7 +2080,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

@@ -112,13 +112,13 @@
 <meta name="keywords" content="统一内存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】4.5 使用统一内存的向量加法">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 使用统一内存的CUDA程序——向量加法Keywords: 统一内存，Uniform Memory">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-1.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:58:43.752Z">
+<meta property="og:updated_time" content="2018-10-04T14:58:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】4.5 使用统一内存的向量加法">
 <meta name="twitter:description" content="Abstract: 使用统一内存的CUDA程序——向量加法Keywords: 统一内存，Uniform Memory">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/"/>
 
 
 
@@ -369,7 +369,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -495,7 +495,7 @@
       
         <p><strong>Abstract:</strong> 使用统一内存的CUDA程序——向量加法<br><strong>Keywords:</strong> 统一内存，Uniform Memory</p>
 <a id="more"></a>
-<h1 id="使用统一内存的向量加法"><a href="#使用统一内存的向量加法" class="headerlink" title="使用统一内存的向量加法"></a>使用统一内存的向量加法</h1><p>本文是前面关于统一内存的补充<br>参考：<a href="https://face2ai.com/CUDA-F-4-2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" target="_blank" rel="noopener">https://face2ai.com/CUDA-F-4-2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</a></p>
+<h1 id="使用统一内存的向量加法"><a href="#使用统一内存的向量加法" class="headerlink" title="使用统一内存的向量加法"></a>使用统一内存的向量加法</h1><p>本文是前面关于统一内存的补充<br>参考：<a href="https://face2ai.com/CUDA-F-4-2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">https://face2ai.com/CUDA-F-4-2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</a></p>
 <h2 id="统一内存矩阵加法"><a href="#统一内存矩阵加法" class="headerlink" title="统一内存矩阵加法"></a>统一内存矩阵加法</h2><p>统一内存的基本思路就是减少指向同一个地址的指针，比如我们经常见到的，在本地分配内存，然后传输到设备，然后在从设备传输回来，使用统一内存，就没有这些显式的需求了，而是驱动程序帮我们完成。<br>具体的做法就是:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;res_d,nByte));</span><br></pre></td></tr></table></figure></p>
 <p>使用cudaMallocManaged 来分配内存，这种内存在表面上看在设备和主机端都能访问，但是内部过程和我们前面手动copy过来copy过去是一样的，也就是memcopy是本质，而这个只是封装了一下。</p>
 <p>我们来看看完整的代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"freshman.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sumArrays</span><span class="params">(<span class="keyword">float</span> * a,<span class="keyword">float</span> * b,<span class="keyword">float</span> * res,<span class="keyword">const</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i+=<span class="number">4</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    res[i]=a[i]+b[i];</span><br><span class="line">    res[i+<span class="number">1</span>]=a[i+<span class="number">1</span>]+b[i+<span class="number">1</span>];</span><br><span class="line">    res[i+<span class="number">2</span>]=a[i+<span class="number">2</span>]+b[i+<span class="number">2</span>];</span><br><span class="line">    res[i+<span class="number">3</span>]=a[i+<span class="number">3</span>]+b[i+<span class="number">3</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumArraysGPU</span><span class="params">(<span class="keyword">float</span>*a,<span class="keyword">float</span>*b,<span class="keyword">float</span>*res,<span class="keyword">int</span> N)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i=blockIdx.x*blockDim.x+threadIdx.x;</span><br><span class="line">  <span class="keyword">if</span>(i &lt; N)</span><br><span class="line">    res[i]=a[i]+b[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// set up device</span></span><br><span class="line">  initDevice(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> nElem=<span class="number">1</span>&lt;&lt;<span class="number">24</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Vector size:%d\n"</span>,nElem);</span><br><span class="line">  <span class="keyword">int</span> nByte=<span class="keyword">sizeof</span>(<span class="keyword">float</span>)*nElem;</span><br><span class="line">  <span class="keyword">float</span> *res_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_h,<span class="number">0</span>,nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_from_gpu_h,<span class="number">0</span>,nByte);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">float</span> *a_d,*b_d,*res_d;</span><br><span class="line">  CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">  CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">  CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;res_d,nByte));</span><br><span class="line"></span><br><span class="line">  initialData(a_d,nElem);</span><br><span class="line">  initialData(b_d,nElem);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//CHECK(cudaMemcpy(a_d,a_h,nByte,cudaMemcpyHostToDevice));</span></span><br><span class="line">  <span class="comment">//CHECK(cudaMemcpy(b_d,b_h,nByte,cudaMemcpyHostToDevice));</span></span><br><span class="line"></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">512</span>)</span></span>;</span><br><span class="line">  dim3 grid((nElem-1)/block.x+1);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Execution configuration&lt;&lt;&lt;%d,%d&gt;&gt;&gt; Time elapsed %f sec\n"</span>,grid.x,block.x,iElaps);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//CHECK(cudaMemcpy(res_from_gpu_h,res_d,nByte,cudaMemcpyDeviceToHost));</span></span><br><span class="line">  sumArrays(b_d,b_d,res_h,nElem);</span><br><span class="line"></span><br><span class="line">  checkResult(res_h,res_d,nElem);</span><br><span class="line">  cudaFree(a_d);</span><br><span class="line">  cudaFree(b_d);</span><br><span class="line">  cudaFree(res_d);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(res_h);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -503,7 +503,7 @@
 <p>可以查看到实际参数</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-2.png" alt="1-2"><br>也可以使用 nvvp来查看，效果类似。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然统一内存管理给我们写代码带来了方便而且速度也很快，但是实验表明，手动控制还是要优于统一内存管理，换句话说，人脑的控制比编译器和目前的设备更有效，所以，为了效率，大家还是手动控制内存吧，把命运掌握在自己手里。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法">https://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法</a>转载请标明出处</p>
 
       
     </div>
@@ -529,7 +529,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/" title="【CUDA 基础】4.5 使用统一内存的向量加法">http://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/</a>
+    <a href="https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/" title="【CUDA 基础】4.5 使用统一内存的向量加法">https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -549,14 +549,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
@@ -1930,7 +1930,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1994,7 +1994,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

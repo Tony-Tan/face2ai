@@ -109,16 +109,16 @@
 
 
   <meta name="description" content="Abstract: 本文主要介绍有限样本空间下的古典概率问题，以及其中包含的计数方法，排列的基本思想Keywords: Counting Methods，Combinatorial Methods，Multiplication，Permutations，Stirling’s Formula">
-<meta name="keywords" content="排列,斯特林公式,技术方法,组合方法,乘法法则">
+<meta name="keywords" content="技术方法,组合方法,乘法法则,排列,斯特林公式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】1-2:计数方法(Counting Methods)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-1-2-Counting-Methods/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-1-2-Counting-Methods/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文主要介绍有限样本空间下的古典概率问题，以及其中包含的计数方法，排列的基本思想Keywords: Counting Methods，Combinatorial Methods，Multiplication，Permutations，Stirling’s Formula">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-2-Counting-Methods\first_dic.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-2-Counting-Methods\two_dic.png">
-<meta property="og:updated_time" content="2018-10-04T15:15:30.498Z">
+<meta property="og:updated_time" content="2018-10-04T15:15:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】1-2:计数方法(Counting Methods)">
 <meta name="twitter:description" content="Abstract: 本文主要介绍有限样本空间下的古典概率问题，以及其中包含的计数方法，排列的基本思想Keywords: Counting Methods，Combinatorial Methods，Multiplication，Permutations，Stirling’s Formula">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-1-2-Counting-Methods/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-1-2-Counting-Methods/"/>
 
 
 
@@ -369,7 +369,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-1-2-Counting-Methods/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-1-2-Counting-Methods/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -496,7 +496,7 @@
         <p><strong>Abstract:</strong> 本文主要介绍有限样本空间下的古典概率问题，以及其中包含的计数方法，排列的基本思想<br><strong>Keywords:</strong> Counting Methods，Combinatorial Methods，Multiplication，Permutations，Stirling’s Formula<br><a id="more"></a></p>
 <h1 id="计数方法"><a href="#计数方法" class="headerlink" title="计数方法"></a>计数方法</h1><p>最近这几篇博客感觉每一篇知识点都有点多，概率这个东西更讲究应用，所以决定本文分成两篇写，这两篇只讲原理下后面讲案例，这样对比这看可能更好，一般的教材的通用做法是讲一个知识点，然后给出丰富的例子让我们来理解知识点，但是这样知识点之间衔接就被例题打断了，而先讲理论再来例题，理论又容易记不住，所以这是个两难的选择，但是我还是更倾向于先把理论用通俗的话讲明白，然后再举例子，这样我会感觉到踏实一点，也能检验自己理论是否真的搞明白了。<br>另外我对碎片化的学习表示非常反对，所谓任务导向的学习，什么不会学什么，这样做的好处是多快好省，这是我们dang经济建设的口号，“这个口号本身很矛盾，多就不能快，好就不能省，一分钟洗一万个土豆，你敢吃么？给我一千块钱盖房子，我只能用纸壳报纸给你盖”（语出自袁腾飞老师）,多快好省的问题就在于许多问题不会很快暴露，但是会陆陆续续的一直干扰你。<br>本文中的部分内容高中就有涉及，所以这篇博客写的关键字有点多，这里只强调与后续概率相关的知识，如果有遗漏大家可以自己补习。</p>
 <h2 id="有限样本空间-Finite-Sample-Space"><a href="#有限样本空间-Finite-Sample-Space" class="headerlink" title="有限样本空间 Finite Sample Space"></a>有限样本空间 Finite Sample Space</h2><p>我们书接上回，上回书我们说到试验的所有输出组成的集合，我们称之为样本空间，当样本空间中的样本点的个数是有限的时候，我们就称之为有限样本空间，那么我们的问题来了，如果我们已知试验的条件，怎么确定结果是否有限个，如果是有限个，那么怎么确定个数呢？也就是怎么数一下结果呢？于是就有了下面的一些列计数方法。</p>
-<h3 id="古典概率-Classical-Interpretation"><a href="#古典概率-Classical-Interpretation" class="headerlink" title="古典概率 Classical Interpretation"></a>古典概率 Classical Interpretation</h3><p>我们在第一篇introduction里面提到过Classical Interpretation，古典观点的概率，本篇中我们主要的出发点与古典概率一致，古典概率假设：“试验中，每一个样本点的概率相等”，那么从这个出发点看，结合上文中概率的<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">性质T3</a>,假设样本空间有n个样本点，把每个样本点看做一个事件，这样n个事件都互不相关，n个事件的概率和是1，那么每个事件的概率是 $\frac{1}{n}$ 这个概念说起来可能比较拗口，各种条件之间看起来可能比较复杂，但是举个例子就非常简单了，扔骰子：<br>扔一个均匀的六面体骰子，那么样本空间是 ${1,2,3,4,5,6}$ 所有点数出现的概率相等，那么$Pr(x=1)=\frac{1}{6}$ 、 $Pr(x=2)=\frac{1}{6}$ 、$Pr(x=3)=\frac{1}{6}$ 、$Pr(x=4)=\frac{1}{6}$ 、 $Pr(x=5)=\frac{1}{6}$ 、$Pr(x=6)=\frac{1}{6}$<br>这个结论比较能够满足我们的直观感觉，条件中“均匀的骰子”就表明样本空间中每个样本点等可能出现。<br>现在我们已经基本理解了古典概率的基本思路了，但是思考下，我们扔的一个骰子，能够很轻松的确定结果集的所有元素，那么如果我们扔两个骰子，或者扔更多的骰子呢？数数可能有点困难了，所以我们引出了下面的课题，计数方法。</p>
+<h3 id="古典概率-Classical-Interpretation"><a href="#古典概率-Classical-Interpretation" class="headerlink" title="古典概率 Classical Interpretation"></a>古典概率 Classical Interpretation</h3><p>我们在第一篇introduction里面提到过Classical Interpretation，古典观点的概率，本篇中我们主要的出发点与古典概率一致，古典概率假设：“试验中，每一个样本点的概率相等”，那么从这个出发点看，结合上文中概率的<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">性质T3</a>,假设样本空间有n个样本点，把每个样本点看做一个事件，这样n个事件都互不相关，n个事件的概率和是1，那么每个事件的概率是 $\frac{1}{n}$ 这个概念说起来可能比较拗口，各种条件之间看起来可能比较复杂，但是举个例子就非常简单了，扔骰子：<br>扔一个均匀的六面体骰子，那么样本空间是 ${1,2,3,4,5,6}$ 所有点数出现的概率相等，那么$Pr(x=1)=\frac{1}{6}$ 、 $Pr(x=2)=\frac{1}{6}$ 、$Pr(x=3)=\frac{1}{6}$ 、$Pr(x=4)=\frac{1}{6}$ 、 $Pr(x=5)=\frac{1}{6}$ 、$Pr(x=6)=\frac{1}{6}$<br>这个结论比较能够满足我们的直观感觉，条件中“均匀的骰子”就表明样本空间中每个样本点等可能出现。<br>现在我们已经基本理解了古典概率的基本思路了，但是思考下，我们扔的一个骰子，能够很轻松的确定结果集的所有元素，那么如果我们扔两个骰子，或者扔更多的骰子呢？数数可能有点困难了，所以我们引出了下面的课题，计数方法。</p>
 <h2 id="计数方法-Counting-Methods"><a href="#计数方法-Counting-Methods" class="headerlink" title="计数方法 Counting Methods"></a>计数方法 Counting Methods</h2><p>计数方法的根本目的就是为了计算试验结果的个数，与试验出现的结果无关，也不影响任何试验的随机性，计数只是通过条件给出的前提，在试验前或者试验后，计数结果不变。<br>总结下就是一句话：计数不影响试验的结果，计数方法在概率中的最主要的应用就是为了计算试验结果的个数。</p>
 <h3 id="乘法原理-Multiplication-Rule"><a href="#乘法原理-Multiplication-Rule" class="headerlink" title="乘法原理 Multiplication Rule"></a>乘法原理 Multiplication Rule</h3><p>乘法原理是最基础的一种计算结果的方法，首先我们感受下实际的用途，先后扔两个骰子，将结果排列成一个有序的序列，比如第一个骰子是6，第二个骰子是4，那么结果我们记做 $(6,4)$ 那么所有可能出现的结果：<br>$$<br>{(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),\\<br>(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),\\<br>(3,1),(3,2),(3,3),(3,4),(3,5),(3,6),\\<br>(4,1),(4,2),(4,3),(4,4),(4,5),(4,6),\\<br>(5,1),(5,2),(5,3),(5,4),(5,5),(5,6),\\<br>(6,1),(6,2),(6,3),(6,4),(6,5),(6,6)}<br>$$<br>一共36种结果，36，很神奇的数字，因为每个骰子有6种结果，两个骰子，难道是$6^2$ 的关系？我们先不给出结论，我们来观察试验过程，首先我们扔第一个骰子，可能出现以下结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-2-Counting-Methods\first_dic.png" alt=""></p>
 <p>下面我们扔第二个骰子：</p>
@@ -533,7 +533,7 @@
 <p>Theorem Permutations:The number of distinct orderings of $k$ items selected without replacement from a collectioin of $n$ different items $(0\leq k\leq n)$ is:<br>$$<br>P_{n,k}=\frac{n!}{(n-k)!}<br>$$</p>
 </blockquote>
 <p>小结一下上面关于排列的知识，最主要的关键字有两个，一个是“with replacement放回”与“without replacement不放回”，另一个就是顺序，取出结果的顺序被严格记录不允许颠倒顺序。</p>
-<h3 id="生日问题-Birthday-Problem"><a href="#生日问题-Birthday-Problem" class="headerlink" title="生日问题 Birthday Problem"></a>生日问题 Birthday Problem</h3><p>问题描述：“假设一年365天（不考虑闰年）k个人，至少有两个出生在同一天（只考虑月和日，不考虑年）的概率是多少？”<br>秉着越困难的题越短的思路，这个题可能要考虑不少，所以我们要仔细考虑下，<br>首先k一定不能大于365，不然肯定有同一天出生的人，那么概率是1没有讨论价值，那么我们可以利用前面集合的概念，假设样本空间S包含 $(365^k)$ 种出生组合（这是个with replacement）的结果，事件A是至少两个人出生在同一天，那么在全集S上的补集$A^c$ 的意义就是所有k个人都不同一天出生，那么根据排列的公式就有$P_{365,k}$ 种情况，那么根据每天等概率的前提下，$Pr(A^c)=\frac{P_{365,k}}{365^k}$ ，根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">1-1：Definition of Probability中的T3</a><br>$$<br>Pr(A)=1-Pr(A^c)=1-\frac{P_{365,k}}{365^k}=1-\frac{365!}{(365-k)!365^k}<br>$$</p>
+<h3 id="生日问题-Birthday-Problem"><a href="#生日问题-Birthday-Problem" class="headerlink" title="生日问题 Birthday Problem"></a>生日问题 Birthday Problem</h3><p>问题描述：“假设一年365天（不考虑闰年）k个人，至少有两个出生在同一天（只考虑月和日，不考虑年）的概率是多少？”<br>秉着越困难的题越短的思路，这个题可能要考虑不少，所以我们要仔细考虑下，<br>首先k一定不能大于365，不然肯定有同一天出生的人，那么概率是1没有讨论价值，那么我们可以利用前面集合的概念，假设样本空间S包含 $(365^k)$ 种出生组合（这是个with replacement）的结果，事件A是至少两个人出生在同一天，那么在全集S上的补集$A^c$ 的意义就是所有k个人都不同一天出生，那么根据排列的公式就有$P_{365,k}$ 种情况，那么根据每天等概率的前提下，$Pr(A^c)=\frac{P_{365,k}}{365^k}$ ，根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1：Definition of Probability中的T3</a><br>$$<br>Pr(A)=1-Pr(A^c)=1-\frac{P_{365,k}}{365^k}=1-\frac{365!}{(365-k)!365^k}<br>$$</p>
 <p>我们可以带入几个k值来计算下概率：</p>
 <table>
 <thead>
@@ -590,7 +590,7 @@
 </blockquote>
 <p>证明过程可以被简单的写成 $ln(n!)\sim\frac{1}{2}ln(2\pi)+(n+\frac{1}{2})ln(n)-n$ 即<br>$e^{ln(n!)}\sim e^{\frac{1}{2}ln(2\pi)+(n+\frac{1}{2})ln(n)-n}$ 也就是证明$n!\sim (2\pi)^{1/2}n^{n+\frac{1}{2}}e^{-n}$ 成立：<br>证明：<br>略（后面补上）</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本来想多写点知识点，结果发现，多就不能快，那我们明天继续，另外stirling 公式后面再给出证明，此处先略过，待续。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-1-2-Counting-Methods">https://www.face2ai.com/Math-Probability-1-2-Counting-Methods</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-1-2-Counting-Methods" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-1-2-Counting-Methods</a>转载请标明出处</p>
 
       
     </div>
@@ -616,7 +616,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-1-2-Counting-Methods/" title="【概率论】1-2:计数方法(Counting Methods)">http://www.face2ai.com/Math-Probability-1-2-Counting-Methods/</a>
+    <a href="https://face2ai.com/Math-Probability-1-2-Counting-Methods/" title="【概率论】1-2:计数方法(Counting Methods)">https://face2ai.com/Math-Probability-1-2-Counting-Methods/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -636,6 +636,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/Math-Probability-3-6-Conditional-Distributions-P2/" rel="bookmark">【概率论】3-6:条件分布(Conditional Distributions Part II）</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/Math-Statistics-1-5-Ars-Conjectandi-First-3-Sections/" rel="bookmark">【数理统计学简史】1.5 《推测术》前三部分内容提要</a></div>
       
     </li>
@@ -643,21 +650,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-2-3-Communication-With-Stirling/" rel="bookmark">【数理统计学简史】2.3 狄莫弗初步结果的改进，与斯特林的联系</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -680,15 +680,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/排列/" rel="tag"># 排列</a>
-          
-            <a href="/tags/斯特林公式/" rel="tag"># 斯特林公式</a>
-          
             <a href="/tags/技术方法/" rel="tag"># 技术方法</a>
           
             <a href="/tags/组合方法/" rel="tag"># 组合方法</a>
           
             <a href="/tags/乘法法则/" rel="tag"># 乘法法则</a>
+          
+            <a href="/tags/排列/" rel="tag"># 排列</a>
+          
+            <a href="/tags/斯特林公式/" rel="tag"># 斯特林公式</a>
           
         </div>
       
@@ -2039,7 +2039,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2103,7 +2103,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

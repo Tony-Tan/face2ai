@@ -112,7 +112,7 @@
 <meta name="keywords" content="CUDA资源分配,CUDA延迟隐藏,吞吐量,带宽,占用率,CUDA同步">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】3.2 理解线程束执行的本质(Part II)">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍CUDA线程束执行的本质的后半部分，包括资源，延迟，同步，扩展性等严重影响性能的线，吞吐量，带宽，占用率，CUDA同步">
 <meta property="og:locale" content="zh-CN">
@@ -126,7 +126,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/devinf.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/excel.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_18.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.912Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】3.2 理解线程束执行的本质(Part II)">
 <meta name="twitter:description" content="Abstract: 本文介绍CUDA线程束执行的本质的后半部分，包括资源，延迟，同步，扩展性等严重影响性能的线，吞吐量，带宽，占用率，CUDA同步">
@@ -139,7 +139,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/"/>
 
 
 
@@ -377,7 +377,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -503,7 +503,7 @@
       
         <p><strong>Abstract:</strong> 本文介绍CUDA线程束执行的本质的后半部分，包括资源，延迟，同步，扩展性等严重影响性能的线，吞吐量，带宽，占用率，CUDA同步</p>
 <a id="more"></a>
-<h1 id="理解线程束执行的本质-Part-II"><a href="#理解线程束执行的本质-Part-II" class="headerlink" title="理解线程束执行的本质(Part II)"></a>理解线程束执行的本质(Part II)</h1><p>最近这几篇应该是CUDA最核心的部分，并不是编程模型，而是执行模型，通过执行模型我们去了解GPU硬件的具体运行方式，这样才能保证我们写出更快更好的程序。<br>由于访问量太少，转载请保留本条广告，各位老铁欢迎访问Tony的网站：<a href="http://www.face2ai.com">http://www.face2ai.com</a></p>
+<h1 id="理解线程束执行的本质-Part-II"><a href="#理解线程束执行的本质-Part-II" class="headerlink" title="理解线程束执行的本质(Part II)"></a>理解线程束执行的本质(Part II)</h1><p>最近这几篇应该是CUDA最核心的部分，并不是编程模型，而是执行模型，通过执行模型我们去了解GPU硬件的具体运行方式，这样才能保证我们写出更快更好的程序。<br>由于访问量太少，转载请保留本条广告，各位老铁欢迎访问Tony的网站：<a href="http://www.face2ai.com" target="_blank" rel="noopener">http://www.face2ai.com</a></p>
 <h2 id="资源分配"><a href="#资源分配" class="headerlink" title="资源分配"></a>资源分配</h2><p>我们前面提到过，每个SM上执行的基本单位是线程束，也就是说，单指令通过指令调度器广播给某线程束的全部线程，这些线程同一时刻执行同一命令，当然也有分支情况，上一篇我们已经介绍了分支，这是执行的那部分，当然后有很多线程束没执行，那么这些没执行的线程束情况又如何呢？我给他们分成了两类，注意是我分的，不一定官方是不是这么讲。我们离开线程束内的角度（线程束内是观察线程行为，离开线程束我们就能观察线程束的行为了），一类是已经激活的，也就是说这类线程束其实已经在SM上准备就绪了，只是没轮到他执行，这时候他的状态叫做阻塞，还有一类可能分配到SM了，但是还没上到片上，这类我称之为未激活线程束。<br>而每个SM上有多少个线程束处于激活状态，取决于以下资源：</p>
 <ul>
 <li>程序计数器</li>
@@ -576,7 +576,7 @@
 <h2 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h2><p>可扩展性其实是相对于不同硬件的，当某个程序在设备1上执行的时候时间消耗是T当我们使用设备2时，其资源是设备1的两倍，我们希望得到T/2的运行速度，这种性质是CUDA驱动部分提供的特性，目前来说 Nvidia正在致力于这方面的优化，如下图：</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_18.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>今天效率很高，主要是这个部分之前已经研究透彻了，第三章是Freshman阶段的最核心部分，需要大家多查资料，多思考，多练习，待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2">https://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2</a>转载请标明出处</p>
 
       
     </div>
@@ -602,7 +602,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/" title="【CUDA 基础】3.2 理解线程束执行的本质(Part II)">http://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/</a>
+    <a href="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/" title="【CUDA 基础】3.2 理解线程束执行的本质(Part II)">https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -636,14 +636,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-2-Getting-Started/" rel="bookmark">【Julia】开始使用Julia</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-1-Install/" rel="bookmark">【Julia】Julia环境搭建（Mac,Windows,Linux）</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-2-Getting-Started/" rel="bookmark">【Julia】开始使用Julia</a></div>
       
     </li>
   
@@ -2020,7 +2020,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2084,7 +2084,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

@@ -112,7 +112,7 @@
 <meta name="keywords" content="强化学习算法，机器学习算法，人工智能，CUDA编程，模式识别算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【30天自制操作系统】Mac下工具的使用">
-<meta property="og:url" content="http://www.face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/index.html">
+<meta property="og:url" content="https://face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: Mac 下 《30天自制操作系统》工具使用Keywords: 《30天自制操作系统》，Macbook，环境，工具">
 <meta property="og:locale" content="zh-CN">
@@ -120,7 +120,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--Mac下工具的使用//20131213143655937.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--Mac下工具的使用/20131213143514609.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--Mac下工具的使用/20131213144145015.png">
-<meta property="og:updated_time" content="2018-10-04T14:56:56.717Z">
+<meta property="og:updated_time" content="2018-10-04T14:56:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】Mac下工具的使用">
 <meta name="twitter:description" content="Abstract: Mac 下 《30天自制操作系统》工具使用Keywords: 《30天自制操作系统》，Macbook，环境，工具">
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/"/>
+  <link rel="canonical" href="https://face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/"/>
 
 
 
@@ -371,7 +371,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -490,7 +490,7 @@
       
         <p><strong>Abstract:</strong> Mac 下 《30天自制操作系统》工具使用<br><strong>Keywords:</strong> 《30天自制操作系统》，Macbook，环境，工具<br><a id="more"></a><br>现在来介绍官网上下的工具怎么用首先是官网地址，书上有个注释上有:hrb.osask.jp<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--Mac下工具的使用/20131213143501046.png" alt="Center"><br>翻译成中文大概是这个样子滴。<br>上面有两个文件可以下载，一个是工具，一个是工具的源代码，很好的学习资料<br>下面把工具复制出来<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--Mac下工具的使用//20131213143655937.png" alt="Center 1"><br>看到很多可执行文件。。感觉好舒服。。<br>然后把我们随便一个project复制到z_tools的同级目录下<br>project的内容可以修改，因为批处理可以下岗了：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--Mac下工具的使用/20131213143514609.png" alt="Center 2"><br>然后可能是难度最大的部分出现了。。。修改makefile<br>如果没用过makefile可以先找点资料看看。很简单的语法，很强大的功能：<br>修改完成后是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">TOOLPATH = ../z_tools/</span><br><span class="line">INCPATH  = ../z_tools/haribote/</span><br><span class="line">###################################################     MAKE     = make</span><br><span class="line">NASK     = $(TOOLPATH)nask</span><br><span class="line">CC1      = $(TOOLPATH)gocc1 -I$(INCPATH) -Os -Wall -quiet</span><br><span class="line">GAS2NASK = $(TOOLPATH)gas2nask -a</span><br><span class="line">OBJ2BIM  = $(TOOLPATH)obj2bim</span><br><span class="line">BIM2HRB  = $(TOOLPATH)bim2hrb</span><br><span class="line">RULEFILE = $(TOOLPATH)haribote/haribote.rul</span><br><span class="line">EDIMG    = $(TOOLPATH)edimg</span><br><span class="line">IMGTOL   = $(TOOLPATH)imgtol.com</span><br><span class="line">COPY     = cp</span><br><span class="line">DEL      = rm</span><br><span class="line">###################################################     ## ÉfÉtÉHÉãÉgìÆçÏ</span><br><span class="line"></span><br><span class="line">default :</span><br><span class="line">	$(MAKE) img</span><br><span class="line"></span><br><span class="line">## ÉtÉ@ÉCÉãê∂ê¨ãKë•</span><br><span class="line"></span><br><span class="line">ipl10.bin : ipl10.nas Makefile</span><br><span class="line">	$(NASK) ipl10.nas ipl10.bin ipl10.lst</span><br><span class="line"></span><br><span class="line">asmhead.bin : asmhead.nas Makefile</span><br><span class="line">	$(NASK) asmhead.nas asmhead.bin asmhead.lst</span><br><span class="line"></span><br><span class="line">bootpack.gas : bootpack.c Makefile</span><br><span class="line">	$(CC1) -o bootpack.gas bootpack.c</span><br><span class="line"></span><br><span class="line">bootpack.nas : bootpack.gas Makefile</span><br><span class="line">	$(GAS2NASK) bootpack.gas bootpack.nas</span><br><span class="line"></span><br><span class="line">bootpack.obj : bootpack.nas Makefile</span><br><span class="line">	$(NASK) bootpack.nas bootpack.obj bootpack.lst</span><br><span class="line"></span><br><span class="line">bootpack.bim : bootpack.obj Makefile</span><br><span class="line">	$(OBJ2BIM) @$(RULEFILE) out:bootpack.bim stack:3136k map:bootpack.map \</span><br><span class="line">		bootpack.obj</span><br><span class="line">## 3MB+64KB=3136KB</span><br><span class="line"></span><br><span class="line">bootpack.hrb : bootpack.bim Makefile</span><br><span class="line">	$(BIM2HRB) bootpack.bim bootpack.hrb 0</span><br><span class="line">##################################################     haribote.sys : asmhead.bin bootpack.hrb Makefile</span><br><span class="line">	cat  asmhead.bin bootpack.hrb&gt;haribote.sys</span><br><span class="line">###################################################     haribote.img : ipl10.bin haribote.sys Makefile</span><br><span class="line">	$(EDIMG)   imgin:../z_tools/fdimg0at.tek \</span><br><span class="line">		wbinimg src:ipl10.bin len:512 from:0 to:0 \</span><br><span class="line">		copy from:haribote.sys to:@: \</span><br><span class="line">		imgout:haribote.img</span><br><span class="line"></span><br><span class="line">## ÉRÉ&#125;ÉìÉh</span><br><span class="line"></span><br><span class="line">img :</span><br><span class="line">	$(MAKE) haribote.img</span><br><span class="line">#################################################     run :</span><br><span class="line">	$(MAKE) img</span><br><span class="line">	qemu -fda haribote.img</span><br><span class="line">###################################################</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	-$(DEL) *.bin</span><br><span class="line">	-$(DEL) *.lst</span><br><span class="line">	-$(DEL) *.gas</span><br><span class="line">	-$(DEL) *.obj</span><br><span class="line">	-$(DEL) bootpack.nas</span><br><span class="line">	-$(DEL) bootpack.map</span><br><span class="line">	-$(DEL) bootpack.bim</span><br><span class="line">	-$(DEL) bootpack.hrb</span><br><span class="line">	-$(DEL) haribote.sys</span><br><span class="line"></span><br><span class="line">src_only :</span><br><span class="line">	$(MAKE) clean</span><br><span class="line">	-$(DEL) haribote.img</span><br></pre></td></tr></table></figure></p>
 <p>乱码是原来的日语。。华丽的忽视掉，一排#之间的就是修改过的地方，<br>然后就是make run了。。<br>结果如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--Mac下工具的使用/20131213144145015.png" alt="Center 3"><br>工具准备齐全了，明天开始研究理论，博客继续更新。。。<br>我什么时候才能成为非主流专家呢。。哇哈哈</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用">https://www.face2ai.com/《30天自制操作系统》学习笔记–Mac下工具的使用</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–Mac下工具的使用</a>转载请标明出处</p>
 
       
     </div>
@@ -516,7 +516,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/" title="【30天自制操作系统】Mac下工具的使用">http://www.face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/</a>
+    <a href="https://face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/" title="【30天自制操作系统】Mac下工具的使用">https://face2ai.com/《30天自制操作系统》学习笔记--Mac下工具的使用/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -536,14 +536,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第11天/" rel="bookmark">【30天自制操作系】 定时器</a></div>
+      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第好多天/" rel="bookmark">【30天自制操作系统】 一个半成品</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第好多天/" rel="bookmark">【30天自制操作系统】 一个半成品</a></div>
+      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第16天/" rel="bookmark">【30天自制操作系统】多任务 II</a></div>
       
     </li>
   
@@ -1902,7 +1902,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1950,7 +1950,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

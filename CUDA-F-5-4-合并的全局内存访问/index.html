@@ -109,10 +109,10 @@
 
 
   <meta name="description" content="Abstract: 本文介绍使用共享内存进行矩阵转置以减少内存的交叉访问Keywords: 合并，转置">
-<meta name="keywords" content="转置,合并">
+<meta name="keywords" content="合并,转置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】5.4 合并的全局内存访问">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-5-4-合并的全局内存访问/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍使用共享内存进行矩阵转置以减少内存的交叉访问Keywords: 合并，转置">
 <meta property="og:locale" content="zh-CN">
@@ -136,7 +136,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-4-合并的全局内存访问/re-14.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-4-合并的全局内存访问/re-15.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-4-合并的全局内存访问/re-16.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.890Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】5.4 合并的全局内存访问">
 <meta name="twitter:description" content="Abstract: 本文介绍使用共享内存进行矩阵转置以减少内存的交叉访问Keywords: 合并，转置">
@@ -149,7 +149,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-5-4-合并的全局内存访问/"/>
 
 
 
@@ -387,7 +387,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-5-4-合并的全局内存访问/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -513,7 +513,7 @@
       
         <p><strong>Abstract:</strong> 本文介绍使用共享内存进行矩阵转置以减少内存的交叉访问<br><strong>Keywords:</strong> 合并，转置</p>
 <a id="more"></a>
-<h1 id="合并的全局内存访问"><a href="#合并的全局内存访问" class="headerlink" title="合并的全局内存访问"></a>合并的全局内存访问</h1><p>还记得我们矩阵转置的例子么，在全局内存部分介绍的：<a href="https://face2ai.com/CUDA-F-4-4-核函数可达到的带宽/" target="_blank" rel="noopener">4.4核函数可达到的带宽</a><br>在4.4中我们当时只有共享内存这一种工具可以使用，为了达到最高效率，我们要配合一级缓存，二级缓存进行编程，来提高转置的效率，因为转置只能在行读取列写入或者列读取行写入之间选择一个，这样就必然会引发非合并的访问，虽然我们利用一级缓存的性质可以提高性能，但是我们今天会介绍我们的新工具共享内存，在共享内存中完成转置后写入全局内存，这样就可以避免交叉访问了。</p>
+<h1 id="合并的全局内存访问"><a href="#合并的全局内存访问" class="headerlink" title="合并的全局内存访问"></a>合并的全局内存访问</h1><p>还记得我们矩阵转置的例子么，在全局内存部分介绍的：<a href="https://face2ai.com/CUDA-F-4-4-核函数可达到的带宽/">4.4核函数可达到的带宽</a><br>在4.4中我们当时只有共享内存这一种工具可以使用，为了达到最高效率，我们要配合一级缓存，二级缓存进行编程，来提高转置的效率，因为转置只能在行读取列写入或者列读取行写入之间选择一个，这样就必然会引发非合并的访问，虽然我们利用一级缓存的性质可以提高性能，但是我们今天会介绍我们的新工具共享内存，在共享内存中完成转置后写入全局内存，这样就可以避免交叉访问了。</p>
 <h2 id="基准转置内核"><a href="#基准转置内核" class="headerlink" title="基准转置内核"></a>基准转置内核</h2><p>在介绍我们的神奇共享内存之前，我们最好先研究出来一下我们的问题的极限在哪，换句话说，我们需要清楚的知道我们最慢的情况（最简单的方式能达到的速度）以及最快的理论速度，理论速度可能会达不到，但是可以接近，最慢速度肯定可以超越，你永远可以写出更慢的程序，所以我们用最简单的方法作为下界，而用正行读取，然后不经变换的写入来作为上限，这一招我们在前面使用过，就是在4.4中，那次我们突破极限了（哈哈，很有可能是计时有问题），但是正常来讲，极限是最好的参考值。<br>完整的代码在github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a>（欢迎随手star😝 ）<br>上限：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">copyRow</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out,<span class="keyword">int</span> nx,<span class="keyword">int</span> ny)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ix=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> iy=threadIdx.y+blockDim.y*blockIdx.y;</span><br><span class="line">    <span class="keyword">int</span> idx=ix+iy*nx;</span><br><span class="line">    <span class="keyword">if</span> (ix&lt;nx &amp;&amp; iy&lt;ny)</span><br><span class="line">    &#123;</span><br><span class="line">      out[idx]=in[idx];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>下限是我们的too young too naive版本，就是最常规的方法：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">transformNaiveRow</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out,<span class="keyword">int</span> nx,<span class="keyword">int</span> ny)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ix=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> iy=threadIdx.y+blockDim.y*blockIdx.y;</span><br><span class="line">    <span class="keyword">int</span> idx_row=ix+iy*nx;</span><br><span class="line">    <span class="keyword">int</span> idx_col=ix*ny+iy;</span><br><span class="line">    <span class="keyword">if</span> (ix&lt;nx &amp;&amp; iy&lt;ny)</span><br><span class="line">    &#123;</span><br><span class="line">      out[idx_col]=in[idx_row];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这两段代码中第一段并没有转置的功能，只是为了测试上限，第二段是naive的转置，前面也讲过，这里就直接贴结果了<br>copyRow的cpu计时和nvprof结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-4-合并的全局内存访问/re-1.png" alt="re-1"><br>transformNaiveRow的cpu计时和nvprof结果：</p>
@@ -599,7 +599,7 @@
 <p>调整成 $8\times 8$ 的块的结果如下<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-4-合并的全局内存访问/re-16.png" alt="re-16"></p>
 <p>这个要考大家不停的试才能找到当前设备最优的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文使用共享内存避免交叉的全局内存访问，优化了矩阵转置的速度。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问">https://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问</a>转载请标明出处</p>
 
       
     </div>
@@ -625,7 +625,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问/" title="【CUDA 基础】5.4 合并的全局内存访问">http://www.face2ai.com/CUDA-F-5-4-合并的全局内存访问/</a>
+    <a href="https://face2ai.com/CUDA-F-5-4-合并的全局内存访问/" title="【CUDA 基础】5.4 合并的全局内存访问">https://face2ai.com/CUDA-F-5-4-合并的全局内存访问/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -645,13 +645,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-2-7/" rel="bookmark">【线性代数】2-7:转置与变换(Transposes and Permutation)</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/CUDA-F-4-3-内存访问模式/" rel="bookmark">【CUDA 基础】4.3 内存访问模式</a></div>
       
     </li>
@@ -659,7 +652,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-2-7/" rel="bookmark">【线性代数】2-7:转置与变换(Transposes and Permutation)</a></div>
       
     </li>
   
@@ -667,6 +660,13 @@
       
       
       <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
@@ -689,9 +689,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/转置/" rel="tag"># 转置</a>
-          
             <a href="/tags/合并/" rel="tag"># 合并</a>
+          
+            <a href="/tags/转置/" rel="tag"># 转置</a>
           
         </div>
       
@@ -2042,7 +2042,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2106,7 +2106,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 本文介绍《推测术》中最精华的第四部分，提出历史性结论——伯努利大数定律Keywords: 大数定律，伯努利大数定律，《推测术》，强大数律，弱大数律，切比雪夫不等式">
-<meta name="keywords" content="《推测术》,大数定律,切比雪夫不等式,伯努利大数定律,强大数律,弱大数律">
+<meta name="keywords" content="《推测术》,切比雪夫不等式,大数定律,伯努利大数定律,强大数律,弱大数律">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数理统计学简史】1.7 伯努利大数定律">
-<meta property="og:url" content="http://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍《推测术》中最精华的第四部分，提出历史性结论——伯努利大数定律Keywords: 大数定律，伯努利大数定律，《推测术》，强大数律，弱大数律，切比雪夫不等式">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.914Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数理统计学简史】1.7 伯努利大数定律">
 <meta name="twitter:description" content="Abstract: 本文介绍《推测术》中最精华的第四部分，提出历史性结论——伯努利大数定律Keywords: 大数定律，伯努利大数定律，《推测术》，强大数律，弱大数律，切比雪夫不等式">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -501,7 +501,7 @@
 <li>这样只需要证明 $N$ 充分大的时候 $A_0\geq c(A_1+A_2+\dots)$</li>
 <li>这样就可以得到 $X&gt; N_p$ 的一边，同理可以得到另一边。</li>
 </ul>
-<p>这是大概的证明过程，可以得到(8)中的结论。<br>顺带的指出，可以把伯努利的结论(9)引申一点，如果我们知道箱子中球的总数也就是 $a+b$ 的值，或者知道 $a+b$ 不超过某个值 $M$ ，则可以把(9)式(书上写的是(3)式，应该是笔误)改进成——找到一个 $p$ 的估计 $\hat{p}(X)$ 而不是 $\frac{X}{N}$ ，当 $N$ 充分大时有：<br>$$<br>P(\hat{p}(X)\neq p)&lt;(c+1)^{-1}<br>$$<br>但是如果 $a+b$ 的值没有范围，这个结论就不成立了，证明也在书上，更加复杂，这里也不写了，想知道的同学可以参考数理统计学简史》第25页。<br>其实我们可以想想，我们讲了半天，都在说 $N$ 在达到一定大小的时候，比例会接近某个概率，我们和伯努利都有一个问题就是，N到底要多大，是否有下界，在指定的精度 $\varepsilon$ 下得出这个下界。并且可靠度不能超低于 $1-(c+1)^{-1}$ 他证明了以下的结果，定义：<br>$$<br>m_1=\text{ 不小于 } \frac{log[c(b-1)]}{log(a+1)-log(a)}\text{ 的最小整数 } \\<br>m_2=\text{ 不小于 } \frac{log[c(a-1)]}{log(b+1)-log(b)}\text{ 的最小整数 } \\<br>N_1=\frac{m_1(a+b)+b(a+b)(m_1-1)}{a+1}\\<br>N_2=\frac{m_2(a+b)+b(a+b)(m_2-1)}{b+1}<br>$$<br>则取 $max{N_1,N_2}$ 能满足 (9) 式，伯努利给了若干数字例子，比如：$a=30,b=20(p=\frac{3}{5}),\varepsilon=\frac{1}{50},c=1000$ 使用上面的结论， $N$ 至少是 25550 ,我们在<a href="https://face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/" target="_blank" rel="noopener">基础概率论中介绍过切比雪夫不等式</a>，也是给出N的参考值的，但是在同精度下，伯努利给出的N的大小比切比雪夫不等式给出的N小20多倍，但是这个25550这个数还是太大，当时美国一个中等城市人口也就几千人，所以学者斯蒂格勒认为，伯努利之所以长期没发布结果，是觉得这个数太大，他想找到更小的。<br>但是现在我们已经不关注这些地方了，大家都公认，由伯努利工作发端的大数定律已经成为整个数理统计学的基础，人们也对伯努利工作的哲学意义给予极高的评价，斯蒂格勒指出，伯努利证明了数学家不仅可以后验的认识世界，还可以用数学取菇凉他们的知识的限度。伯努利在结束《推测术》时就其结果的意义做出如下表述：</p>
+<p>这是大概的证明过程，可以得到(8)中的结论。<br>顺带的指出，可以把伯努利的结论(9)引申一点，如果我们知道箱子中球的总数也就是 $a+b$ 的值，或者知道 $a+b$ 不超过某个值 $M$ ，则可以把(9)式(书上写的是(3)式，应该是笔误)改进成——找到一个 $p$ 的估计 $\hat{p}(X)$ 而不是 $\frac{X}{N}$ ，当 $N$ 充分大时有：<br>$$<br>P(\hat{p}(X)\neq p)&lt;(c+1)^{-1}<br>$$<br>但是如果 $a+b$ 的值没有范围，这个结论就不成立了，证明也在书上，更加复杂，这里也不写了，想知道的同学可以参考数理统计学简史》第25页。<br>其实我们可以想想，我们讲了半天，都在说 $N$ 在达到一定大小的时候，比例会接近某个概率，我们和伯努利都有一个问题就是，N到底要多大，是否有下界，在指定的精度 $\varepsilon$ 下得出这个下界。并且可靠度不能超低于 $1-(c+1)^{-1}$ 他证明了以下的结果，定义：<br>$$<br>m_1=\text{ 不小于 } \frac{log[c(b-1)]}{log(a+1)-log(a)}\text{ 的最小整数 } \\<br>m_2=\text{ 不小于 } \frac{log[c(a-1)]}{log(b+1)-log(b)}\text{ 的最小整数 } \\<br>N_1=\frac{m_1(a+b)+b(a+b)(m_1-1)}{a+1}\\<br>N_2=\frac{m_2(a+b)+b(a+b)(m_2-1)}{b+1}<br>$$<br>则取 $max{N_1,N_2}$ 能满足 (9) 式，伯努利给了若干数字例子，比如：$a=30,b=20(p=\frac{3}{5}),\varepsilon=\frac{1}{50},c=1000$ 使用上面的结论， $N$ 至少是 25550 ,我们在<a href="https://face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/">基础概率论中介绍过切比雪夫不等式</a>，也是给出N的参考值的，但是在同精度下，伯努利给出的N的大小比切比雪夫不等式给出的N小20多倍，但是这个25550这个数还是太大，当时美国一个中等城市人口也就几千人，所以学者斯蒂格勒认为，伯努利之所以长期没发布结果，是觉得这个数太大，他想找到更小的。<br>但是现在我们已经不关注这些地方了，大家都公认，由伯努利工作发端的大数定律已经成为整个数理统计学的基础，人们也对伯努利工作的哲学意义给予极高的评价，斯蒂格勒指出，伯努利证明了数学家不仅可以后验的认识世界，还可以用数学取菇凉他们的知识的限度。伯努利在结束《推测术》时就其结果的意义做出如下表述：</p>
 <blockquote>
 <p>如果我们能把一切事物永恒的观察下去，则我们终将发现：世间的一切事物都受到因果律的支配，而我们也注定会在种种及其纷繁杂乱的事项中认识到某种必然。</p>
 </blockquote>
@@ -512,7 +512,7 @@
 </ol>
 <p>显然大自然不想让我们轻易的看清他的面貌，这个例子也告诉我们，在平时的书刊杂志小软文中根据一个小样本得到的某种特征的比例，作为大群体中该特征的估值，其准确度和可靠性，通常还没有没什么统计学知识的公众所认为的（主观概率）准确。所以可以对他们给出的结论，看看就好，别当真。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本问是第一章最后一篇，大数定律影响了我们整个学科，对后世影响深远。<br>今天是高斯的诞辰，我辈继续努力吧。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers">https://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers" target="_blank" rel="noopener">https://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers</a>转载请标明出处</p>
 
       
     </div>
@@ -538,7 +538,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/" title="【数理统计学简史】1.7 伯努利大数定律">http://www.face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/</a>
+    <a href="https://face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/" title="【数理统计学简史】1.7 伯努利大数定律">https://face2ai.com/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -579,14 +579,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-2-3-Communication-With-Stirling/" rel="bookmark">【数理统计学简史】2.3 狄莫弗初步结果的改进，与斯特林的联系</a></div>
+      <div class="popular-posts-title"><a href="/Math-Statistics-Basis-1-1-Introduction/" rel="bookmark">【数理统计理论基础】 1.1 导言</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-2-2-De-Moivre-Naive-Result/" rel="bookmark">【数理统计学简史】2.2 狄莫弗的初步结果</a></div>
+      <div class="popular-posts-title"><a href="/Math-Statistics-2-3-Communication-With-Stirling/" rel="bookmark">【数理统计学简史】2.3 狄莫弗初步结果的改进，与斯特林的联系</a></div>
       
     </li>
   
@@ -604,9 +604,9 @@
           
             <a href="/tags/《推测术》/" rel="tag"># 《推测术》</a>
           
-            <a href="/tags/大数定律/" rel="tag"># 大数定律</a>
-          
             <a href="/tags/切比雪夫不等式/" rel="tag"># 切比雪夫不等式</a>
+          
+            <a href="/tags/大数定律/" rel="tag"># 大数定律</a>
           
             <a href="/tags/伯努利大数定律/" rel="tag"># 伯努利大数定律</a>
           
@@ -1963,7 +1963,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2027,7 +2027,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

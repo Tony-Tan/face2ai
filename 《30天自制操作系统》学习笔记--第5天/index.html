@@ -112,11 +112,11 @@
 <meta name="keywords" content="强化学习算法，机器学习算法，人工智能，CUDA编程，模式识别算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【30天自制操作系统】 GDT和IDT">
-<meta property="og:url" content="http://www.face2ai.com/《30天自制操作系统》学习笔记--第5天/index.html">
+<meta property="og:url" content="https://face2ai.com/《30天自制操作系统》学习笔记--第5天/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 《30天自制操作系统》GDT和IDT介绍Keywords: 《30天自制操作系统》，Macbook，GDT，IDT">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.849Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】 GDT和IDT">
 <meta name="twitter:description" content="Abstract: 《30天自制操作系统》GDT和IDT介绍Keywords: 《30天自制操作系统》，Macbook，GDT，IDT">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/《30天自制操作系统》学习笔记--第5天/"/>
+  <link rel="canonical" href="https://face2ai.com/《30天自制操作系统》学习笔记--第5天/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/《30天自制操作系统》学习笔记--第5天/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/《30天自制操作系统》学习笔记--第5天/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -487,7 +487,7 @@
 <h1 id="GDT和IDT"><a href="#GDT和IDT" class="headerlink" title="GDT和IDT"></a>GDT和IDT</h1><p>全局描述表（GDT ，Global Descriptor Table）：首先看到全局说明这货很重要，应该是掌握了一些，其次这个表是个数组，所以，这是一个重要的数据结构。<br>GDT数组中装的是段描述符【段地址，段的最大长度，访问权限】。因为这个描述符太大了，没有这么大的寄存器（64位），所以就把这个描述符放在内存里，成为了重要的GDT，intel的大叔们设计了一个寄存器GDTR（LGDT为装入此寄存器指令）用来存放GDT的入口地址，因为GDT可以设计到内存的任何位置，而GDTR可以帮助快速定位，这样段寄存器的13位就能索引到GDT了。GDT是保护模式必备的数据结构。能够很好的划分内存，控制程序的内存方位（不然会出大问题）。<br>中断描述符表（IDT Interrupt Descriptor Table）：之前已经见识过中断的强大了，这个描述符表是管理中断的，很明显是高手中的高手，其实他是一个8字节的描述符数组，也是一种重要的数据结构。IDT只要保存256个描述符就够了，因为最多也不会有超过256种中断，甚至IDT可以少于256，只要够用就行。同样，IDT可以放在内存的各个角落，只要你愿意，但是一定要是线性的，不然就找不到了（这是个数组，当然线性了），IDT也有专门的寄存器存放入口地址，叫IDTR，这个寄存器中含有IDT表32位的基地址（高32位）和16位的长度（限长）值（低16位）。IDT表基地址应该对齐在8<a href="http://baike.baidu.com/view/60408.htm" target="_blank" rel="noopener">字节</a>边界上以提高处理器的访问效率。LIDT和SIDT指令分别用于加载和保存IDTR寄存器的内容。LIDT指令用于把内存中的限长值和基地址操作数加载到IDTR寄存器中。该指令仅能由当前<a href="http://baike.baidu.com/view/2188561.htm" target="_blank" rel="noopener">特权级</a>CPL是0的代码执行，通常被用于创建IDT时的操作<a href="http://baike.baidu.com/view/811790.htm" target="_blank" rel="noopener">系统初始化</a>代码中。如果有越界访问IDT的现象会触发一个保护性异常。</p>
 <p>中断向量表：实模式下的前1K个字节为中断向量表，每项有四字节（2字节的段地址，2字节的偏移地址，来定位实模式下的1M空间），用来指向中断处理程序的位置，但是在保护模式下，4字节不够用，需要8字节，所以改名IDT，而且位置也不局限于开始的0x00000处，使用全新的方式完成中断处理。</p>
 <p>IDT中的每一项叫“门”（门描述符），很明显是传送门。。哈哈。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--第5天">https://www.face2ai.com/《30天自制操作系统》学习笔记–第5天</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--第5天" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–第5天</a>转载请标明出处</p>
 
       
     </div>
@@ -513,7 +513,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/《30天自制操作系统》学习笔记--第5天/" title="【30天自制操作系统】 GDT和IDT">http://www.face2ai.com/《30天自制操作系统》学习笔记--第5天/</a>
+    <a href="https://face2ai.com/《30天自制操作系统》学习笔记--第5天/" title="【30天自制操作系统】 GDT和IDT">https://face2ai.com/《30天自制操作系统》学习笔记--第5天/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -533,14 +533,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第11天/" rel="bookmark">【30天自制操作系】 定时器</a></div>
+      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第好多天/" rel="bookmark">【30天自制操作系统】 一个半成品</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第好多天/" rel="bookmark">【30天自制操作系统】 一个半成品</a></div>
+      <div class="popular-posts-title"><a href="/《30天自制操作系统》学习笔记--第16天/" rel="bookmark">【30天自制操作系统】多任务 II</a></div>
       
     </li>
   
@@ -1908,7 +1908,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1972,7 +1972,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

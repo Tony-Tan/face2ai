@@ -112,11 +112,11 @@
 <meta name="keywords" content="马尔科夫不等式,切比雪夫不等式,样本均值,大数定理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】6-2:大数定理(The Law of Large Numbers)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍马尔科夫不等式，切比雪夫不等式，样本均值，和大数定理的知识内容Keywords: Markov Inequality，Chebyshev Inequality，Sample Mean，The Law of Large Numbers">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:24:00.073Z">
+<meta property="og:updated_time" content="2018-10-04T15:24:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】6-2:大数定理(The Law of Large Numbers)">
 <meta name="twitter:description" content="Abstract: 本文介绍马尔科夫不等式，切比雪夫不等式，样本均值，和大数定理的知识内容Keywords: Markov Inequality，Chebyshev Inequality，Sample Mean，The Law of Large Numbers">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -499,7 +499,7 @@
 <li>样本的均值不同于分布的均值，但是有很多相似之处。</li>
 </ol>
 <p>本节我们就会介绍一些结果来表明，“样本均值”和“组成随机样本的单个随机变量”之间的关系。</p>
-<h2 id="马尔科夫不等式和切比雪夫不等式-The-Markov-and-Chebyshev-Inequalities"><a href="#马尔科夫不等式和切比雪夫不等式-The-Markov-and-Chebyshev-Inequalities" class="headerlink" title="马尔科夫不等式和切比雪夫不等式 The Markov and Chebyshev Inequalities"></a>马尔科夫不等式和切比雪夫不等式 The Markov and Chebyshev Inequalities</h2><p>在学习均值的时候讲到过有关<a href="https://face2ai.com/Math-Probability-4-1-The-Expectation-of-a-Random-Variable-P1/" target="_blank" rel="noopener">重心</a>类似的概念，也就是说当我们改变分布，让小概率对应一个大的值的时候，比如离散情况下随机变量值 ${1,100,0.1}$ 对应于概率 ${0.1,0.01,0.89}$  这时的期望是 $1\times 0.1+100\times 0.01 + 0.1\times 0.89=1.189$ 也可以说重心在1.189这个位置，如果我们调整下，让大的随机变量值对应到大概率 ${1,0.1,100}$ 对应于概率 ${0.1,0.01,0.89}$ 这时的期望是 $1\times 0.1+0.1\times 0.01 + 100\times 0.89=89.101$ 显然这个重心发生了明显的偏移，但是我们有个新想法，如果我们有很多个离散随机变量值，或者是连续分布的随机变量，我们在固定分布均值的情况下，有多少随机变量值可以调整位置呢？</p>
+<h2 id="马尔科夫不等式和切比雪夫不等式-The-Markov-and-Chebyshev-Inequalities"><a href="#马尔科夫不等式和切比雪夫不等式-The-Markov-and-Chebyshev-Inequalities" class="headerlink" title="马尔科夫不等式和切比雪夫不等式 The Markov and Chebyshev Inequalities"></a>马尔科夫不等式和切比雪夫不等式 The Markov and Chebyshev Inequalities</h2><p>在学习均值的时候讲到过有关<a href="https://face2ai.com/Math-Probability-4-1-The-Expectation-of-a-Random-Variable-P1/">重心</a>类似的概念，也就是说当我们改变分布，让小概率对应一个大的值的时候，比如离散情况下随机变量值 ${1,100,0.1}$ 对应于概率 ${0.1,0.01,0.89}$  这时的期望是 $1\times 0.1+100\times 0.01 + 0.1\times 0.89=1.189$ 也可以说重心在1.189这个位置，如果我们调整下，让大的随机变量值对应到大概率 ${1,0.1,100}$ 对应于概率 ${0.1,0.01,0.89}$ 这时的期望是 $1\times 0.1+0.1\times 0.01 + 100\times 0.89=89.101$ 显然这个重心发生了明显的偏移，但是我们有个新想法，如果我们有很多个离散随机变量值，或者是连续分布的随机变量，我们在固定分布均值的情况下，有多少随机变量值可以调整位置呢？</p>
 <h3 id="马尔科夫不等式-Markov-Inequality"><a href="#马尔科夫不等式-Markov-Inequality" class="headerlink" title="马尔科夫不等式 Markov Inequality"></a>马尔科夫不等式 Markov Inequality</h3><blockquote>
 <p>Theorem Markov Inequality.Suppose that $X$ is a random variable such that $Pr(X\geq 0)=1$ .Then for every real number $t&gt;0$ ,<br>$$<br>Pr(X\geq t)\leq \frac{E(X)}{t}<br>$$</p>
 </blockquote>
@@ -537,8 +537,8 @@
 </blockquote>
 <p>证明虽然比较简单，我们还是证明一下比较好：<br>证明：</p>
 <ol>
-<li>根据<a href="https://face2ai.com/Math-Probability-4-2-Properties-of-Expectations/" target="_blank" rel="noopener">4.2</a> 中的定理<br>$$<br>E(\bar{X_n})=\frac{1}{n}\sum^{n}_{i=1}E(X_i)=\frac{1}{n}n\mu=\mu<br>$$</li>
-<li>根据<a href="https://face2ai.com/Math-Probability-4-3-Variance/" target="_blank" rel="noopener">4.3</a> 中方差的定理<br>$$<br>\begin{aligned}<br>Var(\bar{X_n})&amp;=\frac{1}{n^2}Var(\sum^n_{i=1}X_i)\\<br>&amp;=\frac{1}{n^2}\sum^{n}_{i=1}Var(X_i)\\<br>&amp;=\frac{1}{n^2}\cdot n\sigma^2\\<br>&amp;=\frac{\sigma^2}{n}<br>\end{aligned}<br>$$</li>
+<li>根据<a href="https://face2ai.com/Math-Probability-4-2-Properties-of-Expectations/">4.2</a> 中的定理<br>$$<br>E(\bar{X_n})=\frac{1}{n}\sum^{n}_{i=1}E(X_i)=\frac{1}{n}n\mu=\mu<br>$$</li>
+<li>根据<a href="https://face2ai.com/Math-Probability-4-3-Variance/">4.3</a> 中方差的定理<br>$$<br>\begin{aligned}<br>Var(\bar{X_n})&amp;=\frac{1}{n^2}Var(\sum^n_{i=1}X_i)\\<br>&amp;=\frac{1}{n^2}\sum^{n}_{i=1}Var(X_i)\\<br>&amp;=\frac{1}{n^2}\cdot n\sigma^2\\<br>&amp;=\frac{\sigma^2}{n}<br>\end{aligned}<br>$$</li>
 </ol>
 <p>换句话说，就是样本均值的期望会接近原始分布的期望，方差会变小，变小的比例是取样的数量，这个可以理解，因为你取的越少，离散程度自然越小。可以利用切比雪夫不等式来使得定理更加精确 因为$E(\bar{X_n})=\mu,Var(\bar{X_n})=\frac{\sigma^2}{n}$<br>$$<br>Pr(|\bar{X}-\mu|\geq t)\leq \frac{\sigma^2}{nt^2}<br>$$</p>
 <hr>
@@ -576,7 +576,7 @@
 <blockquote>
 <p>Corollary Continuous Functions of Random Variables.If $\vec{Z_n}\xrightarrow{p}\vec{b}$ ,and if $g(vec{z})$ is a function that is continuous at $\vec{z}=\vec{b}$ ,then $g(\vec{Z_n})\xrightarrow{p}g(\vec{b})$</p>
 </blockquote>
-<p>这个定理的证明用到了随机变量的函数，和极限的函数两个知识点，这里不进行证明，具体可以参考<a href="http://face2ai.com/Math-Probability-3-8-Fuctions-of-a-Random-Variable/" target="_blank" rel="noopener">3.8</a></p>
+<p>这个定理的证明用到了随机变量的函数，和极限的函数两个知识点，这里不进行证明，具体可以参考<a href="http://face2ai.com/Math-Probability-3-8-Fuctions-of-a-Random-Variable/">3.8</a></p>
 <blockquote>
 <p>Theorem Histogram.Let $X_1,X_2,\dots$ be a sequence of i.i.d. random variables.Let $c_1 &lt; c_2$ be two constants.Define $Y_i=1$ if $c_1\leq X_i&lt;c_2$ and $Y_i=0$ if not .Then $\bar{Y}_n=\frac{1}{n}\sum^{n}_{i=1}Y_i$ is the proportion of $X_1,\dots,X_n$ that lie in the interval $[c_1,c_2)$ ,and $\bar{Y}_n \xrightarrow{p}Pr(c_1\leq X_1&lt;c_2)$</p>
 </blockquote>
@@ -589,7 +589,7 @@
 </ol>
 <p>这个定理直观的应用就是，一个随机样本中的随机变量值，落在范围 $[c_1,c_2)$ 内的比例概率趋近于这个分布在此区间的概率，这也就证明了，我们用落在某个范围内的随机变量的个数来刻画产生这些随机变量的分布在此区间的概率是受到大数定理的支持的。<br>上面这句话不好理解，可以多读几遍，或者定理的语言更直观！因为连续分布的p.d.f下的面积是对应区间的概率，所以我们经常用直方图的面积来表示这个区间的概率就是这么来的（有黎曼积分的思想在里面），作为进一步的近似，样本越多，直方图越接近原始分布。<br>以上全部定理，在条件分布下同样适用！</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了大数定理，为了介绍大数定理，还介绍了马尔科夫不等式，切比雪夫不等式，样本均值方差，最后才引出大数定理，整个过程非常流畅，学完定理后需要多做练习。<br>明天继续中心极限定理。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers">https://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers</a>转载请标明出处</p>
 
       
     </div>
@@ -615,7 +615,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/" title="【概率论】6-2:大数定理(The Law of Large Numbers)">http://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/</a>
+    <a href="https://face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/" title="【概率论】6-2:大数定理(The Law of Large Numbers)">https://face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -642,14 +642,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -2029,7 +2029,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2093,7 +2093,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

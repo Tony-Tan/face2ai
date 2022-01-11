@@ -112,14 +112,14 @@
 <meta name="keywords" content="离散条件分布,连续条件分布">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】3-6:条件分布(Conditional Distributions Part I）">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 首先介绍随机变量的条件分布，随后介绍随机变量条件分布下的乘法法则，贝叶斯公式和全概率公式Keywords: Discrete Conditional Distributions，Continuous Conditional Distributions，Multiplication Rule，Bayes’ Therom，Law of Total Probability">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/car.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/table3_4.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/p_d_f.png">
-<meta property="og:updated_time" content="2018-10-04T15:17:59.395Z">
+<meta property="og:updated_time" content="2018-10-04T15:17:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-6:条件分布(Conditional Distributions Part I）">
 <meta name="twitter:description" content="Abstract: 首先介绍随机变量的条件分布，随后介绍随机变量条件分布下的乘法法则，贝叶斯公式和全概率公式Keywords: Discrete Conditional Distributions，Continuous Conditional Distributions，Multiplication Rule，Bayes’ Therom，Law of Total Probability">
@@ -132,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/"/>
 
 
 
@@ -370,7 +370,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -536,7 +536,7 @@
 <li>$f_2(y)&gt;0$ 明显有$g_1(x|y)\geq0$</li>
 <li>if $f_2(y)&gt;0$<br>$$<br>\int^{\infty}_{-\infty}g_1(x|y)dx=\frac{\int^{\infty}_{-\infty}f(x,y)dx}{f_2(y)}=\frac{f_2(y)}{f_2(y)}=1<br>$$<br>Q.E.D</li>
 </ol>
-<p>定理为了确定我们一系列计算得到仍然是p.d.f，证明了三点性质（其实是2点），保证函数满足p.d.f.的基本需求。参考，<a href="http://face2ai.com/Math-Probability-3-2-Continuous-Distribution/" target="_blank" rel="noopener">p.d.f.的定义</a></p>
+<p>定理为了确定我们一系列计算得到仍然是p.d.f，证明了三点性质（其实是2点），保证函数满足p.d.f.的基本需求。参考，<a href="http://face2ai.com/Math-Probability-3-2-Continuous-Distribution/">p.d.f.的定义</a></p>
 <p>继续上面关于工序的例子,我们来计算条件分布，当已知 $Y=y$ 的时候我们知道 $x\geq y$所以计算边缘分布：<br>$$<br>f_2(y)=\int^\infty_{y}e^{-x}dx=e^{-y}<br>$$<br>对于所有的 $y&gt;0$ :<br>$$<br>g_1(x|y)=\frac{f(x,y)}{f_2(y)}=\frac{e^{-x}}{e^{-y}}=e^{y-x},\text{ for }x\geq y<br>$$<br>当 $x&lt;y$ 的时候 $g_1(x|y)=0$</p>
 <p>这个例子暂时告一段落，我们下面展示一张图来可视化一下连续随机变量的条件分布，因为离散情况下很容易想象，所以我们把连续的随机变量表示一下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/p_d_f.png" alt=""><br>看图说话，完整的曲面是二维随机变量的联合p.d.f. 那么其中一个切片 $x=x_0$ 或者  $y=y_0$ 都能得到一个切片，这个切片即使条件分布的一个伸缩，为什么是伸缩，因为其积分不是1，为了让他的积分为1，或者说正规化，我们需要给他一个系数：$\frac{1}{f_1(x)}$ 或者 $\frac{1}{f_2(y)}$ ，这样就能保证其积分为 $\int^\infty_{-\infty} \frac{f(x_0,y)}{f_1(x_0)}=1$ 或者 $\int^\infty_{-\infty} \frac{f(x,y_0)}{f_2(y_0)}=1$</p>
 <p>一点需要注意，我们说过，p.d.f和pf的区别在于，p.d.f.的单点对应的函数值没有意义，其区间内的积分才能反映区间的概率，那么上述式子中 $f(x_0,y)$ 是0肯定没错了因为这个单变量函数没有体积，如果你还不明白，就看上面的图，并且确定二维随机变量只有一块区域内的体积才有意义，那么$x=x_0$ 确定的平面，不管怎么算体积都是0，也就是对应的概率是0.<br>那么实际上严谨的连续条件分布的定义应该是这样的：<br>$$<br>g_1(x|y)=lim_{\epsilon \to 0}\frac{\partial}{\partial x}Pr(X\leq x|y-\epsilon &lt; Y \leq y+ \epsilon)<br>$$<br>是这样的一个极限，首先用到的是c.d.f.到p.d.f.的求偏导，然后是给了y一个小区间，使得积分有意义。</p>
@@ -546,7 +546,7 @@
 </blockquote>
 <p>上面说的3.6.2 就是离散条件分布定义中的计算公式，同样的3.6.3就是连续条件分布定义中的计算公式。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文较前几篇有点短小，但是介绍的东西确实重要很多，Part II 介绍条件概率分布的构成，欢迎大家继续收看。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1">https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1</a>转载请标明出处</p>
 
       
     </div>
@@ -572,7 +572,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/" title="【概率论】3-6:条件分布(Conditional Distributions Part I）">http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/</a>
+    <a href="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/" title="【概率论】3-6:条件分布(Conditional Distributions Part I）">https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -592,14 +592,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -1975,7 +1975,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2039,7 +2039,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

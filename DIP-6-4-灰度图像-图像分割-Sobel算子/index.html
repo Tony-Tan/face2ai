@@ -112,7 +112,7 @@
 <meta name="keywords" content="Sobel算子,边缘检测">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】6.4:灰度图像-图像分割 Sobel算子">
-<meta property="og:url" content="http://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第42天Keywords: 边缘检测,Sobel算子">
 <meta property="og:locale" content="zh-CN">
@@ -134,7 +134,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210115128917.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210115134814.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210115140742.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.834Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】6.4:灰度图像-图像分割 Sobel算子">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第42天Keywords: 边缘检测,Sobel算子">
@@ -147,7 +147,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/"/>
 
 
 
@@ -385,7 +385,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -509,7 +509,7 @@
 <h2 id="代码效果"><a href="#代码效果" class="headerlink" title="代码效果"></a>代码效果</h2><p>代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Sobel</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">double</span> *edgedriction,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> sobel_size)</span></span>&#123;</span><br><span class="line">    <span class="comment">//double SobelMask_x[3]=&#123;-1,-2,-1,0,0,0,1,2,1&#125;;</span></span><br><span class="line">    <span class="keyword">double</span> *dst_x=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *dst_y=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">if</span>(sobel_size==<span class="number">3</span>)&#123;</span><br><span class="line">        <span class="keyword">double</span> SobelMask1[<span class="number">3</span>]=&#123;<span class="number">0.25</span>,<span class="number">0.5</span>,<span class="number">0.25</span>&#125;;</span><br><span class="line">        <span class="keyword">double</span> SobelMask2[<span class="number">3</span>]=&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>&#125;;</span><br><span class="line">        RealConvolution(src, dst_x, SobelMask1, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">        RealConvolution(dst_x, dst_x, SobelMask2, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        RealConvolution(src, dst_y, SobelMask2, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">        RealConvolution(dst_y, dst_y, SobelMask1, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sobel_size==<span class="number">5</span>)&#123;</span><br><span class="line">        <span class="keyword">double</span> SobelMask1[<span class="number">5</span>]=&#123;<span class="number">0.0625</span>,<span class="number">0.25</span>,<span class="number">0.375</span>,<span class="number">0.25</span>,<span class="number">0.0625</span>&#125;;</span><br><span class="line">        <span class="keyword">double</span> SobelMask2[<span class="number">5</span>]=&#123;<span class="number">1</span>/<span class="number">3.0</span>,<span class="number">2</span>/<span class="number">3.0</span>,<span class="number">0</span>,<span class="number">-2</span>/<span class="number">3.0</span>,<span class="number">-1</span>/<span class="number">3.0</span>&#125;;</span><br><span class="line">        RealConvolution(src, dst_x, SobelMask1, width, height, <span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line">        RealConvolution(dst_x, dst_x, SobelMask2, width, height, <span class="number">5</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        RealConvolution(src, dst_y, SobelMask2, width, height, <span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line">        RealConvolution(dst_y, dst_y, SobelMask1, width, height, <span class="number">5</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(sobel_size==<span class="number">7</span>)&#123;</span><br><span class="line">        <span class="keyword">double</span> SobelMask1[<span class="number">7</span>]=&#123;<span class="number">0.015625</span>,<span class="number">0.09375</span>,<span class="number">0.234375</span>,<span class="number">0.3125</span>,<span class="number">0.234375</span>,<span class="number">0.09375</span>,<span class="number">0.015625</span>&#125;;</span><br><span class="line">        <span class="keyword">double</span> SobelMask2[<span class="number">7</span>]=&#123;<span class="number">0.1</span>,<span class="number">0.4</span>,<span class="number">0.5</span>,<span class="number">0</span>,<span class="number">-0.5</span>,<span class="number">-0.4</span>,<span class="number">-0.1</span>&#125;;</span><br><span class="line">        RealConvolution(src, dst_x, SobelMask1, width, height, <span class="number">1</span>, <span class="number">7</span>);</span><br><span class="line">        RealConvolution(dst_x, dst_x, SobelMask2, width, height, <span class="number">7</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        RealConvolution(src, dst_y, SobelMask2, width, height, <span class="number">1</span>, <span class="number">7</span>);</span><br><span class="line">        RealConvolution(dst_y, dst_y, SobelMask1, width, height, <span class="number">7</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(edgedriction!=<span class="literal">NULL</span>)</span><br><span class="line">        <span class="comment">//getEdgeDirection(dst_x, dst_y, edgedriction, width, height);</span></span><br><span class="line">        getEdgeAngle(dst_x, dst_y, edgedriction, width, height);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;height;j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width;i++)&#123;</span><br><span class="line">            dst[j*width+i]=<span class="built_in">abs</span>(dst_x[j*width+i])+<span class="built_in">abs</span>(dst_y[j*width+i]);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">free</span>(dst_x);</span><br><span class="line">    <span class="built_in">free</span>(dst_y);</span><br><span class="line">    <span class="keyword">return</span> findMatrixMax(dst,width,height);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>下面对比3x3，5x5，7x7算子的效果：<br>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210113951970.png" alt="Center 7"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210114237156.png" alt="Center 8"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210114247280.png" alt="Center 9"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210114257374.png" alt="Center 10"><br>局部放大：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210114304973.png" alt="Center 11"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210114311728.png" alt="Center 12"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210114323519.png" alt="Center 13"><br>阈值后<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210115127916.png" alt="Center 14"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210115128917.png" alt="Center 15"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210115134814.png" alt="Center 16"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-4-灰度图像-图像分割-Sobel算子/20150210115140742.png" alt="Center 17"></p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Sobel算子的效果相比于其他算子，效果较好，而且计算量不大，可以用于实时系统，其结合简单的阈值可以得到较好的效果，但得到的边缘较宽，可以使用形态学细化。<br>待续。。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子">https://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子" target="_blank" rel="noopener">https://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子</a>转载请标明出处</p>
 
       
     </div>
@@ -535,7 +535,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/" title="【数字图像处理】6.4:灰度图像-图像分割 Sobel算子">http://www.face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/</a>
+    <a href="https://face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/" title="【数字图像处理】6.4:灰度图像-图像分割 Sobel算子">https://face2ai.com/DIP-6-4-灰度图像-图像分割-Sobel算子/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -569,13 +569,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
@@ -584,6 +577,13 @@
       
       
       <div class="popular-posts-title"><a href="/DIP-10-2-彩色图像-图像增强-图像平滑/" rel="bookmark">【数字图像处理】10.2:彩色图像-图像增强 图像平滑</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/DIP-10-1-彩色图像-图像增强-直方图增强/" rel="bookmark">【数字图像处理】10.1:彩色图像-图像增强 直方图增强</a></div>
       
     </li>
   
@@ -1952,7 +1952,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2016,7 +2016,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

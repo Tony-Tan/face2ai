@@ -112,14 +112,14 @@
 <meta name="keywords" content="独立事件,多个事件独立,条件独立">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】2-2:独立事件(Independent Events)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-2-2-Independent-Events/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-2-2-Independent-Events/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍事件的独立，以及派生出来的多事件独立，以及条件独立Keywords: Independent Events，Independent of Several Events，Coditionally Independent Events">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/learn.jpg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/intersect.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/independence.png">
-<meta property="og:updated_time" content="2018-10-04T15:16:03.969Z">
+<meta property="og:updated_time" content="2018-10-04T15:16:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】2-2:独立事件(Independent Events)">
 <meta name="twitter:description" content="Abstract: 本文介绍事件的独立，以及派生出来的多事件独立，以及条件独立Keywords: Independent Events，Independent of Several Events，Coditionally Independent Events">
@@ -132,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-2-2-Independent-Events/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-2-2-Independent-Events/"/>
 
 
 
@@ -370,7 +370,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-2-2-Independent-Events/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-2-2-Independent-Events/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -507,7 +507,7 @@
 <p>举个🌰 ：<br>两个机器甲和乙，之间没有影响，独立工作，事件A表示甲工作三小时后坏掉$Pr(A)=\frac{1}{4}$，事件B表示乙工作山小时后坏掉$Pr(B)=\frac{1}{3}$，那么，当甲乙同时开始工作三个小时，那么他俩一起坏掉的概率是多少？</p>
 <p>分析：甲乙之间独立，互不影响，所以从原理上满足组成复合事件时互相独立，那么$Pr(A\cap B)=Pr(A)Pr(B)=\frac{1}{4}\times \frac{1}{3}=\frac{1}{12}$</p>
 <h3 id="互斥事件和独立事件-Exclusive-Events-and-independent-Events"><a href="#互斥事件和独立事件-Exclusive-Events-and-independent-Events" class="headerlink" title="互斥事件和独立事件 Exclusive Events and independent Events"></a>互斥事件和独立事件 Exclusive Events and independent Events</h3><p><font color="#ff0000">说一个我之前初学概率时的一个思维误区:</font><br>我一直以为独立在集合上的反映就是不想交，，像这样：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/intersect.png" alt=""><br>这是一种很自然的想法，当题设的条件中用到独立，互不影响地进进行两个实验的时候，我们很自然的把他们理解为两个样本空间，所以打死不会有交集，但事实是我们关心的是这两个试验的一个复合结果产生的样本空间。</p>
-<p>但事实是这是个明显错误的，当A和B事件作为同一个试验的事件，那么当B发生的时候严重影响A的概率，因为当B发生的时候，A不可能发生，根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">1-1</a>中的T1，我们可以确定当$Pr(B)\geq 0$ 的时候 $Pr(A|B)=\frac{Pr(A\cap B)}{Pr(B)}=\frac{Pr(\emptyset)}{Pr(B)}=0$<br>这是个对立事件，不是独立事件。</p>
+<p>但事实是这是个明显错误的，当A和B事件作为同一个试验的事件，那么当B发生的时候严重影响A的概率，因为当B发生的时候，A不可能发生，根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1</a>中的T1，我们可以确定当$Pr(B)\geq 0$ 的时候 $Pr(A|B)=\frac{Pr(A\cap B)}{Pr(B)}=\frac{Pr(\emptyset)}{Pr(B)}=0$<br>这是个对立事件，不是独立事件。</p>
 <p>分析独立事件的定义，我们可以看出独立并不等于不想交，从频率角度的解释是相交部分的面积占事件B的比例，刚好等于事件A面积对整个样本空间的面积比例:</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/independence.png" alt=""></p>
 <p>用图像的理解，A的面积与整体S的面积比等于灰色与B面积的比。</p>
@@ -554,7 +554,7 @@
 </blockquote>
 <p>证明过程不复杂：<br>$$<br>Pr(A_1\cap A_2 \cap B)=Pr(A_1\cap A_2|B)Pr(B)=Pr(A_2|A_1\cap B)Pr(A_1|B)Pr(B)\\<br>then: \quad Pr(A_1\cap A_2|B)=Pr(A_2|A_1\cap B)Pr(A_1|B)\\<br>for: \quad Pr(A_1\cap A_2|B)=Pr(A_1|B)Pr(A_2|B)\\<br>so: \quad Pr(A_1|B)Pr(A_2|B)=Pr(A_2|A_1\cap B)Pr(A_1|B)\\<br>Pr(A_2|A_1\cap B)=Pr(A_2|B)<br>$$</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结就一句话，掌握了这一句就掌握了这一篇的所有，什么是独立，<strong><em>互不影响就是独立</em></strong></p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-2-2-Independent-Events">https://www.face2ai.com/Math-Probability-2-2-Independent-Events</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-2-2-Independent-Events" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-2-2-Independent-Events</a>转载请标明出处</p>
 
       
     </div>
@@ -580,7 +580,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-2-2-Independent-Events/" title="【概率论】2-2:独立事件(Independent Events)">http://www.face2ai.com/Math-Probability-2-2-Independent-Events/</a>
+    <a href="https://face2ai.com/Math-Probability-2-2-Independent-Events/" title="【概率论】2-2:独立事件(Independent Events)">https://face2ai.com/Math-Probability-2-2-Independent-Events/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -600,14 +600,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -1985,7 +1985,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2049,7 +2049,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

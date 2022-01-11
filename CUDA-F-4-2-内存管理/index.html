@@ -112,7 +112,7 @@
 <meta name="keywords" content="CUDA内存管理,CUDA内存分配和释放,CUDA内存传输,固定内存,零拷贝内存,统一虚拟寻址,统一内存寻址">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】4.2 内存管理">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-4-2-内存管理/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-4-2-内存管理/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文主要介绍CUDA内存管理，以及CUDA内存模型下的各种内存的特点。Keywords: CUDA内存管理，CUDA内存分配和释放，CUDA内存传输，固定内存，零拷贝内存，统一虚拟寻址，统一内存寻址">
 <meta property="og:locale" content="zh-CN">
@@ -123,7 +123,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-2-内存管理/res3.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-2-内存管理/4-5.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-2-内存管理/res4.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.884Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】4.2 内存管理">
 <meta name="twitter:description" content="Abstract: 本文主要介绍CUDA内存管理，以及CUDA内存模型下的各种内存的特点。Keywords: CUDA内存管理，CUDA内存分配和释放，CUDA内存传输，固定内存，零拷贝内存，统一虚拟寻址，统一内存寻址">
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-4-2-内存管理/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-4-2-内存管理/"/>
 
 
 
@@ -374,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-4-2-内存管理/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-4-2-内存管理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -638,7 +638,7 @@
 <h2 id="统一内存寻址"><a href="#统一内存寻址" class="headerlink" title="统一内存寻址"></a>统一内存寻址</h2><p>Nvidia的同志们还是不停的搞出新花样，CUDA6.0的时候又来了个统一内存寻址，注意不是同一虚拟寻址，提出的目的也是为了简化内存管理（我感觉是越简化越困难，因为套路多了）统一内存中创建一个托管内存池（CPU上有，GPU上也有），内存池中已分配的空间可以通过相同的指针直接被CPU和GPU访问，底层系统在统一的内存空间中自动的进行设备和主机间的传输。数据传输对应用是透明的，大大简化了代码。<br>就是搞个内存池，这部分内存用一个指针同时表示主机和设备内存地址，依赖于UVA但是是完全不同的技术。<br>统一内存寻址提供了一个“指针到数据”的编程模型，概念上类似于零拷贝，但是零拷贝内存的分配是在主机上完成的，而且需要互相传输，但是统一寻址不同。<br>托管内存是指底层系统自动分配的统一内存，未托管内存就是我们自己分配的内存，这时候对于核函数，可以传递给他两种类型的内存，已托管和未托管内存，可以同时传递。<br>托管内存可以是静态的，也可以是动态的，添加 <strong>managed</strong> 关键字修饰托管内存变量。静态声明的托管内存作用域是文件，这一点可以注意一下。<br>托管内存分配方式：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaMallocManaged</span><span class="params">(<span class="keyword">void</span> ** devPtr,<span class="keyword">size_t</span> size,<span class="keyword">unsigned</span> <span class="keyword">int</span> flags=<span class="number">0</span>)</span></span></span><br></pre></td></tr></table></figure></p>
 <p>这个函数和前面函数结构一致，注意函数名就好了，参数就不解释了，很明显了已经。<br>CUDA6.0中设备代码不能调用cudaMallocManaged，只能主机调用，所有托管内存必须在主机代码上动态声明，或者全局静态声明<br>。后面4.5 我们会详细的研究统一内存寻址。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了CUDA内存管理中几种技术，注意区别他们的相同点和不同点。<br>代码库：<a href="https://github.com/tony-tan" target="_blank" rel="noopener">https://github.com/tony-tan</a></p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-2-内存管理">https://www.face2ai.com/CUDA-F-4-2-内存管理</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-2-内存管理" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-4-2-内存管理</a>转载请标明出处</p>
 
       
     </div>
@@ -664,7 +664,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-4-2-内存管理/" title="【CUDA 基础】4.2 内存管理">http://www.face2ai.com/CUDA-F-4-2-内存管理/</a>
+    <a href="https://face2ai.com/CUDA-F-4-2-内存管理/" title="【CUDA 基础】4.2 内存管理">https://face2ai.com/CUDA-F-4-2-内存管理/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -691,14 +691,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
@@ -2084,7 +2084,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2148,7 +2148,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

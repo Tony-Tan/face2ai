@@ -112,11 +112,11 @@
 <meta name="keywords" content="二维正态分布">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍第一个多变量连续分布——双变量正态分布(本篇内有未证明定理，需要后续要补充 )Keywords: The Bivariate Normal Distributions">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:23:16.853Z">
+<meta property="og:updated_time" content="2018-10-04T15:23:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)">
 <meta name="twitter:description" content="Abstract: 本文介绍第一个多变量连续分布——双变量正态分布(本篇内有未证明定理，需要后续要补充 )Keywords: The Bivariate Normal Distributions">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -496,7 +496,7 @@
 <blockquote>
 <p>万般皆下品惟有读书高</p>
 </blockquote>
-<p>今天我们来研究双变量的正态分布，多变量，连续分布。<br>对于某些研究者，可能用正态分布来非常好的描述某个随机变量，那么如果我们有两个随机变量，都可以用正态分布描述，而且他们之间存在关系，这时候我们就可以用一个双变量正态分布来描述了这两个变量之间的关系，并且这个二维分布的边缘分布，还是这两个随机变量单变量的分布。<a href="https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P3/" target="_blank" rel="noopener">5.6中</a> 我们介绍了某些有正态分布的独立随机变量的线性组合还是正态分布。但是双变量正态分布（联合分布）可以是相关的。</p>
+<p>今天我们来研究双变量的正态分布，多变量，连续分布。<br>对于某些研究者，可能用正态分布来非常好的描述某个随机变量，那么如果我们有两个随机变量，都可以用正态分布描述，而且他们之间存在关系，这时候我们就可以用一个双变量正态分布来描述了这两个变量之间的关系，并且这个二维分布的边缘分布，还是这两个随机变量单变量的分布。<a href="https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P3/">5.6中</a> 我们介绍了某些有正态分布的独立随机变量的线性组合还是正态分布。但是双变量正态分布（联合分布）可以是相关的。</p>
 <h2 id="二维正态分布的定义和来源-Definition-and-Derivation-of-Bivariate-Normal-Distributions"><a href="#二维正态分布的定义和来源-Definition-and-Derivation-of-Bivariate-Normal-Distributions" class="headerlink" title="二维正态分布的定义和来源 Definition and Derivation of Bivariate Normal Distributions"></a>二维正态分布的定义和来源 Definition and Derivation of Bivariate Normal Distributions</h2><blockquote>
 <p>Theorem Suppose that $Z_1$ and $Z_2$ are independent random variables,each of which has the standard normal distribution.Let $\mu_1,\mu_2,\sigma_1,\sigma_2$ ,and $\rho$ be constants such that $-\infty&lt;\mu_i&lt;\infty(i=1,2)$ , $\sigma_i&gt;0(i=1,2)$  ,and $-1&lt;\rho&lt;1$ . Define two new random variables $X_1$ and $X_2$ as follows:<br>$$<br>X_1=\sigma_1Z_1+\mu_1\\<br>X_2=\sigma_2[\rho Z_1+(1-\rho^2)^{\frac{1}{2}}Z_2]+\mu_2 \tag{5.10.1}<br>$$<br>The joint p.d.f. of $X_1$ and $X_2$ is<br>$$<br>f(x_1,x_2)=\frac{1}{2\pi(1-\rho^2)^{\frac{1}{2}}\sigma_1\sigma_2}e^{-\frac{1}{2(1-\rho^2)}[(\frac{x_1-\mu_1}{\sigma_1})^2-2\rho(\frac{x_1-\mu_1}{\sigma_1})(\frac{x_2-\mu_2}{\sigma_2})+(\frac{x_2-\mu_2}{\sigma_2})^2]}<br>\tag{5.10.2}<br>$$</p>
 </blockquote>
@@ -513,7 +513,7 @@
 <blockquote>
 <p>Theorem Independence and Correlation.Two random variables $X_1$ and $X_2$ that have a bivariate normal distribution are independent if and only if they are uncorrelated.</p>
 </blockquote>
-<p>两个随机变量有一个双变量正态分布，那么他们独立的充分必要条件是他们不相关。<br>来回忆一下<a href="https://face2ai.com/Math-Probability-3-5-Marginal-Distributions/" target="_blank" rel="noopener">独立性</a>和<a href="https://face2ai.com/Math-Probability-4-6-Covariance-and-Correlation/" target="_blank" rel="noopener">相关性</a>，独立性是两个随机变量分布之间满足 $f(x,y)=f_1(x)f_2(y)$ 这时 $X,Y$ 独立，不相关是说 $\rho(X,Y)=\frac{Cov(X,Y)}{\sigma_X^2\sigma_Y^2}=0$ 的时候两个变量不相关，<a href="https://face2ai.com/Math-Probability-4-6-Covariance-and-Correlation/" target="_blank" rel="noopener">相关性(点击传送)</a>的介绍中对于任何随机变量的分布，独立性都能推出不相关，但是不相关不能推出独立，所以为了证明本定理我们可以只证明，if过程，也就是不相关来推到独立，另一部分在相关性的文章中已经证明了。<br>证明 if 过程：<br>假设两个变量不相关，所以当 $\rho=0$ 从公式 5.10.2 中可以看出 $f(x_1,x_2)$ 可以被分解成两个分布相乘的形式，所以，我们可以得到这两个边缘分布独立。<br>证毕。<br>双变量的正态分布，不相关就独立，独立就不相关，在别的分布下不一定成立！<br>当相关性不为0的时候，我们会得到下面这个定理，就是一个变量再另一个变量给定情况下的分布。</p>
+<p>两个随机变量有一个双变量正态分布，那么他们独立的充分必要条件是他们不相关。<br>来回忆一下<a href="https://face2ai.com/Math-Probability-3-5-Marginal-Distributions/">独立性</a>和<a href="https://face2ai.com/Math-Probability-4-6-Covariance-and-Correlation/">相关性</a>，独立性是两个随机变量分布之间满足 $f(x,y)=f_1(x)f_2(y)$ 这时 $X,Y$ 独立，不相关是说 $\rho(X,Y)=\frac{Cov(X,Y)}{\sigma_X^2\sigma_Y^2}=0$ 的时候两个变量不相关，<a href="https://face2ai.com/Math-Probability-4-6-Covariance-and-Correlation/">相关性(点击传送)</a>的介绍中对于任何随机变量的分布，独立性都能推出不相关，但是不相关不能推出独立，所以为了证明本定理我们可以只证明，if过程，也就是不相关来推到独立，另一部分在相关性的文章中已经证明了。<br>证明 if 过程：<br>假设两个变量不相关，所以当 $\rho=0$ 从公式 5.10.2 中可以看出 $f(x_1,x_2)$ 可以被分解成两个分布相乘的形式，所以，我们可以得到这两个边缘分布独立。<br>证毕。<br>双变量的正态分布，不相关就独立，独立就不相关，在别的分布下不一定成立！<br>当相关性不为0的时候，我们会得到下面这个定理，就是一个变量再另一个变量给定情况下的分布。</p>
 <blockquote>
 <p>Theorem Conditional Distribution.Let $X_1$ and $X_2$ have the bivariate normal distribution whose p.d.f. is Eq.(5.10.2) .The conditional distribution of $X_2$ given that $X_1=x_1$ is the normal distribution with mean and variance given by<br>$$<br>\begin{aligned}<br>E(X_2|x_1)&amp;=\mu_2+\rho\sigma_2(\frac{x_1-\mu_1}{\sigma_1})\\<br>Var(X_2|x_1)&amp;=(1-\rho^2)\sigma_2^2<br>\end{aligned}<br>$$</p>
 </blockquote>
@@ -547,7 +547,7 @@
 <li>证毕</li>
 </ol>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>给出了两个变量的正态分布的定义（这个定理中给出了双变量正态分布的所有有用性质的根本），双变量正态分布的性质的证明主要用到这个定理（本篇第一个定理），所以本篇第一个定理是关键中的关键。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions">https://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions</a>转载请标明出处</p>
 
       
     </div>
@@ -573,7 +573,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/" title="【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)">http://www.face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/</a>
+    <a href="https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/" title="【概率论】5-10:二维正态分布(The Bivariate Normal Distributions)">https://face2ai.com/Math-Probability-5-10-The-Bivariate-Normal-Distributions/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -593,14 +593,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -1974,7 +1974,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2038,7 +2038,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

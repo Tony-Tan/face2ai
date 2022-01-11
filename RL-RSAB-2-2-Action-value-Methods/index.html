@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
-<meta name="keywords" content="强化学习,多臂赌博机,k臂赌博机,利用,探索,行为评价方法,样本均值方法">
+<meta name="keywords" content="强化学习,k臂赌博机,多臂赌博机,利用,探索,行为评价方法,样本均值方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【强化学习】2.2 行为评价方法(Action-value Methods)">
-<meta property="og:url" content="http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/index.html">
+<meta property="og:url" content="https://face2ai.com/RL-RSAB-2-2-Action-value-Methods/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-11T03:20:05.269Z">
+<meta property="og:updated_time" content="2018-10-11T03:20:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【强化学习】2.2 行为评价方法(Action-value Methods)">
 <meta name="twitter:description" content="Abstract: 本文介绍第一种强化学习方法——行为评价方法(Action-value Methods)，非常简单但是可以通过这个简单的算法来感受下强化学习的难点和问题解决的思路Keywords: 强化学习, k臂赌博机, 多臂赌博机, 利用, 探索, 行为评价方法，样本均值方法, $\varepsilon$-greedy方法">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/"/>
+  <link rel="canonical" href="https://face2ai.com/RL-RSAB-2-2-Action-value-Methods/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/RL-RSAB-2-2-Action-value-Methods/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -494,11 +494,11 @@
 <h1 id="行为评价方法-Action-value-Methods"><a href="#行为评价方法-Action-value-Methods" class="headerlink" title="行为评价方法(Action-value Methods)"></a>行为评价方法(Action-value Methods)</h1><p>本文介绍解决k-臂赌博机的第一种简单的naive的方法，注意区分两个重要的概念，评价方法(value function)产生的值(value)和奖励信号(reward signal)之间的区别。</p>
 <h2 id="评价方法和奖励信号的回顾"><a href="#评价方法和奖励信号的回顾" class="headerlink" title="评价方法和奖励信号的回顾"></a>评价方法和奖励信号的回顾</h2><p>注意我们前面介绍的两个概念，相似但是完全不同，就是评价方法(value function)产生的对行为的评价，以及行为执行后的奖励信号(reward signal)。</p>
 <div class="note info"><p>这里再举个小栗子🌰吧，加入你是个超级富豪，你去街边游戏厅玩一块钱一次的赌博机，当然游戏厅有一排赌博机，假设有 $k$ 个，你随身都带着助理，你的助理是哈佛耶鲁MIT三大名校的统计学博士，你俩去玩赌博机，玩之前，你的助理会告诉你你下一局应该把你的一块钱下注到哪台机器，你肯定要问他他是怎么算出来的，于是，他拿出笔记本电脑，连接到了超级服务器上，用一个超级复杂的公式，评估出了所有赌博机的输赢概率，最后得出，第二台赌博机，赢的概率最大，为90(这个数是博士设计出来的公式的结果)比别的赌博机的对应值都高，所以你心悦诚服的去把你的一块钱压到了二号赌博机。<br>这个例子，你的博士助理就是一个value function或者说他的那套算法是value function也可以，那个90就是某个行为(选择的某台机器的value值)。<br>于是你就去赌博了，堵你的一块钱，经过赌博机的一些列运行，果不其然，你赢了两块钱，你很高兴的买了一个冰棍，你和你的博士朋友一起吃了起来 —— 这里面的两块钱就是reward signal。<br>可见value是和reward signal 完全不同但又息息相关的概念</p></div>
-<p>上面我们应该大概能区分action的value和reward signal了。<br>我们继续回顾我们上文（<a href="https://face2ai.com/RL-RSAB-2-1-A-k-armed-Bandit-Problem" target="_blank" rel="noopener">点击查看详情</a>）讲到的这个公式：<br>$$<br>q_{\ast}(a)\doteq\mathbb{E}[R_t|A_t=a]<br>$$</p>
+<p>上面我们应该大概能区分action的value和reward signal了。<br>我们继续回顾我们上文（<a href="https://face2ai.com/RL-RSAB-2-1-A-k-armed-Bandit-Problem">点击查看详情</a>）讲到的这个公式：<br>$$<br>q_{\ast}(a)\doteq\mathbb{E}[R_t|A_t=a]<br>$$</p>
 <p>公式中 $q_{\ast}(a)$ 是一个函数，表示reward signal的期望，公式中包含了 $R_t$ 为对应的第 $t$ 个过程中的 Reward Signal ，而接着就用<br>$$<br>Q_t(a)\approx q_\ast(a)<br>$$<br>来定义了个value function：换句话说，我们刚弄了个每一步的reward signal的期望，就被人顺水推舟做了value function，因为value function 总是要和reward signal相关的value变大的时候reward signal一定也要对应的变大或者变小也可以，只要他们之间的变化时按照固定规律进行的，我们就能通过value function来最大化reward signal。<br>还有一个区别value 和reward signal的办法是value时选择action之前用的，reward是action之后(甚至是多个actions之后)得到的，来自environment的反馈。</p>
 <p><strong>一定要注意的就是value function和reward signal之间的关联和相互利用，不要糊涂了，我们的最终目的是最大化reward signal</strong></p>
 <h2 id="样本均值-sample-average-method-方法"><a href="#样本均值-sample-average-method-方法" class="headerlink" title="样本均值(sample-average method)方法"></a>样本均值(sample-average method)方法</h2><p>上面已经用reward signal的期望来做value function了，那么我们第一种方法也就这么来了，我们计算 $\text{action}_a$ 在过去所有步骤中出现的时候得到的reward signal平均值，作为$\text{action}_a$ 的value，这就产生了下面这个value function:</p>
-<p>$$<br>Q_t(a)\doteq\frac{\text{a出现的时候reward signal的和}}{\text{a出现的次数}}=\frac{\sum^{t-1}_{i=1}R_i\cdot1_{A_i=a}}{\sum^{t-1}_{i=1}1_{A_i=a}}<br>$$<br>这里面唯一不好理解的就是符号 $1_{A_i=a}$ 这里的1不是一个数值，你可以把它理解为一个布尔变量，他不是值，他是个指示变量，当第 $t$ 步骤中 $A_t$ 采用的是a的话，那么这个值$1_{A_t=a}=1$ 否则 $1_{A_t=a}=0$<br> $R_i$ 就是对应的第 $i$ 步获得的reward signal。所以这个奖励信号就和一个指示函数相乘了，最后求出来当a被使用的时候的reward signal的和了，分母是同样的原理，是一个计数器。<br>如果你学过数字信号或者模拟信号，你会了解有一个叫做使能信号的东西，$1_{A_t=a}$ 与之类似。<br>但是这里有除法就要注意如果我们之前一直没有采用过$\text{action}_a$  那么分母就是0了，所以我们可以硬性规定一下，如果分母为0，那么 $Q_t(a)=0$<br>根据大数定理，当我们的action使用的足够多的时候，样本的期望就是随机变量的期望，对大数定理不太了解的同学可以参考:<a href="https://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/">大数定理</a>也就是说，当我们步骤足够多的话，action也都被大量使用时，$Q_t(a)$ 收敛于 $q_\ast(a)$ 。<br>以上只是一种非常简单的value function的设计，有效与否要等到后面的试验，但是从理论上来说，他是可以满足我们的需求的。<br>那么上面我们就完成value function的设计，接着我们要考虑的就是如何选择 action 了，是 exploitation 和 exploration 呢？</p>
+<p>$$<br>Q_t(a)\doteq\frac{\text{a出现的时候reward signal的和}}{\text{a出现的次数}}=\frac{\sum^{t-1}_{i=1}R_i\cdot1_{A_i=a}}{\sum^{t-1}_{i=1}1_{A_i=a}}<br>$$<br>这里面唯一不好理解的就是符号 $1_{A_i=a}$ 这里的1不是一个数值，你可以把它理解为一个布尔变量，他不是值，他是个指示变量，当第 $t$ 步骤中 $A_t$ 采用的是a的话，那么这个值$1_{A_t=a}=1$ 否则 $1_{A_t=a}=0$<br> $R_i$ 就是对应的第 $i$ 步获得的reward signal。所以这个奖励信号就和一个指示函数相乘了，最后求出来当a被使用的时候的reward signal的和了，分母是同样的原理，是一个计数器。<br>如果你学过数字信号或者模拟信号，你会了解有一个叫做使能信号的东西，$1_{A_t=a}$ 与之类似。<br>但是这里有除法就要注意如果我们之前一直没有采用过$\text{action}_a$  那么分母就是0了，所以我们可以硬性规定一下，如果分母为0，那么 $Q_t(a)=0$<br>根据大数定理，当我们的action使用的足够多的时候，样本的期望就是随机变量的期望，对大数定理不太了解的同学可以参考:<a href="https://www.face2ai.com/Math-Probability-6-2-The-Law-of-Large-Numbers/" target="_blank" rel="noopener">大数定理</a>也就是说，当我们步骤足够多的话，action也都被大量使用时，$Q_t(a)$ 收敛于 $q_\ast(a)$ 。<br>以上只是一种非常简单的value function的设计，有效与否要等到后面的试验，但是从理论上来说，他是可以满足我们的需求的。<br>那么上面我们就完成value function的设计，接着我们要考虑的就是如何选择 action 了，是 exploitation 和 exploration 呢？</p>
 <h2 id="varepsilon-greedy方法"><a href="#varepsilon-greedy方法" class="headerlink" title="$\varepsilon$-greedy方法"></a>$\varepsilon$-greedy方法</h2><p>第一种，最传统的办法，选择期望最高的，也就是贪心的选择，对应的 action 就属于 exploitation，使用数学表达这个过程就是 在$t$ 步选择$A^{\ast}_{t}$使得 $Q_{t}(A^{\ast}_{t})=\text{max}_aQ_t(a)$ 贪心选择的整体被写作：</p>
 <p>$$<br>A_t\doteq \mathop{\arg\max}_{a} Q_t(a)<br>$$<br>上面这个符号 $\mathop{\arg\max}_{a}$ 会在你的人工智能历程中一直跟你纠缠不休，用中文解释就是在所有可行的 $a$ 中，找到一个能使 $Q_t(a)$ 最大的，并返回这个 $a$ ，也就是$A_t$ 每一步都是使用时 $Q_t(a)$ 最大的 $a$。</p>
 <p><strong>贪心方法最大的问题就是，他每次都使用前面所有行为中看起来最大收益的行为，但是他无法保证这个行为确实是最好的，比如，有一种行为更好，但是前面的几次都发挥失常，没有得到较好的reward signal，这种情况是完全有可能的，而贪心算法解决不了这个问题。</strong></p>
@@ -508,7 +508,7 @@
 <li>Sutton R S, Barto A G. Reinforcement learning: An introduction[J]. 2011.</li>
 </ol>
 <hr>
-<p>原文地址: <a href="https://face2ai.com/RL-RSAB-2-2-Action-value-Methods" target="_blank" rel="noopener">https://face2ai.com/RL-RSAB-2-2-Action-value-Methods</a></p>
+<p>原文地址: <a href="https://face2ai.com/RL-RSAB-2-2-Action-value-Methods">https://face2ai.com/RL-RSAB-2-2-Action-value-Methods</a></p>
 
       
     </div>
@@ -534,7 +534,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)">http://www.face2ai.com/RL-RSAB-2-2-Action-value-Methods/</a>
+    <a href="https://face2ai.com/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)">https://face2ai.com/RL-RSAB-2-2-Action-value-Methods/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -568,13 +568,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/RL-RSAB-1-3-Elements-of-RL/" rel="bookmark">【强化学习】1.3 强化学习的基础元素</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/RL-RSAB-1-6-Summary-History/" rel="bookmark">【强化学习】1.6 本章总结、强化学习历史简述</a></div>
       
     </li>
@@ -583,6 +576,13 @@
       
       
       <div class="popular-posts-title"><a href="/RL-RSAB-1-5-An-Extended-Example/" rel="bookmark">【强化学习】 1.5 强化学习的一个扩展举例</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" rel="bookmark">【强化学习】 1.4.1 强化学习与优化方法</a></div>
       
     </li>
   
@@ -600,9 +600,9 @@
           
             <a href="/tags/强化学习/" rel="tag"># 强化学习</a>
           
-            <a href="/tags/多臂赌博机/" rel="tag"># 多臂赌博机</a>
-          
             <a href="/tags/k臂赌博机/" rel="tag"># k臂赌博机</a>
+          
+            <a href="/tags/多臂赌博机/" rel="tag"># 多臂赌博机</a>
           
             <a href="/tags/利用/" rel="tag"># 利用</a>
           
@@ -1961,7 +1961,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2025,7 +2025,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

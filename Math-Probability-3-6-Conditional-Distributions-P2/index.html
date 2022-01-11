@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 本文介绍联合分布的构建，也就是条件分布部分的扩展和应用Keywords: 乘法法则，贝叶斯定理，随机变量的全概率公式">
-<meta name="keywords" content="贝叶斯理论,乘法法则,随机变量的全概率公式">
+<meta name="keywords" content="乘法法则,贝叶斯理论,随机变量的全概率公式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】3-6:条件分布(Conditional Distributions Part II）">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍联合分布的构建，也就是条件分布部分的扩展和应用Keywords: 乘法法则，贝叶斯定理，随机变量的全概率公式">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:18:07.780Z">
+<meta property="og:updated_time" content="2018-10-04T15:18:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-6:条件分布(Conditional Distributions Part II）">
 <meta name="twitter:description" content="Abstract: 本文介绍联合分布的构建，也就是条件分布部分的扩展和应用Keywords: 乘法法则，贝叶斯定理，随机变量的全概率公式">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -493,13 +493,13 @@
         <p><strong>Abstract:</strong> 本文介绍联合分布的构建，也就是条件分布部分的扩展和应用<br><strong>Keywords:</strong> 乘法法则，贝叶斯定理，随机变量的全概率公式</p>
 <a id="more"></a>
 <h1 id="条件分布"><a href="#条件分布" class="headerlink" title="条件分布"></a>条件分布</h1><p>今天这篇是上一篇的后半部分，其实应该是一篇，但是上一篇由于长时间没写博客导致写作速度下降，所以不得已分成两篇，最近除了写概率的博客，还有数学分析的博客，CUDA系列的也在更新，所以有点要累吐血的感觉，同时还在学习数理统计，数理统计用的是陈希孺先生的概率论与数理统计的数理统计部分，看了二十几页，发现他说的90%我基本都能看懂，但是真的不知道为啥上大学的时候，有老师讲还一脸懵x，是我智商进化了？还是书本难度降低了？这个就不得而知了，除非把大学教材重新拿过来比较一下，那就有点浪费时间了，我的目标是学好数学去研究机器学习，而不是做教材点评，难道不是么？</p>
-<h2 id="条件概率乘法法则-Multiplication-Rule-for-Conditional-Probability"><a href="#条件概率乘法法则-Multiplication-Rule-for-Conditional-Probability" class="headerlink" title="条件概率乘法法则 Multiplication Rule for Conditional Probability"></a>条件概率乘法法则 Multiplication Rule for Conditional Probability</h2><p>乘法法则我们在事件的概率部分学过了<a href="https://face2ai.com/Math-Probability-2-1-Conditional-Probability/" target="_blank" rel="noopener">传送到条件概率</a>，也是通过条件概率过度出来的，并且乘法法则相对于条件概率适用面更广，因为条件概率有除法计算，所以必然会对概率为0的分母有所忌惮，但是乘法法则无所谓，0可以随便来：<br>$$<br>Pr(A|B)=\frac{Pr(A,B)}{Pr(B)} \text{ for } Pr(B)\neq 0\\<br>Pr(A,B)=Pr(A|B)\times Pr(B) \text{ for } Pr(B)\geq 0<br>$$<br>根据随机变量的定义，我们知道随机变量是个函数，可以把事件映射成数字，如果我们将上面的条件概率转化成条件分布，应该怎么转呢？我们先看个例子<br>前面我们说过所有概率都是条件概率只是有些条件在题设中已经明确固定了，我们就没有必要再分布中再反复的体现了。<br>举个🌰：</p>
+<h2 id="条件概率乘法法则-Multiplication-Rule-for-Conditional-Probability"><a href="#条件概率乘法法则-Multiplication-Rule-for-Conditional-Probability" class="headerlink" title="条件概率乘法法则 Multiplication Rule for Conditional Probability"></a>条件概率乘法法则 Multiplication Rule for Conditional Probability</h2><p>乘法法则我们在事件的概率部分学过了<a href="https://face2ai.com/Math-Probability-2-1-Conditional-Probability/">传送到条件概率</a>，也是通过条件概率过度出来的，并且乘法法则相对于条件概率适用面更广，因为条件概率有除法计算，所以必然会对概率为0的分母有所忌惮，但是乘法法则无所谓，0可以随便来：<br>$$<br>Pr(A|B)=\frac{Pr(A,B)}{Pr(B)} \text{ for } Pr(B)\neq 0\\<br>Pr(A,B)=Pr(A|B)\times Pr(B) \text{ for } Pr(B)\geq 0<br>$$<br>根据随机变量的定义，我们知道随机变量是个函数，可以把事件映射成数字，如果我们将上面的条件概率转化成条件分布，应该怎么转呢？我们先看个例子<br>前面我们说过所有概率都是条件概率只是有些条件在题设中已经明确固定了，我们就没有必要再分布中再反复的体现了。<br>举个🌰：</p>
 <ol>
 <li><p>还是零件加工的问题，假设我们明确的知道加工这批零件的合格率是90%（我是怎么知道？上帝说的！就是知道，这也是概率论理想情况的抽象，就像物理中的质点一样），那么我们生产了100个零件，其中合格的零件为x个的事件的概率是多少：<br>分析，很简单的一个离散概率模型，设X是有零件x合格的事件，二项分布<br>$$<br>Pr(X=x)=\begin{pmatrix}100\\x\end{pmatrix}0.9^x(1-0.9)^{100-x} \text{ for }<br>$$</p>
 </li>
 <li><p>那么这是我们的初级阶段，从初级到高级的一种变化方式就是把条件不确定化，比如上面的例子，我们条件中有两个已知数，90%和100 ，那么如果我们把100变成变量n呢？这个变量将会是一个普通的变量，或者说是输入变量，由我们自己决定。同时我们把事件转换到随机变量，那么例子就变成了<br>$$<br>g_1(x)=\begin{pmatrix}n\\x\end{pmatrix}0.9^x(1-0.9)^{n-x} \text{ for }x=0,1,2,\dots<br>$$<br>这种情况下，n是个普通可控制的变量，因为我们可以想象，如果你有一个工厂，生产一批零件，不管好坏，总数量肯定是你控制的，如果你控制不了，说明这个厂子你已经失去控制权了，也就是说，不管怎么样，这个n完全归我们管。那么我们下一步复杂。</p>
 </li>
-<li>我们在1中蛮横不讲理的说90%是上帝告诉我们的，那么上帝是怎么知道这个数呢？《上帝掷骰子么》，那么如果他掷骰子这个事就又要归概率论处理了，那么我们接着引入变量p作为合格率(原始例子中的90%)，这个变量与n的最大差别是我们控制不了他，控制不了的就是随机的，随机的就可以用一个p.f.或者p.d.f来描述他，也就是说这个条件是要考虑其分布了，那么我们的例子近一步进化：<br>$$<br>g_1(x|p)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \text{ for }x=0,1,2,\dots<br>$$<br>又因为我们上一篇已经研究过了离散，连续，混合随机变量的条件分布，那么这个例子很明显中p是连续的，x是离散的，是个混合条件概率，那么从概率转移到分布有：<br>$$<br>g_1(x|p)=\frac{f(x,p)}{f_2(p)}<br>$$<br>其中 $1\geq p\geq 0$<br>那么我们就有，X和P的联合p.f.或者p.d.f，若果我们假设$f_2(p)$ 是一个0到1区间内的均匀分布我们有：<br>$$<br>f(x,p)=g_1(x|p)f_2(p)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \times f_2(p)\\<br>=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \times 1)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x}\\<br>\text{ for }x=0,\dots ,n \text{ and } 0 \leq p \leq 1<br>$$<br>上面这个式子原文只给出：<br>$$<br>f(x,p)=g_1(x|p)f_2(p)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \text{ for }x=0,\dots ,n \text{ and } 0 \leq p \leq 1<br>$$<br>看了半天才明白，他直接把1省略掉了，为啥是1 不知道？去看<a href="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/" target="_blank" rel="noopener">分布的文章</a>。</li>
+<li>我们在1中蛮横不讲理的说90%是上帝告诉我们的，那么上帝是怎么知道这个数呢？《上帝掷骰子么》，那么如果他掷骰子这个事就又要归概率论处理了，那么我们接着引入变量p作为合格率(原始例子中的90%)，这个变量与n的最大差别是我们控制不了他，控制不了的就是随机的，随机的就可以用一个p.f.或者p.d.f来描述他，也就是说这个条件是要考虑其分布了，那么我们的例子近一步进化：<br>$$<br>g_1(x|p)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \text{ for }x=0,1,2,\dots<br>$$<br>又因为我们上一篇已经研究过了离散，连续，混合随机变量的条件分布，那么这个例子很明显中p是连续的，x是离散的，是个混合条件概率，那么从概率转移到分布有：<br>$$<br>g_1(x|p)=\frac{f(x,p)}{f_2(p)}<br>$$<br>其中 $1\geq p\geq 0$<br>那么我们就有，X和P的联合p.f.或者p.d.f，若果我们假设$f_2(p)$ 是一个0到1区间内的均匀分布我们有：<br>$$<br>f(x,p)=g_1(x|p)f_2(p)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \times f_2(p)\\<br>=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \times 1)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x}\\<br>\text{ for }x=0,\dots ,n \text{ and } 0 \leq p \leq 1<br>$$<br>上面这个式子原文只给出：<br>$$<br>f(x,p)=g_1(x|p)f_2(p)=\begin{pmatrix}n\\x\end{pmatrix}p^x(1-p)^{n-x} \text{ for }x=0,\dots ,n \text{ and } 0 \leq p \leq 1<br>$$<br>看了半天才明白，他直接把1省略掉了，为啥是1 不知道？去看<a href="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/">分布的文章</a>。</li>
 </ol>
 <p>那么我们就可以正式的提出我们的定理了：</p>
 <blockquote>
@@ -531,10 +531,10 @@
 <blockquote>
 <p>Theorem Independent Random Variables.Suppose that $X$ and $Y$ are two random variables having a joint p.f.,p.d.f.or p.f./p.d.f. $f$ Then  $X$ and $Y$ are independent if and only if for every value of $y$ such that $f_2(y)&gt;0$  and every value of $x$ ,<br>$$<br>g_1(x|y)=f_1(x)<br>$$</p>
 </blockquote>
-<p>前面我们在<a href="https://face2ai.com/Math-Probability-3-5-Marginal-Distributions/" target="_blank" rel="noopener">3.5</a>中就提到过两个分布独立的充分必要条件就是$f(x,y)=f_1(x)f_2(y)$ 那么根据我们的乘法原理，我们知道$f(x,y)=f_2(y)g_1(x|y)$ 且 $f_2(y) \neq 0$ 那么$g_2(y|x)=f_2(y)$ 这样就证明了only if .<br>如果已知 $g_2(y|x)=f_2(y)$ 根据乘法原理，$f(x,y)=f_1(x)g_2(y|x)=f_1(x)f_2(y)$ if过程证明完成。</p>
+<p>前面我们在<a href="https://face2ai.com/Math-Probability-3-5-Marginal-Distributions/">3.5</a>中就提到过两个分布独立的充分必要条件就是$f(x,y)=f_1(x)f_2(y)$ 那么根据我们的乘法原理，我们知道$f(x,y)=f_2(y)g_1(x|y)$ 且 $f_2(y) \neq 0$ 那么$g_2(y|x)=f_2(y)$ 这样就证明了only if .<br>如果已知 $g_2(y|x)=f_2(y)$ 根据乘法原理，$f(x,y)=f_1(x)g_2(y|x)=f_1(x)f_2(y)$ if过程证明完成。</p>
 <p>前面在事件的条件概率过程我们说过所有概率都是条件概率，没有条件就没有概率，只是有些条件我们不列出，或者不考虑，那么当我们要考虑某些条件的时候就出现了我们的条件概率，条件分布，但是我们具体操作者写条件概率和条件分布和普通的概率分布是一样的，因为他们都是条件的，只是有人写出来了，有人隐藏了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一节分两篇看来分的还是挺正确的，不然一篇就太长了，我们下一篇继续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2">https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2</a>转载请标明出处</p>
 
       
     </div>
@@ -560,7 +560,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/" title="【概率论】3-6:条件分布(Conditional Distributions Part II）">http://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/</a>
+    <a href="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/" title="【概率论】3-6:条件分布(Conditional Distributions Part II）">https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P2/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -580,13 +580,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-3-7-Multivariate-Distributions-P2/" rel="bookmark">【概率论】3-7:多变量分布(Multivariate Distributions Part II）</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Math-Probability-1-2-Counting-Methods/" rel="bookmark">【概率论】1-2:计数方法(Counting Methods)</a></div>
       
     </li>
@@ -594,7 +587,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-3-7-Multivariate-Distributions-P2/" rel="bookmark">【概率论】3-7:多变量分布(Multivariate Distributions Part II）</a></div>
       
     </li>
   
@@ -602,6 +595,13 @@
       
       
       <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -624,9 +624,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/贝叶斯理论/" rel="tag"># 贝叶斯理论</a>
-          
             <a href="/tags/乘法法则/" rel="tag"># 乘法法则</a>
+          
+            <a href="/tags/贝叶斯理论/" rel="tag"># 贝叶斯理论</a>
           
             <a href="/tags/随机变量的全概率公式/" rel="tag"># 随机变量的全概率公式</a>
           
@@ -1979,7 +1979,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2043,7 +2043,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

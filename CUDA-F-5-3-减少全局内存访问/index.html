@@ -109,10 +109,10 @@
 
 
   <meta name="description" content="Abstract: 本文介绍使用共享内存进行归约，并比较全局内存归约与共享内存归约之间的性能差距Keywords: 共享内存，归约">
-<meta name="keywords" content="共享内存,归约">
+<meta name="keywords" content="归约,共享内存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】5.3 减少全局内存访问">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-5-3-减少全局内存访问/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-5-3-减少全局内存访问/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍使用共享内存进行归约，并比较全局内存归约与共享内存归约之间的性能差距Keywords: 共享内存，归约">
 <meta property="og:locale" content="zh-CN">
@@ -122,7 +122,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-3-减少全局内存访问/re-4.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-3-减少全局内存访问/re-5.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-3-减少全局内存访问/re-6.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.923Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】5.3 减少全局内存访问">
 <meta name="twitter:description" content="Abstract: 本文介绍使用共享内存进行归约，并比较全局内存归约与共享内存归约之间的性能差距Keywords: 共享内存，归约">
@@ -135,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-5-3-减少全局内存访问/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-5-3-减少全局内存访问/"/>
 
 
 
@@ -373,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-5-3-减少全局内存访问/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-5-3-减少全局内存访问/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -501,8 +501,8 @@
 <a id="more"></a>
 <h1 id="减少全局内存访问"><a href="#减少全局内存访问" class="headerlink" title="减少全局内存访问"></a>减少全局内存访问</h1><p>逻辑是非常重要的，一旦你学会了逻辑，很多假的东西你可以轻松的识别出来，这会使你更加强大而不会被任何人或者组织洗脑。<br>废话少说，开始今天的博客。<br>使用共享内存的主要原因就是减少对全局内存的访问，来减少不必要的延迟，第三章我们学过了归约，可以参考：</p>
 <ul>
-<li><a href="https://face2ai.com/CUDA-F-3-4-避免分支分化/" target="_blank" rel="noopener">https://face2ai.com/CUDA-F-3-4-避免分支分化/</a></li>
-<li><a href="https://face2ai.com/CUDA-F-3-5-展开循环/" target="_blank" rel="noopener">https://face2ai.com/CUDA-F-3-5-展开循环/</a></li>
+<li><a href="https://face2ai.com/CUDA-F-3-4-避免分支分化/">https://face2ai.com/CUDA-F-3-4-避免分支分化/</a></li>
+<li><a href="https://face2ai.com/CUDA-F-3-5-展开循环/">https://face2ai.com/CUDA-F-3-5-展开循环/</a></li>
 </ul>
 <p>这两篇博客包含我们前面使用全局内存进行归约的各种技术，我们几天也要用其中一部分代码作为比较，来体现我们共享内存的优势。<br>我们要集中解决下面两个问题：</p>
 <ol>
@@ -547,7 +547,7 @@
 <h2 id="使用动态共享内存的并行归约"><a href="#使用动态共享内存的并行归约" class="headerlink" title="使用动态共享内存的并行归约"></a>使用动态共享内存的并行归约</h2><p>然后我们看一下动态版本，其实动态版本没啥可看的，只是写法上有点不同，把宏改成核函数配置参数，注意其单位是字节就好，也就是不要忘了sizeof()就行了。<br>这里不啰嗦了。</p>
 <h2 id="有效带宽"><a href="#有效带宽" class="headerlink" title="有效带宽"></a>有效带宽</h2><p>对比一下数据，回顾一下我们的有效带宽，其计算公式(4.4中有详细介绍)：<br>$$<br>有效带宽=\frac{(读字节数 + 写字节数)\times 10^{-9}}{运行时间}\tag{1}<br>$$<br>可以研究三个核函数的有效带宽，这里就不再一个个计算了，因为这个在4.4中已经教大家做了，我们可以自己算一下，并得出结论</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要高速大家如何使用共享内存加速归约，以及结合了共享内存的展开能更高的提高效率，注意线程块内的同步，这个是重要的。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-5-3-减少全局内存访问">https://www.face2ai.com/CUDA-F-5-3-减少全局内存访问</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-5-3-减少全局内存访问" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-5-3-减少全局内存访问</a>转载请标明出处</p>
 
       
     </div>
@@ -573,7 +573,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-5-3-减少全局内存访问/" title="【CUDA 基础】5.3 减少全局内存访问">http://www.face2ai.com/CUDA-F-5-3-减少全局内存访问/</a>
+    <a href="https://face2ai.com/CUDA-F-5-3-减少全局内存访问/" title="【CUDA 基础】5.3 减少全局内存访问">https://face2ai.com/CUDA-F-5-3-减少全局内存访问/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -593,6 +593,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/CUDA-F-3-5-展开循环/" rel="bookmark">【CUDA 基础】3.5 展开循环</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/CUDA-F-5-0-共享内存和常量内存/" rel="bookmark">【CUDA 基础】5.0 共享内存和常量内存</a></div>
       
     </li>
@@ -600,21 +607,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-1-内存模型概述/" rel="bookmark">【CUDA 基础】4.1 内存模型概述</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
@@ -637,9 +637,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/共享内存/" rel="tag"># 共享内存</a>
-          
             <a href="/tags/归约/" rel="tag"># 归约</a>
+          
+            <a href="/tags/共享内存/" rel="tag"># 共享内存</a>
           
         </div>
       
@@ -1990,7 +1990,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2054,7 +2054,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
-<meta name="keywords" content="Julia,浮点型数字,整型数字">
+<meta name="keywords" content="Julia,整型数字,浮点型数字">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Julia】整型和浮点型数字">
-<meta property="og:url" content="http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/index.html">
+<meta property="og:url" content="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-06T13:38:52.067Z">
+<meta property="og:updated_time" content="2018-10-06T13:38:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Julia】整型和浮点型数字">
 <meta name="twitter:description" content="Abstract: 本文介绍Julia语言的整型和浮点型数字的Keywords:">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/"/>
+  <link rel="canonical" href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -491,7 +491,7 @@
 
       
         <p><strong>Abstract:</strong> 本文介绍Julia语言的整型和浮点型数字的<br><strong>Keywords:</strong><br><a id="more"></a></p>
-<h1 id="整型和浮点型数字"><a href="#整型和浮点型数字" class="headerlink" title="整型和浮点型数字"></a>整型和浮点型数字</h1><p>整数或者浮点数在编程中被大量使用，由于大部分程序面对的问题都是处理数字计算相关的问题，所以数字的表示变成了代码中最重要的一部分。不论是加减乘除，还是积分微分，在计算机中，都要使用整型和浮点型来完成，至于整型和浮点型计算过程中需要注意的事项，这是在数值分析，数值计算课程中需要考虑的，<a href="https://www.face2ai.com/categories/Mathematic/Numerical-Analysis/">数值分析课程传送门</a>，整形变量例如 <code>1</code> 浮点型变量例如<code>1.0</code>。<br>这两个例子中的数字是我们在日常和编码的时候使用的，我们称之为<strong>字面值</strong>（immediate values，对于翻译成立即数的那些教材，我们不予评价，嘻嘻）。而他们在内存中的二进制形式，被称为<strong>原始值</strong>（numeric primitives）。<br>Julia提供了宽泛的原始值类型，和定义在他们之上的一个完整数字计算操作、按位计算操作以及数值函数操作。这些原始值类型都是现在计算机原生支持的，所以Julia可以高效利用计算机的计算资源。Julia也提供了主观定义的计算操作（arbitrary precision arithmetic），这些操作不被硬件支持，在计算过程中速度将会变得比较慢。</p>
+<h1 id="整型和浮点型数字"><a href="#整型和浮点型数字" class="headerlink" title="整型和浮点型数字"></a>整型和浮点型数字</h1><p>整数或者浮点数在编程中被大量使用，由于大部分程序面对的问题都是处理数字计算相关的问题，所以数字的表示变成了代码中最重要的一部分。不论是加减乘除，还是积分微分，在计算机中，都要使用整型和浮点型来完成，至于整型和浮点型计算过程中需要注意的事项，这是在数值分析，数值计算课程中需要考虑的，<a href="https://www.face2ai.com/categories/Mathematic/Numerical-Analysis/" target="_blank" rel="noopener">数值分析课程传送门</a>，整形变量例如 <code>1</code> 浮点型变量例如<code>1.0</code>。<br>这两个例子中的数字是我们在日常和编码的时候使用的，我们称之为<strong>字面值</strong>（immediate values，对于翻译成立即数的那些教材，我们不予评价，嘻嘻）。而他们在内存中的二进制形式，被称为<strong>原始值</strong>（numeric primitives）。<br>Julia提供了宽泛的原始值类型，和定义在他们之上的一个完整数字计算操作、按位计算操作以及数值函数操作。这些原始值类型都是现在计算机原生支持的，所以Julia可以高效利用计算机的计算资源。Julia也提供了主观定义的计算操作（arbitrary precision arithmetic），这些操作不被硬件支持，在计算过程中速度将会变得比较慢。</p>
 <ul>
 <li>整型变量</li>
 </ul>
@@ -850,7 +850,7 @@ julia></code></pre>
 </span>0.00025</code></pre>
 
 
-<h4 id="Float32"><a href="#Float32" class="headerlink" title="Float32"></a>Float32</h4><p>以上这些数字以<code>Float64</code> 形式存储，<code>e</code>就是数学中的科学计数法，如果想用单精度浮点数表示，那么就要在数字中加<code>f0</code> 或者如果已经是科学计数法的数字，用<code>f</code>来来替代<code>e</code>，对于单精度双精度不太了解的同学，可以参考：<a href="https://www.face2ai.com/Math-Numerical-Analysis-0-3-Float/"> 数值分析-浮点数</a>或者google查询更详细的关于浮点数的介绍，Julia中的用法如下：</p>
+<h4 id="Float32"><a href="#Float32" class="headerlink" title="Float32"></a>Float32</h4><p>以上这些数字以<code>Float64</code> 形式存储，<code>e</code>就是数学中的科学计数法，如果想用单精度浮点数表示，那么就要在数字中加<code>f0</code> 或者如果已经是科学计数法的数字，用<code>f</code>来来替代<code>e</code>，对于单精度双精度不太了解的同学，可以参考：<a href="https://www.face2ai.com/Math-Numerical-Analysis-0-3-Float/" target="_blank" rel="noopener"> 数值分析-浮点数</a>或者google查询更详细的关于浮点数的介绍，Julia中的用法如下：</p>
 <pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> <span class="hljs-number">0.5f0</span>
 </span>0.5f0
 
@@ -941,7 +941,7 @@ julia></code></pre>
 <span class="hljs-meta">julia&gt;</span><span class="julia"> (typemin(<span class="hljs-built_in">Float64</span>),typemax(<span class="hljs-built_in">Float64</span>))
 </span>(-Inf, Inf)</code></pre>
 
-<h3 id="机器精度（eps-函数）"><a href="#机器精度（eps-函数）" class="headerlink" title="机器精度（eps 函数）"></a>机器精度（<code>eps</code> 函数）</h3><p>大多数实数是不能用机器数准确表达的，所以这就涉及到精度问题，本站<a href="https://www.face2ai.com/categories/Mathematic/Numerical-Analysis/">数值分析</a>主要研究这方面内容，而每种浮点类型的误差已经在其设计时就已经被确定了，当我们要用到相关的准确度的时候，只需要查询语言内置的函数就可以，这属于系统误差，一直都在，如果这个误差影响了程序，那么就要通过数值分析来找办法，<code>eps</code> 函数就是语言内置的查询精度值的函数。</p>
+<h3 id="机器精度（eps-函数）"><a href="#机器精度（eps-函数）" class="headerlink" title="机器精度（eps 函数）"></a>机器精度（<code>eps</code> 函数）</h3><p>大多数实数是不能用机器数准确表达的，所以这就涉及到精度问题，本站<a href="https://www.face2ai.com/categories/Mathematic/Numerical-Analysis/" target="_blank" rel="noopener">数值分析</a>主要研究这方面内容，而每种浮点类型的误差已经在其设计时就已经被确定了，当我们要用到相关的准确度的时候，只需要查询语言内置的函数就可以，这属于系统误差，一直都在，如果这个误差影响了程序，那么就要通过数值分析来找办法，<code>eps</code> 函数就是语言内置的查询精度值的函数。</p>
 <h4 id="eps-Float"><a href="#eps-Float" class="headerlink" title="eps(Float)"></a><code>eps(Float)</code></h4><p>其参数是浮点类型时，结果如下：</p>
 <pre><code class="language-julia-repl hljs"><span class="hljs-meta">julia&gt;</span><span class="julia"> eps(<span class="hljs-built_in">Float32</span>)
 </span>1.1920929f-7
@@ -1138,7 +1138,7 @@ julia> 2^2x
 <li><a href="https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/" target="_blank" rel="noopener">https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/</a></li>
 </ol>
 <hr>
-<p><a href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers" target="_blank" rel="noopener">原文地址: https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers</a></p>
+<p><a href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers">原文地址: https://face2ai.com/Julia-Lang-4-Integers-and-Floating-PoInt-Numbers</a></p>
 
       
     </div>
@@ -1164,7 +1164,7 @@ julia> 2^2x
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字">http://www.face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/</a>
+    <a href="https://face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" title="【Julia】整型和浮点型数字">https://face2ai.com/Julia-Lang-4-Integers-and-Floating-Point-Numbers/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -1198,13 +1198,6 @@ julia> 2^2x
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Julia-Lang-1-Install/" rel="bookmark">【Julia】Julia环境搭建（Mac,Windows,Linux）</a></div>
       
     </li>
@@ -1213,6 +1206,13 @@ julia> 2^2x
       
       
       <div class="popular-posts-title"><a href="/Julia-Lang-0-Introduction/" rel="bookmark">【Julia】Julia编程语言介绍</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/CUDA-F-6-5-流回调/" rel="bookmark">【CUDA 基础】6.5 流回调</a></div>
       
     </li>
   
@@ -1230,9 +1230,9 @@ julia> 2^2x
           
             <a href="/tags/Julia/" rel="tag"># Julia</a>
           
-            <a href="/tags/浮点型数字/" rel="tag"># 浮点型数字</a>
-          
             <a href="/tags/整型数字/" rel="tag"># 整型数字</a>
+          
+            <a href="/tags/浮点型数字/" rel="tag"># 浮点型数字</a>
           
         </div>
       
@@ -2583,7 +2583,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2647,7 +2647,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

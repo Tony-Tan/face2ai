@@ -112,14 +112,14 @@
 <meta name="keywords" content="RGB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】8.2:彩色图像-色彩空间 RGB系列">
-<meta property="og:url" content="http://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第62天Keywords: 色彩空间 RGB">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-8-2-彩色图像-色彩空间-RGB系列/20150312135048067.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-8-2-彩色图像-色彩空间-RGB系列/20150312135131528.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-8-2-彩色图像-色彩空间-RGB系列/20150312135205770.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.838Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】8.2:彩色图像-色彩空间 RGB系列">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第62天Keywords: 色彩空间 RGB">
@@ -132,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/"/>
 
 
 
@@ -370,7 +370,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -490,14 +490,14 @@
         <p><strong>Abstract:</strong> 数字图像处理：第62天<br><strong>Keywords:</strong> 色彩空间 RGB<br><a id="more"></a></p>
 <p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p>
 <h1 id="彩色图像-色彩空间-RGB系列"><a href="#彩色图像-色彩空间-RGB系列" class="headerlink" title="彩色图像-色彩空间 RGB系列"></a>彩色图像-色彩空间 RGB系列</h1><p>心情烦躁，换了一个特别吵的办公室，看来是时候离开了。。本想写完所有冈萨雷斯的学习笔记后去找工作，但时不我待，边找遍边学吧，学习是没有尽头的。</p>
-<h2 id="CIE-RGB"><a href="#CIE-RGB" class="headerlink" title="CIE RGB"></a>CIE RGB</h2><p>CIE RGB 详细信息已经在Day8中介绍，详情点击下面链接：<br><a href="http://www.face2ai.com/DIP-8-0-彩色模型-CIEXYZ-CIERGB/">CIE XYZ CIE RGB</a></p>
+<h2 id="CIE-RGB"><a href="#CIE-RGB" class="headerlink" title="CIE RGB"></a>CIE RGB</h2><p>CIE RGB 详细信息已经在Day8中介绍，详情点击下面链接：<br><a href="http://www.face2ai.com/DIP-8-0-彩色模型-CIEXYZ-CIERGB/" target="_blank" rel="noopener">CIE XYZ CIE RGB</a></p>
 <h2 id="sRGB"><a href="#sRGB" class="headerlink" title="sRGB"></a>sRGB</h2><blockquote>
 <p>sRGB色彩空间是惠普与微软于1996年一起开发的用于显示器、打印机以及因特网的一种标准RGB色彩空间。<br>sRGB最初设计的目的是作为生成在因特网以及万维网上浏览的图像的通用色彩空间，最后选择的是使用Gamma校准系数为2.2的色彩空间，即CRT显示器在这种情况下的平均线性电压响应。</p>
 </blockquote>
 <p>下面是从$CIE XYZ$空间转换到$sRGB$的转化公式：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-8-2-彩色图像-色彩空间-RGB系列/20150312135048067.png" alt=""><br>逆向变换：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-8-2-彩色图像-色彩空间-RGB系列/20150312135131528.png" alt=""><br>其中的变换理论基础：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-8-2-彩色图像-色彩空间-RGB系列/20150312135205770.png" alt=""><br>以上图片信息和引用信息全部来自wiki。</p>
 <h2 id="R-nG-nB-n"><a href="#R-nG-nB-n" class="headerlink" title="$R_nG_nB_n$"></a>$R_nG_nB_n$</h2><p>此空间是一个特殊的RGB空间，用于电视接收机的基色系统（receiver primary color system），它涉及美国标准化NTSC已确认的荧光体，其转换公式：<br>$$<br>\left[\begin{array}{c}<br>R_N\\<br>G_N\\<br>B_N\\<br>\end{array}\right]<br>=\left[ \begin{array}{ccc}<br>0.842 &amp; 0.156 &amp; 0.091\\<br>-0.129 &amp; 1.320 &amp; -0.203\\<br>0.008 &amp;-0.069 &amp; 0.897\\<br>\end{array}\right]<br>\times<br> \left[\begin{array}{c}<br>R\\<br>G\\<br>B\\<br>\end{array}\right]$$</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文简单介绍了两种RGB的变种色彩空间，作为一篇概述，色彩空间在图像处理里面的意义在于从不同的角度看颜色，而在视频传输中的意义更为广泛，压缩，传输速度等都是要考虑的因素，在后面的彩色图像处理中肯定会用到不同的色彩空间的转换，这也是一种变换的思想。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列">https://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列" target="_blank" rel="noopener">https://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列</a>转载请标明出处</p>
 
       
     </div>
@@ -523,7 +523,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/" title="【数字图像处理】8.2:彩色图像-色彩空间 RGB系列">http://www.face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/</a>
+    <a href="https://face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/" title="【数字图像处理】8.2:彩色图像-色彩空间 RGB系列">https://face2ai.com/DIP-8-2-彩色图像-色彩空间-RGB系列/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -543,14 +543,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1924,7 +1924,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1988,7 +1988,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

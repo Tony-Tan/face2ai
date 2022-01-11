@@ -112,7 +112,7 @@
 <meta name="keywords" content="吞吐量,带宽,矩阵转置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】4.4 核函数可达到的带宽">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-4-4-核函数可达到的带宽/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文通过矩阵转置这一个例子，调整，优化核函数，使其达到最优的内存带宽Keywords: 带宽，吞吐量，矩阵转置">
 <meta property="og:locale" content="zh-CN">
@@ -129,7 +129,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-4-核函数可达到的带宽/4-4-11.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-4-核函数可达到的带宽/4-4-12.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-4-核函数可达到的带宽/4-4-13.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.848Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】4.4 核函数可达到的带宽">
 <meta name="twitter:description" content="Abstract: 本文通过矩阵转置这一个例子，调整，优化核函数，使其达到最优的内存带宽Keywords: 带宽，吞吐量，矩阵转置">
@@ -142,7 +142,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-4-4-核函数可达到的带宽/"/>
 
 
 
@@ -380,7 +380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-4-4-核函数可达到的带宽/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -519,7 +519,7 @@
 <li>有效带宽</li>
 </ul>
 <p>理论带宽就是硬件设计的绝对最大值，硬件限制了这个最大值为多少，比如对于不使用ECC的Fermi M2090来说，理论峰值 117.6 GB/s<br>有效带宽是核函数实际达到的带宽，是测量带宽，可以用下面公式计算:<br>$$<br>有效带宽=\frac{(读字节数 + 写字节数)\times 10^{-9}}{运行时间}\tag{1}<br>$$<br>注意吞吐量和带宽的区别，吞吐量是衡量计算核心效率的，用的单位是每秒多少十亿次浮点运算(gflops)，有效吞吐量其不止和有效带宽有关，还和带宽的利用率等因素有关，当然最主要的还是设备的运算核心。<br>当然，也有内存吞吐量这种说法这种说法就是单位时间上内存访问的总量，用单位 GB/s 表示，这个值越大表示读取到的数据越多，但是这些数据不一定是有用的。<br>接下来我们研究如何调整核函数来提高有效带宽</p>
-<h2 id="矩阵转置问题"><a href="#矩阵转置问题" class="headerlink" title="矩阵转置问题"></a>矩阵转置问题</h2><p><a href="https://face2ai.com/Math-Linear-Algebra-Chapter-2-7/" target="_blank" rel="noopener">矩阵转置(点击查看详情)</a>就是交换矩阵的坐标，我们本文研究有二维矩阵，转置结果如下：</p>
+<h2 id="矩阵转置问题"><a href="#矩阵转置问题" class="headerlink" title="矩阵转置问题"></a>矩阵转置问题</h2><p><a href="https://face2ai.com/Math-Linear-Algebra-Chapter-2-7/">矩阵转置(点击查看详情)</a>就是交换矩阵的坐标，我们本文研究有二维矩阵，转置结果如下：</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-4-核函数可达到的带宽/4-4-1.png" alt="4-4-1"></p>
 <p>使用串行编程很容易实现：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transformMatrix2D_CPU</span><span class="params">(<span class="keyword">float</span> * MatA,<span class="keyword">float</span> * MatB,<span class="keyword">int</span> nx,<span class="keyword">int</span> ny)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;ny;j++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nx;i++)</span><br><span class="line">    &#123;</span><br><span class="line">      MatB[i*nx+j]=MatA[j*nx+i];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -733,7 +733,7 @@
 <p>这是简单的实验结果，可见（32，16）的这种模式效率最高</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-4-核函数可达到的带宽/4-4-13.png" alt="4-4-13"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要讲解内存带宽对效率的影响以及如何有效地通过调整读取方式来突破内存存储瓶颈，这是我们优化CUDA程序非常重要的手段</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽">https://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽</a>转载请标明出处</p>
 
       
     </div>
@@ -759,7 +759,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽/" title="【CUDA 基础】4.4 核函数可达到的带宽">http://www.face2ai.com/CUDA-F-4-4-核函数可达到的带宽/</a>
+    <a href="https://face2ai.com/CUDA-F-4-4-核函数可达到的带宽/" title="【CUDA 基础】4.4 核函数可达到的带宽">https://face2ai.com/CUDA-F-4-4-核函数可达到的带宽/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -793,14 +793,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-2-Getting-Started/" rel="bookmark">【Julia】开始使用Julia</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-1-Install/" rel="bookmark">【Julia】Julia环境搭建（Mac,Windows,Linux）</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-2-Getting-Started/" rel="bookmark">【Julia】开始使用Julia</a></div>
       
     </li>
   
@@ -2171,7 +2171,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2235,7 +2235,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

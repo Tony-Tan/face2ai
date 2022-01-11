@@ -109,16 +109,16 @@
 
 
   <meta name="description" content="Abstract: 本文主要介绍随机变量的引入，离散分布的介绍以及离散均匀分布，二项分布的基本原理Keywords: Random Variables，Discrete Distributions，Uniform Distributions on Integers，Binomial Distributions">
-<meta name="keywords" content="二项分布,均匀分布,随机变量,离散分布">
+<meta name="keywords" content="均匀分布,随机变量,离散分布,二项分布">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】3-1:随机变量和分布(Random Variables and Discrete Distributions)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文主要介绍随机变量的引入，离散分布的介绍以及离散均匀分布，二项分布的基本原理Keywords: Random Variables，Discrete Distributions，Uniform Distributions on Integers，Binomial Distributions">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/Tony-Tan/MachineLearningMath/master/random_variables.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/pf.png">
-<meta property="og:updated_time" content="2018-11-13T07:12:00.880Z">
+<meta property="og:updated_time" content="2018-11-13T07:12:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-1:随机变量和分布(Random Variables and Discrete Distributions)">
 <meta name="twitter:description" content="Abstract: 本文主要介绍随机变量的引入，离散分布的介绍以及离散均匀分布，二项分布的基本原理Keywords: Random Variables，Discrete Distributions，Uniform Distributions on Integers，Binomial Distributions">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/"/>
 
 
 
@@ -369,7 +369,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -534,7 +534,7 @@
 <blockquote>
 <p>Let $X$ be a discrete random variable with p.f. $f$ ,If $x$ is not one of the possible values of $X$ ,then $f(x)=0$ also if the sequence $x_1,x_2,\dots$ include all the possible values of X then $\sum^{\infty}_{i=1}f(x_i)=1$</p>
 </blockquote>
-<p>注意这是一个关于概率函数的定理，和概率分布有些不同的是，概率函数 $Pr(X=x)$ 而概率分布式 $Pr(X\in C)$ 这两个有关系，但是是完全不同的两个概念。上述定理说到的是当一个x不在随机变量中的时候，其概率是0，这点很明显，因为原始样本空间就没有与之对应的自变量，也就没有概率与其对应。<br>接着说的是所有可能的随机变量对应的概率和是1，这个与样本空间中<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">1-1</a>的T2一致。</p>
+<p>注意这是一个关于概率函数的定理，和概率分布有些不同的是，概率函数 $Pr(X=x)$ 而概率分布式 $Pr(X\in C)$ 这两个有关系，但是是完全不同的两个概念。上述定理说到的是当一个x不在随机变量中的时候，其概率是0，这点很明显，因为原始样本空间就没有与之对应的自变量，也就没有概率与其对应。<br>接着说的是所有可能的随机变量对应的概率和是1，这个与样本空间中<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1</a>的T2一致。</p>
 <p>注意下，我们上面强调了，分布和概率函数的不同，但是之间有关系，没错，$Pr(X=x)$ 不同于 $Pr(X\in C)$ 但是当 $C$ 被设置为$X=x$ ，这种条件下，两种情况等价，也就是说概率分布其实“是但不限于”概率函数的。<br>概率函数是随机变量的一种分布表示。随机变量可以有无数种概率分布，关键点在于“事件”的划分</p>
 <blockquote>
 <p>Theorem If $X$ has a discrete distribution,the probability of each subset $C$ of the real line can be determined from the relation:<br>$$<br>Pr(X\in C)=\sum_{x_i\in C}f(x_i)<br>$$</p>
@@ -556,7 +556,7 @@
 <p>这个定理是根据定义每个随机变量概率相同，以及总概率是1计算出来的每个点的概率的定理</p>
 <p>随机变量是一个整数并在一个区间范围内 $[a,b]$ ，并且每个随机变量拥有相同的概率，那么这个分布就是在 $[a,b]$ 内$p=\frac{1}{b-a+1}$ 的均匀分布。</p>
 <p>均匀分布也很常见，比如扔一个均匀的骰子，骰子上的数目对应相应的数字，一点对应1，二点对应2…….六点对应6，那么他就是一个在$[1,6]$ 内$p=\frac{1}{6}$ 的均匀分布。</p>
-<h2 id="二项分布-Binormial-Distributions"><a href="#二项分布-Binormial-Distributions" class="headerlink" title="二项分布 Binormial Distributions"></a>二项分布 Binormial Distributions</h2><p>二项分布是从伯努利那里演化过来的，可以模拟反复丢硬币的那个过程。<br>我们上面引入随机变量的地方说到了扔十次硬币的例子，我们现在假设扔的硬币不均匀，其得到正面的概率是 $\frac{3}{5}$ ,得到反面的概率是 $\frac{2}{5}$ 并且我们通过随机变量 $X(s)$ ，把正面对应于1，反面对应于2，假设反复进行 $N$ 次试验，那么我们想要知道出现 $m(m\leq N)$ 次正面的概率是多少。<br>分析：前后两次丢硬币互不影响，所以每步之间独立，分步试验对应于我们的乘法法则，事件 $s_1$ “前 $m$ 次全是正面”的概率:<br>$$<br>Pr(s_1)=p^{m}(1-p)^{N-m}<br>$$<br>这是极其特殊的一种情况，通过分析，我们只需选m个正面出现的位置，剩下的就是反面出现的位置，并且每种排列，其概率都是上面求出的$Pr(s_1)$ ，根据计数原理，这是个组合问题，N中without replacement的选取m个，共有<br>$$<br>\begin{pmatrix}N\\m\end{pmatrix}<br>$$<br>种，那么根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">1-1</a>中的T2加法原理，得到m个出现的概率是：<br>$$<br>Pr(X=m)=\begin{pmatrix}N\\m\end{pmatrix}p^{m}(1-p)^{N-m}<br>$$</p>
+<h2 id="二项分布-Binormial-Distributions"><a href="#二项分布-Binormial-Distributions" class="headerlink" title="二项分布 Binormial Distributions"></a>二项分布 Binormial Distributions</h2><p>二项分布是从伯努利那里演化过来的，可以模拟反复丢硬币的那个过程。<br>我们上面引入随机变量的地方说到了扔十次硬币的例子，我们现在假设扔的硬币不均匀，其得到正面的概率是 $\frac{3}{5}$ ,得到反面的概率是 $\frac{2}{5}$ 并且我们通过随机变量 $X(s)$ ，把正面对应于1，反面对应于2，假设反复进行 $N$ 次试验，那么我们想要知道出现 $m(m\leq N)$ 次正面的概率是多少。<br>分析：前后两次丢硬币互不影响，所以每步之间独立，分步试验对应于我们的乘法法则，事件 $s_1$ “前 $m$ 次全是正面”的概率:<br>$$<br>Pr(s_1)=p^{m}(1-p)^{N-m}<br>$$<br>这是极其特殊的一种情况，通过分析，我们只需选m个正面出现的位置，剩下的就是反面出现的位置，并且每种排列，其概率都是上面求出的$Pr(s_1)$ ，根据计数原理，这是个组合问题，N中without replacement的选取m个，共有<br>$$<br>\begin{pmatrix}N\\m\end{pmatrix}<br>$$<br>种，那么根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1</a>中的T2加法原理，得到m个出现的概率是：<br>$$<br>Pr(X=m)=\begin{pmatrix}N\\m\end{pmatrix}p^{m}(1-p)^{N-m}<br>$$</p>
 <p>那么当我们把m改成一个变量的话，那么我们有:<br>$$<br>Pr(X=x)=\begin{pmatrix}N\\x\end{pmatrix}p^{x}(1-p)^{N-x}<br>$$</p>
 <p>X的p.f. 是：<br>$$<br>f(x)=\begin{cases}<br>\begin{pmatrix}N\\x\end{pmatrix}p^{x}(1-p)^{N-x} &amp;\quad \text{for $x=0,1,\dots,N$}\\<br>0&amp; \text{otherwise}<br>\end{cases}<br>$$</p>
 <blockquote>
@@ -564,7 +564,7 @@
 </blockquote>
 <p>这个定义开始逐渐的不说显示中的情况了，直接来了个形状如上式的分布就是二项分布。<br>二项分布就是每步独立的伯努利分布的复合实验结果。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结，我们从事件进入到数字化的时代，从此概率论进入数学时代，今天好冷，打了这么多字手都冻僵了，明天继续</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions">https://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions</a>转载请标明出处</p>
 
       
     </div>
@@ -590,7 +590,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/" title="【概率论】3-1:随机变量和分布(Random Variables and Discrete Distributions)">http://www.face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/</a>
+    <a href="https://face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/" title="【概率论】3-1:随机变量和分布(Random Variables and Discrete Distributions)">https://face2ai.com/Math-Probability-3-1-Random-Variables-and-Discrete-Distributions/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -610,6 +610,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/Math-Probability-3-2-Continuous-Distribution/" rel="bookmark">【概率论】3-2:连续分布(Continuous Distributions)</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/Math-Statistics-2-3-Communication-With-Stirling/" rel="bookmark">【数理统计学简史】2.3 狄莫弗初步结果的改进，与斯特林的联系</a></div>
       
     </li>
@@ -617,21 +624,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-2-2-De-Moivre-Naive-Result/" rel="bookmark">【数理统计学简史】2.2 狄莫弗的初步结果</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -654,13 +654,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/二项分布/" rel="tag"># 二项分布</a>
-          
             <a href="/tags/均匀分布/" rel="tag"># 均匀分布</a>
           
             <a href="/tags/随机变量/" rel="tag"># 随机变量</a>
           
             <a href="/tags/离散分布/" rel="tag"># 离散分布</a>
+          
+            <a href="/tags/二项分布/" rel="tag"># 二项分布</a>
           
         </div>
       
@@ -2011,7 +2011,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2075,7 +2075,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

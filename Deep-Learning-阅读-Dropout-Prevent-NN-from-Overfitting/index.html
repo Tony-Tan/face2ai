@@ -112,7 +112,7 @@
 <meta name="keywords" content="Dropout,Overfit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Droupout 的论文解读">
-<meta property="og:url" content="http://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/index.html">
+<meta property="og:url" content="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 使用dropout处理过拟合，原论文的理解总结Keywords: Dropout，Overfit">
 <meta property="og:locale" content="zh-CN">
@@ -120,7 +120,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午1.44.22-1024x383.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午6.39.37-1024x516.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午7.13.59-1024x410.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.869Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Droupout 的论文解读">
 <meta name="twitter:description" content="Abstract: 使用dropout处理过拟合，原论文的理解总结Keywords: Dropout，Overfit">
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/"/>
+  <link rel="canonical" href="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/"/>
 
 
 
@@ -371,7 +371,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -532,7 +532,7 @@
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午6.39.37-1024x516.png" alt=""></p>
 <p>上图为正常神经网络和dropout后的网络结构比较<br>对于layer l $r^{(l)}$ 是一个独立的伯努利随机分布的向量，其中元素为1的可能性为p。这个向量的目的是dropout，随机的选取一些输出，也就是说随机的去掉一些连接，这样的结果就是从 $y^{(l)}$ 来得到dropout后的裁剪过的 $\tilde{y}^{(l)}$ ，这个裁剪过的输出作为下一个单元的输入，这种操作应用于所有layer，这样的整体结果，网络被随机裁剪成一个子网络。<br>在训练阶段，loss函数的导数反向传导只经过子网络，相当于其他被dropout的节点将不被更新。<br>在测试阶段，所有weight被缩放 $W_{test}^{(l)}=pW^{(l)}$ ，此后不再使用dropout<br>如图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午7.13.59-1024x410.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在来看，这篇文章主要是翻译工作，没有什么自己的理解和感受，因为阅读原文你会发现，你能想到的，文章都有，你想不到的，文章也有一部分，可能这就是大牛的论文吧</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting">https://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting" target="_blank" rel="noopener">https://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting</a>转载请标明出处</p>
 
       
     </div>
@@ -558,7 +558,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/" title="Droupout 的论文解读">http://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/</a>
+    <a href="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/" title="Droupout 的论文解读">https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -1961,7 +1961,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2025,7 +2025,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

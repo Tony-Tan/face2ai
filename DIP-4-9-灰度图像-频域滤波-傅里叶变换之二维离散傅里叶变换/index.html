@@ -112,7 +112,7 @@
 <meta name="keywords" content="卷积,图像傅里叶变换">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】4.9:灰度图像-频域滤波 傅里叶变换之二维离散傅里叶变换">
-<meta property="og:url" content="http://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第22天Keywords: 卷积，图像傅里叶变换">
 <meta property="og:locale" content="zh-CN">
@@ -149,7 +149,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150823819.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150813406.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150847921.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.903Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】4.9:灰度图像-频域滤波 傅里叶变换之二维离散傅里叶变换">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第22天Keywords: 卷积，图像傅里叶变换">
@@ -162,7 +162,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/"/>
 
 
 
@@ -400,7 +400,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -530,7 +530,7 @@
 <h2 id="傅里叶谱与相角"><a href="#傅里叶谱与相角" class="headerlink" title="傅里叶谱与相角"></a>傅里叶谱与相角</h2><p>图像傅里叶转换后的结果是复数矩阵，因为复数没法用在图像中显示，所以在图像中我们看到的都是幅度，也就是结果实部和虚部的平方和的平方根，也就是复数的长度，但是复数还有另一个性质，也就是其相位，根据实验显示，相位存储了图像的轮廓信息，或者叫做机构信息，而幅度存储了灰度信息。下面来看一下实验：<br>首先，我们通过FFT得到lena的傅里叶变换结果，也就是等大的复数矩阵，我们将所有元素的长度归一化，也就是用每个像素的实部和虚部除以其距离，这样将得到幅度为1，但相角不同的复数矩阵，然后用IFFT进行逆运算，得到的计算结果在0.001左右，为了显示，将其扩大1000倍进行显示：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118145038415.jpg" alt="Center 20"><br>原图<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118145052736.jpg" alt="Center 21"><br>相角重建<br>接下来考察幅度的影响，我们将所有元素的相角设为45，135，225，315度，也就是对所有的实部和虚部设为其距离除以根号2，这样得到的IFFT结果如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118145311857.jpg" alt="Center 22"><br>可见，幅度对结构信息没有影响。<br>代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将幅度归一，相角保持不变，图中Complex为复数数据</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OneRange</span><span class="params">(Complex *src,Complex *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">double</span> realv=<span class="number">0.0</span>,imaginv=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)&#123;</span><br><span class="line">        realv=src[i].real;</span><br><span class="line">        imaginv=src[i].imagin;</span><br><span class="line">        <span class="keyword">double</span> distance=<span class="built_in">sqrt</span>(realv*realv+imaginv*imaginv);</span><br><span class="line">        dst[i].real=realv/distance;</span><br><span class="line">        dst[i].imagin=imaginv/distance;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//将相角归一，相角保持不变，图中Complex为复数数据</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OneAngel</span><span class="params">(Complex *src,Complex *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">double</span> realv=<span class="number">0.0</span>,imaginv=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)&#123;</span><br><span class="line">        realv=src[i].real;</span><br><span class="line">        imaginv=src[i].imagin;</span><br><span class="line">        <span class="keyword">double</span> distance=<span class="built_in">sqrt</span>(realv*realv+imaginv*imaginv);</span><br><span class="line">        dst[i].real=distance/<span class="built_in">sqrt</span>(<span class="number">2.0</span>);</span><br><span class="line">        dst[i].imagin=distance/<span class="built_in">sqrt</span>(<span class="number">2.0</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="二维卷积定理"><a href="#二维卷积定理" class="headerlink" title="二维卷积定理"></a>二维卷积定理</h2><p>卷积定义：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118145925203.png" alt="Center 23"><br>频域和空域的卷积关系：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150010812.png" alt="Center 24"><br>卷积的一个问题在于卷积以后会对原始信号的周期进行一定长度的扩展，比如长度为A和B的信号的卷积，卷积结果的信号长度为A+B-1，所以对于周期信号，卷积后的结果有可能造成信号纠缠：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150334345.png" alt="Center 25"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150347948.png" alt="Center 26"><br>解决这个问题的方法很简单，就是对周期进行用零扩展，长度为A和B的信号卷积，将A和B都扩展成A+B-1，用0填充。f和h的图像进行卷积，首先进行扩展：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150523748.png" alt="Center 27"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此对图像傅里叶变换的一些性质进行了简要介绍，并总结出下表，方便以后出现问题进行查阅：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150823819.png" alt="Center 28"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150813406.png" alt="Center 29"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/20150118150847921.png" alt="Center 30"><br>下一篇介绍图像混淆</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换">https://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换" target="_blank" rel="noopener">https://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换</a>转载请标明出处</p>
 
       
     </div>
@@ -556,7 +556,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/" title="【数字图像处理】4.9:灰度图像-频域滤波 傅里叶变换之二维离散傅里叶变换">http://www.face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/</a>
+    <a href="https://face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/" title="【数字图像处理】4.9:灰度图像-频域滤波 傅里叶变换之二维离散傅里叶变换">https://face2ai.com/DIP-4-9-灰度图像-频域滤波-傅里叶变换之二维离散傅里叶变换/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -590,14 +590,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1973,7 +1973,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2037,7 +2037,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

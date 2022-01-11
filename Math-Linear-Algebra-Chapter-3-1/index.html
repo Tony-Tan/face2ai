@@ -112,12 +112,12 @@
 <meta name="keywords" content="向量空间,子空间,列空间,张成">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】3-1:向量空间(Space of Vectors)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Linear-Algebra-Chapter-3-1/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本章介绍线性代数的核心内容，关于Vectors Space和subspace的一些观点，本文作为第一篇，主要说明基础知识Keywords: 向量空间，子空间，列空间，张成">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-1/一个例子.png">
-<meta property="og:updated_time" content="2018-10-04T15:03:58.521Z">
+<meta property="og:updated_time" content="2018-10-04T15:03:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】3-1:向量空间(Space of Vectors)">
 <meta name="twitter:description" content="Abstract: 本章介绍线性代数的核心内容，关于Vectors Space和subspace的一些观点，本文作为第一篇，主要说明基础知识Keywords: 向量空间，子空间，列空间，张成">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-1/"/>
 
 
 
@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -516,10 +516,10 @@
 <blockquote>
 <p>A subspace of a vector space is a set of vectors (include 0) that satisfies two requirement: if v and w are vectors in the subspace and c is any scalar ,then<br>(i) $v+w$is in the subspace<br>(ii) $ cv$is in the subspace</p>
 </blockquote>
-<p>以上(i)(ii)是判断子空间的重要标准，这个也是我们之前提到的，线性代数最最最最最基础的最关键的两种计算。<br><a href="http://face2ai.com/Math-Linear-Algebra-Chapter-1-1/" target="_blank" rel="noopener">Linear combination</a>中详细的描述了这两种计算。子空间主要强调closed，在加法和乘法上封闭，你不能两个空间内的向量，加乘出了空间，飞翔到外太空，这样就不能称为子空间了，概括一下子空间就是包含在某个空间内，自身对于加法和scalar封闭的这么一个空间。</p>
+<p>以上(i)(ii)是判断子空间的重要标准，这个也是我们之前提到的，线性代数最最最最最基础的最关键的两种计算。<br><a href="http://face2ai.com/Math-Linear-Algebra-Chapter-1-1/">Linear combination</a>中详细的描述了这两种计算。子空间主要强调closed，在加法和乘法上封闭，你不能两个空间内的向量，加乘出了空间，飞翔到外太空，这样就不能称为子空间了，概括一下子空间就是包含在某个空间内，自身对于加法和scalar封闭的这么一个空间。</p>
 <h3 id="Some-Facts："><a href="#Some-Facts：" class="headerlink" title="Some Facts："></a>Some Facts：</h3><p>1：当(ii)中c为0的时候0向量在空间内，也就是说子空间必须包括0向量<br>2：如果向量v,w在子空间内，那么其线性组合$cv+dw$一定也在子空间内<br>3：一个三维空间，过原点的直线是子空间<br>4：0向量是一个空间的子空间</p>
 <p>子空间是个相当有用知识，在《线性代数应该这样学》中就是从空间这个切入点来建立整个线性代数体系的。书上主要通过二维和三维的例子来介绍子空间的，比较容易理解。</p>
-<h2 id="Column-space-of-A（矩阵A的列空间）"><a href="#Column-space-of-A（矩阵A的列空间）" class="headerlink" title="Column space of A（矩阵A的列空间）"></a>Column space of A（矩阵A的列空间）</h2><p>A是个矩阵，有m行，n列，每行有n个元素，每列有m个元素，刚开始学数字图像处理的时候，总是分不清行和列，高和宽是啥。哈哈哈，还记得我们的矩阵乘法么？我们首先研究的是<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-2-1/" target="_blank" rel="noopener">$Ax=b$</a>里面的”Column Picture”就是列空间的一种体现，也就是把A中的每一列当做空间内的一个向量，通过(ii)的方式组合出的新向量 $\textbf{b}$一定也是在A的所有列所在的空间内，这就是列空间。</p>
+<h2 id="Column-space-of-A（矩阵A的列空间）"><a href="#Column-space-of-A（矩阵A的列空间）" class="headerlink" title="Column space of A（矩阵A的列空间）"></a>Column space of A（矩阵A的列空间）</h2><p>A是个矩阵，有m行，n列，每行有n个元素，每列有m个元素，刚开始学数字图像处理的时候，总是分不清行和列，高和宽是啥。哈哈哈，还记得我们的矩阵乘法么？我们首先研究的是<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-2-1/">$Ax=b$</a>里面的”Column Picture”就是列空间的一种体现，也就是把A中的每一列当做空间内的一个向量，通过(ii)的方式组合出的新向量 $\textbf{b}$一定也是在A的所有列所在的空间内，这就是列空间。</p>
 <blockquote>
 <p>The column space consists of all linear combinations of the columns.The combination are all possible vectors $Ax$.They fill the column space C(A)</p>
 </blockquote>
@@ -537,7 +537,7 @@
 <p>Definition: A set of vectors spans a space if their linear combinations fill the Space</p>
 </blockquote>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>这篇有点长啊，写了三天，当然是断断续续的，如果阅读不连贯也是正常的，这个是线性代数的核心内容，希望对大家有帮助。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1</a>转载请标明出处</p>
 
       
     </div>
@@ -563,7 +563,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1/" title="【线性代数】3-1:向量空间(Space of Vectors)">http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-1/</a>
+    <a href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-1/" title="【线性代数】3-1:向量空间(Space of Vectors)">https://face2ai.com/Math-Linear-Algebra-Chapter-3-1/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -590,14 +590,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-4-3/" rel="bookmark">【线性代数】4-3:最小二乘近似(Least Squares Approximations)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
       
     </li>
   
@@ -1977,7 +1977,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2041,7 +2041,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

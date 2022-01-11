@@ -112,7 +112,7 @@
 <meta name="keywords" content="概率累计函数,分位数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】3-3:累积分布函数(Cumulative Distribution Function)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍描述随机变量分布的另一种工具，累积分布函数，CDFKeywords: Cumulative Distribution Function，Quantial">
 <meta property="og:locale" content="zh-CN">
@@ -120,7 +120,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-3-Cumulative-Distribution-Function/cdf2.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-3-Cumulative-Distribution-Function/quantile.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-3-Cumulative-Distribution-Function/quantile2.png">
-<meta property="og:updated_time" content="2018-10-04T15:16:34.904Z">
+<meta property="og:updated_time" content="2018-10-04T15:16:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-3:累积分布函数(Cumulative Distribution Function)">
 <meta name="twitter:description" content="Abstract: 本文介绍描述随机变量分布的另一种工具，累积分布函数，CDFKeywords: Cumulative Distribution Function，Quantial">
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/"/>
 
 
 
@@ -371,7 +371,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -509,7 +509,7 @@
 <p>The function $F(x)$ is nondecreasing as $x$ increases;that is,if $x_1&lt;x_2$ then $F(x_1)\leq F(x_2)$</p>
 </blockquote>
 <p>我们学过微积分应该知道非减函数的定义，当在定义域中$x_1\leq x_2$ 时 $f(x_1)\leq f(x_2)$</p>
-<p>如果从集合的角度我们也可以证明，那么我们将回归到概率的公理和基本性质<br>证明：<br>$$<br>\text{for }x_1\leq x_2\\<br>{x:x&lt;x_1}\subset {x:x&lt;x_2}<br>$$<br>根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">1-1中的T4</a>可以得到：<br>$$<br>Pr({x:x&lt;x_1})\leq Pr( {x:x&lt;x_2})<br>$$<br>Q.E.D.</p>
+<p>如果从集合的角度我们也可以证明，那么我们将回归到概率的公理和基本性质<br>证明：<br>$$<br>\text{for }x_1\leq x_2\\<br>{x:x&lt;x_1}\subset {x:x&lt;x_2}<br>$$<br>根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1中的T4</a>可以得到：<br>$$<br>Pr({x:x&lt;x_1})\leq Pr( {x:x&lt;x_2})<br>$$<br>Q.E.D.</p>
 <h3 id="性质2：有限-Limits"><a href="#性质2：有限-Limits" class="headerlink" title="性质2：有限 Limits"></a>性质2：有限 Limits</h3><blockquote>
 <p>Limits at $\pm\infty$ $lim_{x\to -\infty}F(x)=0$ and $lim_{x\to \infty}F(x)=1$</p>
 </blockquote>
@@ -527,12 +527,12 @@
 
 <h2 id="从分布函数中确定概率-Determining-Probabilities-from-the-Distribution-Function"><a href="#从分布函数中确定概率-Determining-Probabilities-from-the-Distribution-Function" class="headerlink" title="从分布函数中确定概率 Determining Probabilities from the Distribution Function"></a>从分布函数中确定概率 Determining Probabilities from the Distribution Function</h2><p>那么如何从分布函数中找到某个点（离散下）或者区间（连续下）的概率呢？</p>
 <h3 id="T1：-Pr-X-gt-x-1-F-x"><a href="#T1：-Pr-X-gt-x-1-F-x" class="headerlink" title="T1： $Pr(X&gt;x) = 1 - F(x)$"></a>T1： $Pr(X&gt;x) = 1 - F(x)$</h3><blockquote>
-<p>Theorem: For every value $x$,<br>$$<br>Pr(X&gt;x) = 1 - F(x)<br>$$<br>QED<br>证明显而易见，依据定义 $F(x)=Pr(X\leq x)$ 又因为 ${x:X\leq x}$ 和${x:X &gt; x}$ 是互补事件，所以依据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">1-1</a>必然有 $Pr(X&gt;x) = 1 - F(x)$</p>
+<p>Theorem: For every value $x$,<br>$$<br>Pr(X&gt;x) = 1 - F(x)<br>$$<br>QED<br>证明显而易见，依据定义 $F(x)=Pr(X\leq x)$ 又因为 ${x:X\leq x}$ 和${x:X &gt; x}$ 是互补事件，所以依据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1</a>必然有 $Pr(X&gt;x) = 1 - F(x)$</p>
 </blockquote>
 <h3 id="T2-Pr-x-1-lt-X-leq-x-2-F-x-2-F-x-1"><a href="#T2-Pr-x-1-lt-X-leq-x-2-F-x-2-F-x-1" class="headerlink" title="T2:$Pr(x_1&lt;X\leq x_2)=F(x_2)-F(x_1)$"></a>T2:$Pr(x_1&lt;X\leq x_2)=F(x_2)-F(x_1)$</h3><blockquote>
 <p>Theorem :For all value $x_1$ and $x_2$ such that $x_1&lt;x_2$ :<br>$$<br>Pr(x_1&lt;X\leq x_2)=F(x_2)-F(x_1)<br>$$</p>
 </blockquote>
-<p>这个证明也是相对简单，用到了上面T1的证明过程：<br>证明：<br>三个集合 $A={X:X\leq x_1 }$、$B={X: x_1&lt;X\leq x_2 }$ 、 $C={X:X\leq x_2 }$<br>$$<br>B=A^{c}\cap C<br>$$<br>根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">1-1中的T6</a>：<br>$$<br>Pr(B)=Pr(C)-Pr(A\cap C)\\<br>\text{for: }A=A\cap C\\<br>Pr(B)=Pr(C)-Pr(A)\\<br>Pr(x_1&lt;X\leq x_2)=F(x_2)-F(x_1)<br>$$<br>QED</p>
+<p>这个证明也是相对简单，用到了上面T1的证明过程：<br>证明：<br>三个集合 $A={X:X\leq x_1 }$、$B={X: x_1&lt;X\leq x_2 }$ 、 $C={X:X\leq x_2 }$<br>$$<br>B=A^{c}\cap C<br>$$<br>根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1中的T6</a>：<br>$$<br>Pr(B)=Pr(C)-Pr(A\cap C)\\<br>\text{for: }A=A\cap C\\<br>Pr(B)=Pr(C)-Pr(A)\\<br>Pr(x_1&lt;X\leq x_2)=F(x_2)-F(x_1)<br>$$<br>QED</p>
 <p>证明过程用到了前面1-1的一条定理，证明相对简单。</p>
 <h3 id="T3-Pr-X-lt-x-F-x"><a href="#T3-Pr-X-lt-x-F-x" class="headerlink" title="T3:$Pr(X&lt;x)=F(x^{-})$"></a>T3:$Pr(X&lt;x)=F(x^{-})$</h3><blockquote>
 <p>Theorem For each value $x$<br>$$<br>Pr(X&lt;x)=F(x^{-})<br>$$<br>这个证明和上面的P3的证明一样用到了数学分析中极限的证明，后面写数学分析的时候回来补上</p>
@@ -565,7 +565,7 @@
 </blockquote>
 <p>三个比较特殊的位置，分别是25% 50% 75%，其中50%是最特殊的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要介绍另一个非常重要的描述分布的工具，分布函数（累计分布函数）c.d.f，用好这些工具可以帮我们更顺利的完成后面的工作</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function">https://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function</a>转载请标明出处</p>
 
       
     </div>
@@ -591,7 +591,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/" title="【概率论】3-3:累积分布函数(Cumulative Distribution Function)">http://www.face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/</a>
+    <a href="https://face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/" title="【概率论】3-3:累积分布函数(Cumulative Distribution Function)">https://face2ai.com/Math-Probability-3-3-Cumulative-Distribution-Function/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -611,14 +611,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -1994,7 +1994,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2058,7 +2058,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

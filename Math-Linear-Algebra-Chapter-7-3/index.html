@@ -112,7 +112,7 @@
 <meta name="keywords" content="对角化,伪逆">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Linear-Algebra-Chapter-7-3/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文以线性变换的角度重新理解矩阵变换的原理，以对角化和SVD作为主要的案例Keywords: Diagonalization，Pseudoinverse">
 <meta property="og:locale" content="zh-CN">
@@ -123,7 +123,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/SVD_invers.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/pseudoinvers.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/changebase.png">
-<meta property="og:updated_time" content="2018-10-04T15:14:31.859Z">
+<meta property="og:updated_time" content="2018-10-04T15:14:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)">
 <meta name="twitter:description" content="Abstract: 本文以线性变换的角度重新理解矩阵变换的原理，以对角化和SVD作为主要的案例Keywords: Diagonalization，Pseudoinverse">
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Linear-Algebra-Chapter-7-3/"/>
 
 
 
@@ -374,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Linear-Algebra-Chapter-7-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -523,13 +523,13 @@
 </ol>
 <p>上面的过程对于线性变换$T$ 对应矩阵A，我们可以通过一系列的换基操作在其他基下找到等效的但是比A漂亮的矩阵，再通过换基操作还原到A基形式下，这个过程就是$IAI=W^{-1}XW$ 的各种特例。</p>
 <h2 id="奇异值分解-SVD"><a href="#奇异值分解-SVD" class="headerlink" title="奇异值分解(SVD)"></a>奇异值分解(SVD)</h2><p>与上面的最大不同，SVD输入输出来自两个空间，我们上面说在同一空间下的线性变换都是换基操作，这里展示不同空间的换基操作，神奇的SVD，对于不同空间的线性变换矩阵，一般为长方形的（参考求导和微分的例子，在上一篇），假设矩阵A可以完成一个跨空间的线性变换，那么当我们改变两个空间的基的时候，这个时候，奇迹就发生了，当我们把原始空间X(dim=n)的基从标准基变成$AA^T$特征向量，得到一个换基后的输入，然后我们再把原始出Y(dim=m)换基到成$A^TA$特征向量，作为目标矩阵的输入和输出，那么我们会得到一个漂亮的对角矩阵（对角元素可能是0）<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/SVD.png" alt=""><br>上面这个求解 $\Sigma$ 的过程并不是一根筋，而是两头堵，根据紫色线的方向求解的，因为U和V都是正交矩阵，所以其逆和转置一样。</p>
-<h2 id="伪逆-The-Pseudoinverse"><a href="#伪逆-The-Pseudoinverse" class="headerlink" title="伪逆(The Pseudoinverse)"></a>伪逆(The Pseudoinverse)</h2><p>伪逆就是不是真的逆，并不是所有矩阵都有逆，但是所有矩阵都有伪逆，当矩阵是可逆矩阵的时候，伪逆和逆相等，我们前面学<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-1/" target="_blank" rel="noopener">四个子空间</a>的时候学过一幅图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/4spaces_extra.png" alt=""><br>这幅图我们当时有详细讲解，假设矩阵是 $m\times n$ 的那么他的行空间和Nullspace加起来肯定是$\Re^n$ ，文中已证明，这个也是线性代数的基本定理，那么 $\Re^n$ 中的任何向量都能被分解成rowspace和nullspace中基的线性组合，所以线性映射后得到将是列空间中的一个向量加上0，所以当nullspace不止零向量的时候不可逆，因为nullspace不能被反射，但是这里有个有趣的就是$Ax_r=b$ 可以被反射得到输入向量的rowspace的分量$x_r$，这个反射矩阵就是Pseudoinverse。<br>从换基的角度，继续SVD，我们看到上图我们走的紫色路线，那么我们如果想反着走：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/SVD_invers.png" alt=""><br>红线对应的就是A的伪逆（如果A是可逆的也可能是逆），我们采取和求$Sigma$ 同样的两头堵占略，根据紫色的大粗箭头的方向进行换基，能够求到 $\Sigma_r^{-1}$ （只有r个有效成分），然后我们跟着红色箭头的方向就能得到A的伪逆了$A^{+}$ :</p>
+<h2 id="伪逆-The-Pseudoinverse"><a href="#伪逆-The-Pseudoinverse" class="headerlink" title="伪逆(The Pseudoinverse)"></a>伪逆(The Pseudoinverse)</h2><p>伪逆就是不是真的逆，并不是所有矩阵都有逆，但是所有矩阵都有伪逆，当矩阵是可逆矩阵的时候，伪逆和逆相等，我们前面学<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-1/">四个子空间</a>的时候学过一幅图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/4spaces_extra.png" alt=""><br>这幅图我们当时有详细讲解，假设矩阵是 $m\times n$ 的那么他的行空间和Nullspace加起来肯定是$\Re^n$ ，文中已证明，这个也是线性代数的基本定理，那么 $\Re^n$ 中的任何向量都能被分解成rowspace和nullspace中基的线性组合，所以线性映射后得到将是列空间中的一个向量加上0，所以当nullspace不止零向量的时候不可逆，因为nullspace不能被反射，但是这里有个有趣的就是$Ax_r=b$ 可以被反射得到输入向量的rowspace的分量$x_r$，这个反射矩阵就是Pseudoinverse。<br>从换基的角度，继续SVD，我们看到上图我们走的紫色路线，那么我们如果想反着走：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/SVD_invers.png" alt=""><br>红线对应的就是A的伪逆（如果A是可逆的也可能是逆），我们采取和求$Sigma$ 同样的两头堵占略，根据紫色的大粗箭头的方向进行换基，能够求到 $\Sigma_r^{-1}$ （只有r个有效成分），然后我们跟着红色箭头的方向就能得到A的伪逆了$A^{+}$ :</p>
 <p>$$<br>\Sigma_r^{-1}=<br>\begin{bmatrix}<br>\sigma_1^{-1}&amp;&amp;\\<br>&amp;\ddots&amp;\\<br>&amp;&amp;\sigma_r^{-1}<br>\end{bmatrix}\\<br>\Sigma^{+}=<br>\begin{bmatrix}<br>\sigma_1^{-1}&amp;&amp;&amp;&amp;&amp;\\<br>&amp;\ddots&amp;&amp;&amp;&amp;\\<br>&amp;&amp;\sigma_r^{-1}&amp;&amp;&amp;\\<br>&amp;&amp;&amp;0&amp;&amp;\\<br>&amp;&amp;&amp;&amp;\ddots&amp;\\<br>&amp;&amp;&amp;&amp;&amp;0<br>\end{bmatrix}<br>$$</p>
 <p>然后</p>
 <p>$$<br>\Sigma^{+}\Sigma =<br>\begin{bmatrix}<br>1&amp;&amp;&amp;&amp;&amp;\\<br>&amp;\ddots&amp;&amp;&amp;&amp;\\<br>&amp;&amp;1&amp;&amp;&amp;\\<br>&amp;&amp;&amp;0&amp;&amp;\\<br>&amp;&amp;&amp;&amp;\ddots&amp;\\<br>&amp;&amp;&amp;&amp;&amp;0<br>\end{bmatrix}<br>$$</p>
 <p>然后顺势就能求出$A^{+}$ 了整个过程如此，不在计算验证。把书上反射的图也贴上，大家对比来看：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/pseudoinvers.png" alt=""><br>然后总结下我们学过的所有的变换的换基角度：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-3/changebase.png" alt=""></p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>至此，线性代数的基础理论部分算是完结了，我们接下来可能介绍线性代数的一些相关应用，也有可能增加复数矩阵部分，但是不作为这个系列的内容了，所以我们线性代数今天正式毕业！撒花，啦啦啦，但是后面还有更精彩的系列，敬请关注！</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3">https://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3</a>转载请标明出处</p>
 
       
     </div>
@@ -555,7 +555,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3/" title="【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)">http://www.face2ai.com/Math-Linear-Algebra-Chapter-7-3/</a>
+    <a href="https://face2ai.com/Math-Linear-Algebra-Chapter-7-3/" title="【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)">https://face2ai.com/Math-Linear-Algebra-Chapter-7-3/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -582,14 +582,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-4-3/" rel="bookmark">【线性代数】4-3:最小二乘近似(Least Squares Approximations)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
       
     </li>
   
@@ -1965,7 +1965,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2029,7 +2029,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

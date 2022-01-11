@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 本文介绍狄莫弗研究二项概率的动机，和伯努利大数定律产生联系的过程Keywords: 狄莫弗，狄莫弗公式，二项概率，大数定律">
-<meta name="keywords" content="狄莫弗,狄莫弗公式,二项概率,大数定律">
+<meta name="keywords" content="大数定律,狄莫弗,狄莫弗公式,二项概率">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数理统计学简史】2.1 狄莫弗研究的动因">
-<meta property="og:url" content="http://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍狄莫弗研究二项概率的动机，和伯努利大数定律产生联系的过程Keywords: 狄莫弗，狄莫弗公式，二项概率，大数定律">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.917Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数理统计学简史】2.1 狄莫弗研究的动因">
 <meta name="twitter:description" content="Abstract: 本文介绍狄莫弗研究二项概率的动机，和伯努利大数定律产生联系的过程Keywords: 狄莫弗，狄莫弗公式，二项概率，大数定律">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -504,7 +504,7 @@
 <p><font color="006600">1712年</font>,一名叫亚历山大·喀明的人向狄莫弗提出一个问题：二人在甲家的地盘赌博，A每局获胜的概率是 $p$ ,B获胜的概率是 $q=1-p$ ，赌 $N$ 局，用 $X$ 表示A获胜的局数，约定：如果 $X\geq Np$ ,那么A付给甲 $X-Np$ 元，如果 $X&lt;Np$ 那么 B付给甲 $(N-X)-Nq=Np-X$ 元，问甲所得的期望是多少。</p>
 </blockquote>
 <p>提出这个问题的明显是个想开赌场的。不管结果，赢的多的一方要给甲服务费，而甲还很关系自己能收到多少服务费，所以希望狄莫弗帮忙算下期望。<br>根据问题，数学化后就是求下面的期望：<br>$$<br>D_n=E(|X-Np|)=\sum_{i=1}^{N}|i-Np|b(N,p,i)<br>$$<br>这里的 $b(N,p,i)$ 就是二项概率 $C^{N}_{i}p^i(1-p)^{N-i}$ 的函数形式。<br>狄莫弗在 $Np$ 为整数的条件下得到了下面的结论：<br>$$<br>D_N=2Npqb(N,q,Np)\tag{2}<br>$$<br>并且他只给 $p=\frac{1}{2}$ 的特例给出了证明，不过证明方法很容易推广到其他情况下，狄莫弗生成此公式在<font color="006600">1721年</font>提出，但是发表在<font color="006600">1730年</font>，现在我们可以在一般情况下证明：<br>$$<br>D_N=2\mu qb(N,p,Np)\\<br>\mu=[Np]+1\tag{3}<br>$$<br>其中 $[a]$ 这个表示为向下取整，也就是小于等于 $a$ 的最小整数。<br>容易验证， $Np$ 为整数时，公式(2)(3)是一致的。<br>这就完全回答了喀明的问题，但是 $N$ 较大的时候， $b(N,p,i)$ 不好算啊。所以狄莫想找到一种能便于计算的近似公式，他对这个问题进行讨论之前，对上面的公式做了点讨论（ 其实是从 $D_n=E(|X-Np|)=\sum_{i=1}^{N}|i-Np|b(N,p,i)$ 得到的），记：<br>$$<br>K_N=E(|\frac{X}{N}-p|)=\frac{D_N}{N}<br>$$<br>则由（2）公式，可以得到：<br>$$<br>K_N=2pqb(N,p,Np)<br>$$<br>容易证明（证明过程可以参考陈希孺《数理统计学简史》p47的注4）：<br>$$<br>lim_{N\to \infty}b(N,p,Np)=0<br>$$<br>这个证明可以用初等办法进行，而不必使用斯特林公式（斯特林公式在我们的基础概率论中有提到，但是当时是选学内容），由此可以得到 $lim_{N\to \infty}K_N=0$ 再因为 $P(|\frac{X}{N}-p|\geq \varepsilon)\leq \varepsilon^{-1}K_N$ 可以得到 $lim_{N\to \infty}P(|\frac{X}{N}-p|\geq \varepsilon)=0$  。<br>没错，这就是伯努利的大数定理，当然这个证明方法与切比雪夫不等式证明方法类似，但是当时还没有方差这个东西。<br>狄莫弗继续证明了，当 $N\to \infty$ 的时候， $b(N,p,Np)$ 是以 $\frac{1}{\sqrt{N}}$ 的速度趋于 0 的，因此 $K_N$ 也是以同一速度趋于0，这可以解释为： 频率 $\frac{X}{N}$ 估计概率 $p$ 的精度，大致上和试验次数 $N$ 的平方根成比例，而不是当时看起来和 $N$ 成比例。后面我们还要继续研究这个问题。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive">https://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive" target="_blank" rel="noopener">https://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive</a>转载请标明出处</p>
 
       
     </div>
@@ -530,7 +530,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/" title="【数理统计学简史】2.1 狄莫弗研究的动因">http://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/</a>
+    <a href="https://face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/" title="【数理统计学简史】2.1 狄莫弗研究的动因">https://face2ai.com/Math-Statistics-2-1-De-Moivre-Motive/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -550,13 +550,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/" rel="bookmark">【数理统计学简史】2.0 狄莫弗的二项概率逼近</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Math-Statistics-1-7-Bernouli-Law-of-Large-Numbers/" rel="bookmark">【数理统计学简史】1.7 伯努利大数定律</a></div>
       
     </li>
@@ -564,7 +557,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Statistics-1-6-Some-Idea-of-Probability/" rel="bookmark">【数理统计学简史】1.6 关于概率的几点看法</a></div>
+      <div class="popular-posts-title"><a href="/Math-Statistics-2-0-De-Moivre-Binomial-Distribution/" rel="bookmark">【数理统计学简史】2.0 狄莫弗的二项概率逼近</a></div>
       
     </li>
   
@@ -572,6 +565,13 @@
       
       
       <div class="popular-posts-title"><a href="/Math-Statistics-Basis-0-0-Big-Picture/" rel="bookmark">【数理统计理论基础】 概览</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Statistics-Basis-1-1-Introduction/" rel="bookmark">【数理统计理论基础】 1.1 导言</a></div>
       
     </li>
   
@@ -594,13 +594,13 @@
       
         <div class="post-tags">
           
+            <a href="/tags/大数定律/" rel="tag"># 大数定律</a>
+          
             <a href="/tags/狄莫弗/" rel="tag"># 狄莫弗</a>
           
             <a href="/tags/狄莫弗公式/" rel="tag"># 狄莫弗公式</a>
           
             <a href="/tags/二项概率/" rel="tag"># 二项概率</a>
-          
-            <a href="/tags/大数定律/" rel="tag"># 大数定律</a>
           
         </div>
       
@@ -1951,7 +1951,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2015,7 +2015,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

@@ -112,7 +112,7 @@
 <meta name="keywords" content="直方图均衡,彩色图像增强,彩色图像直方图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】10.1:彩色图像-图像增强 直方图增强">
-<meta property="og:url" content="http://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第70天Keywords: 彩色图像直方图">
 <meta property="og:locale" content="zh-CN">
@@ -140,7 +140,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-1-彩色图像-图像增强-直方图增强/20150317143215443.jpeg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-1-彩色图像-图像增强-直方图增强/20150317143117974.jpeg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-1-彩色图像-图像增强-直方图增强/20150317143133590.jpeg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.885Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】10.1:彩色图像-图像增强 直方图增强">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第70天Keywords: 彩色图像直方图">
@@ -153,7 +153,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/"/>
 
 
 
@@ -391,7 +391,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -510,7 +510,7 @@
       
         <p><strong>Abstract:</strong> 数字图像处理：第70天<br><strong>Keywords:</strong> 彩色图像直方图<br><a id="more"></a></p>
 <p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p>
-<h1 id="彩色图像-图像增强-直方图增强"><a href="#彩色图像-图像增强-直方图增强" class="headerlink" title="彩色图像-图像增强 直方图增强"></a>彩色图像-图像增强 直方图增强</h1><p>继续简单的介绍一下彩色图像处理相关的知识，今天来简单的说下直方图增强在彩色图像中的应用，灰度图像直方图增强在<a href="http://face2ai.com/DIP-5-10-灰度图像-图像增强-直方图均衡化HistogramEqualization/" target="_blank" rel="noopener">此处</a>做了相关介绍，包括其数学原理。<br>对于灰度图像中的一些算法适合直接用到彩色图像的各个通道，也有一些不适合，直方图均衡就属于不适合的一种，如果直接将其作用在各个通道上，将引起图像色相的变化因此也就是图像变的不是其原来的样子了，今天我们将直方图均衡用到HSI色彩空间的I分量上，直方图对亮度分量进行均衡，是图像在亮度上得到增强，在饱和度和色向上保持不变。</p>
+<h1 id="彩色图像-图像增强-直方图增强"><a href="#彩色图像-图像增强-直方图增强" class="headerlink" title="彩色图像-图像增强 直方图增强"></a>彩色图像-图像增强 直方图增强</h1><p>继续简单的介绍一下彩色图像处理相关的知识，今天来简单的说下直方图增强在彩色图像中的应用，灰度图像直方图增强在<a href="http://face2ai.com/DIP-5-10-灰度图像-图像增强-直方图均衡化HistogramEqualization/">此处</a>做了相关介绍，包括其数学原理。<br>对于灰度图像中的一些算法适合直接用到彩色图像的各个通道，也有一些不适合，直方图均衡就属于不适合的一种，如果直接将其作用在各个通道上，将引起图像色相的变化因此也就是图像变的不是其原来的样子了，今天我们将直方图均衡用到HSI色彩空间的I分量上，直方图对亮度分量进行均衡，是图像在亮度上得到增强，在饱和度和色向上保持不变。</p>
 <h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><p>算法的原理就是利用HSI色彩空间的特点，I分量代表图像亮度，处理后不会改变图像色相。</p>
 <p>算法步骤：</p>
 <ol>
@@ -549,7 +549,7 @@
 <p>直方图均衡后直方图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-1-彩色图像-图像增强-直方图增强/20150317143117974.jpeg" alt=""></p>
 <p>处理后结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-1-彩色图像-图像增强-直方图增强/20150317143133590.jpeg" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总体来说算法效果稳定，计算速度快，但这只是一种最简单的彩色图像增强的方法，因为已经决定以后做识别方向，所以彩色图像的相关更深入的彩色变换，平滑，锐化，分割等只做简单介绍，大家多多交流。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强">https://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强" target="_blank" rel="noopener">https://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强</a>转载请标明出处</p>
 
       
     </div>
@@ -575,7 +575,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/" title="【数字图像处理】10.1:彩色图像-图像增强 直方图增强">http://www.face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/</a>
+    <a href="https://face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/" title="【数字图像处理】10.1:彩色图像-图像增强 直方图增强">https://face2ai.com/DIP-10-1-彩色图像-图像增强-直方图增强/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -602,14 +602,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1987,7 +1987,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2051,7 +2051,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

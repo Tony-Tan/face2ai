@@ -112,7 +112,7 @@
 <meta name="keywords" content="边缘检测,Scharr算子">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">
-<meta property="og:url" content="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子">
 <meta property="og:locale" content="zh-CN">
@@ -130,7 +130,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152135970.jpg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152157142.jpg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152221912.jpg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.906Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第44天Keywords: 边缘检测,scharr算子">
@@ -143,7 +143,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/"/>
 
 
 
@@ -381,7 +381,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -505,7 +505,7 @@
 <p>#代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Scharr</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">double</span> *edgedriction,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ScharrMask1[<span class="number">3</span>]=&#123;<span class="number">0.1875</span>,<span class="number">0.625</span>,<span class="number">0.1875</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> ScharrMask2[<span class="number">3</span>]=&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>&#125;;</span><br><span class="line">    <span class="keyword">double</span> *dst_x=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *dst_y=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    RealConvolution(src, dst_x, ScharrMask1, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">    RealConvolution(dst_x, dst_x, ScharrMask2, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    RealConvolution(src, dst_y, ScharrMask2, width, height, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">    RealConvolution(dst_y, dst_y, ScharrMask1, width, height, <span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)</span><br><span class="line">        dst_y[i]=-dst_y[i];</span><br><span class="line">    <span class="keyword">if</span>(edgedriction!=<span class="literal">NULL</span>)</span><br><span class="line">        getEdgeAngle(dst_x, dst_y, edgedriction, width, height);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;height;j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width;i++)&#123;</span><br><span class="line">            dst[j*width+i]=<span class="built_in">abs</span>(dst_x[j*width+i])+<span class="built_in">abs</span>(dst_y[j*width+i]);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">free</span>(dst_x);</span><br><span class="line">    <span class="built_in">free</span>(dst_y);</span><br><span class="line">    <span class="comment">//matrixMultreal(dst, dst, 1.0/16.0, width, height);</span></span><br><span class="line">    <span class="keyword">return</span> findMatrixMax(dst,width,height);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151559306.png" alt=""><br>scharr算子结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151921155.jpg" alt=""><br>按顺序局部放大：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211151937659.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152002014.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152018719.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152030637.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152037956.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152049453.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152101949.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152111980.jpg" alt=""><br>注意7中具有细小噪声点，放大后观察：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152135970.jpg" alt=""><br>阈值处理后：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152157142.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-6-6-灰度图像-图像分割-Scharr算子/20150211152221912.jpg" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Scharr作为一阶微分算子，与其他微分算子具有相同的基本特点，即对突变有较强的响应，但缺点也是使用Scharr后处理时，阈值无法很好的分离边缘候选点中边缘点与非边缘点，其优点是速度极快，而且Scharr大小固定，也就是只有$3 \times 3$，第一篇markdown的博客，待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子">https://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子" target="_blank" rel="noopener">https://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子</a>转载请标明出处</p>
 
       
     </div>
@@ -531,7 +531,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/" title="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">http://www.face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/</a>
+    <a href="https://face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/" title="【数字图像处理】6.6:灰度图像-图像分割 Scharr算子">https://face2ai.com/DIP-6-6-灰度图像-图像分割-Scharr算子/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -565,14 +565,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1948,7 +1948,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2012,7 +2012,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

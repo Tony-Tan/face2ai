@@ -112,7 +112,7 @@
 <meta name="keywords" content="builtwith,网站规模">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【爬虫】2.0 分析目标网站">
-<meta property="og:url" content="http://www.face2ai.com/Crawler-2-0-分析确定目标/index.html">
+<meta property="og:url" content="https://face2ai.com/Crawler-2-0-分析确定目标/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 分析网站，进行数据收集Keywords: builtwith，网站规模">
 <meta property="og:locale" content="zh-CN">
@@ -123,7 +123,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-2-0-分析确定目标/sitemap.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-2-0-分析确定目标/builtwith.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-2-0-分析确定目标/whois.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.917Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【爬虫】2.0 分析目标网站">
 <meta name="twitter:description" content="Abstract: 分析网站，进行数据收集Keywords: builtwith，网站规模">
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Crawler-2-0-分析确定目标/"/>
+  <link rel="canonical" href="https://face2ai.com/Crawler-2-0-分析确定目标/"/>
 
 
 
@@ -374,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Crawler-2-0-分析确定目标/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Crawler-2-0-分析确定目标/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -497,7 +497,7 @@
 <h2 id="爬虫何时使用"><a href="#爬虫何时使用" class="headerlink" title="爬虫何时使用"></a>爬虫何时使用</h2><p>爬虫使用还是收集数据或者分析网站数据时，关于爬虫合法性，这个各个国家都不一样，涉及法律问题请大家查询当地法律条文。</p>
 <h2 id="网站分析"><a href="#网站分析" class="headerlink" title="网站分析"></a>网站分析</h2><p>分析网站的前提是你知道要爬谁，而要爬谁这个要手工确定，这样我们可以精确打击了，如果不能精确打击，恭喜你，你做的爬虫可以改名叫搜索引擎了。</p>
 <h3 id="Robots-txt"><a href="#Robots-txt" class="headerlink" title="Robots.txt"></a>Robots.txt</h3><p>对目标网站的robots.txt进行访问，robots中包含了这个网站对于哪些内容是允许爬取的，哪些是不能的，相当于网站所有者或者管理者对于爬虫的行为约束，当然这个不是强制性的，数据收集者也就是我们，我们可以完全不在意他说什么，而尽情的收集我们所需要的，但是，<strong><em>这是不道德的</em></strong><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-2-0-分析确定目标/robots.png" alt=""><br>上图就是网易公开课的robots.txt文件的内容，其中允许我们爬取’/‘下的内容，而且给我了我们一个地图，没错，这个就是下面我们要说的地图。</p>
-<h3 id="网站大小与地图"><a href="#网站大小与地图" class="headerlink" title="网站大小与地图"></a>网站大小与地图</h3><p>在说地图前，我们先研究一下网站大小，我们可以利用搜索引擎来确定下网站的大致规模，用到的搜索引擎技术是在搜索框里使用’site:example.com’，就会得到大致的网页数量，从而可以大致的估算网站规模，比如我们来测试一下<a href="http://www.face2ai.com">face2ai.com</a>的规模：</p>
+<h3 id="网站大小与地图"><a href="#网站大小与地图" class="headerlink" title="网站大小与地图"></a>网站大小与地图</h3><p>在说地图前，我们先研究一下网站大小，我们可以利用搜索引擎来确定下网站的大致规模，用到的搜索引擎技术是在搜索框里使用’site:example.com’，就会得到大致的网页数量，从而可以大致的估算网站规模，比如我们来测试一下<a href="http://www.face2ai.com" target="_blank" rel="noopener">face2ai.com</a>的规模：</p>
 <ol>
 <li>先看我们的baidu，3个结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-2-0-分析确定目标/baidu.png" alt=""></li>
 <li>看一下bing，35个结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-2-0-分析确定目标/bing.png" alt=""></li>
@@ -512,7 +512,7 @@
 <p>千万要注意，whois和python-whois是两个不同的工具包，我们要用的是python-whois，上面的信息是阿里云，但是所有者里好像没有我的名字啊。。老子可是花了钱的好不好，虽然是租的。。。</p>
 <h2 id="爬取方案设计"><a href="#爬取方案设计" class="headerlink" title="爬取方案设计"></a>爬取方案设计</h2><p>爬虫设计方案主要看我们的目的。<br>有些网站我们需要根据主目录一页一页的爬取每个目录中对应连接中的内容，这是一个典型的广度优先，根据网站目录，每页搜索。<br>第二是漫无目的的搜索，就是当我们进入一个网页先按照深度优先的方式逐级推进至最深层次，然后返回以此迭代。<br>归根到底还是看我们的需求，所以深度优先搜索还是广度优先搜索，都有用处，但是场合不同。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一集干货不多，也有一点，下面我们就要开始研究怎么欺骗或者访问服务器，让他们给我们发送回响应了，这才是难点！待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Crawler-2-0-分析确定目标">https://www.face2ai.com/Crawler-2-0-分析确定目标</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Crawler-2-0-分析确定目标" target="_blank" rel="noopener">https://www.face2ai.com/Crawler-2-0-分析确定目标</a>转载请标明出处</p>
 
       
     </div>
@@ -538,7 +538,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Crawler-2-0-分析确定目标/" title="【爬虫】2.0 分析目标网站">http://www.face2ai.com/Crawler-2-0-分析确定目标/</a>
+    <a href="https://face2ai.com/Crawler-2-0-分析确定目标/" title="【爬虫】2.0 分析目标网站">https://face2ai.com/Crawler-2-0-分析确定目标/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -1941,7 +1941,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2005,7 +2005,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

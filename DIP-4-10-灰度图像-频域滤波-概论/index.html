@@ -109,10 +109,10 @@
 
 
   <meta name="description" content="Abstract: 数字图像处理：第23天Keywords: 频域滤波，频域滤波器，振铃，卷积">
-<meta name="keywords" content="卷积,频域滤波,频域滤波器,振铃">
+<meta name="keywords" content="频域滤波,卷积,频域滤波器,振铃">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】4.10:灰度图像-频域滤波 概论">
-<meta property="og:url" content="http://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第23天Keywords: 频域滤波，频域滤波器，振铃，卷积">
 <meta property="og:locale" content="zh-CN">
@@ -142,7 +142,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145942853.jpg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145953524.jpg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121150126001.jpg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.843Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】4.10:灰度图像-频域滤波 概论">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第23天Keywords: 频域滤波，频域滤波器，振铃，卷积">
@@ -155,7 +155,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/"/>
 
 
 
@@ -393,7 +393,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -520,7 +520,7 @@
 <h2 id="频域滤波过程"><a href="#频域滤波过程" class="headerlink" title="频域滤波过程"></a>频域滤波过程</h2><p>频率域滤波的过程：因为我们要得到的是图像，输入是图像，输出也是图像，这个过程叫图像处理，如果输出的时频谱或其他的，我们叫图像分析，滤波器的主要参数是类型和截止频率。<br>下面来看一下算法的完整计算过程：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145453937.jpg" alt="Center 18"><br>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121150230304.jpg" alt="Center 19"><br>空域填充：<br>用0对图片进行填充，得到4倍原图的新图像<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145908362.jpg" alt="Center 20"><br>频谱中心化<br>这是为了配合滤波器，因为滤波器一般被设计为中间为低频，四周为高频的模式<br>DFT：<br>过度到频域<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145920935.jpg" alt="Center 21"><br>设计滤波器<br>FIR滤波器，有限长单位冲激响应滤波器，又称为非递归型滤波器，图像处理中都使用这种滤波器产生一个高斯低通滤波器：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145933244.jpg" alt="Center 22"><br>对位相乘：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145942853.jpg" alt="Center 23"><br>IDFT：<br>将滤波结果重建为图像<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121145953524.jpg" alt="Center 24"><br>空域取消填充：<br>将填充过的图像恢复<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-10-灰度图像-频域滤波-概论/20150121150126001.jpg" alt="Center 25"><br>代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"filter.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showfilter</span><span class="params">(<span class="keyword">double</span> *filter,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">    IplImage *show=cvCreateImage(cvSize(width, height),<span class="number">8</span>,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;height;j++)&#123;</span><br><span class="line">            cvSetReal2D(show, j, i, filter[i*width+j]*<span class="number">255.0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    cvNamedWindow(<span class="string">"Filter"</span>, <span class="number">1</span>);</span><br><span class="line">    cvShowImage(<span class="string">"Filter"</span>, show);</span><br><span class="line">    cvWaitKey(<span class="number">0</span>);</span><br><span class="line">    cvSaveImage(<span class="string">"/Users/Tony/DIPImage/step.jpg"</span>, show, <span class="number">0</span>);</span><br><span class="line">    cvReleaseImage(&amp;show);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MatrixMulti_R_C</span><span class="params">(<span class="keyword">double</span> *src1,Complex *src2,Complex *dst,<span class="keyword">int</span> size)</span></span>&#123;<span class="comment">//m(1,1)=a(1,1)*b(1,1);</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)&#123;</span><br><span class="line">        dst[i].real=src2[i].real*src1[i];</span><br><span class="line">        dst[i].imagin=src2[i].imagin*src1[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ChangtoPower2</span><span class="params">(<span class="keyword">int</span> size)</span></span>&#123;</span><br><span class="line">    size--;<span class="comment">//避免为2的幂的size会被扩大</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((size/=<span class="number">2</span>)&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>&lt;&lt;i;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//将图像伸缩到2的幂次大小，并填充</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ResizeMatrix4FFT</span><span class="params">(IplImage *src,IplImage **dst)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> width=src-&gt;width;</span><br><span class="line">    <span class="keyword">int</span> height=src-&gt;height;</span><br><span class="line">    <span class="keyword">int</span> re_width=ChangtoPower2(width);</span><br><span class="line">    <span class="keyword">int</span> re_height=ChangtoPower2(height);</span><br><span class="line">    IplImage *temp=cvCreateImage(cvSize(re_width, re_height), src-&gt;depth, src-&gt;nChannels);</span><br><span class="line">    cvResize(src, temp, <span class="number">0</span>);</span><br><span class="line">    *dst=cvCreateImage(cvSize(re_width*<span class="number">2</span>, re_height*<span class="number">2</span>), src-&gt;depth, src-&gt;nChannels);</span><br><span class="line">    cvZero(*dst);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;re_width;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;re_height;j++)</span><br><span class="line">            cvSetReal2D(*dst, j, i, cvGetReal2D(temp, j, i));</span><br><span class="line">    cvReleaseImage(&amp;temp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//将扩充后的图像还原为左上角的</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CutImage421</span><span class="params">(IplImage *src,IplImage *dst)</span></span>&#123;</span><br><span class="line">    <span class="comment">//IplImage *temp=cvCreateImage(cvSize(src-&gt;width/2, src-&gt;height/2), src-&gt;depth, src-&gt;nChannels);</span></span><br><span class="line">    <span class="keyword">int</span> width=dst-&gt;width;</span><br><span class="line">    <span class="keyword">int</span> height=dst-&gt;height;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;height;j++)</span><br><span class="line">            cvSetReal2D(dst, j, i, cvGetReal2D(src, j, i));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//频域滤波</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FrequencyFiltering</span><span class="params">(IplImage *src,IplImage *dst,<span class="keyword">int</span> filter_type,<span class="keyword">double</span> param1,<span class="keyword">int</span> param2)</span></span>&#123;</span><br><span class="line">    IplImage *temp=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//调整至2的幂，并用黑色填充，防止周期缠绕</span></span><br><span class="line">    ResizeMatrix4FFT(src, &amp;temp);</span><br><span class="line">    <span class="keyword">int</span> fft_width=temp-&gt;width;</span><br><span class="line">    <span class="keyword">int</span> fft_height=temp-&gt;height;</span><br><span class="line">    <span class="comment">//产生滤波器</span></span><br><span class="line">    <span class="keyword">double</span> *filter=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*fft_height*fft_width);</span><br><span class="line">    <span class="keyword">if</span>(filter==<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"frequency filter malloc faile"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//生成滤波器</span></span><br><span class="line">    <span class="keyword">switch</span>(filter_type)&#123;</span><br><span class="line">        <span class="keyword">case</span> ILPF:</span><br><span class="line">            IdealLPFilter(filter, fft_width, fft_height, param1);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> BLPF:</span><br><span class="line">            <span class="keyword">if</span>(param2&lt;<span class="number">0</span>)</span><br><span class="line">                param2=<span class="number">2</span>;</span><br><span class="line">            ButterworthLPfilter(filter, fft_width, fft_height, param1, param2);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> GLPF:</span><br><span class="line">            GaussianLPFilter(filter, fft_width, fft_height, param1);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> IHPF:</span><br><span class="line">            IdealHPFilter(filter, fft_width, fft_height, param1);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> BHPF:</span><br><span class="line">            <span class="keyword">if</span>(param2&lt;<span class="number">0</span>)</span><br><span class="line">                param2=<span class="number">2</span>;</span><br><span class="line">            ButterworthHPfilter(filter, fft_width, fft_height, param1, param2);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> GHPF:</span><br><span class="line">            GaussianHPFilter(filter, fft_width, fft_height, param1);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//FFT</span></span><br><span class="line">    Complex *temp_complex=(Complex*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Complex)*fft_height*fft_width);<span class="comment">//fft结果</span></span><br><span class="line">    <span class="keyword">if</span>(temp_complex==<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ImageFFT(temp, temp_complex);</span><br><span class="line">    <span class="comment">//相乘</span></span><br><span class="line">    MatrixMulti_R_C(filter,temp_complex,temp_complex,fft_width*fft_height);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//IFFT</span></span><br><span class="line">    ImageIFFT(temp_complex, temp, temp-&gt;width, temp-&gt;height);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//还原图像</span></span><br><span class="line">    IplImage *result2=cvCreateImage(cvSize(temp-&gt;width/<span class="number">2</span>, temp-&gt;height/<span class="number">2</span>), temp-&gt;depth, temp-&gt;nChannels);</span><br><span class="line">    CutImage421(temp, result2);</span><br><span class="line">    cvResize(result2, dst, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">free</span>(filter);</span><br><span class="line">    <span class="built_in">free</span>(temp_complex);</span><br><span class="line">    cvReleaseImage(&amp;temp);</span><br><span class="line">    cvReleaseImage(&amp;result2);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="空域滤波与频域滤波"><a href="#空域滤波与频域滤波" class="headerlink" title="空域滤波与频域滤波"></a>空域滤波与频域滤波</h2><p>空域和频域的桥梁是傅里叶变换，而纽带是卷积定理，对于频域的特性，我们将其看做一个实验室，进行试验并产生小的滤波模板，将小的滤波模板对空域图像进行循环卷积，得到我们想要的结果，空域小模板多半是奇数大小的（3x3，5x5）的，其计算复杂度低，过程简单，用时较短，这就是之前提到的那个面试的问题的答案，如果我当时把这个过程给面试官讲清楚，估计我现在就是一名图像工作者了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这就是频域滤波的基础，后面的事情就是设计滤波器，满足不同的问题，有了基础，设计滤波器就要自己发挥了。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论">https://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论" target="_blank" rel="noopener">https://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论</a>转载请标明出处</p>
 
       
     </div>
@@ -546,7 +546,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/" title="【数字图像处理】4.10:灰度图像-频域滤波 概论">http://www.face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/</a>
+    <a href="https://face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/" title="【数字图像处理】4.10:灰度图像-频域滤波 概论">https://face2ai.com/DIP-4-10-灰度图像-频域滤波-概论/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -566,6 +566,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/DIP-4-11-灰度图像-频域滤波-滤波器/" rel="bookmark">【数字图像处理】4.11:灰度图像-频域滤波 滤波器</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables/" rel="bookmark">【概率论】3-9:多随机变量函数(Functions of Two or More Random Variables)</a></div>
       
     </li>
@@ -573,21 +580,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-0-灰度图像-空域滤波基础-卷积和相关/" rel="bookmark">【数字图像处理】5.0:灰度图像-空域滤波 基础：卷积和相关</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -610,9 +610,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/卷积/" rel="tag"># 卷积</a>
-          
             <a href="/tags/频域滤波/" rel="tag"># 频域滤波</a>
+          
+            <a href="/tags/卷积/" rel="tag"># 卷积</a>
           
             <a href="/tags/频域滤波器/" rel="tag"># 频域滤波器</a>
           
@@ -1967,7 +1967,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2031,7 +2031,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

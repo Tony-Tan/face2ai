@@ -112,12 +112,12 @@
 <meta name="keywords" content="正态分布,高斯分布">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】5-6:正态分布(The Normal Distributions Part II)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍正态分布的数学性质Keywords: The Normal Distributions">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-6-The-Normal-Distributions-P2/beel_shape.png">
-<meta property="og:updated_time" content="2018-10-04T15:22:28.817Z">
+<meta property="og:updated_time" content="2018-10-04T15:22:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】5-6:正态分布(The Normal Distributions Part II)">
 <meta name="twitter:description" content="Abstract: 本文介绍正态分布的数学性质Keywords: The Normal Distributions">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/"/>
 
 
 
@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -499,7 +499,7 @@
 <blockquote>
 <p>Definition and p.d.f. A random X has the normal distribution with mean $\mu$ and variance $\sigma^2$ ($-\infty&lt;\mu&lt;\infty$ and $\sigma &gt; 0$) if X has a contimuous distribution with the following p.d.f.<br>$$<br>f(x|\mu,\sigma^2)=\frac{1}{(2\pi)^{\frac{1}{2}}\sigma}e^{-\frac{1}{2}(\frac{(x-\mu)}{\sigma})^2}\text{for} -\infty&lt;x&lt;\infty<br>$$<br>定义对于我们来说就是个准确的命名过程。那么我们接下来要证明的是定义里说的对不对？<br>Theorem $f(x|\mu,\sigma^2)=\frac{1}{(2\pi)^{\frac{1}{2}}\sigma}e^{-\frac{1}{2}(\frac{(x-\mu)}{\sigma})^2}\text{for} -\infty &lt; x&lt; \infty$ is a p.d.f.</p>
 </blockquote>
-<p>思路：证明一个表达式是不是，p.d.f.，肯定要根据<a href="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/" target="_blank" rel="noopener">p.d.f.的定义</a>，①不能出现负数，②积分结果是1。<br>首先观察函数，发现其不可能出现负数，所以性质1符合p.d.f.的性质<br>那么接下来是求积分，并确保是1，不是说不能积分么，这里怎么做呢？<br>首先我们令 $y=\frac{x-\mu}{\sigma}$ 那么<br>$$<br>\int^{\infty}_{-\infty}f(x|\mu,\sigma^2)dx=\int^{\infty}_{-\infty}\frac{1}{(2\pi)^{1/2}}e^{-\frac{1}{2}y^2}dy\\<br>\text{we shall now let:}\\<br>I=\int^{\infty}_{-\infty}e^{-\frac{1}{2}y^2}dy<br>$$<br>所以我们只要证明 $I=(2\pi)^{1/2}$ 就算是得到结论了，但是怎么证明呢？我们用用1的特点吧，1和1相乘还是1所以我们让两个积分相乘，我们来到了二重积分的世界解决这个问题：<br>$$<br>\begin {aligned}<br>I^2&amp;=I\times I=\int^{\infty}_{-\infty}e^{-\frac{1}{2}y^2}dy \cdot \int^{\infty}_{-\infty}e^{-\frac{1}{2}z^2}dz\\<br>&amp;=\int^{\infty}_{-\infty} \int^{\infty}_{-\infty}e^{-\frac{1}{2}(y^2+z^2)}dydz\\<br>\text{to the polar coordinates } r \text{ and } \theta :\\<br>I^2&amp;=\int^{2\pi}_{0} \int^{\infty}_{0}e^{-\frac{1}{2}(r^2)}rdrd\theta \\<br>\text{substitute }v=r^2/2\\<br>&amp;\int^{\infty}_{0}e^{-v}dv=1<br>\end{aligned}<br>$$</p>
+<p>思路：证明一个表达式是不是，p.d.f.，肯定要根据<a href="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/">p.d.f.的定义</a>，①不能出现负数，②积分结果是1。<br>首先观察函数，发现其不可能出现负数，所以性质1符合p.d.f.的性质<br>那么接下来是求积分，并确保是1，不是说不能积分么，这里怎么做呢？<br>首先我们令 $y=\frac{x-\mu}{\sigma}$ 那么<br>$$<br>\int^{\infty}_{-\infty}f(x|\mu,\sigma^2)dx=\int^{\infty}_{-\infty}\frac{1}{(2\pi)^{1/2}}e^{-\frac{1}{2}y^2}dy\\<br>\text{we shall now let:}\\<br>I=\int^{\infty}_{-\infty}e^{-\frac{1}{2}y^2}dy<br>$$<br>所以我们只要证明 $I=(2\pi)^{1/2}$ 就算是得到结论了，但是怎么证明呢？我们用用1的特点吧，1和1相乘还是1所以我们让两个积分相乘，我们来到了二重积分的世界解决这个问题：<br>$$<br>\begin {aligned}<br>I^2&amp;=I\times I=\int^{\infty}_{-\infty}e^{-\frac{1}{2}y^2}dy \cdot \int^{\infty}_{-\infty}e^{-\frac{1}{2}z^2}dz\\<br>&amp;=\int^{\infty}_{-\infty} \int^{\infty}_{-\infty}e^{-\frac{1}{2}(y^2+z^2)}dydz\\<br>\text{to the polar coordinates } r \text{ and } \theta :\\<br>I^2&amp;=\int^{2\pi}_{0} \int^{\infty}_{0}e^{-\frac{1}{2}(r^2)}rdrd\theta \\<br>\text{substitute }v=r^2/2\\<br>&amp;\int^{\infty}_{0}e^{-v}dv=1<br>\end{aligned}<br>$$</p>
 <p>证毕。<br>也就证明了两个这个积分相乘的结果是1，但是我们并没有求出他的反函数。</p>
 <h3 id="正态分布的距生成函数-m-g-f"><a href="#正态分布的距生成函数-m-g-f" class="headerlink" title="正态分布的距生成函数 m.g.f."></a>正态分布的距生成函数 m.g.f.</h3><p>m.g.f. 一旦得到相应的均值和方差就非常简单了。</p>
 <blockquote>
@@ -527,7 +527,7 @@
 <p>定理给出了正态分布对应的随机变量经过线性变换后的结果，我们来计算下，证明定理的正确性。<br>证明：<br>使用m.g.f ，我们来计算 $\psi_Y$<br>$$<br>\psi_Y(t)=e^{bt}\psi(at)=e^{(a\mu+b)t+\frac{1}{2}a^2\sigma^2t^2} \text{ for }-\infty &lt;t&lt;\infty<br>$$<br>比较正态分布的m.g.f<br>$$<br>\begin{aligned}<br>\psi(t)&amp;=e^{\mu t+\frac{1}{2}\sigma^2t^2}&amp;\text{ for }-\infty&lt;t&lt;\infty<br>\end{aligned}<br>$$</p>
 <p>可以看出线性变化后的分布是一个均值为 $a\mu+b$ 方差为 $a^2\sigma^2$ 那么我们得到一个新的正态分布，并且新正态分布的参数和原正态分布有关系</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要介绍正态分布的数学性质。后面我们继续研究标准正态分布和对数正态分布。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2">https://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2</a>转载请标明出处</p>
 
       
     </div>
@@ -553,7 +553,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/" title="【概率论】5-6:正态分布(The Normal Distributions Part II)">http://www.face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/</a>
+    <a href="https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/" title="【概率论】5-6:正态分布(The Normal Distributions Part II)">https://face2ai.com/Math-Probability-5-6-The-Normal-Distributions-P2/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -587,14 +587,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -1970,7 +1970,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2034,7 +2034,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

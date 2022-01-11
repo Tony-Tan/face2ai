@@ -109,15 +109,15 @@
 
 
   <meta name="description" content="Abstract: 本文是本章最重要的知识点，也是整个线性代数中非常核心的内容，包括independence ，basis和dimension等多个概念Keywords: Independence，Basis，Dimension，Span">
-<meta name="keywords" content="维度,张成,独立,变差">
+<meta name="keywords" content="张成,维度,独立,变差">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】3-5:独立性，基和维度(Independence,Basis and Dimension)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Linear-Algebra-Chapter-3-5/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文是本章最重要的知识点，也是整个线性代数中非常核心的内容，包括independence ，basis和dimension等多个概念Keywords: Independence，Basis，Dimension，Span">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-5/matrixSpace.png">
-<meta property="og:updated_time" content="2018-10-04T15:05:59.015Z">
+<meta property="og:updated_time" content="2018-10-04T15:05:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】3-5:独立性，基和维度(Independence,Basis and Dimension)">
 <meta name="twitter:description" content="Abstract: 本文是本章最重要的知识点，也是整个线性代数中非常核心的内容，包括independence ，basis和dimension等多个概念Keywords: Independence，Basis，Dimension，Span">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-5/"/>
 
 
 
@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -495,7 +495,7 @@
         <p><strong>Abstract:</strong> 本文是本章最重要的知识点，也是整个线性代数中非常核心的内容，包括independence ，basis和dimension等多个概念<br><strong>Keywords:</strong> Independence，Basis，Dimension，Span</p>
 <a id="more"></a>
 <h1 id="独立性，基和维度"><a href="#独立性，基和维度" class="headerlink" title="独立性，基和维度"></a>独立性，基和维度</h1><p>在没有系统学习线性代数之前，对很多里面的名词有所畏惧，现在思考发现，很多听不懂的名词都是因为不明白背后的原理和知识才会产生畏惧，也有可能这个名词背后真的蕴藏的一个非常深奥的系统知识，但是如果我们慢慢的从头开始抽丝剥茧的把每一个知识点都掌握了，最后听到这个名词就会觉得这是个很平常的词汇而已，但是没有学习之前就会一头雾水，还有一个感觉就是，如果这些基础知识不掌握，论文种可能是个很简单的过程，作者略过了，如果基础不牢就会迷惑，或者自己瞎猜，其实迷惑不可怕，起码自己知道这里有问题，但是瞎猜就有问题了，而且还猜的理直气壮，觉得自己猜的都对，这种人是永远不会进步的。<br>今天我们就逐个解释线性代数中比较常出现的几个非常重要的概念。</p>
-<h2 id="线性独立"><a href="#线性独立" class="headerlink" title="线性独立"></a>线性独立</h2><p>Linear Independence可以拆开看，Linear就是我们的基础关系，线性，满足线性组合的基本要求<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-1-1/" target="_blank" rel="noopener">1-1:Linear Combinations</a>有详细说明，就是满足add 和scalar的组合；Independence表示独立，谁和谁也不相关，其实不相关的这个概念在概率论中让我记忆深刻的，而且一直也不懂到底是啥意思（现在也不懂），不相关就是没办法关联起来。<br>现在抛弃上面的所有思路，从矩阵角度来看，矩阵角度也就是向量角度，因为Linear Independence是针对<strong><em>向量</em></strong>矩阵是向量合起来写的一种方式：</p>
+<h2 id="线性独立"><a href="#线性独立" class="headerlink" title="线性独立"></a>线性独立</h2><p>Linear Independence可以拆开看，Linear就是我们的基础关系，线性，满足线性组合的基本要求<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-1-1/">1-1:Linear Combinations</a>有详细说明，就是满足add 和scalar的组合；Independence表示独立，谁和谁也不相关，其实不相关的这个概念在概率论中让我记忆深刻的，而且一直也不懂到底是啥意思（现在也不懂），不相关就是没办法关联起来。<br>现在抛弃上面的所有思路，从矩阵角度来看，矩阵角度也就是向量角度，因为Linear Independence是针对<strong><em>向量</em></strong>矩阵是向量合起来写的一种方式：</p>
 <blockquote>
 <p>Definition: The columns of A are linearly independent when the only solution to $Ax=0$ is $x=0$ No other combination $Ax$ of the columns gives the zero vector</p>
 </blockquote>
@@ -505,7 +505,7 @@
 </blockquote>
 <p>$x_1v_1+x_2v_2+\dots+x_nv_n=0$ only happens when all x’s are zero</p>
 <p>只有当x全是0的时候，组合向量v才能得到0，其他x不能完成这个任务，就说这些v线性独立。<br>注意，只有向量有线性独立的说法，一个矩阵不能线性独立，当然entry是矩阵的向量也可以线性独立，那就有点复杂了，不过也是一样的道理，满足条件就可以。<br>如果向量sequence中包含0向量，那么这个他们不会Linear Independence。<br>上面提到了rank和矩阵大小的关系对是否线性相关有影响，当$r=n\leq m$时，线性独立，但是当$r\leq m &lt; n$时，必然线性相关。<br>在另一本书上《Linear algebra done right》上说当一个向量sequence里其中一个可以被其他线性组合出来，那么他们线性相关，否则线性无关，这个和上面的nullspace的说法含以上是一致的，但是感觉更形象。</p>
-<h2 id="向量张成子空间（Row-Space）"><a href="#向量张成子空间（Row-Space）" class="headerlink" title="向量张成子空间（Row Space）"></a>向量张成子空间（Row Space）</h2><p>本来想写span但是总记得已经写过了，回去一查果然有说明，span的概念比较好理解，就是若干个向量通过线性组合得到的一个向量空间（满足向量空间的所有要求），具体的说明可以复习下：<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-3-1/" target="_blank" rel="noopener">Span</a>.列向量是矩阵中所有的列span成的空间。<br>举个🌰 ：<br>$$<br>v_1=\begin{bmatrix}1\\0\end{bmatrix}\\<br>v_2=\begin{bmatrix}0\\1\end{bmatrix}<br>$$</p>
+<h2 id="向量张成子空间（Row-Space）"><a href="#向量张成子空间（Row-Space）" class="headerlink" title="向量张成子空间（Row Space）"></a>向量张成子空间（Row Space）</h2><p>本来想写span但是总记得已经写过了，回去一查果然有说明，span的概念比较好理解，就是若干个向量通过线性组合得到的一个向量空间（满足向量空间的所有要求），具体的说明可以复习下：<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-3-1/">Span</a>.列向量是矩阵中所有的列span成的空间。<br>举个🌰 ：<br>$$<br>v_1=\begin{bmatrix}1\\0\end{bmatrix}\\<br>v_2=\begin{bmatrix}0\\1\end{bmatrix}<br>$$</p>
 <p>这两个向量可以线性组合出二维实数空间的所有向量，也就是说$v_1$和$v_2$ span $\Re^2$<br>前面我们介绍过列空间，矩阵列span出来的空间，对应的，矩阵每行span出来的空间叫做row space，矩阵A的row space与$A^T$的column space相同。<br>$$<br>A=\begin{bmatrix}<br>1&amp;4\\<br>2&amp;7\\<br>3&amp;5<br>\end{bmatrix}\\<br>$$<br>这个矩阵的列空间：<br>$$<br>C(A)=<br>x_1<br>\begin{bmatrix}<br>1\\<br>2\\<br>3<br>\end{bmatrix}+<br>x_2<br>\begin{bmatrix}<br>4\\<br>7\\<br>5<br>\end{bmatrix}<br>$$<br>行空间：<br>$$<br>C(A^T)=<br>x_1<br>\begin{bmatrix}1\\4\end{bmatrix}+x_2<br>\begin{bmatrix}2\\7\end{bmatrix}+x_3<br>\begin{bmatrix}3\\5\end{bmatrix}<br>$$<br>同样的矩阵，同样的数字，组合出来的空间却完全不同，列向量在 $\Re^m$中，行向量在 $\Re^n$</p>
 <h2 id="基-Basis"><a href="#基-Basis" class="headerlink" title="基(Basis)"></a>基(Basis)</h2><p>好的理解了span的概念我们对basis的概念就理解了一般，如果我们有五个向量可以span出来一个空间S，那么我们的一种想法是不是能不能用这五个向量中的其中几个span出等价的空间，答案是有可能的，其根本原因是<strong><em>线性组合的计算性质</em></strong>，如果五个向量中的一个可以用其他四个组合出来，就可以省去这个被组合出来的向量，这句话熟悉么？没错上面提到的线性独立和线性相关的概念。</p>
 <blockquote>
@@ -544,7 +544,7 @@
 <h2 id="矩阵空间和函数空间-Matrix-Space-and-Function-Space0"><a href="#矩阵空间和函数空间-Matrix-Space-and-Function-Space0" class="headerlink" title="矩阵空间和函数空间(Matrix Space and Function Space0"></a>矩阵空间和函数空间(Matrix Space and Function Space0</h2><p>前面说过矩阵和函数可以是向量的组成元素，那么矩阵向量的基和函数向量的基与上面实数向量的定义和性质完全一致：</p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-5/matrixSpace.png" alt=""></p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>这几篇写的都很长，感觉写的力不从心，一边参考教材一边写，没办法把书扔掉直接码字，还是要继续努力，后面还要做些练习，非常感谢MIT做出的无私奉献，把所有课程相关的内容开放下载，大家继续加油。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5</a>转载请标明出处</p>
 
       
     </div>
@@ -570,7 +570,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5/" title="【线性代数】3-5:独立性，基和维度(Independence,Basis and Dimension)">http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-5/</a>
+    <a href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-5/" title="【线性代数】3-5:独立性，基和维度(Independence,Basis and Dimension)">https://face2ai.com/Math-Linear-Algebra-Chapter-3-5/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -590,13 +590,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-3-6/" rel="bookmark">【线性代数】3-6:四个子空间的维度(Dimensions of the Four Subspaces)</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-3-1/" rel="bookmark">【线性代数】3-1:向量空间(Space of Vectors)</a></div>
       
     </li>
@@ -604,7 +597,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-4-3/" rel="bookmark">【线性代数】4-3:最小二乘近似(Least Squares Approximations)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-3-6/" rel="bookmark">【线性代数】3-6:四个子空间的维度(Dimensions of the Four Subspaces)</a></div>
       
     </li>
   
@@ -612,6 +605,13 @@
       
       
       <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
       
     </li>
   
@@ -634,9 +634,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/维度/" rel="tag"># 维度</a>
-          
             <a href="/tags/张成/" rel="tag"># 张成</a>
+          
+            <a href="/tags/维度/" rel="tag"># 维度</a>
           
             <a href="/tags/独立/" rel="tag"># 独立</a>
           
@@ -1991,7 +1991,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2055,7 +2055,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

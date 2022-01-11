@@ -112,11 +112,11 @@
 <meta name="keywords" content="Hexo,Next,畅言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Hexo】Hexo下next主题畅言评论同步问题的解决方案">
-<meta property="og:url" content="http://www.face2ai.com/other-Hexo-next-changyan/index.html">
+<meta property="og:url" content="https://face2ai.com/other-Hexo-next-changyan/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍如何解决畅言在Hexo下无法同步移动端和PC端评论的问题Keywords: Hexo，next，畅言">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-15T11:44:21.327Z">
+<meta property="og:updated_time" content="2018-10-15T11:44:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Hexo】Hexo下next主题畅言评论同步问题的解决方案">
 <meta name="twitter:description" content="Abstract: 本文介绍如何解决畅言在Hexo下无法同步移动端和PC端评论的问题Keywords: Hexo，next，畅言">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/other-Hexo-next-changyan/"/>
+  <link rel="canonical" href="https://face2ai.com/other-Hexo-next-changyan/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/other-Hexo-next-changyan/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/other-Hexo-next-changyan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -486,12 +486,12 @@
         <p><strong>Abstract:</strong> 本文介绍如何解决畅言在Hexo下无法同步移动端和PC端评论的问题<br><strong>Keywords:</strong> Hexo，next，畅言</p>
 <a id="more"></a>
 <h1 id="解决畅言评论在移动端和PC端同步的问题"><a href="#解决畅言评论在移动端和PC端同步的问题" class="headerlink" title="解决畅言评论在移动端和PC端同步的问题"></a>解决畅言评论在移动端和PC端同步的问题</h1><p>移动端的兴起使得互联网信息上的信息被告诉交换，随着博客的不断增多，评论也有若干个了，之前有个问题一直没解决就是pc端的评论移动端看不到，移动端的评论PC端也看不到，今天到了解决问题的时刻</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>首先我的文章生成的地址都是这个样子的：<br><a href="http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/">http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/</a><br>默认情况下，next是吧url当做文章的标识，但是在移动端，或者有些情况下，url后面会增加某些参数，这样畅言后台就把他当做两篇文章了，所以我们根据畅言的帮助文档：<br><a href="http://changyan.kuaizhan.com/static/help/f-source-id.html" target="_blank" rel="noopener">帮助中心SourceID</a>的提示下，搜到了这篇仁兄的博文：<br><a href="https://segmentfault.com/a/1190000008091729" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008091729</a><br>不过由于他的博客比较早，不适用于我们现在的next，我们进行如下修改<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/hexo/themes/next/layout/_partials/comments.swig</span><br></pre></td></tr></table></figure></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>首先我的文章生成的地址都是这个样子的：<br><a href="http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/" target="_blank" rel="noopener">http://www.face2ai.com/Math-Set-Theory-1-Sample-Sets/</a><br>默认情况下，next是吧url当做文章的标识，但是在移动端，或者有些情况下，url后面会增加某些参数，这样畅言后台就把他当做两篇文章了，所以我们根据畅言的帮助文档：<br><a href="http://changyan.kuaizhan.com/static/help/f-source-id.html" target="_blank" rel="noopener">帮助中心SourceID</a>的提示下，搜到了这篇仁兄的博文：<br><a href="https://segmentfault.com/a/1190000008091729" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008091729</a><br>不过由于他的博客比较早，不适用于我们现在的next，我们进行如下修改<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/hexo/themes/next/layout/_partials/comments.swig</span><br></pre></td></tr></table></figure></p>
 <p>其中<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"comments"</span> <span class="attr">id</span>=<span class="string">"comments"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"SOHUCS"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>修改为:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"comments"</span> <span class="attr">id</span>=<span class="string">"comments"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"SOHUCS"</span> <span class="attr">sid</span>=<span class="string">"&#123;&#123; page.title &#125;&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>这样畅言就会根据文章标题判断是不是一篇文章了，这样我们只要确保网站内没有同名文章就好了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这样我们就能看到来自不同平台的评论了。</p>
-<p>原文地址：<a href="https://www.face2ai.com/other-Hexo-next-changyan">https://www.face2ai.com/other-Hexo-next-changyan</a>转载请标明出处</p>
+<p>原文地址：<a href="https://www.face2ai.com/other-Hexo-next-changyan" target="_blank" rel="noopener">https://www.face2ai.com/other-Hexo-next-changyan</a>转载请标明出处</p>
 
       
     </div>
@@ -517,7 +517,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/other-Hexo-next-changyan/" title="【Hexo】Hexo下next主题畅言评论同步问题的解决方案">http://www.face2ai.com/other-Hexo-next-changyan/</a>
+    <a href="https://face2ai.com/other-Hexo-next-changyan/" title="【Hexo】Hexo下next主题畅言评论同步问题的解决方案">https://face2ai.com/other-Hexo-next-changyan/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -551,14 +551,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/other-MIT-how-to-research/" rel="bookmark">【转】How to do Research At the MIT AI Lab</a></div>
+      <div class="popular-posts-title"><a href="/Other-Website-Contents/" rel="bookmark">本站目录</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Other-Website-Contents/" rel="bookmark">本站目录</a></div>
+      <div class="popular-posts-title"><a href="/Other-a-mail/" rel="bookmark">一封来自读者的信</a></div>
       
     </li>
   
@@ -1936,7 +1936,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2000,7 +2000,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

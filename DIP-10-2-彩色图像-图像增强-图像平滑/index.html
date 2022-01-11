@@ -112,7 +112,7 @@
 <meta name="keywords" content="彩色图像平滑,高斯滤波,均值滤波,双边滤波,中值滤波">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】10.2:彩色图像-图像增强 图像平滑">
-<meta property="og:url" content="http://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第71天Keywords: 高斯滤波,均值滤波,双边滤波,中值滤波">
 <meta property="og:locale" content="zh-CN">
@@ -125,7 +125,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-2-彩色图像-图像增强-图像平滑/20150317151723675.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-2-彩色图像-图像增强-图像平滑/20150317151904540.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-2-彩色图像-图像增强-图像平滑/20150317151918502.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.844Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】10.2:彩色图像-图像增强 图像平滑">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第71天Keywords: 高斯滤波,均值滤波,双边滤波,中值滤波">
@@ -138,7 +138,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/"/>
 
 
 
@@ -376,7 +376,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -496,7 +496,7 @@
         <p><strong>Abstract:</strong> 数字图像处理：第71天<br><strong>Keywords:</strong> 高斯滤波,均值滤波,双边滤波,中值滤波<br><a id="more"></a></p>
 <p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p>
 <h1 id="彩色图像-图像增强-图像平滑"><a href="#彩色图像-图像增强-图像平滑" class="headerlink" title="彩色图像-图像增强 图像平滑"></a>彩色图像-图像增强 图像平滑</h1><p>最近博客数量变多，访问量也一路上升，虽然目的并不是要多少访问量，但看着知识一点点的积累，而且有人认可，心情相当不错的。</p>
-<h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><p>对灰度图像进行平滑的文章：<br><a href="http://face2ai.com/DIP-5-2-灰度图像-图像增强-平滑之均值滤波-高斯滤波/" target="_blank" rel="noopener">1、均值，高斯平滑</a><br><a href="http://face2ai.com/DIP-5-3-灰度图像-图像增强-双边滤波BilateralFiltering/" target="_blank" rel="noopener">2、双边滤波</a><br><a href="http://face2ai.com/DIP-5-4-灰度图像-图像增强-中值滤波/" target="_blank" rel="noopener">3、中值滤波</a></p>
+<h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><p>对灰度图像进行平滑的文章：<br><a href="http://face2ai.com/DIP-5-2-灰度图像-图像增强-平滑之均值滤波-高斯滤波/">1、均值，高斯平滑</a><br><a href="http://face2ai.com/DIP-5-3-灰度图像-图像增强-双边滤波BilateralFiltering/">2、双边滤波</a><br><a href="http://face2ai.com/DIP-5-4-灰度图像-图像增强-中值滤波/">3、中值滤波</a></p>
 <p>这些算法在彩色图像中应用有两种，一种是对RGB全部分量进行分别处理，然后将个处理过的分量进行合并，得到彩色图像。另一种是对HSI的I分量进行处理，同样能得到平滑效果，对彩色图像的平滑这里只是最简单的介绍，如果想写个美图秀秀，需要在找几篇论文来学下。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SmoothRGB</span><span class="params">(RGB *src,RGB *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> m_width,<span class="keyword">int</span> m_height,<span class="keyword">double</span> param1,<span class="keyword">double</span> param2,<span class="keyword">int</span> Smooth_type)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> *chanel_r=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *chanel_g=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *chanel_b=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *chanel_r_dst=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *chanel_g_dst=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *chanel_b_dst=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    Split(src, chanel_r, chanel_g, chanel_b, width, height);</span><br><span class="line">    <span class="keyword">switch</span> (Smooth_type) &#123;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_GAUSSIAN:&#123;</span><br><span class="line">            GaussianFilter(chanel_r, chanel_r_dst, width, height, m_width, m_height, param1);</span><br><span class="line">            GaussianFilter(chanel_g, chanel_g_dst, width, height, m_width, m_height, param1);</span><br><span class="line">            GaussianFilter(chanel_b, chanel_b_dst, width, height, m_width, m_height, param1);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_MEDIAN:&#123;</span><br><span class="line">            MedianFilter(chanel_r, chanel_r_dst, width, height, m_width, m_height);</span><br><span class="line">            MedianFilter(chanel_g, chanel_g_dst, width, height, m_width, m_height);</span><br><span class="line">            MedianFilter(chanel_b, chanel_b_dst, width, height, m_width, m_height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_BILATERAL:&#123;</span><br><span class="line">            BilateralFilter(chanel_r, chanel_r_dst, width, height, m_width, m_height, param1, param2);</span><br><span class="line">            BilateralFilter(chanel_g, chanel_g_dst, width, height, m_width, m_height, param1, param2);</span><br><span class="line">            BilateralFilter(chanel_b, chanel_b_dst, width, height, m_width, m_height, param1, param2);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_MEAN:&#123;</span><br><span class="line">            MeanFilter(chanel_r, chanel_r_dst, width, height, m_width, m_height);</span><br><span class="line">            MeanFilter(chanel_g, chanel_g_dst, width, height, m_width, m_height);</span><br><span class="line">            MeanFilter(chanel_b, chanel_b_dst, width, height, m_width, m_height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Merge(chanel_r_dst, chanel_g_dst, chanel_b_dst, dst, width, height);</span><br><span class="line">    <span class="built_in">free</span>(chanel_r);</span><br><span class="line">    <span class="built_in">free</span>(chanel_g);</span><br><span class="line">    <span class="built_in">free</span>(chanel_b);</span><br><span class="line">    <span class="built_in">free</span>(chanel_r_dst);</span><br><span class="line">    <span class="built_in">free</span>(chanel_g_dst);</span><br><span class="line">    <span class="built_in">free</span>(chanel_b_dst);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SmoothHSI</span><span class="params">(HSI *src,HSI *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> m_width,<span class="keyword">int</span> m_height,<span class="keyword">double</span> param1,<span class="keyword">double</span> param2,<span class="keyword">int</span> Smooth_type)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> *chanel_i=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    <span class="keyword">double</span> *chanel_i_dst=(<span class="keyword">double</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    Split(src, <span class="literal">NULL</span>, <span class="literal">NULL</span>, chanel_i, width, height);</span><br><span class="line">    <span class="keyword">switch</span> (Smooth_type) &#123;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_GAUSSIAN:&#123;</span><br><span class="line">            GaussianFilter(chanel_i, chanel_i_dst, width, height, m_width, m_height, param1);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_MEDIAN:&#123;</span><br><span class="line">            MedianFilter(chanel_i, chanel_i_dst, width, height, m_width, m_height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_BILATERAL:&#123;</span><br><span class="line">            BilateralFilter(chanel_i, chanel_i_dst, width, height, m_width, m_height, param1, param2);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> SMOOTH_MEAN:&#123;</span><br><span class="line">            MeanFilter(chanel_i, chanel_i_dst, width, height, m_width, m_height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)&#123;</span><br><span class="line">        dst[i].c1=src[i].c1;</span><br><span class="line">        dst[i].c2=src[i].c2;</span><br><span class="line">        dst[i].c3=chanel_i_dst[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(chanel_i);</span><br><span class="line">    <span class="built_in">free</span>(chanel_i_dst);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="处理效果"><a href="#处理效果" class="headerlink" title="处理效果"></a>处理效果</h2><p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-2-彩色图像-图像增强-图像平滑/20150317151425981.png" alt=""></p>
@@ -509,7 +509,7 @@
 <p>HSI色彩空间 I 通道5x5双边滤波：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-2-彩色图像-图像增强-图像平滑/20150317151904540.png" alt=""></p>
 <p>HSI色彩空间 I 通道5x5中值滤波：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-2-彩色图像-图像增强-图像平滑/20150317151918502.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>因为是从灰度图像移植过来的算法，所以具体原理不用废话了。<br>待续。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑">https://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑" target="_blank" rel="noopener">https://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑</a>转载请标明出处</p>
 
       
     </div>
@@ -535,7 +535,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/" title="【数字图像处理】10.2:彩色图像-图像增强 图像平滑">http://www.face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/</a>
+    <a href="https://face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/" title="【数字图像处理】10.2:彩色图像-图像增强 图像平滑">https://face2ai.com/DIP-10-2-彩色图像-图像增强-图像平滑/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -569,14 +569,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1958,7 +1958,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2022,7 +2022,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

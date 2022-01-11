@@ -109,10 +109,10 @@
 
 
   <meta name="description" content="Abstract: 数字图像处理：第57天Keywords: 区域分割,区域生长">
-<meta name="keywords" content="图像分割,区域生长,区域分割">
+<meta name="keywords" content="图像分割,区域分割,区域生长">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】7.8:灰度图像-图像分割 区域分割之区域生长">
-<meta property="og:url" content="http://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第57天Keywords: 区域分割,区域生长">
 <meta property="og:locale" content="zh-CN">
@@ -125,7 +125,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103208850.jpeg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103222111.jpeg">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103231315.jpeg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.889Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】7.8:灰度图像-图像分割 区域分割之区域生长">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第57天Keywords: 区域分割,区域生长">
@@ -138,7 +138,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/"/>
 
 
 
@@ -376,7 +376,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -508,7 +508,7 @@
 <p>#代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*区域生长，设置一个种子点x（灰度值为x_v），然后以种子点为中心</span></span><br><span class="line"><span class="comment"> *向四周进行图搜索，如果点y（灰度值为y_v）,邻域满足param+x_v&gt;y_v&gt;x_v-param（条件1）</span></span><br><span class="line"><span class="comment"> *则此点与种子点归为一个区域，以此递归，条件1可以根据不同的需要自行设置其他.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//递归遍历邻域，并判断条件是否成立</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">findGrowRegion</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">int</span> seed_x,<span class="keyword">int</span> seed_y,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> regionNum,<span class="keyword">double</span> value,<span class="keyword">double</span> param)</span></span>&#123;</span><br><span class="line">    dst[seed_y*width+seed_x]=(<span class="keyword">double</span>)regionNum;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">-1</span>;j&lt;<span class="number">2</span>;j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">-1</span>;i&lt;<span class="number">2</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(seed_x&gt;=<span class="number">0</span>&amp;&amp;seed_y&gt;=<span class="number">0</span>&amp;&amp;seed_x&lt;width&amp;&amp;seed_y&lt;height&amp;&amp;(j!=<span class="number">0</span>||i!=<span class="number">0</span>))&#123;</span><br><span class="line">                <span class="keyword">if</span>(src[(j+seed_y)*width+i+seed_x]&gt;=value-param</span><br><span class="line">                   &amp;&amp;src[(j+seed_y)*width+i+seed_x]&lt;=value+param</span><br><span class="line">                   &amp;&amp;dst[(j+seed_y)*width+i+seed_x]==<span class="number">0.0</span>)</span><br><span class="line">                    findGrowRegion(src, dst, i+seed_x, j+seed_y, width, height, regionNum, value,param);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RegionGrow</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,Position * position,<span class="keyword">int</span> p_size,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">double</span> param)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> * dsttemp=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    Zero(dsttemp, width, height);</span><br><span class="line">    <span class="keyword">int</span> regionNum=<span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p_size;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> x=position[i].x;</span><br><span class="line">        <span class="keyword">int</span> y=position[i].y;</span><br><span class="line">        findGrowRegion(src, dsttemp, x,y, width, height, regionNum,src[y*width+x],param);</span><br><span class="line">        regionNum+=<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    matrixCopy(dsttemp, dst, width, height);</span><br><span class="line">    <span class="built_in">free</span>(dsttemp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h2><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102947344.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102957219.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103121036.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103016999.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103140802.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103152174.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103208850.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103222111.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103231315.jpeg" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>区域生长算法实现较简单，但如果递归区域面积过大，可能造成程序卡死，可能是栈空间不够或者别的，这个需要处理下，这个算法的缺点是需要设置种子点，本算法的优点也是可以设置种子点，这样灵活但不够智能，算法执行速度较快。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长">https://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长" target="_blank" rel="noopener">https://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长</a>转载请标明出处</p>
 
       
     </div>
@@ -534,7 +534,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/" title="【数字图像处理】7.8:灰度图像-图像分割 区域分割之区域生长">http://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/</a>
+    <a href="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/" title="【数字图像处理】7.8:灰度图像-图像分割 区域分割之区域生长">https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -568,14 +568,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -600,9 +600,9 @@
           
             <a href="/tags/图像分割/" rel="tag"># 图像分割</a>
           
-            <a href="/tags/区域生长/" rel="tag"># 区域生长</a>
-          
             <a href="/tags/区域分割/" rel="tag"># 区域分割</a>
+          
+            <a href="/tags/区域生长/" rel="tag"># 区域生长</a>
           
         </div>
       
@@ -1953,7 +1953,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2017,7 +2017,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

@@ -112,11 +112,11 @@
 <meta name="keywords" content="指数分布">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】5-7:Gama分布(The Gamma Distributions Part II)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍Gamma分布相关知识的第二部分指数分布Keywords: The Exponential Distributions">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:22:56.902Z">
+<meta property="og:updated_time" content="2018-10-04T15:22:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】5-7:Gama分布(The Gamma Distributions Part II)">
 <meta name="twitter:description" content="Abstract: 本文介绍Gamma分布相关知识的第二部分指数分布Keywords: The Exponential Distributions">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -497,7 +497,7 @@
 <blockquote>
 <p>Definition Exponential Distributions.Let $\beta &gt;0$ .A random variable $X$ has the exponential distribution with parameter $\beta$ if $X$ has a continuous distribution with the p.d.f.<br>$$<br>f(x\beta)=<br>\begin{cases}<br>\beta e^{-\beta x}&amp; \text{ for }x&gt;0\\<br>0&amp;\text{for} x\leq 0<br>\end{cases}<br>$$</p>
 </blockquote>
-<p>这就是指数分布的定义，还是想之前说的，定义就是对这个在什么情况下分布是什么样子的进行定义，然后我们接下来要做的是通过这个定义能产生多少相关的定理结论。<br>作为对比，我们来列出Gamma分布，进行对比就能清楚地知道一些性质了，<a href="https://face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P1/" target="_blank" rel="noopener">Gamma分布</a></p>
+<p>这就是指数分布的定义，还是想之前说的，定义就是对这个在什么情况下分布是什么样子的进行定义，然后我们接下来要做的是通过这个定义能产生多少相关的定理结论。<br>作为对比，我们来列出Gamma分布，进行对比就能清楚地知道一些性质了，<a href="https://face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P1/">Gamma分布</a></p>
 <font face="黑体" color="#6F6FFF"><b><br>Gamma Distributions.Let $\alpha$ and $\beta$ be positive numbers.A random variable $X$ has the gamma distribution with parameters $\alpha$ and $\beta$ if $X$ has a continuous distribution for which the p.d.f. is<br>$$<br>f(x|\alpha,\beta)=<br>\begin{cases}<br>\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}&amp;\text{ for } x&gt;0\\<br>0&amp;\text{otherwise}<br>\end{cases}<br>$$<br></b></font>
 
 <p>因为Gamma函数在 $\Gamma(1)=1$ 所以，指数分布就是Gamma分布 $\alpha=1$ 的时候产生的分布。</p>
@@ -525,7 +525,7 @@
 </blockquote>
 <p>上述定理说明指数分布的随机变量 $X_1,\dots,X_n$ 有参数 $\beta$ 那么假设 $Z_1\leq Z_2\dots \leq Z_n$ 是 $X_1,\dots,X_n$ 从小到大的排列 ，对于每一个 $Y_k=Z_k-Z_{k-1}$ 其中$k=2,\dots,n$ 那么  $Y_k$也是指数分布，并且其参数是  $(n+1-k)\beta$ 。</p>
 <p>这个看起来就有点神奇了，但是证明过后发现，确实如此。<br>证明：<br>在时间 $Z_{k-1}$ ，有 $k-1$ 个寿命已经结束了，有 $n+1-k$ 个还没坏，那么根据上一个例子，剩下的活着的的依然遵守无记忆性性质，依然服从指数分布，其参数为 $\beta$ ，所以 $Y_k=Z_k- Z_{k-1}$ 也是活着的最小寿命时间分布，还是参数为 $\beta$ 的指数分布，只不过试验总数变成了 $n+1-k$ 个，所以根据定理 5.7.10 指数分布参数为 $(n+1-k)\beta$<br>接下来我们研究一下，泊松过程和指数分布之间的关系。</p>
-<h2 id="指数分布和泊松过程的关系-Relation-to-Poisson-Process"><a href="#指数分布和泊松过程的关系-Relation-to-Poisson-Process" class="headerlink" title="指数分布和泊松过程的关系 Relation to Poisson Process"></a>指数分布和泊松过程的关系 Relation to Poisson Process</h2><p>回顾下<a href="https://www.face2ai.com/Math-Probability-5-4-The-Poisson-Distribution/">泊松分布</a>的提出，当时提出泊松分布的情况是为了计算某段时间内到达商店的顾客数量，当时假定平均每个小时有多少人，然后按照伯努利过程抽象最小时间单位比如秒内是否有人来，然后得出一段时的二项分布，发现二项分布太麻烦，于是用泊松分布来近似此情况下的二项分布，用于建模某段时间内的客户数量，但是，当我们想要知道每两个相邻进店的客户之间间隔了多少时间，这时候就可以用指数分布来进行建模了</p>
+<h2 id="指数分布和泊松过程的关系-Relation-to-Poisson-Process"><a href="#指数分布和泊松过程的关系-Relation-to-Poisson-Process" class="headerlink" title="指数分布和泊松过程的关系 Relation to Poisson Process"></a>指数分布和泊松过程的关系 Relation to Poisson Process</h2><p>回顾下<a href="https://www.face2ai.com/Math-Probability-5-4-The-Poisson-Distribution/" target="_blank" rel="noopener">泊松分布</a>的提出，当时提出泊松分布的情况是为了计算某段时间内到达商店的顾客数量，当时假定平均每个小时有多少人，然后按照伯努利过程抽象最小时间单位比如秒内是否有人来，然后得出一段时的二项分布，发现二项分布太麻烦，于是用泊松分布来近似此情况下的二项分布，用于建模某段时间内的客户数量，但是，当我们想要知道每两个相邻进店的客户之间间隔了多少时间，这时候就可以用指数分布来进行建模了</p>
 <blockquote>
 <p>Theorem 5.7.12 Times between Arrivales in a Poisson Process.Suppose that arrivals occur according a Poisson process with rate $\beta$ .Let $Z_k$ be the time until the $k$ th arrival for $k=1,2,\dots$ .Define $Y_1=Z_1$ and $Y_k=Z_k-Z_{k-1}$ for $k\geq 2$ Then $Y_1,Y_2,\dots$ are i.i.d. and they each have the exponential distribution with parameter $\beta$</p>
 </blockquote>
@@ -536,7 +536,7 @@
 <p>Corollary Time until $k$ th Arrival. In the situation of Theorem 5.7.12,the distribution of $Z_k$ is the gamma distribution with paramters $k$ and $\beta$</p>
 </blockquote>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文在上文Gamma分布上进行特例，得到一中经常由于建模使用寿命，或者泊松过程时间间隔的分布——指数分布。<br>下一篇我们继续啊在Gamma分布的基础上构建其他类型的分布。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2">https://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2</a>转载请标明出处</p>
 
       
     </div>
@@ -562,7 +562,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/" title="【概率论】5-7:Gama分布(The Gamma Distributions Part II)">http://www.face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/</a>
+    <a href="https://face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/" title="【概率论】5-7:Gama分布(The Gamma Distributions Part II)">https://face2ai.com/Math-Probability-5-7-The-Gamma-Distributions-P2/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -582,14 +582,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -1963,7 +1963,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2027,7 +2027,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

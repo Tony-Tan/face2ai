@@ -112,7 +112,7 @@
 <meta name="keywords" content="连续随机变量,连续分布,概率密度函数,均匀分布">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】3-2:连续分布(Continuous Distributions)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文继续上文的离散随机变量的观点，将部分试验模型转换到连续随机变量的观点上。Keywords: Continuous Random Variable，Continuous Distributions，Probability Desity Function，Uniform Distributions on Intervals">
 <meta property="og:locale" content="zh-CN">
@@ -121,7 +121,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/pdf.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/pdf2.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/distribution.png">
-<meta property="og:updated_time" content="2018-10-04T15:16:30.066Z">
+<meta property="og:updated_time" content="2018-10-04T15:16:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-2:连续分布(Continuous Distributions)">
 <meta name="twitter:description" content="Abstract: 本文继续上文的离散随机变量的观点，将部分试验模型转换到连续随机变量的观点上。Keywords: Continuous Random Variable，Continuous Distributions，Probability Desity Function，Uniform Distributions on Intervals">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/"/>
 
 
 
@@ -372,7 +372,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -505,7 +505,7 @@
 </blockquote>
 <p>我们定义下连续分布和连续随机变量（依然是个函数），定义连续随机变量（函数），在实数轴上，每一个区间（有界或者无界）对应的概率是这个区间上 $f$ 的积分。</p>
 <p>$$<br>Pr(a\leq X\leq b)=\int^b_af(x)dx<br>$$</p>
-<p>上面这个定义和上面的例子相互对应，所以，上面的例子的解法没有问题，那么为什么单点概率会是0？因为当事件的随机变量产生的结果是连续的，那么无数个事件对应无数个连续的随即变量值，为了满足公理 <a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/" target="_blank" rel="noopener">Kolmogorov Axiom 3</a> 这些事件的概率和必然是1，那么，只有通过积分，才能把无数个小到零的数字，加到1，所以连续随机变量的值，描述要用到积分。又因为单点积分没有定义（用黎曼积分没办法算），所以我们可以理解，上面的定义是很有道理的。计算一个区间内的随机变量的积分，比如 $[x-\epsilon,x+\epsilon]\text{ for }(\epsilon&gt;0)$ 上的积分，来近似表示x处的概率，当 $\epsilon \to 0$ 可以完成这个近似。<br>总结起来就是：连续事件有无穷多个随机变量值，那么单个随机变量值变得毫无意义（无限趋近于0），只有用（某区间上的）无数多个随机变量的概率的积分( $&gt;0$ )，与完整样本空间上的随机变量概率的积分和（1）的比例来描述这部分(区间上的)的概率。</p>
+<p>上面这个定义和上面的例子相互对应，所以，上面的例子的解法没有问题，那么为什么单点概率会是0？因为当事件的随机变量产生的结果是连续的，那么无数个事件对应无数个连续的随即变量值，为了满足公理 <a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">Kolmogorov Axiom 3</a> 这些事件的概率和必然是1，那么，只有通过积分，才能把无数个小到零的数字，加到1，所以连续随机变量的值，描述要用到积分。又因为单点积分没有定义（用黎曼积分没办法算），所以我们可以理解，上面的定义是很有道理的。计算一个区间内的随机变量的积分，比如 $[x-\epsilon,x+\epsilon]\text{ for }(\epsilon&gt;0)$ 上的积分，来近似表示x处的概率，当 $\epsilon \to 0$ 可以完成这个近似。<br>总结起来就是：连续事件有无穷多个随机变量值，那么单个随机变量值变得毫无意义（无限趋近于0），只有用（某区间上的）无数多个随机变量的概率的积分( $&gt;0$ )，与完整样本空间上的随机变量概率的积分和（1）的比例来描述这部分(区间上的)的概率。</p>
 <p>那么上面这个表达的一个突出结果就是 $f$ 将会是非常重要的，这个$f$ 有点像离散随机变量的概率函数，但是操作起来又有很大差别。</p>
 <h3 id="概率密度函数的定义-Definition-Probability-Density-Function-p-d-f-Support"><a href="#概率密度函数的定义-Definition-Probability-Density-Function-p-d-f-Support" class="headerlink" title="概率密度函数的定义 Definition Probability Density Function/p.d.f/Support"></a>概率密度函数的定义 Definition Probability Density Function/p.d.f/Support</h3><blockquote>
 <p>Definition Probability Density Function/p.d.f/Support:If $X$ has a continuous distribution ,the function $f$ described in definition Continuous Distribution/Random Variable is called the probability density function(abbreviated p.d.f)of $X$.The closure of the set ${x:f(x)&gt;0}$ is called the support of (the distribution of) $X$</p>
@@ -540,7 +540,7 @@
 <p>$$<br>Pr(X&gt;2)=\int^4_2\frac{1}{8}xdx=\frac{3}{4}<br>$$</p>
 <h2 id="混合分布-Mixed-Distribution"><a href="#混合分布-Mixed-Distribution" class="headerlink" title="混合分布 Mixed Distribution"></a>混合分布 Mixed Distribution</h2><p>混合分布这里简单介绍一下，当一个试验被二维随机变量映射时，将会产生一个二维的随机变量值这个值有两个维度，这两个维度相互之间可以有影响也可以没有影响，但是他们连续与否是完全独立的，也就是说两个输出值，其中一个是连续的，另一个离散的，这完全没问题，而具体的计算也可以分别参考离散和连续随机变量。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要讲如何用pdf来描述一个随机变量（值）的连续分布，后面我们继续研究连续情况下的分布表述，以及其他一些工具。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution">https://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution</a>转载请标明出处</p>
 
       
     </div>
@@ -566,7 +566,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution/" title="【概率论】3-2:连续分布(Continuous Distributions)">http://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution/</a>
+    <a href="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/" title="【概率论】3-2:连续分布(Continuous Distributions)">https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -593,14 +593,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-4-3-Variance/" rel="bookmark">【概率论】4-3:方差(Variance)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Probability-Big-Picture/" rel="bookmark">【概率论】 概率论总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Probability-6-4-The-Correction-for-Continuity/" rel="bookmark">【概率论】6-4:分布连续性修正(The Correction for Continuity)</a></div>
       
     </li>
   
@@ -1980,7 +1980,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2044,7 +2044,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

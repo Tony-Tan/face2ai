@@ -112,12 +112,12 @@
 <meta name="keywords" content="流回调">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】6.5 流回调">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-6-5-流回调/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-6-5-流回调/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍流回调Keywords: 流回调">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-5-流回调/re-6-5-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.924Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】6.5 流回调">
 <meta name="twitter:description" content="Abstract: 本文介绍流回调Keywords: 流回调">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-6-5-流回调/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-6-5-流回调/"/>
 
 
 
@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-6-5-流回调/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-6-5-流回调/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -504,7 +504,7 @@
 <p>加入流中。<br>本文完整的代码在github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a>（欢迎随手star😝 ）<br>部分代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> CUDART_CB <span class="title">my_callback</span><span class="params">(cudaStream_t stream,cudaError_t status,<span class="keyword">void</span> * data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"call back from stream:%d\n"</span>,*((<span class="keyword">int</span> *)data));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//asynchronous calculation</span></span><br><span class="line">    <span class="keyword">int</span> iElem=nElem/N_SEGMENT;</span><br><span class="line">    cudaStream_t stream[N_SEGMENT];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        CHECK(cudaStreamCreate(&amp;stream[i]));</span><br><span class="line">    &#125;</span><br><span class="line">    cudaEvent_t start,stop;</span><br><span class="line">    cudaEventCreate(&amp;start);</span><br><span class="line">    cudaEventCreate(&amp;stop);</span><br><span class="line">    cudaEventRecord(start,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> ioffset=i*iElem;</span><br><span class="line">        CHECK(cudaMemcpyAsync(&amp;a_d[ioffset],&amp;a_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">        CHECK(cudaMemcpyAsync(&amp;b_d[ioffset],&amp;b_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">        sumArraysGPU&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;(&amp;a_d[ioffset],&amp;b_d[ioffset],&amp;res_d[ioffset],iElem);</span><br><span class="line">        CHECK(cudaMemcpyAsync(&amp;res_from_gpu_h[ioffset],&amp;res_d[ioffset],nByte/N_SEGMENT,cudaMemcpyDeviceToHost,stream[i]));</span><br><span class="line">        CHECK(cudaStreamAddCallback(stream[i],my_callback,(<span class="keyword">void</span> *)(stream+i),<span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//timer</span></span><br><span class="line">    CHECK(cudaEventRecord(stop, <span class="number">0</span>));</span><br><span class="line">    <span class="keyword">int</span> counter=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (cudaEventQuery(stop)==cudaErrorNotReady)</span><br><span class="line">    &#123;</span><br><span class="line">        counter++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>结果如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-5-流回调/re-6-5-2.png" alt="re-6-5-2"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了本系列的最后一个小功能，流回调，下面部分就是中级提高篇了，要好好练习前面的，不然后面会懵逼哦！</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-5-流回调">https://www.face2ai.com/CUDA-F-6-5-流回调</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-5-流回调" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-6-5-流回调</a>转载请标明出处</p>
 
       
     </div>
@@ -530,7 +530,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-6-5-流回调/" title="【CUDA 基础】6.5 流回调">http://www.face2ai.com/CUDA-F-6-5-流回调/</a>
+    <a href="https://face2ai.com/CUDA-F-6-5-流回调/" title="【CUDA 基础】6.5 流回调">https://face2ai.com/CUDA-F-6-5-流回调/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -550,14 +550,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
@@ -1931,7 +1931,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1995,7 +1995,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

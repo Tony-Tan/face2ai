@@ -109,10 +109,10 @@
 
 
   <meta name="description" content="Abstract: 数字图像处理：第17天Keywords: 离散周期序列，傅里叶级数">
-<meta name="keywords" content="离散周期序列,傅里叶级数">
+<meta name="keywords" content="傅里叶级数,离散周期序列">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】4.4：灰度图像-频域滤波 傅里叶变换之离散周期信号傅里叶级数&quot;">
-<meta property="og:url" content="http://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第17天Keywords: 离散周期序列，傅里叶级数">
 <meta property="og:locale" content="zh-CN">
@@ -133,7 +133,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112164844039.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112165626861.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112165638093.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.852Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】4.4：灰度图像-频域滤波 傅里叶变换之离散周期信号傅里叶级数&quot;">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第17天Keywords: 离散周期序列，傅里叶级数">
@@ -146,7 +146,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/"/>
 
 
 
@@ -384,7 +384,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -509,7 +509,7 @@
 <h2 id="傅里叶级数分析式"><a href="#傅里叶级数分析式" class="headerlink" title="傅里叶级数分析式"></a>傅里叶级数分析式</h2><p>综合式确定以后，接下来就是确定各个级数的系数，这里采用和连续周期信号傅里叶级数同样的方法，下面式子可以看出，原始信号x共有N项已知，每项有一个N项的级数项组合，每个级数项对应一个未知系数，级数项可以计算，也就是说，有N个方程，N个未知数，且这些方程线性独立，所以系数是有唯一解集的，这也是离散周期信号傅里叶级数不存在收敛问题的愿意，其计算非求极限，而是实实在在的方程的解，而且离散周期信号序列肯定是绝对可和的，所以傅里叶级数一定存在。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112161436531.png" alt="Center 9"><br>但为了与连续形式相对应，我们不采用解方程的方法，而是使用与连续周期函数响应的方法，因为有以下性质：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112162154703.png" alt="Center 10">3.2<br>推导如下：<br>$f(n)$ 为原始序列，$s(n)$ 为级数集合，$a_n$ 为对应的系数，根据上式可以得到 $s_0$ 的值处处为1（上式虽然值写了N项和为N，但通过复指数原始公式可以得出所有项都为1，因为e的指数是0，或者 $2<em>\pi$ 的整数倍），$S^</em>_k(n)$ 是 $S_k(n)$ 的共轭，所以，他们合体就是 $S_0$ ，所以结合上面公式，得到下面推导的最后结论。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112162625650.png" alt="Center 11"><br>将上面的推导过程综合成两步，使用的关键特性也是3.2：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112163656001.png" alt="Center 12"><br>得到分析结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112163745968.png" alt="Center 13"><br>所以我们得到离散周期信号傅里叶级数：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112164844039.png" alt="Center 14"></p>
 <h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><p>离散周期信号的傅里叶级数的性质与连续情况下类似，总结为原书中的下表：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112165626861.png" alt="Center 15"><br>在加一条帕斯瓦尔定理：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/20150112165638093.png" alt="Center 16"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>离散时间周期信号的傅里叶级数与连续情况下的区别主要有：离散情况下不存在收敛问题，也没有吉伯斯现象，级数项是有限的N，并且离散时间周期序列傅里叶级数的系数是周期的，且周期为N。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数">https://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数" target="_blank" rel="noopener">https://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数</a>转载请标明出处</p>
 
       
     </div>
@@ -535,7 +535,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/" title="【数字图像处理】4.4：灰度图像-频域滤波 傅里叶变换之离散周期信号傅里叶级数"">http://www.face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/</a>
+    <a href="https://face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/" title="【数字图像处理】4.4：灰度图像-频域滤波 傅里叶变换之离散周期信号傅里叶级数"">https://face2ai.com/DIP-4-4-灰度图像-频域滤波-傅里叶变换之离散周期信号傅里叶级数/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -562,14 +562,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -592,9 +592,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/离散周期序列/" rel="tag"># 离散周期序列</a>
-          
             <a href="/tags/傅里叶级数/" rel="tag"># 傅里叶级数</a>
+          
+            <a href="/tags/离散周期序列/" rel="tag"># 离散周期序列</a>
           
         </div>
       
@@ -1945,7 +1945,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2009,7 +2009,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

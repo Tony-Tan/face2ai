@@ -112,11 +112,11 @@
 <meta name="keywords" content="特征值,特征向量,对称矩阵,投影矩阵,谱定理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】6-4:对称矩阵(Symmetric Matrices)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Linear-Algebra-Chapter-6-4/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本篇继续线性代数的高潮部分，对称矩阵，以及对称矩阵的一些性质Keywords: Eigenvalues，Eigenvectors，Symmetric Matrices，Projection Matrices，Spectral Theorem，Principal Axis Theorem">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:12:09.974Z">
+<meta property="og:updated_time" content="2018-10-04T15:12:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】6-4:对称矩阵(Symmetric Matrices)">
 <meta name="twitter:description" content="Abstract: 本篇继续线性代数的高潮部分，对称矩阵，以及对称矩阵的一些性质Keywords: Eigenvalues，Eigenvectors，Symmetric Matrices，Projection Matrices，Spectral Theorem，Principal Axis Theorem">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Linear-Algebra-Chapter-6-4/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Linear-Algebra-Chapter-6-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -493,8 +493,8 @@
         <p><strong>Abstract:</strong> 本篇继续线性代数的高潮部分，对称矩阵，以及对称矩阵的一些性质<br><strong>Keywords:</strong> Eigenvalues，Eigenvectors，Symmetric Matrices，Projection Matrices，Spectral Theorem，Principal Axis Theorem</p>
 <a id="more"></a>
 <h1 id="对称矩阵"><a href="#对称矩阵" class="headerlink" title="对称矩阵"></a>对称矩阵</h1><p>这几篇在难度上确实要比前面的内容大很多，所以看书理解和总结都变得不那么流畅了，但是慢慢看下来收获还是有很大的，而且我发现不管学的多认真，还是会有遗漏，所以我觉得之前的想法就是一次性把什么什么学会是不可能的，只能学到自己觉得达到自己能发现的最大限度，等到应用之时还是要回来查阅，这样往往会有进一步的更大发现，</p>
-<h2 id="对称矩阵-Symmetric-Matrices"><a href="#对称矩阵-Symmetric-Matrices" class="headerlink" title="对称矩阵 (Symmetric Matrices)"></a>对称矩阵 (Symmetric Matrices)</h2><p>对称矩阵我们在最早的知识里面就学过 $A^T=A$ 的矩阵叫做<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-2/" target="_blank" rel="noopener">对称矩阵</a>，我们也学过<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-2/" target="_blank" rel="noopener">投影矩阵</a>,但是当时我们并没有强调过一点就是投影矩阵都是对称的，这个性质今天在这里会有很大的用途。<br>我们继续说投影矩阵，所谓投影矩阵，就是在和向量 $\vec{c}$ 相乘的时候，投影到矩阵A的列空间内，那么其中，投影 $p$ 和 原向量 $\vec{c}$ 的差 $\vec{e} =\vec{c}-\vec{p}$ 与子空间正交。</p>
-<p>举个例子，在三维空间内，A的列空间是一个二维平面那么，A对应的投影矩阵P能够把任何方向的向量投影到平面上，那么如果向量本身属于平面那么 $Px=x$ 显然是不用质疑的（我们之前在投影那篇文章中也讲过） 但是，同志们，看看这个有木有很面熟啊，这个明显就是投影矩阵 $P$ 的特征值和特征向量么？没错，$P$ 有一个平面的特征向量，可以随便选！能选多少个呢、当然是无数个，但是问题又来了，这无数多个并不是独立的，因为一共就二维，选出来三个线性独立的向量都是不可能的，所以这个平面能选出两个线性独立的特征向量，并且对应的特征值都是1，这里有人可能疑惑为啥要选两个，因为我们<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-6-2/" target="_blank" rel="noopener">6-2</a>的时候说过只有特诊向量足够的情况下才能对角化，投影矩阵明显是个3x3的矩阵，那么特征向量也应该有三个呀！我们的子空间是二维的，所以理论上应该有两个特征向量在上面，剩下一维存在一个，那么这一个也能很好找，$\vec{e}$ 就是 也就是和子空间正交的向量都行 $Px=0x$ 表明 $\vec{x}$ 和子空间正交，那么这是个特征值为0的特征向量，这样我们又进一步规范一下，选择三个特征向量相互正交，这个也是可以做到的，也就是对于矩阵P我们找到了三个相互正交的特征向量，并且长度缩放到单位长度。</p>
+<h2 id="对称矩阵-Symmetric-Matrices"><a href="#对称矩阵-Symmetric-Matrices" class="headerlink" title="对称矩阵 (Symmetric Matrices)"></a>对称矩阵 (Symmetric Matrices)</h2><p>对称矩阵我们在最早的知识里面就学过 $A^T=A$ 的矩阵叫做<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-2/">对称矩阵</a>，我们也学过<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-2/">投影矩阵</a>,但是当时我们并没有强调过一点就是投影矩阵都是对称的，这个性质今天在这里会有很大的用途。<br>我们继续说投影矩阵，所谓投影矩阵，就是在和向量 $\vec{c}$ 相乘的时候，投影到矩阵A的列空间内，那么其中，投影 $p$ 和 原向量 $\vec{c}$ 的差 $\vec{e} =\vec{c}-\vec{p}$ 与子空间正交。</p>
+<p>举个例子，在三维空间内，A的列空间是一个二维平面那么，A对应的投影矩阵P能够把任何方向的向量投影到平面上，那么如果向量本身属于平面那么 $Px=x$ 显然是不用质疑的（我们之前在投影那篇文章中也讲过） 但是，同志们，看看这个有木有很面熟啊，这个明显就是投影矩阵 $P$ 的特征值和特征向量么？没错，$P$ 有一个平面的特征向量，可以随便选！能选多少个呢、当然是无数个，但是问题又来了，这无数多个并不是独立的，因为一共就二维，选出来三个线性独立的向量都是不可能的，所以这个平面能选出两个线性独立的特征向量，并且对应的特征值都是1，这里有人可能疑惑为啥要选两个，因为我们<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-6-2/">6-2</a>的时候说过只有特诊向量足够的情况下才能对角化，投影矩阵明显是个3x3的矩阵，那么特征向量也应该有三个呀！我们的子空间是二维的，所以理论上应该有两个特征向量在上面，剩下一维存在一个，那么这一个也能很好找，$\vec{e}$ 就是 也就是和子空间正交的向量都行 $Px=0x$ 表明 $\vec{x}$ 和子空间正交，那么这是个特征值为0的特征向量，这样我们又进一步规范一下，选择三个特征向量相互正交，这个也是可以做到的，也就是对于矩阵P我们找到了三个相互正交的特征向量，并且长度缩放到单位长度。</p>
 <p>以上三维投影到二维平面可以通过几何来解释，但为了能让大家从线性空间来理解，就没用几何方法，大家可以自己脑补。</p>
 <p>得出结论，对称矩阵 $P^T=P$ 的特征向量相互正交并且为单位向量。<br>对称矩阵”It is no exaggeration to say that these are the most important matrices the world will ever see – in the theory of linear algebra and alos in the applications” 翻译成中文：“对称矩阵是史上最牛B的矩阵，无论在理论还是应用”<br>这个我们目前还无法考证，还没做过应用呢？不是么，但是我知道PCA中确实用了对称矩阵，SVD等一些列相关技术。<br>一个矩阵能被如此称赞，不外乎几点原因，首先是其本身拥有较好的性质，其次这个矩阵在自然生活中经常出现，就像正态分布，那么难的公式，却能准确的描述自然届的现象。最后就是如果表现形式简单，那么这个就是非常有用的东西啦。</p>
 <p>下面我们开始探索对称矩阵的性质。<br>如果一个对称矩阵满足：<br>$$<br>suppose:\\<br>A^T=A\\<br>A=S\Lambda S^{-1}\\<br>then:\\<br>A^T=(S^{-1})^T\Lambda^T S^T<br>$$<br>这种情况下就有下面这种<strong><em>可能</em></strong>了，也就是对应的 $S=(S^{-1})^T$ 注意我们这里说的是可能，并不排除不可能的情况，原文书上用的也是possibly，也就是说我们目前假设:<br>$$<br>S^T=S^{-1}\\<br>S^TS=I<br>$$<br>这里我们可以预报一下：</p>
@@ -504,7 +504,7 @@
 <li>对称矩阵特征向量可以选择正交单位向量 <em>orthonormal</em></li>
 </ol>
 </blockquote>
-<p>对于 $S^TS=I$ 面熟么？还有印象么？我们认识啊，<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-4/" target="_blank" rel="noopener">正交矩阵 </a><br>$Q^TQ=I$ 矩阵Q中每列之间相互正交，也就是我们对于对称矩阵可以写成：<br>$$<br>A=Q\Lambda Q^{-1}=Q\Lambda Q^T\\<br>with:\\<br>Q^{-1}=Q^T<br>$$</p>
+<p>对于 $S^TS=I$ 面熟么？还有印象么？我们认识啊，<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-4-4/">正交矩阵 </a><br>$Q^TQ=I$ 矩阵Q中每列之间相互正交，也就是我们对于对称矩阵可以写成：<br>$$<br>A=Q\Lambda Q^{-1}=Q\Lambda Q^T\\<br>with:\\<br>Q^{-1}=Q^T<br>$$</p>
 <p>这个就是著名的普定理 “Spectral Theorem”:</p>
 <blockquote>
 <p>Every symmetric matrix has the factorization $A=Q\Lambda Q^T$ with real eigenvalues in $\Lambda$ and orthonormal eigenvectors in $S=Q$</p>
@@ -553,7 +553,7 @@
 <p>这个定理给出了详细的证明，但比较复杂，我试着简单的证明了一下（如果有不严谨的地方，请各位指出）:<br>pf:<br>对于一个矩阵A，它代表的是A的列空间的基的矩阵，我们可以把它进行 $QR$ 分解，得到以Q为基（正交基）的同样的子空间，那么 $AQ$ 将还是这个子空间的基，所以我们可以得到：<br>$$<br>AQ=QT\\<br>so:<br>A=QTQ^{-1}<br>$$<br>上述过程中T是和R类似的上三角矩阵,对于所有方阵成立。<br>也就是说如果我们把Schur 定理稍微进行变形:<br>$$<br>A^T=Q^TT^TQ\\<br>when:\\<br>A^T=A\\<br>T^T=T<br>$$<br>因为T是三角矩阵，所以当它也是对称矩阵的时候，必然是对角的。QED<br>以上是我刚发明的简单的证明方法，对于Schur’s Theorem 我们需要找的就是是否存在T使得 $AQ=QT$ 成立，其中Q是正交矩阵（研究证明题必须先把目标搞明白，别看了一路都是对的，就是不知道要干嘛，我刚才就犯了这个毛病，看哪句都是真命题，然后迷迷糊糊不知道要证明啥），下面描述下书上的方法：<br>我们要寻找Q，满足$AQ=QT$<br>观察T是上三角矩阵，所以第一列只有一个元素$t_{11}$ 其中 $q_1$ 是Q的第一列,也就是说 $Aq_1=t_{11}q_1$ (这个要是不明白就自己拿笔画个矩阵比划一下子，就知道了)</p>
 <p>$$<br>\bar{Q}^T_1AQ_1=<br>\begin{bmatrix}<br>\bar{q}^T_1\\<br>\vdots \\<br>\bar{q}_n^T<br>\end{bmatrix}<br>\begin{bmatrix}<br>&amp;&amp;\\<br>Aq_1&amp;\dots&amp;Aq_n\\<br>&amp;&amp;<br>\end{bmatrix}=<br>\begin{bmatrix}<br>t_{11}&amp;\dots&amp;\dots&amp;\dots \\<br>0&amp;&amp;&amp; \\<br>0&amp;&amp;A_2&amp;\\<br>0&amp;&amp;&amp;<br>\end{bmatrix}<br>$$<br>观察上面的整个过程$Aq_1=t_{11}q_1$ 其实是A的特征值和特征向量，那么$q_2\dots  q_n$这些值怎么确定？答案是无所谓，只要找一组和$q_1$ 都正交的基就可以填充出其他部分（因为$t_{12}\dots t_{1n}$ $q_1\dots q_n$ 相乘得到A的其他部分，使得等式成立），我们的目的是为了找T，所以第一步我们算是迈出去了，下一步就是找$A_2$ 中的T了，根据假设，我们可以认为 $A_2Q_2=Q_2T_2$ 这里面的矩阵都比上一步少小一号(size=n-1)递归调用上面的证明方法，可以得出$Q_2$ , $t_{22}$ 以及$A_3$<br>如此递归下去可以找到所有A的第一个特征向量，然后组合成Q，T<br>$$<br>Q=Q_1\begin{bmatrix}1&amp;0\\0&amp;Q_2\end{bmatrix}\\<br>T=\begin{bmatrix}t_{11}&amp;0\\0&amp;T_2\end{bmatrix}\\<br>AQ=QT<br>$$<br>以上可证存在T使得 $AQ=QT$ 成立，那么如果A是symmetric的，那么:<br>$$<br>A=QTQ^T\\<br>A^T=Q^TT^TQ\\<br>A=A^T\\<br>so:\\<br>T=T^T<br>$$<br>T是上三角矩阵，得出结论，T是对角矩阵<br>QED<br>上面这一小段其实在证明Schur定理，因为Schur定理一旦得到证明，那么自然可以得到我们想要的结论，所有对称矩阵可以被对角化，Schur矩阵以复数形式给出，因为我们前面已经证明了对称矩阵的特征值都是实数，所以这里可以用实数表达，当然复数是对于非对称矩阵的，因为非对称实数矩阵可能得到复数特征值和特征向量。</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>这篇文章扎扎实实写了24小时，而且中间确实有不太清楚的地方，至今没动，所以都高亮标注了，提醒读者也提醒自己要来填坑，schur定理的证明方法还有别的，这个是Prof. Strang 书上的方法，后面如果有新发现继续补充。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4">https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4</a>转载请标明出处</p>
 
       
     </div>
@@ -579,7 +579,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4/" title="【线性代数】6-4:对称矩阵(Symmetric Matrices)">http://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4/</a>
+    <a href="https://face2ai.com/Math-Linear-Algebra-Chapter-6-4/" title="【线性代数】6-4:对称矩阵(Symmetric Matrices)">https://face2ai.com/Math-Linear-Algebra-Chapter-6-4/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -613,14 +613,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-4-3/" rel="bookmark">【线性代数】4-3:最小二乘近似(Least Squares Approximations)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
       
     </li>
   
@@ -2002,7 +2002,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2066,7 +2066,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

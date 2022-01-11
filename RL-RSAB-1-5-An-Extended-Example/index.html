@@ -112,13 +112,13 @@
 <meta name="keywords" content="强化学习,强化学习举例,Tic-Tac-Toe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【强化学习】 1.5 强化学习的一个扩展举例">
-<meta property="og:url" content="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/index.html">
+<meta property="og:url" content="https://face2ai.com/RL-RSAB-1-5-An-Extended-Example/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。Keywords: 强化学习，强化学习举例，Tic-Tac-Toe">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/Tictactoe1.gif">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/RL-RSAB-1-5-An-Extended-Example/table.png">
-<meta property="og:updated_time" content="2018-10-07T09:11:15.434Z">
+<meta property="og:updated_time" content="2018-10-07T09:11:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【强化学习】 1.5 强化学习的一个扩展举例">
 <meta name="twitter:description" content="Abstract: 本文介绍强化学习的一个具体例子，Tic-Tac-Toe，作为一种下棋类游戏，Tic-Tac-Toe规则简单，而且问题规模小，容易进行深入分析，了解强化学习在具体例子中的执行过程，进而了解强化学习的性质和特点。Keywords: 强化学习，强化学习举例，Tic-Tac-Toe">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/"/>
+  <link rel="canonical" href="https://face2ai.com/RL-RSAB-1-5-An-Extended-Example/"/>
 
 
 
@@ -369,7 +369,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/RL-RSAB-1-5-An-Extended-Example/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -518,7 +518,7 @@
 <li>对于2中的动态规划方法，有另一种改进版就是在训练时和对手多次交手，从而记录学习出对手的信息，或者叫做给对手建模（model）然后再使用动态规划来寻找答案。</li>
 </ol>
 <p>上面3中方法中，1和2对解决问题基本没有帮助，3有帮助。3和我们后面会介绍的很多强化学习方法有着非常相似的思路。</p>
-<h2 id="进化方法-Evolutionary-Method-学习-“Tic-Tac-Toe”"><a href="#进化方法-Evolutionary-Method-学习-“Tic-Tac-Toe”" class="headerlink" title="进化方法(Evolutionary Method)学习 “Tic-Tac-Toe”"></a>进化方法(Evolutionary Method)学习 “Tic-Tac-Toe”</h2><p><a href="https://face2ai.com/RL-RSAB-1-4-0-Limitations-and-Scope/" target="_blank" rel="noopener">进化方法</a> 中讲解了进化方法的缺点，就是没有使用agent和环境之间的交互信息来改变agent。而这里如果把进化方法直接使用到“井字棋”中，其表策略（policy）的特点是：直接search全部可能的位置，找到获胜概率最大的位置，然后下棋。也就是，策略要考虑到当前盘面（ $3\times 3$ 的棋盘上 x和o的分布）并给出获胜概率最大的下棋位置。而这个概率的获得就需要和对手多次下棋，记录，学习出来的。有了这些信息，agent就知道接下来一步或者接下来很多步应该怎么走。<br>一个典型的进化方法就是在“策略空间”的 hill-climb ，这种方法的策略是逐渐找出能提高表现的策略（并不是一下找到最优的方法，而是像爬山一样，每一步都找到一个能提高agent表现的方案，一步一步的向上爬）。<br>遗传方法就更加直接暴力了，直接直接评估大量的策略(policies)，去除不合格的，留下好的，然后产生新一代的，以此迭代，直到问题解决。<br>解决“井字棋”问题，理论上存在很多种不同的优化方法。</p>
+<h2 id="进化方法-Evolutionary-Method-学习-“Tic-Tac-Toe”"><a href="#进化方法-Evolutionary-Method-学习-“Tic-Tac-Toe”" class="headerlink" title="进化方法(Evolutionary Method)学习 “Tic-Tac-Toe”"></a>进化方法(Evolutionary Method)学习 “Tic-Tac-Toe”</h2><p><a href="https://face2ai.com/RL-RSAB-1-4-0-Limitations-and-Scope/">进化方法</a> 中讲解了进化方法的缺点，就是没有使用agent和环境之间的交互信息来改变agent。而这里如果把进化方法直接使用到“井字棋”中，其表策略（policy）的特点是：直接search全部可能的位置，找到获胜概率最大的位置，然后下棋。也就是，策略要考虑到当前盘面（ $3\times 3$ 的棋盘上 x和o的分布）并给出获胜概率最大的下棋位置。而这个概率的获得就需要和对手多次下棋，记录，学习出来的。有了这些信息，agent就知道接下来一步或者接下来很多步应该怎么走。<br>一个典型的进化方法就是在“策略空间”的 hill-climb ，这种方法的策略是逐渐找出能提高表现的策略（并不是一下找到最优的方法，而是像爬山一样，每一步都找到一个能提高agent表现的方案，一步一步的向上爬）。<br>遗传方法就更加直接暴力了，直接直接评估大量的策略(policies)，去除不合格的，留下好的，然后产生新一代的，以此迭代，直到问题解决。<br>解决“井字棋”问题，理论上存在很多种不同的优化方法。</p>
 <h2 id="评价函数-Value-Function-学习-“Tic-Tac-Toe”"><a href="#评价函数-Value-Function-学习-“Tic-Tac-Toe”" class="headerlink" title="评价函数(Value Function)学习 “Tic-Tac-Toe”"></a>评价函数(Value Function)学习 “Tic-Tac-Toe”</h2><p>上面我们说了进化方法在井字棋中使用，下面我们就要看看另一个方向的方法 —— 评价函数(value Function)的方法了。</p>
 <h3 id="设计评价函数"><a href="#设计评价函数" class="headerlink" title="设计评价函数"></a>设计评价函数</h3><p>我们列一个表，这个表中的每个格子对应一种状态（state），整张表就对应井字棋的全部情况，这个表的每一项都对应一个概率值，这个概率值表示当前状态下最后获胜的期望，注意两点，一个是当前的状态，第二是最终获胜的期望。这个期望，我们就把其当做评价函数的结果，value —— value值。这个表就是我们的评价函数(Value Function)了.<br>在井字棋中，这个表就包含下一步棋应该怎么走的评估。通过当前状态，我们可以缩小下一步可能出现的状态范围，然后比较所有可能的状态，如果A状态比B状态有更高的获胜期望，那么我们认为A状态比B状态好，所以我们倾向于把棋子走到A状态显示的位置。<br>对于这个状态表，假设我们执x，那么如果某状态中包含x在一行或者一列或者对角线，那么这个状态的获胜期望是1，相反，如果o在一行或者一列或者对角线，那么这个状态的获胜期望是0；同样，如果对应状态是棋盘下满，而没有获胜方，这时候期望同样是0 。除了上述这些情况，其他状态的<strong>初始化</strong>值都是0.5，即有一半的可能性会获胜。</p>
 <h3 id="执行-exploitation-和探索-exploration"><a href="#执行-exploitation-和探索-exploration" class="headerlink" title="执行(exploitation)和探索(exploration)"></a>执行(exploitation)和探索(exploration)</h3><p>当我们有了这张表（上面的评价函数）我们就有了制胜法宝，但是具体执行也是有不同方案的，我们可以查找最大value的状态，然后执行贪心(greedily)选择，这是使得获胜期望最大的策略，也就是完全执行表（value function）中的指示，这个被称为exploitation。<br>但是我们有时候（偶尔，occasionally）在某些步骤中不选择最大value的状态，而是选择随机状态，因为这种方式可能带我们到一个前所未见的state下。</p>
@@ -550,7 +550,7 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文通过研究Tic-Tac-Toe这个小游戏，从实际应用的角度分析了RL的各个方面，基本涵盖了大部分主要内容，后面我们进入第二章，开始分析具体算法，欢迎大家关注。</p>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p>Sutton R S, Barto A G. Reinforcement learning: An introduction[J]. 2011.</p>
 <hr>
-<p>原文地址:<a href="https://face2ai.com/RL-RSAB-1-5-An-Extended-Example" target="_blank" rel="noopener">https://face2ai.com/RL-RSAB-1-5-An-Extended-Example</a></p>
+<p>原文地址:<a href="https://face2ai.com/RL-RSAB-1-5-An-Extended-Example">https://face2ai.com/RL-RSAB-1-5-An-Extended-Example</a></p>
 
       
     </div>
@@ -576,7 +576,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/" title="【强化学习】 1.5 强化学习的一个扩展举例">http://www.face2ai.com/RL-RSAB-1-5-An-Extended-Example/</a>
+    <a href="https://face2ai.com/RL-RSAB-1-5-An-Extended-Example/" title="【强化学习】 1.5 强化学习的一个扩展举例">https://face2ai.com/RL-RSAB-1-5-An-Extended-Example/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -596,13 +596,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/RL-RSAB-1-2-Examples/" rel="bookmark">【强化学习】1-2 强化学习举例</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/RL-RSAB-2-2-Action-value-Methods/" rel="bookmark">【强化学习】2.2 行为评价方法(Action-value Methods)</a></div>
       
     </li>
@@ -610,7 +603,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/RL-RSAB-1-3-Elements-of-RL/" rel="bookmark">【强化学习】1.3 强化学习的基础元素</a></div>
+      <div class="popular-posts-title"><a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" rel="bookmark">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a></div>
       
     </li>
   
@@ -625,6 +618,13 @@
       
       
       <div class="popular-posts-title"><a href="/RL-RSAB-1-6-Summary-History/" rel="bookmark">【强化学习】1.6 本章总结、强化学习历史简述</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/RL-RSAB-1-4-1-Connection-to-Optimization-Method/" rel="bookmark">【强化学习】 1.4.1 强化学习与优化方法</a></div>
       
     </li>
   
@@ -1991,7 +1991,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2055,7 +2055,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

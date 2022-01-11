@@ -112,7 +112,7 @@
 <meta name="keywords" content="灰度变换,伽马变换">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】5-9:灰度图像--图像增强 灰度变换">
-<meta property="og:url" content="http://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第35天Keywords: 灰度变换,伽马变换">
 <meta property="og:locale" content="zh-CN">
@@ -122,7 +122,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203093829373.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203094651116.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203095017895.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.926Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】5-9:灰度图像--图像增强 灰度变换">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第35天Keywords: 灰度变换,伽马变换">
@@ -135,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/"/>
 
 
 
@@ -373,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -502,7 +502,7 @@
 <h2 id="灰度变换数学"><a href="#灰度变换数学" class="headerlink" title="灰度变换数学"></a>灰度变换数学</h2><p>图像反转：用互补灰度代替原灰度（互补灰度，是我自己编出来的，对与灰度a假设灰度级别一共有255，那么互补灰度就是255-a，式子中L-1为灰度级）<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203091558062.png" alt="Center"><br>对数变换：r为原始灰度，1+r为了log函数为正值，参数c为了保证r属于【0,L-1】并且新的灰度值s也属于【0,L-1】.<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203091638611.png" alt="Center 1"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203094613457.png" alt="Center 2"><br>幂律变换：也叫伽马变换或伽马校正，阴极射线管CRT设备，存在灰度和电压的幂律响应，gama值1.7到2.5<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203093829373.png" alt="Center 3"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203094651116.png" alt="Center 4"><br>分段线性：与分段函数相似，不同的定义域有不同的变换函数<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-9-灰度图像-图像增强-灰度变换/20150203095017895.png" alt="Center 5"></p>
 <h2 id="代码与效果"><a href="#代码与效果" class="headerlink" title="代码与效果"></a>代码与效果</h2><p>代码在这里，用力戳：<a href="">灰度变换，Gama</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>灰度变换的主要目的是改变对比度，而且针对灰度进行操作，一般的做法是建立一个映射表，大小为灰度级大小，然后根据不同的变换函数生成映射，将输入图片根据映射表产生输出，计算速度很快，时间复杂度为图像总的像素个数。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换">https://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换" target="_blank" rel="noopener">https://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换</a>转载请标明出处</p>
 
       
     </div>
@@ -528,7 +528,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/" title="【数字图像处理】5-9:灰度图像--图像增强 灰度变换">http://www.face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/</a>
+    <a href="https://face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/" title="【数字图像处理】5-9:灰度图像--图像增强 灰度变换">https://face2ai.com/DIP-5-9-灰度图像-图像增强-灰度变换/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -548,14 +548,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1931,7 +1931,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -1995,7 +1995,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

@@ -112,11 +112,11 @@
 <meta name="keywords" content="主列,自由列,特解,秩">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】3-3:秩(Rank)">
-<meta property="og:url" content="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3/index.html">
+<meta property="og:url" content="https://face2ai.com/Math-Linear-Algebra-Chapter-3-3/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文将介绍线性代数中最最最重要的概念之一，秩（Rank）Keywords: Rank,Row Reduced form,Pivot Columns,Free Columns,Special Solutions">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:04:53.728Z">
+<meta property="og:updated_time" content="2018-10-04T15:04:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】3-3:秩(Rank)">
 <meta name="twitter:description" content="Abstract: 本文将介绍线性代数中最最最重要的概念之一，秩（Rank）Keywords: Rank,Row Reduced form,Pivot Columns,Free Columns,Special Solutions">
@@ -128,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3/"/>
+  <link rel="canonical" href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-3/"/>
 
 
 
@@ -366,7 +366,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -500,7 +500,7 @@
 <p>解释，如果矩阵中存在pivot那么证明，第i行的pivot下面的行没办法表示出第i行，上面的也没办法表示第i行</p>
 <h3 id="秩一-Rank"><a href="#秩一-Rank" class="headerlink" title="秩一 Rank)"></a>秩一 Rank)</h3><p>只有一个pivot的矩阵，是一种特殊的矩阵<br>$$<br>A=\begin{bmatrix}<br>1&amp;3&amp;10\\<br>2&amp;6&amp;20\\<br>3&amp;9&amp;30<br>\end{bmatrix}<br>\to<br>R=\begin{bmatrix}<br>1&amp;3&amp;10\\<br>0&amp;0&amp;0\\<br>0&amp;0&amp;0<br>\end{bmatrix}<br>=<br>\begin{bmatrix}<br>1\\2\\3<br>\end{bmatrix}<br>\begin{bmatrix}<br>1&amp;3&amp;10<br>\end{bmatrix}<br>=uv^T<br>$$<br>对于上面的例子可以看出，Rank one矩阵的分解形式可以理解为两个向量的outer product，那么矩阵A的Nullspace等于R的Nullspace：<br>$$<br>Ax=0<br>\to<br>uv^Tx<br>=0 \to<br>u(v^Tx)=0 \to<br>v^Tx=0<br>$$<br>可以观察出，$Ax=0$表明x在A的Nullspace中, $v^Tx=0$表明 $x$和 $av^T$ 相互垂直<br>也就是行空间内的任意向量($av^T$)和Nullspace内的任意向量垂直。</p>
 <p>Rank r还是行空间和列空间的维数，同时跟Nullspace的维度有关！</p>
-<h3 id="自由列和主列"><a href="#自由列和主列" class="headerlink" title="自由列和主列"></a>自由列和主列</h3><p><a href="http://face2ai.com/Math-Linear-Algebra-Chapter-3-2/" target="_blank" rel="noopener">3-2:Nullspace</a>中对Free Columns和Pivot Columns有相关介绍，下面再介绍一些相关的性质，Free Columns是不包含Pivot的列，Pivot Columns则是包含Pivot的列，<br>对于任何一个Free Column都是其前面pivot列的线性组合。<br>举个例子，我们不看具体数字就看形状<br>$$<br>\begin{bmatrix}<br>1&amp;x&amp;x&amp;x&amp;x&amp;x&amp;x\\<br>0&amp;1&amp;x&amp;x&amp;x&amp;*&amp;x\\<br>0&amp;0&amp;0&amp;1&amp;x&amp;x&amp;x\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;1&amp;x\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;1\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0\\<br>\end{bmatrix}<br>$$<br>我们直接把矩阵写成R的形式（A是原始矩阵，U是上三角矩阵，R是reduced row echelon matrix，pivot上下都是0，通过方程线性组合而得到）<br>这个R中第三列明显是个free column，星号表示任意数字，都能够用第一列和第二列的线性组合得到，第五列也可以通过一二四列组合出来。</p>
+<h3 id="自由列和主列"><a href="#自由列和主列" class="headerlink" title="自由列和主列"></a>自由列和主列</h3><p><a href="http://face2ai.com/Math-Linear-Algebra-Chapter-3-2/">3-2:Nullspace</a>中对Free Columns和Pivot Columns有相关介绍，下面再介绍一些相关的性质，Free Columns是不包含Pivot的列，Pivot Columns则是包含Pivot的列，<br>对于任何一个Free Column都是其前面pivot列的线性组合。<br>举个例子，我们不看具体数字就看形状<br>$$<br>\begin{bmatrix}<br>1&amp;x&amp;x&amp;x&amp;x&amp;x&amp;x\\<br>0&amp;1&amp;x&amp;x&amp;x&amp;*&amp;x\\<br>0&amp;0&amp;0&amp;1&amp;x&amp;x&amp;x\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;1&amp;x\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;1\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0\\<br>\end{bmatrix}<br>$$<br>我们直接把矩阵写成R的形式（A是原始矩阵，U是上三角矩阵，R是reduced row echelon matrix，pivot上下都是0，通过方程线性组合而得到）<br>这个R中第三列明显是个free column，星号表示任意数字，都能够用第一列和第二列的线性组合得到，第五列也可以通过一二四列组合出来。</p>
 <blockquote>
 <p>Defination: The pivot columns are not combinations of earlier columns.The free columns are combinations of earlier columns.The combinations are the <strong>Special Solutions</strong></p>
 </blockquote>
@@ -512,7 +512,7 @@
 <p>原方程组中独立的方程数就是rank的大小，独立的概念在后面介绍，到时候回来看会非常惊艳。</p>
 <p>最后一个知识利用到了前面讲到的分块乘法，回忆我们的方程组，如果未知数按照$x_1,x_2,x_3,\dots,x_n$的方法排列，我们可以得到系数矩阵A，但是我们稍微调换一下未知数顺序比如$x_2,x_1,x_3,\dots,x_n$他的系数矩阵B就是A中第一列和第二列交换的结果。所以我们可以根据pivot所在的列进行冲洗排列，比如上面的那个星号矩阵就可以得到：<br>$$<br>\begin{bmatrix}<br>1&amp;x&amp;x&amp;x&amp;x&amp;x&amp;x\\<br>0&amp;1&amp;x&amp;x&amp;x&amp;x&amp;x\\<br>0&amp;0&amp;1&amp;x&amp;x&amp;0&amp;x\\<br>0&amp;0&amp;0&amp;1&amp;x&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;1&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0\\<br>\end{bmatrix}<br>\to<br>\begin{bmatrix}<br>1&amp;0&amp;0&amp;0&amp;0&amp;x&amp;x\\<br>0&amp;1&amp;0&amp;0&amp;0&amp;x&amp;x\\<br>0&amp;0&amp;1&amp;0&amp;0&amp;0&amp;x\\<br>0&amp;0&amp;0&amp;1&amp;0&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;1&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0\\<br>\end{bmatrix}<br>=\begin{bmatrix}<br>I&amp;F\\<br>0&amp;0<br>\end{bmatrix}<br>$$<br>那么这个新的R我们称为$R_{new}$，那么他的Nullspace：<br>$$<br>R_{new}=<br>\begin{bmatrix}<br>I&amp;F\\<br>0&amp;0<br>\end{bmatrix}<br>N=\begin{bmatrix}<br>-F\\I<br>\end{bmatrix}<br>R_{new}N=0<br>$$<br>$-F$ 包含r个pivot variables，并且$R_{new}$中的I和N中I规模是不一样的。</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>总结一下，这篇从原文来看有点模糊，就是前一篇的知识也有后一篇的知识也有而且融合在一些，想捋顺出来一点点说有点费劲，写了一篇用了一下午，下面看看还能不能再写两篇。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3</a>转载请标明出处</p>
 
       
     </div>
@@ -538,7 +538,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3/" title="【线性代数】3-3:秩(Rank)">http://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3/</a>
+    <a href="https://face2ai.com/Math-Linear-Algebra-Chapter-3-3/" title="【线性代数】3-3:秩(Rank)">https://face2ai.com/Math-Linear-Algebra-Chapter-3-3/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -572,14 +572,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-4-3/" rel="bookmark">【线性代数】4-3:最小二乘近似(Least Squares Approximations)</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear_Algebra_big_picture/" rel="bookmark">【线性代数】线性代数总览</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
       
     </li>
   
@@ -1959,7 +1959,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2023,7 +2023,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

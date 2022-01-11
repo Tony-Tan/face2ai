@@ -112,7 +112,7 @@
 <meta name="keywords" content="同态滤波">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【数字图像处理】4.12:灰度图像-频域滤波 同态滤波">
-<meta property="og:url" content="http://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/index.html">
+<meta property="og:url" content="https://face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第25天Keywords: 同态滤波">
 <meta property="og:locale" content="zh-CN">
@@ -145,7 +145,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-12-灰度图像-频域滤波-同态滤波/20150123144716741.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-12-灰度图像-频域滤波-同态滤波/20150123144732528.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-12-灰度图像-频域滤波-同态滤波/20150123144721359.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.917Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】4.12:灰度图像-频域滤波 同态滤波">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第25天Keywords: 同态滤波">
@@ -158,7 +158,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/"/>
+  <link rel="canonical" href="https://face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/"/>
 
 
 
@@ -396,7 +396,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -523,7 +523,7 @@
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Homomorphicfilter.h"</span></span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">Distance</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> c_x,<span class="keyword">int</span> c_y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sqrt</span>((x-c_x)*(x-c_x)+(y-c_y)*(y-c_y));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HomorphicFilter</span><span class="params">(<span class="keyword">double</span> *filter,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">double</span> cut_off_frequency,<span class="keyword">double</span> lambda_l,<span class="keyword">double</span> lambda_h,<span class="keyword">double</span> c)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> center_x=width/<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">int</span> center_y=height/<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">double</span> distance;</span><br><span class="line">    <span class="keyword">double</span> distance_2;</span><br><span class="line">    <span class="keyword">double</span> cut_off_frequency_2=cut_off_frequency*cut_off_frequency;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;height;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;width;j++)&#123;</span><br><span class="line">            distance=Distance(j, i, center_x, center_y);</span><br><span class="line">            distance_2=distance*distance;</span><br><span class="line">            filter[i*width+j]=(lambda_h-lambda_l)*(<span class="number">1.0</span>-<span class="built_in">exp</span>(-c*distance_2/cut_off_frequency_2))+lambda_l;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-12-灰度图像-频域滤波-同态滤波/20150123144716741.png" alt="Center 26"><br>下图：截止频率20，$\lambda_l=1.5$ , $\lambda_h=10$ , $c=1$<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-12-灰度图像-频域滤波-同态滤波/20150123144732528.png" alt="Center 27"><br>下图：截止频率20，$\lambda_l=0.1$ , $\lambda_h=10$ , $c=2$<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-4-12-灰度图像-频域滤波-同态滤波/20150123144721359.png" alt="Center 28"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结，同态滤波可以有效的解决因光照不平衡引起的黑暗处细节消除的问题，并且平衡光照，频率域滤波可以处理各种问题，但归结起来有以下：1.图像要保留的部分和要去除的部分在频率上必须区别明显；2滤波器的性质决定了处理的结果；3分析频谱是一重要的环节。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波">https://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波" target="_blank" rel="noopener">https://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波</a>转载请标明出处</p>
 
       
     </div>
@@ -549,7 +549,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/" title="【数字图像处理】4.12:灰度图像-频域滤波 同态滤波">http://www.face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/</a>
+    <a href="https://face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/" title="【数字图像处理】4.12:灰度图像-频域滤波 同态滤波">https://face2ai.com/DIP-4-12-灰度图像-频域滤波-同态滤波/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -569,14 +569,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-5-11-灰度图像-图像增强-直方图匹配-规定化-HistogramSpecification/" rel="bookmark">【数字图像处理】5.11:灰度图像-图像增强 直方图匹配（规定化）Histogram Specification"</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/DIP-10-4-彩色图像-图像分割-彩色空间分割/" rel="bookmark">【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割</a></div>
+      <div class="popular-posts-title"><a href="/DIP-10-3-彩色图像-图像增强-图像锐化/" rel="bookmark">【数字图像处理】10.3:彩色图像-图像增强 图像锐化</a></div>
       
     </li>
   
@@ -1950,7 +1950,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2014,7 +2014,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>

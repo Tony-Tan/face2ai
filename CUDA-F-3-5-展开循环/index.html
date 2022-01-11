@@ -109,10 +109,10 @@
 
 
   <meta name="description" content="Abstract: 本文介绍循环展开技术，在归约的基础上继续加速。Keywords: 展开归约，归约，模板函数">
-<meta name="keywords" content="归约,展开归约,模板函数">
+<meta name="keywords" content="展开归约,归约,模板函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】3.5 展开循环">
-<meta property="og:url" content="http://www.face2ai.com/CUDA-F-3-5-展开循环/index.html">
+<meta property="og:url" content="https://face2ai.com/CUDA-F-3-5-展开循环/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍循环展开技术，在归约的基础上继续加速。Keywords: 展开归约，归约，模板函数">
 <meta property="og:locale" content="zh-CN">
@@ -123,7 +123,7 @@
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-5-展开循环/5.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-5-展开循环/6.png">
 <meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-5-展开循环/7.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.923Z">
+<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】3.5 展开循环">
 <meta name="twitter:description" content="Abstract: 本文介绍循环展开技术，在归约的基础上继续加速。Keywords: 展开归约，归约，模板函数">
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://www.face2ai.com/CUDA-F-3-5-展开循环/"/>
+  <link rel="canonical" href="https://face2ai.com/CUDA-F-3-5-展开循环/"/>
 
 
 
@@ -374,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.face2ai.com/CUDA-F-3-5-展开循环/">
+    <link itemprop="mainEntityOfPage" href="https://face2ai.com/CUDA-F-3-5-展开循环/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谭升">
@@ -516,12 +516,12 @@
 </li>
 </ol>
 <p>被添加到CUDA流水线上，是非常受欢迎的，因为其能最大限度的提高指令和内存带宽。<br>下面我们就在前面归约的例子上继续挖掘性能，看看是否能得到更高的效率。</p>
-<h2 id="展开的归约"><a href="#展开的归约" class="headerlink" title="展开的归约"></a>展开的归约</h2><p>前面在<a href="https://face2ai.com/CUDA-F-3-4-避免分支分化/" target="_blank" rel="noopener">避免分支</a>的博客中,我们的内核函数reduceInterleaved 核函数中每个线程块只处理对应那部分的数据，我们现在的一个想法是能不能用一个线程块处理多块数据，其实这是可以实现的，如果在对这块数据进行求和前（因为总是一个线程对应一个数据）使用每个线程进行一次加法，从别的块取数据，相当于先做一个向量加法，然后再归约，这样将会用一句指令，完成之前一般的计算量，这个性价比看起来太诱人了。<br>上代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">reduceUnroll2</span><span class="params">(<span class="keyword">int</span> * g_idata,<span class="keyword">int</span> * g_odata,<span class="keyword">unsigned</span> <span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//set thread ID</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> tid = threadIdx.x;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> idx = blockDim.x*blockIdx.x*<span class="number">2</span>+threadIdx.x;</span><br><span class="line">	<span class="comment">//boundary check</span></span><br><span class="line">	<span class="keyword">if</span> (tid &gt;= n) <span class="keyword">return</span>;</span><br><span class="line">	<span class="comment">//convert global data pointer to the</span></span><br><span class="line">	<span class="keyword">int</span> *idata = g_idata + blockIdx.x*blockDim.x*<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">if</span>(idx+blockDim.x&lt;n)</span><br><span class="line">	&#123;</span><br><span class="line">		g_idata[idx]+=g_idata[idx+blockDim.x];</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	__syncthreads();</span><br><span class="line">	<span class="comment">//in-place reduction in global memory</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> stride = blockDim.x/<span class="number">2</span>; stride&gt;<span class="number">0</span> ; stride &gt;&gt;=<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (tid &lt;stride)</span><br><span class="line">		&#123;</span><br><span class="line">			idata[tid] += idata[tid + stride];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//synchronize within block</span></span><br><span class="line">		__syncthreads();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//write result for this block to global mem</span></span><br><span class="line">	<span class="keyword">if</span> (tid == <span class="number">0</span>)</span><br><span class="line">		g_odata[blockIdx.x] = idata[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="展开的归约"><a href="#展开的归约" class="headerlink" title="展开的归约"></a>展开的归约</h2><p>前面在<a href="https://face2ai.com/CUDA-F-3-4-避免分支分化/">避免分支</a>的博客中,我们的内核函数reduceInterleaved 核函数中每个线程块只处理对应那部分的数据，我们现在的一个想法是能不能用一个线程块处理多块数据，其实这是可以实现的，如果在对这块数据进行求和前（因为总是一个线程对应一个数据）使用每个线程进行一次加法，从别的块取数据，相当于先做一个向量加法，然后再归约，这样将会用一句指令，完成之前一般的计算量，这个性价比看起来太诱人了。<br>上代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">reduceUnroll2</span><span class="params">(<span class="keyword">int</span> * g_idata,<span class="keyword">int</span> * g_odata,<span class="keyword">unsigned</span> <span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//set thread ID</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> tid = threadIdx.x;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> idx = blockDim.x*blockIdx.x*<span class="number">2</span>+threadIdx.x;</span><br><span class="line">	<span class="comment">//boundary check</span></span><br><span class="line">	<span class="keyword">if</span> (tid &gt;= n) <span class="keyword">return</span>;</span><br><span class="line">	<span class="comment">//convert global data pointer to the</span></span><br><span class="line">	<span class="keyword">int</span> *idata = g_idata + blockIdx.x*blockDim.x*<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">if</span>(idx+blockDim.x&lt;n)</span><br><span class="line">	&#123;</span><br><span class="line">		g_idata[idx]+=g_idata[idx+blockDim.x];</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	__syncthreads();</span><br><span class="line">	<span class="comment">//in-place reduction in global memory</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> stride = blockDim.x/<span class="number">2</span>; stride&gt;<span class="number">0</span> ; stride &gt;&gt;=<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (tid &lt;stride)</span><br><span class="line">		&#123;</span><br><span class="line">			idata[tid] += idata[tid + stride];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//synchronize within block</span></span><br><span class="line">		__syncthreads();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//write result for this block to global mem</span></span><br><span class="line">	<span class="keyword">if</span> (tid == <span class="number">0</span>)</span><br><span class="line">		g_odata[blockIdx.x] = idata[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这里面的第二句，第四句，在确定线程块对应的数据的位置的时候有个乘2的偏移量，<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-5-展开循环/1.png" alt=""></p>
 <p>这就是第二句，第四句指令的意思，我们只处理红色的线程块，而旁边白色线程块我们用<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(idx+blockDim.x&lt;n)</span><br><span class="line">&#123;</span><br><span class="line">    g_idata[idx]+=g_idata[idx+blockDim.x];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>处理掉了，注意我们这里用的是一维线程，也就是说，我们用原来的一半的块的数量，而每一句只添加一小句指令的情况下，完成了原来全部的计算量，这个效果应该是客观的，所以我们来看一下效果之前先看一下调用核函数的部分：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//kernel 1:reduceUnrolling2</span></span><br><span class="line">CHECK(cudaMemcpy(idata_dev, idata_host, bytes, cudaMemcpyHostToDevice));</span><br><span class="line">CHECK(cudaDeviceSynchronize());</span><br><span class="line">iStart = cpuSecond();</span><br><span class="line">reduceUnroll2 &lt;&lt;&lt;grid.x/<span class="number">2</span>, block &gt;&gt;&gt;(idata_dev, odata_dev, size);</span><br><span class="line">cudaDeviceSynchronize();</span><br><span class="line">iElaps = cpuSecond() - iStart;</span><br><span class="line">cudaMemcpy(odata_host, odata_dev, grid.x * <span class="keyword">sizeof</span>(<span class="keyword">int</span>), cudaMemcpyDeviceToHost);</span><br><span class="line">gpu_sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; grid.x/<span class="number">2</span>; i++)</span><br><span class="line">    gpu_sum += odata_host[i];</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"reduceUnrolling2            elapsed %lf ms gpu_sum: %d&lt;&lt;&lt;grid %d block %d&gt;&gt;&gt;\n"</span>,</span><br><span class="line">    iElaps, gpu_sum, grid.x/<span class="number">2</span>, block.x);</span><br></pre></td></tr></table></figure></p>
 <p>这里需要注意由于合并了一半的线程块，这里的网格个数都要对应的减少一半，来看效率<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-5-展开循环/2.png" alt=""></p>
-<p>相比于<a href="https://face2ai.com/CUDA-F-3-4-避免分支分化/" target="_blank" rel="noopener">上一篇</a>中的效率，“高到不知道哪里去了”（总能引用名人名言），比最简单的归约算法快了三倍，warmup的代码，不需要理睬。<br>我们上面框里有2，4，8三种尺度的展开，分别是一个块计算2个块，4个块和8个块的数据，对应的调用代码也需要修改，在github上有库，可以自己去看</p>
+<p>相比于<a href="https://face2ai.com/CUDA-F-3-4-避免分支分化/">上一篇</a>中的效率，“高到不知道哪里去了”（总能引用名人名言），比最简单的归约算法快了三倍，warmup的代码，不需要理睬。<br>我们上面框里有2，4，8三种尺度的展开，分别是一个块计算2个块，4个块和8个块的数据，对应的调用代码也需要修改，在github上有库，可以自己去看</p>
 <p>Github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a></p>
 <p>可见直接展开对效率影响非常大，从上一篇naive的归约算法的0.01降低到0.002，然后到0.0013可见其威力巨大。<br>这个不光是节省了多于的线程块的运行，而且更多的独立内存加载/存储操作会产生更好的性能，更好的隐藏延迟（忘了的看前面的博客，有相关知识介绍）下面我们看一下他们的吞吐量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --metrics dram_read_throughput ./reduceUnrolling</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-5-展开循环/3.png" alt=""><br>可见执行效率是和内存吞吐量是呈正相关的</p>
@@ -597,7 +597,7 @@
 </table>
 <p>虽然和书上结果不太一样，但是指标和效率关系还是很明显的，所以我们今天得出的结论是。。一步一步优化，如果改了代码没效果，那么锅是编译器的，谁让你帮老子优化了还不告诉我！</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在开发之前最好了解一下编译器特性，以及最关键的一点，一个真理，没有人能一下写出最好的代码，一步一步优化，从0.0104优化到0.001001，近10倍的效率提升，一分钟的程序你可能觉得无所谓<br>但是一个运行一年的程序，有化了十倍，那可是大功一件啊。<br>下篇我们继续，锅都是编译器的！</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-5-展开循环">https://www.face2ai.com/CUDA-F-3-5-展开循环</a>转载请标明出处</p>
+<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-5-展开循环" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-3-5-展开循环</a>转载请标明出处</p>
 
       
     </div>
@@ -623,7 +623,7 @@
     <strong>本文作者： </strong>谭升</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.face2ai.com/CUDA-F-3-5-展开循环/" title="【CUDA 基础】3.5 展开循环">http://www.face2ai.com/CUDA-F-3-5-展开循环/</a>
+    <a href="https://face2ai.com/CUDA-F-3-5-展开循环/" title="【CUDA 基础】3.5 展开循环">https://face2ai.com/CUDA-F-3-5-展开循环/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -650,14 +650,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/CUDA-F-4-4-核函数可达到的带宽/" rel="bookmark">【CUDA 基础】4.4 核函数可达到的带宽</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Julia-Lang-4-Integers-and-Floating-Point-Numbers/" rel="bookmark">【Julia】整型和浮点型数字</a></div>
+      <div class="popular-posts-title"><a href="/Julia-Lang-3-Variables/" rel="bookmark">【Julia】变量</a></div>
       
     </li>
   
@@ -680,9 +680,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/归约/" rel="tag"># 归约</a>
-          
             <a href="/tags/展开归约/" rel="tag"># 展开归约</a>
+          
+            <a href="/tags/归约/" rel="tag"># 归约</a>
           
             <a href="/tags/模板函数/" rel="tag"># 模板函数</a>
           
@@ -2035,7 +2035,7 @@ data-full-width-responsive="true"></ins>
           
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 <p>
-<img src="/images/gongzhonghao.jpg"><br>关注公众号<br>回复"Tony"添加作者微信<br>第一时间获取博客最新内容</img>
+<img src="/images/gongzhonghao.jpg"><br>加我微信吧！</img>
 </p>
 <hr style="width: 95%; height: 3px; border: none; background-color: #282828">
 
@@ -2099,7 +2099,7 @@ function setzero(i){
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="animate">
     <i class="fa fa-"></i>
   </span>
