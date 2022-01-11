@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: Mac 下 《30天自制操作系统》环境工具介绍Keywords: 《30天自制操作系统》，Macbook，环境，工具">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201250890.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201546875.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201250890.png">
+<meta property="og:image" content="https://face2ai.com/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201546875.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】 Mac环境下的工具介绍">
 <meta name="twitter:description" content="Abstract: Mac 下 《30天自制操作系统》环境工具介绍Keywords: 《30天自制操作系统》，Macbook，环境，工具">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201250890.png">
+<meta name="twitter:image" content="https://face2ai.com/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201250890.png">
 
 
 
@@ -489,12 +489,11 @@
         <p><strong>Abstract:</strong> Mac 下 《30天自制操作系统》环境工具介绍<br><strong>Keywords:</strong> 《30天自制操作系统》，Macbook，环境，工具<br><a id="more"></a><br>这几天又有点不务正业了，书也没看，一直在搞这个破环境，尝试各种做法，网上各种垃圾信息，浪费了很多时间，说的基本都是废话，不过还是找到了一些，赶紧写下来，不然这个过几天又忘了<br>首先是环境，我用的是Max os Maverick 64，就是10.9，硬件（有点低0.0，对于小菜的我已经完全够用啦）：<br>10.9刚发布，新出来的东西总问题一大堆，然后解决办法没几个。但是还是能用了，编译器NASM（xcode中command line tools带的那个）xcode真的很大，但是不可否认，安装比vs2010快多了。基本指令是dd指令，和cat指令，这两个和linux下差不多.<br>首先建立一个.img的镜像文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=xxxxx of=xxxx.img count=20000</span><br></pre></td></tr></table></figure></p>
 <p>注意，if后面的参数是个文件夹，用空的，of参数是输出的img文件 count 是大小，自己十几次就知道了<br>然后编写ipl<br>注意，后缀用.s而不用nas哦，因为.s的文件vi编辑器会自动语法高亮<br>然后要说一下ipl中的一句话</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RESB0x7fde-$</span><br></pre></td></tr></table></figure>
-<p>这句话汇编通不过：提示这一行有非法操作符。。我也不知道咋回事。。。。。<br>改成：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201250890.png" alt="Center"><br>就可以顺利的汇编成bin文件了<br>接着，用CAT指令把bin塞到img中</p>
+<p>这句话汇编通不过：提示这一行有非法操作符。。我也不知道咋回事。。。。。<br>改成：<br><img src="./20131209201250890.png" alt="Center"><br>就可以顺利的汇编成bin文件了<br>接着，用CAT指令把bin塞到img中</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ill.bin &gt; xxxx.img</span><br></pre></td></tr></table></figure>
 <p>然后用qemu执行以下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu -fda xxxx.img</span><br></pre></td></tr></table></figure>
-<p>结果如图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍/20131209201546875.png" alt="Center 1"><br>用到的工具软件我会上传，安装比较简单，都是dmg的，双击就好。。。后天继续把c语言弄进来。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--番外篇之Mac环境下的工具介绍" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–番外篇之Mac环境下的工具介绍</a>转载请标明出处</p>
+<p>结果如图：<br><img src="./20131209201546875.png" alt="Center 1"><br>用到的工具软件我会上传，安装比较简单，都是dmg的，双击就好。。。后天继续把c语言弄进来。。。</p>
 
       
     </div>
@@ -710,7 +709,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1822,7 +1821,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1877,23 +1876,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -109,14 +109,14 @@
 
 
   <meta name="description" content="Abstract: 本文为学习CUDA编程的第四章的概要，主要介绍第四章研究的对象Keywords: 全局内存，CUDA内存模型，CUDA内存管理，全局内存编程，全局内存访问模式，全局内存数据布局，统一内存编程，提高内存吞吐量。">
-<meta name="keywords" content="CUDA内存模型,全局内存,CUDA内存管理,全局内存编程,全局内存访问模式,全局内存数据布局,统一内存编程,提高内存吞吐量">
+<meta name="keywords" content="全局内存,CUDA内存模型,CUDA内存管理,全局内存编程,全局内存访问模式,全局内存数据布局,统一内存编程,提高内存吞吐量">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】4.0 全局内存">
 <meta property="og:url" content="https://face2ai.com/CUDA-F-4-0-全局内存/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文为学习CUDA编程的第四章的概要，主要介绍第四章研究的对象Keywords: 全局内存，CUDA内存模型，CUDA内存管理，全局内存编程，全局内存访问模式，全局内存数据布局，统一内存编程，提高内存吞吐量。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】4.0 全局内存">
 <meta name="twitter:description" content="Abstract: 本文为学习CUDA编程的第四章的概要，主要介绍第四章研究的对象Keywords: 全局内存，CUDA内存模型，CUDA内存管理，全局内存编程，全局内存访问模式，全局内存数据布局，统一内存编程，提高内存吞吐量。">
@@ -493,7 +493,6 @@
         <p><strong>Abstract:</strong> 本文为学习CUDA编程的第四章的概要，主要介绍第四章研究的对象<br><strong>Keywords:</strong> 全局内存，CUDA内存模型，CUDA内存管理，全局内存编程，全局内存访问模式，全局内存数据布局，统一内存编程，提高内存吞吐量。</p>
 <a id="more"></a>
 <h1 id="全局内存"><a href="#全局内存" class="headerlink" title="全局内存"></a>全局内存</h1><p>上一章我们整个一章都在研究CUDA的执行模型，必须承认执行模型中，核的配置，决定了程序执行效率，但是程序的执行效率不只由线程束，线程块等执行结构决定，内存也严重的影响了性能。<br>举个例子，一个老例子，但是这个例子真的非常贴切，在别的书上也看过（如果一模一样，算我抄你）：工厂生产，我们可以通过优化工厂内部流水线，工人分配，工人质量，来提高生产速度，但是如果你把工厂开到珠穆朗玛峰顶，你的提供原料的车（我们目前关心产量不关心出货量，所以不关心如何将成品运出）一年来一辆，那整个工厂的生产效率也是非常低的，因为工人，流水线，都在等待，等待原料进来。这就是典型的一个GPU或者CPU的效率模型。内存带宽，速度，也是影响了吞吐量的重要因素。<br>本章我们将剖析核函数与全局内存的联系，性能影响。CUDA模型是主要研究内容，通过不同的内存访问模式来使得内核高效运行。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-0-全局内存" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-4-0-全局内存</a>转载请标明出处</p>
 
       
     </div>
@@ -583,9 +582,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CUDA内存模型/" rel="tag"># CUDA内存模型</a>
-          
             <a href="/tags/全局内存/" rel="tag"># 全局内存</a>
+          
+            <a href="/tags/CUDA内存模型/" rel="tag"># CUDA内存模型</a>
           
             <a href="/tags/CUDA内存管理/" rel="tag"># CUDA内存管理</a>
           
@@ -752,7 +751,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1864,7 +1863,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1919,23 +1918,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

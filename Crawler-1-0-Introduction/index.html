@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 关于python网络爬虫的入门Keywords: 爬虫，python">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-1-0-Introduction/crawler.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-1-0-Introduction/python.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-1-0-Introduction/re.jpg">
-<meta property="og:updated_time" content="2018-10-04T14:57:04.000Z">
+<meta property="og:image" content="https://face2ai.com/Crawler-1-0-Introduction/crawler.png">
+<meta property="og:image" content="https://face2ai.com/Crawler-1-0-Introduction/python.jpeg">
+<meta property="og:image" content="https://face2ai.com/Crawler-1-0-Introduction/re.jpg">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.076Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【爬虫】1.0 介绍">
 <meta name="twitter:description" content="Abstract: 关于python网络爬虫的入门Keywords: 爬虫，python">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-1-0-Introduction/crawler.png">
+<meta name="twitter:image" content="https://face2ai.com/Crawler-1-0-Introduction/crawler.png">
 
 
 
@@ -489,7 +489,7 @@
       
         <p><strong>Abstract:</strong> 关于python网络爬虫的入门<br><strong>Keywords:</strong> 爬虫，python</p>
 <a id="more"></a>
-<h1 id="爬虫介绍"><a href="#爬虫介绍" class="headerlink" title="爬虫介绍"></a>爬虫介绍</h1><h2 id="数据收集过程"><a href="#数据收集过程" class="headerlink" title="数据收集过程"></a>数据收集过程</h2><p>我们平时访问网络使用的主要是浏览器，其实浏览器和编译器以及操作系统这三大软件应该是软件界比较厉害的三种工具了，当然你要说出几个其他的比如Photoshop什么的当然，这也厉害，但是和我们CS相关的这三个应该是最顶级的工具了。<br>我们平时和网络上的数据进行信息交换主要通过浏览器，比如我们从网上找一些图片，或者一些新闻，这个过程人工进行是很慢的，所以我们的党政机关有不少人专门负责上网看新闻（铛铛铛，老乡，社区送温暖！）网站上的数据有时候我们想要，而且不止一部分而是全部，比如某个网站上全部的图片，我们需要用到的就是爬虫技术，之前不太了解爬虫，爬虫访问网站上的每一页的内容，识别出我们需要的数据，下载保存到本地，基本上就是我们使用爬虫的一般性过程，当然你如果就是为了统计点什么不需要把数据下载下来，也是可以的，这个过程大致的一个流程是：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-1-0-Introduction/crawler.png" alt=""></p>
+<h1 id="爬虫介绍"><a href="#爬虫介绍" class="headerlink" title="爬虫介绍"></a>爬虫介绍</h1><h2 id="数据收集过程"><a href="#数据收集过程" class="headerlink" title="数据收集过程"></a>数据收集过程</h2><p>我们平时访问网络使用的主要是浏览器，其实浏览器和编译器以及操作系统这三大软件应该是软件界比较厉害的三种工具了，当然你要说出几个其他的比如Photoshop什么的当然，这也厉害，但是和我们CS相关的这三个应该是最顶级的工具了。<br>我们平时和网络上的数据进行信息交换主要通过浏览器，比如我们从网上找一些图片，或者一些新闻，这个过程人工进行是很慢的，所以我们的党政机关有不少人专门负责上网看新闻（铛铛铛，老乡，社区送温暖！）网站上的数据有时候我们想要，而且不止一部分而是全部，比如某个网站上全部的图片，我们需要用到的就是爬虫技术，之前不太了解爬虫，爬虫访问网站上的每一页的内容，识别出我们需要的数据，下载保存到本地，基本上就是我们使用爬虫的一般性过程，当然你如果就是为了统计点什么不需要把数据下载下来，也是可以的，这个过程大致的一个流程是：<br><img src="./crawler.png" alt=""></p>
 <ol>
 <li>分析目标，这部分针对特定网站，如果你想写一个通用的爬虫，那么这部分可以不在考虑范围，而是考虑文件特征和如何判断网页是否已经处理过了；其次是考虑网站的结构和技术，动态网站，静态网站以及其他的特殊网站</li>
 <li>获取网站回应，通过1中得到的信息，向服务器发送请求，当然这部分最好能模拟成和浏览器一样的请求，迷惑服务器正常返回所需要的信息，这部分是技术核心，也是你难点，因为各种网站结构不同，也有相应的防止爬虫的技术，所以，成为大神，这部分是关键</li>
@@ -502,11 +502,10 @@
 </ol>
 <p>上面这些技术是简单总结，可能不全，后面可能补齐</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>技术类的东西可以从头学起，比如我们先学前端，再学服务器知识，再学网络等等，最后我们就变成了一个爬虫专家，但是我们的目标是数据专家，所以我们更多的时间应该放在数学和算法上，我们学爬虫，是为了服务于我们的数据分析算法的验证上，所以用到什么现学现卖，所以没有我们研究机器学习那么专业，我们主要用几个项目来学习过程<br>学习整个流程，当其中某些技术对于其他目标网站不奏效的时候，相应的调整，更换技术就能完成我们的新目标，我们主要参考下面这本书：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-1-0-Introduction/python.jpeg" alt=""></p>
+<p><img src="./python.jpeg" alt=""></p>
 <p>正则表达式则参考：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Crawler-1-0-Introduction/re.jpg" alt=""></p>
+<p><img src="./re.jpg" alt=""></p>
 <p><strong><em>注意</em></strong>：正则表达式对于我们的机器学习和后面的开发用处较大，所以这部分内容更加详细</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Crawler-1-0-Introduction" target="_blank" rel="noopener">https://www.face2ai.com/Crawler-1-0-Introduction</a>转载请标明出处</p>
 
       
     </div>
@@ -739,7 +738,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1851,7 +1850,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1906,23 +1905,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

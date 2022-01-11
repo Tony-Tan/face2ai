@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍如何利用流的重叠来隐藏主机到设备的数据传输延迟Keywords: 深度优先，广度优先">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-3-重叠内核执行和数据传输/re-0.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-3-重叠内核执行和数据传输/re-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-3-重叠内核执行和数据传输/nvvp-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-3-重叠内核执行和数据传输/re-0.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-3-重叠内核执行和数据传输/re-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-3-重叠内核执行和数据传输/nvvp-2.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.141Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】6.3 重叠内核执行和数据传输">
 <meta name="twitter:description" content="Abstract: 本文介绍如何利用流的重叠来隐藏主机到设备的数据传输延迟Keywords: 深度优先，广度优先">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-3-重叠内核执行和数据传输/re-0.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-6-3-重叠内核执行和数据传输/re-0.png">
 
 
 
@@ -512,9 +512,9 @@
 <p>由于这个问题就是一个一步问题，我们没办法让内核和数据传输重叠，因为内核需要全部的数据，但是，我们如果思考一下，向量加法之所以能够并发执行，因为每一位都互不干扰，那么我们可以把向量分块，然后每一个块都是一个上面的过程，并且A块中的数据只用于A块的内核，而跟B，C，D内核没有关系，于是我们来把整个过程分成 N_SEGMENT 份，也就是 N_SEGMENT 个流分别执行，在主机代码中流的使用如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cudaStream_t stream[N_SEGMENT];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">&#123;</span><br><span class="line">    CHECK(cudaStreamCreate(&amp;stream[i]));</span><br><span class="line">&#125;</span><br><span class="line">cudaEvent_t start,stop;</span><br><span class="line">cudaEventCreate(&amp;start);</span><br><span class="line">cudaEventCreate(&amp;stop);</span><br><span class="line">cudaEventRecord(start,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> ioffset=i*iElem;</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;a_d[ioffset],&amp;a_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;b_d[ioffset],&amp;b_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">    sumArraysGPU&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;(&amp;a_d[ioffset],&amp;b_d[ioffset],&amp;res_d[ioffset],iElem);</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;res_from_gpu_h[ioffset],&amp;res_d[ioffset],nByte/N_SEGMENT,cudaMemcpyDeviceToHost,stream[i]));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//timer</span></span><br><span class="line">CHECK(cudaEventRecord(stop, <span class="number">0</span>));</span><br><span class="line">CHECK(cudaEventSynchronize(stop));</span><br></pre></td></tr></table></figure></p>
 <p>其中和前面唯一有区别的就是<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> ioffset=i*iElem;</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;a_d[ioffset],&amp;a_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;b_d[ioffset],&amp;b_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">    sumArraysGPU&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;(&amp;a_d[ioffset],&amp;b_d[ioffset],&amp;res_d[ioffset],iElem);</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;res_from_gpu_h[ioffset],&amp;res_d[ioffset],nByte/N_SEGMENT,cudaMemcpyDeviceToHost,stream[i]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>数据传输使用异步方式，注意异步处理的数据要声明称为固定内存，不能是分页的，如果是分页的可能会出现未知错误。<br>编译后使用nvvp查看结果如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-3-重叠内核执行和数据传输/re-0.png" alt="re-0"></p>
+<p><img src="./re-0.png" alt="re-0"></p>
 <p>如果使用非固定的主机内存，会产生下面的错误（别问我咋知道的。😜）</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-3-重叠内核执行和数据传输/re-1.png" alt="re-1"></p>
+<p><img src="./re-1.png" alt="re-1"></p>
 <p>分成四份，数据传输和内核执行时重叠的。<br>观察nvvp结果：</p>
 <ul>
 <li>不同流中内核相互重叠</li>
@@ -529,9 +529,8 @@
 <p>GMU网格管理单元是Kepler架构引入了一个新的网格和调度控制系统，GMU可以暂停新网格调度，使网格排队等待且暂停网格直到他们准备好执行。使得运行时变得灵活。同时GMU也创建多个硬件工作队列，减少虚假内存的影响。</p>
 <h2 id="使用广度优先调度重叠"><a href="#使用广度优先调度重叠" class="headerlink" title="使用广度优先调度重叠"></a>使用广度优先调度重叠</h2><p>同样的，我们看完深度优先之后看一下广度优先<br>代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> ioffset=i*iElem;</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;a_d[ioffset],&amp;a_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;b_d[ioffset],&amp;b_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> ioffset=i*iElem;</span><br><span class="line">    sumArraysGPU&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;(&amp;a_d[ioffset],&amp;b_d[ioffset],&amp;res_d[ioffset],iElem);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> ioffset=i*iElem;</span><br><span class="line">    CHECK(cudaMemcpyAsync(&amp;res_from_gpu_h[ioffset],&amp;res_d[ioffset],nByte/N_SEGMENT,cudaMemcpyDeviceToHost,stream[i]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>nvvp结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-3-重叠内核执行和数据传输/nvvp-2.png" alt="nvvp-2"><br>在Fermi以后架构的设备，不太需要关注工作调度顺序，因为多个工作队列足以优化执行过程，而Fermi架构则需要关注一下。</p>
+<p><img src="./nvvp-2.png" alt="nvvp-2"><br>在Fermi以后架构的设备，不太需要关注工作调度顺序，因为多个工作队列足以优化执行过程，而Fermi架构则需要关注一下。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了如何使用流隐藏数据传输的延迟，这是后面非常有用的一种技术，来加速数据密集型应用。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-3-重叠内核执行和数据传输" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-6-3-重叠内核执行和数据传输</a>转载请标明出处</p>
 
       
     </div>
@@ -771,7 +770,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1883,7 +1882,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1938,23 +1937,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

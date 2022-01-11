@@ -116,16 +116,16 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍CUDA动态并行——在设备上运行时的网格启动新的子网格Keywords: 动态并行，嵌套执行">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/3_26.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_4.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-6-动态并行/3_26.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-6-动态并行/1_1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-6-动态并行/1_2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-6-动态并行/1_3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-6-动态并行/1_4.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.120Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】3.6 动态并行">
 <meta name="twitter:description" content="Abstract: 本文介绍CUDA动态并行——在设备上运行时的网格启动新的子网格Keywords: 动态并行，嵌套执行">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/3_26.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-3-6-动态并行/3_26.png">
 
 
 
@@ -500,7 +500,7 @@
 <a id="more"></a>
 <h1 id="动态并行"><a href="#动态并行" class="headerlink" title="动态并行"></a>动态并行</h1><p>本文作为第三章CUDA执行模型的最后一篇介绍动态并行，书中关于动态并行有一部分嵌套归约的例子，但是我认为，这个例子应该对我们用途不大，首先它并不能降低代码复杂度，其次，其运行效率也没有提高，动态并行，相当于串行编程的中的递归调用，递归调用如果能转换成迭代循环，一般为了效率的时候是要转换成循环的，只有当效率不是那么重要，而更注重代码的简洁性的时候，我们才会使用，所以我们本文只介绍简单的一些基础知识，如果需要使用动态并行相关内容的同学，请查询文档或更专业的博客。<br>到目前为止，我们所有的内核都是在主机线程中调用的，那么我们肯定会想，是否我们可以在内核中调用内核，这个内核可以是别的内核，也可以是自己，那么我们就需要动态并行了，这个功能在早期的设备上是不支持的。<br>动态并行的好处之一就是能让复杂的内核变得有层次，坏处就是写出来的程序更复杂，因为并行行为本来就不好控制，去年我在没有系统的学习CUDA的时候写过一个400行左右的内核，用来训练人脸检测程序，确实比cpu块，但是从gpu的温度来判断，并没有很高的利用率（当时还不会使用性能检测工具这些，当时TensorFlow跑的时候GPU温度有80多，但是我写的就只有60多，所以我断定，gpu性能完全没发挥，但是那个程序还是运行了好久，可见磨刀不误砍柴工这句话是多么正确）<br>动态并行的另一个好处是等到执行的时候再配置创建多少个网格，多少个块，这样就可以动态的利用GPU硬件调度器和加载平衡器了，通过动态调整，来适应负载。并且在内核中启动内核可以减少一部分数据传输消耗。</p>
 <h2 id="嵌套执行"><a href="#嵌套执行" class="headerlink" title="嵌套执行"></a>嵌套执行</h2><p>前面我们大费周章的其实也就只学了，网格，块，和启动配置，以及一些线程束的知识，现在我们要做的是从内核中启动内核。<br>内核中启动内核，和cpu并行中有一个相似的概念，就是父线程和子线程。子线程由父线程启动，但是到了GPU，这类名词相对多了些，比如父网格，父线程块，父线程，对应的子网格，子线程块，子线程。子网格被父线程启动，且必须在对应的父线程，父线程块，父网格结束之前结束。所有的子网格结束后，父线程，父线程块，父网格才会结束。</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/3_26.png" alt=""></p>
+<p><img src="./3_26.png" alt=""></p>
 <p>上图清晰地表明了父网格和子网格的使用情况，一种典型的执行方式：</p>
 <blockquote>
 <p>主机启动一个网格（也就是一个内核）-&gt; 此网格（父网格）在执行的过程中启动新的网格（子网格们）-&gt;所有子网格们都运行结束后-&gt; 父网格才能结束，否则要等待</p>
@@ -517,13 +517,12 @@
 <h2 id="在GPU上嵌套Hello-World"><a href="#在GPU上嵌套Hello-World" class="headerlink" title="在GPU上嵌套Hello World"></a>在GPU上嵌套Hello World</h2><p>为了研究初步动态并行，我们先来写个Hello World进行操作，代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">nesthelloworld</span><span class="params">(<span class="keyword">int</span> iSize,<span class="keyword">int</span> iDepth)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> tid=threadIdx.x;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"depth : %d blockIdx: %d,threadIdx: %d\n"</span>,iDepth,blockIdx.x,threadIdx.x);</span><br><span class="line">    <span class="keyword">if</span> (iSize==<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> nthread=(iSize&gt;&gt;<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (tid==<span class="number">0</span> &amp;&amp; nthread&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        nesthelloworld&lt;&lt;&lt;<span class="number">1</span>,nthread&gt;&gt;&gt;(nthread,++iDepth);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"-----------&gt; nested execution depth: %d\n"</span>,iDepth);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> size=<span class="number">64</span>;</span><br><span class="line">    <span class="keyword">int</span> block_x=<span class="number">2</span>;</span><br><span class="line">    <span class="function">dim3 <span class="title">block</span><span class="params">(block_x,<span class="number">1</span>)</span></span>;</span><br><span class="line">    dim3 grid((size-1)/block.x+1,1);</span><br><span class="line">    nesthelloworld&lt;&lt;&lt;grid,block&gt;&gt;&gt;(size,<span class="number">0</span>);</span><br><span class="line">    cudaGetLastError();</span><br><span class="line">    cudaDeviceReset();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这就是完成可执行代码，编译的命令与之前有些不同，工程中使用cmake管理，但是本程序没有纳入其中，而是使用了一个单独的makefile<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -arch=sm_35  nested_Hello_World.cu -o nested_Hello_World -lcudadevrt --relocatable-device-code <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
 <p>-lcudadevrt –relocatable-device-code true 是前面没有的，这两个指令是动态并行需要的一个库，relocatable-device-code表示生成可重新定位的代码，第十章将会讲解更多重新定位设备代码的内容。<br>这个程序的功能如下<br>第一层： 有多个线程块，执行输出，然后在tid==0的线程，启动子网格，子网格的配置是当前的一半，包括线程数量，和输入参数 iSize。<br>第二层： 有很多不同的子网格，因为我们上面多个不同的线程块都启动了子网格，我们这里只分析一个子网格，执行输出，然后在tid==0的子线程，启动子网格，子网格的配置是当前的一半，包括线程数量，和输入参数 iSize。<br>第三层： 继续递归下去，直到iSize==0<br>结束。<br>执行结果如下，有点长，但是能看出一些问题。由于输出太多，我截取部分有意思的部分来给大家看一下，想自己运行的可以去<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">github</a>上clone</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_1.png" alt=""></p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_2.png" alt=""></p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_3.png" alt=""></p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-6-动态并行/1_4.png" alt=""></p>
+<p><img src="./1_1.png" alt=""></p>
+<p><img src="./1_2.png" alt=""></p>
+<p><img src="./1_3.png" alt=""></p>
+<p><img src="./1_4.png" alt=""></p>
 <p>可见，当多层调用子网格的时候，同一家的（就是用相同祖宗线程的子网）是隐式同步的，而不同宗的则是各跑各的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文简单介绍了动态并行的基础知识，非常基础，对于动态并行的归约这里就不再讲解了，需要使用的同学自行学习，下一篇开始进入下一章，我们开始研究内存。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-6-动态并行" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-3-6-动态并行</a>转载请标明出处</p>
 
       
     </div>
@@ -758,7 +757,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1870,7 +1869,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1925,23 +1924,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

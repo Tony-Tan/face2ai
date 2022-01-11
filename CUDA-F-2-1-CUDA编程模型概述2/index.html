@@ -116,12 +116,12 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文继续上文介绍CUDA编程模型关于核函数以及错误处理部分Keywords: CUDA核函数，CUDA错误处理">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-1-CUDA编程模型概述2/1.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-1-CUDA编程模型概述2/1.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】2.1 CUDA编程模型概述（二）">
 <meta name="twitter:description" content="Abstract: 本文继续上文介绍CUDA编程模型关于核函数以及错误处理部分Keywords: CUDA核函数，CUDA错误处理">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-1-CUDA编程模型概述2/1.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-2-1-CUDA编程模型概述2/1.png">
 
 
 
@@ -513,7 +513,7 @@
 <li>内核中使用的线程布局</li>
 </ul>
 <p>我们可以使用dim3类型的grid维度和block维度配置内核，也可以使用int类型的变量，或者常量直接初始化：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kernel_name&lt;&lt;&lt;<span class="number">4</span>,<span class="number">8</span>&gt;&gt;&gt;(argument <span class="built_in">list</span>);</span><br></pre></td></tr></table></figure></p>
-<p>上面这条指令的线程布局是：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-1-CUDA编程模型概述2/1.png" alt=""></p>
+<p>上面这条指令的线程布局是：<br><img src="./1.png" alt=""></p>
 <p>我们的核函数是同时复制到多个线程执行的，上文我们说过一个对应问题，多个计算执行在一个数据，肯定是浪费时间，所以为了让多线程按照我们的意愿对应到不同的数据，就要给线程一个唯一的标识，由于设备内存是线性的（基本市面上的内存硬件都是线性形式存储数据的）我们观察上图，可以用threadIdx.x 和blockIdx.x 来组合获得对应的线程的唯一标识（后面我们会看到，threadIdx和blockIdx能组合出很多不一样的效果）</p>
 <p>接下来我们就是修改代码的时间了，改变核函数的配置，产生运行出结果一样，但效率不同的代码：</p>
 <ol>
@@ -584,7 +584,6 @@
 <h2 id="编译执行"><a href="#编译执行" class="headerlink" title="编译执行"></a>编译执行</h2><p>接下来我们对上面那段向量加法的代码编译执行，观察结果，这里需要一张图，我明天早上连接服务器后运行给出，今晚网太差，所以请见谅，<br>编译指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc xxxx.cu -o xxxx</span><br></pre></td></tr></table></figure></p>
 <p><a href="">此处有图片</a></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇可以说写的比前几篇流畅很多，因为这篇知识很连贯，不想漆面的概览，琐碎的知识，我们明天继续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-2-1-CUDA编程模型概述2" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-2-1-CUDA编程模型概述2</a>转载请标明出处</p>
 
       
     </div>
@@ -817,7 +816,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1929,7 +1928,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1984,23 +1983,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

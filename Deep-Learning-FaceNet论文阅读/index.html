@@ -116,15 +116,15 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: In this paper we present a system, called FaceNet, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face simil">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/12.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/11.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/7.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/1.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-FaceNet论文阅读/12.png">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-FaceNet论文阅读/11.png">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-FaceNet论文阅读/7.png">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-FaceNet论文阅读/1.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.191Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FaceNet论文阅读">
 <meta name="twitter:description" content="Abstract: In this paper we present a system, called FaceNet, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face simil">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/12.png">
+<meta name="twitter:image" content="https://face2ai.com/Deep-Learning-FaceNet论文阅读/12.png">
 
 
 
@@ -548,7 +548,7 @@
 <p>为了提高聚类正确性，使用hard正样本挖掘技术，来确保单个人脸的EMbedding约束在球形内</p>
 </blockquote>
 <p>可以处理以前觉得很难的样本，如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/12.png" alt=""></p>
+<p><img src="./12.png" alt=""></p>
 <h2 id="RelatedWork"><a href="#RelatedWork" class="headerlink" title="RelatedWork"></a>RelatedWork</h2><blockquote>
 <p>Similarly to other recent works which employ deep networks [15, 17], our approach is a purely data driven method which learns its representation directly from the pixels of the face. Rather than using engineered features, we use a large dataset of labelled faces to attain the appropriate invariances to pose, illumination, and other variational conditions.</p>
 </blockquote>
@@ -594,7 +594,7 @@
 </blockquote>
 <p>Given the model details, and treating it as a black box (see Figure 2), the most important part of our approach lies in the end-to-end learning of the whole system.</p>
 <p>网络模型当做黑盒如下图，我们主要关心更重要的。端对端的系统学习</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/11.png" alt=""></p>
+<p><img src="./11.png" alt=""></p>
 <p>To this end we employ the triplet loss that directly reflects what we want to achieve in face verification, recognition and clustering.</p>
 <p>在一端，我们使用triplet loss 直接反应我们想要在人脸分辨，识别，聚类中达成的目标</p>
 <p>Namely, we strive for an embedding f(x), from an image x into a feature space Rd,</p>
@@ -606,7 +606,7 @@
 <p>2.of the same person than it is to any image<br>母样本，或者称为锚点$x_i^a(anchor)$</p>
 <p>3.of any other person</p>
 <p>对于其他样本（负样本）$x_i^n(negative)$</p>
-<p>我们希望确保同一人的ap相近，ab距离远，如下图<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/7.png" alt=""></p>
+<p>我们希望确保同一人的ap相近，ab距离远，如下图<br><img src="./7.png" alt=""></p>
 <p>因此，我们希望：</p>
 <p>$$<br>||x_i^a-x_i^p||_2^2+\alpha &lt; ||x_i^a-x_i^n||_2^2 ,\forall(x_i^a,x_i^p,x_i^n)\in\tau<br>$$<br>alpha表示margin在正例对和负例对之间的距离，T是一组可能的triplets在训练数据集中的。基数为N。</p>
 <p>最小化的Loss：</p>
@@ -687,8 +687,7 @@
 <blockquote>
 <p>The first category, shown in Table 1, adds 1×1×d convolutional layers, as suggested in [9], between the standard convolutional layers of the Zeiler&amp;Fergus [22] architecture and results in a model 22 layers deep. It has a total of 140 million parameters and requires around 1.6 billion FLOPS per image.<br>The second category we use is based on GoogLeNet style Inception models [16]. These models have 20× fewer parameters (around 6.6M-7.5M) and up to 5×fewer FLOPS(between 500M-1.6B).</p>
 </blockquote>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-FaceNet论文阅读/1.png" alt=""></p>
-<p>原文地址1：<a href="https://www.face2ai.com/Deep-Learning-FaceNet论文阅读" target="_blank" rel="noopener">https://www.face2ai.com/Deep-Learning-FaceNet论文阅读</a>转载请标明出处</p>
+<p><img src="./1.png" alt=""></p>
 
       
     </div>
@@ -923,7 +922,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2035,7 +2034,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2090,23 +2089,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

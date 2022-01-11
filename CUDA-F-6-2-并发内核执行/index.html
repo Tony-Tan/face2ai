@@ -116,24 +116,24 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍内核的并发执行，以及相关的知识Keywords: 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/re-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/1-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/1-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/re-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/re-3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-4.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-5.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-6.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-7.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-8.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/1-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/1-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-4.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-5.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-6.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-7.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/nvvp-8.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】6.2 并发内核执行">
 <meta name="twitter:description" content="Abstract: 本文介绍内核的并发执行，以及相关的知识Keywords: 流，事件，深度优先，广度优先，硬件工作队列，默认流阻塞行为">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/re-1.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-6-2-并发内核执行/re-1.png">
 
 
 
@@ -524,48 +524,47 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line"><span class="function">dim3 <span class="title">grid</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">cudaEvent_t start,stop;</span><br><span class="line">cudaEventCreate(&amp;start);</span><br><span class="line">cudaEventCreate(&amp;stop);</span><br><span class="line">cudaEventRecord(start);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_3&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line">cudaEventRecord(stop);</span><br><span class="line">CHECK(cudaEventSynchronize(stop));</span><br><span class="line"><span class="keyword">float</span> elapsed_time;</span><br><span class="line">cudaEventElapsedTime(&amp;elapsed_time,start,stop);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"elapsed time:%f ms\n"</span>,elapsed_time);</span><br></pre></td></tr></table></figure>
 <p>这不是完整的代码，这个循环是将每个核函数都放入不同的流之中，也就是假设我们有10个流，那么这10个流中每个流都要按照上面的顺序执行这4个核函数。<br>注意如果没有<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaEventSynchronize(stop)</span><br></pre></td></tr></table></figure></p>
 <p>nvvp将会无法运行，因为所有这些都是异步操作，不会等到操作完再返回，而是启动后自动把控制权返回主机，如果没有一个阻塞指令，主机进程就会执行完毕推出，这样就跟设备失联了，nvvp也会相应的报错。<br>然后我们创建两个事件，然后记录事件之间的时间间隔。这个间隔是不太准确的，因为是异步的。<br>运行结果如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/re-1.png" alt="re-1"></p>
+<p><img src="./re-1.png" alt="re-1"></p>
 <p>使用nvvp检测，结果如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-1.png" alt="nvvp-1"></p>
+<p><img src="./nvvp-1.png" alt="nvvp-1"></p>
 <h2 id="Fermi-GPU-上的虚假依赖关系"><a href="#Fermi-GPU-上的虚假依赖关系" class="headerlink" title="Fermi GPU 上的虚假依赖关系"></a>Fermi GPU 上的虚假依赖关系</h2><p>虚假依赖我们在上文中讲到过了，这种情况通常出现在只有在比较古老的Fermi架构上出现，原因是其只有一个硬件工作队列，由于我们现在很难找到Fermi架构的GPU了，所以，只能看看书上给出的nvvp结果图了：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-2.png" alt="nvvp-2"></p>
+<p><img src="./nvvp-2.png" alt="nvvp-2"></p>
 <p>虚假依赖的问题我们在<a href="https://face2ai.com/CUDA-F-6-1-流和事件概述/">流和事件概述</a>已经描述了引起此问题的理论原因，这里就不再解释了。<br>如果你手头只有老机器，这种虚假依赖关系也是可以解决的，原理就是使用广度优先的方法，组织各任务的方式如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dispatch job with breadth first way</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_1&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_2&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_3&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_streams; i++)</span><br><span class="line">kernel_4&lt;&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;&gt;();</span><br></pre></td></tr></table></figure></p>
 <p>这样逻辑图就不是:</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/1-1.png" alt="1-1"></p>
+<p><img src="./1-1.png" alt="1-1"></p>
 <p>而是</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/1-2.png" alt="1-2"></p>
+<p><img src="./1-2.png" alt="1-2"></p>
 <p>这样了，这就可以从抽象模型层面避免问题。<br>广度优先的nvvp结果是：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-3.png" alt="nvvp-3"></p>
+<p><img src="./nvvp-3.png" alt="nvvp-3"></p>
 <p>注意，以上结论都是我从书上原封不动弄下来的。</p>
 <h2 id="使用OpenMP的调度操作"><a href="#使用OpenMP的调度操作" class="headerlink" title="使用OpenMP的调度操作"></a>使用OpenMP的调度操作</h2><p>OpenMP是一种非常好用的并行工具，比pthread更加好用，但是没有pthread那么灵活，这里我们不光要让核函数或者设备操作用多个流处理，同时也让主机在多线程下工作，我们尝试使用每个线程来操作一个流：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">omp_set_num_thread(n_stream);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> omp parallel</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> i=omp_get_thread_num();</span><br><span class="line">        kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">        kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">        kernel_3&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">        kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>解释下代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">omp_set_num_thread(n_stream);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> omp parallel</span></span><br></pre></td></tr></table></figure></p>
 <p>调用OpenMP的API创建n_stream个线程，然后宏指令告诉编译器下面大括号中的部分就是每个线程都要执行的部分，有点类似于核函数，或者叫做并行单元。</p>
 <p>其他代码和上面常规代码都一样，但是注意，OpenMP在mac上支持的不是很好，需要安装GCC，在Linux和Windows下配置非常简单，Linux下只要连接库函数就行，Windows下如果使用vs系列IDE直接在属性中打开一个开关就可以，我们来观察一下运行结果，注意，这段代码没有使用cmake管理，而是使用命令行编译执行的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc  -O3 -Xcompiler -fopenmp stream_omp.cu -o stream_omp -lgomp -I ../include/</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/re-2.png" alt="re-2"></p>
+<p><img src="./re-2.png" alt="re-2"></p>
 <p>CUDA进阶系列还会有OpenMP和CUDA配合的部分，后面会详细说。</p>
 <h2 id="用环境变量调整流行为"><a href="#用环境变量调整流行为" class="headerlink" title="用环境变量调整流行为"></a>用环境变量调整流行为</h2><p>Kepler支持的最大Hyper-Q 工作队列数是32 ，但是在默认情况下并不是全部开启，而是被限制成8个，原因是每个工作队列只要开启就会有资源消耗，如果用不到32个可以把资源留给需要的8个队列，修改这个配置的方法是修改主机系统的环境变量。<br>对于Linux系统中，修改方式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#For Bash or Bourne Shell:</span></span><br><span class="line"><span class="built_in">export</span> CUDA_DEVICE_MAX_CONNECTIONS=32</span><br><span class="line"><span class="comment">#For C-Shell:</span></span><br><span class="line">setenv CUDA_DEVICE_MAX_CONNECTIONS 32</span><br></pre></td></tr></table></figure></p>
 <p>另一种修改方法是直接在程序里写，这种方法更好用通过底层驱动修改硬件配置：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenv(<span class="string">"CUDA_DEVICE_MAX_CONNECTIONS"</span>, <span class="string">"32"</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
 <p>然后我们把前面的深度优先的代码改一下，加入上面这句指令,并把n_stream改成16，就可以得到如下结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/re-3.png" alt="re-3"></p>
+<p><img src="./re-3.png" alt="re-3"></p>
 <p>16个流，8个工作队列的结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-4.png" alt="nvvp-4"></p>
+<p><img src="./nvvp-4.png" alt="nvvp-4"></p>
 <p>调用<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenv(<span class="string">"CUDA_DEVICE_MAX_CONNECTIONS"</span>, <span class="string">"32"</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
 <p>修改成32个队列<br>16个流，32个工作队列的结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-5.png" alt="nvvp-5"></p>
+<p><img src="./nvvp-5.png" alt="nvvp-5"></p>
 <h2 id="GPU资源的并发限制"><a href="#GPU资源的并发限制" class="headerlink" title="GPU资源的并发限制"></a>GPU资源的并发限制</h2><p>限制内核并发数量的最根本的还是GPU上面的资源，资源才是性能的极限，性能最高无非是在不考虑算法进化的前提下，资源利用率最高的结果。当每个内核的线程数增加的时候，内核级别的并行数量就会下降，比如，我们把<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line"><span class="function">dim3 <span class="title">grid</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>升级到</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">16</span>,<span class="number">32</span>)</span></span>;</span><br><span class="line"><span class="function">dim3 <span class="title">grid</span><span class="params">(<span class="number">32</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>4个流，nvvp结果是：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-6.png" alt="nvvp-6"></p>
+<p><img src="./nvvp-6.png" alt="nvvp-6"></p>
 <h2 id="默认流的阻塞行为"><a href="#默认流的阻塞行为" class="headerlink" title="默认流的阻塞行为"></a>默认流的阻塞行为</h2><p>默认流也就是空流对于飞空流中的阻塞流是有阻塞作用的，这句话有点难懂，首先我们没有声明流的那些GPU操作指令，核函数是在空流上执行的，空流是阻塞流，同时我们声明定义的流如果没有特别指出，声明的也是阻塞流，换句话说，这些流的共同特点，无论空流与非空流，都是阻塞的。<br>那么这时候空流（默认流）对非空流的阻塞操作就要注意一下了。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_3&lt;&lt;&lt;grid,block&gt;&gt;&gt;();</span><br><span class="line">    kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>注意，kernel_3是在空流（默认流）上的，从NVVP的结果中可以看出，所有kernel_3 启动以后，所有其他的流中的操作全部被阻塞：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-7.png" alt="nvvp-7"></p>
+<p><img src="./nvvp-7.png" alt="nvvp-7"></p>
 <h2 id="创建流间依赖关系"><a href="#创建流间依赖关系" class="headerlink" title="创建流间依赖关系"></a>创建流间依赖关系</h2><p>流之间的虚假依赖关系是需要避免的，而经过我们设计的依赖又可以保证流之间的同步性，避免内存竞争，这时候我们要使用的就是事件这个工具了，换句话说，我们可以让某个特定流等待某个特定的事件，这个事件可以再任何流中，只有此事件完成才能进一步执行等待此事件的流继续执行。<br>这种事件往往不用于计时，所以可以在生命的时候声明成 cudaEventDisableTiming 的同步事件：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cudaEvent_t * event=(cudaEvent_t *)<span class="built_in">malloc</span>(n_stream*<span class="keyword">sizeof</span>(cudaEvent_t));</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    cudaEventCreateWithFlag(&amp;event[i],cudaEventDisableTiming);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在流中加入指令:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n_stream;i++)</span><br><span class="line">&#123;</span><br><span class="line">    kernel_1&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_2&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_3&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    kernel_4&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;();</span><br><span class="line">    cudaEventRecord(event[i],stream[i]);</span><br><span class="line">    cudaStreamWaitEvent(stream[n_stream<span class="number">-1</span>],event[i],<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这时候，最后一个流（第5个流）都会等到前面所有流中的事件完成，自己才会完成，nvvp结果如下</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-2-并发内核执行/nvvp-8.png" alt="nvvp-8"></p>
+<p><img src="./nvvp-8.png" alt="nvvp-8"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文研究了如何使用并发内核提高应用整体的效率，以及流阻塞的相关知识。<br>下一篇我们介绍一个更加实用的技术——通过流来屏蔽数据传输延迟。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-2-并发内核执行" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-6-2-并发内核执行</a>转载请标明出处</p>
 
       
     </div>
@@ -820,7 +819,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1932,7 +1931,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1987,23 +1986,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

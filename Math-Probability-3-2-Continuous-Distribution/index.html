@@ -116,16 +116,16 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文继续上文的离散随机变量的观点，将部分试验模型转换到连续随机变量的观点上。Keywords: Continuous Random Variable，Continuous Distributions，Probability Desity Function，Uniform Distributions on Intervals">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/w_e.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/support.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/pdf.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/pdf2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/distribution.png">
-<meta property="og:updated_time" content="2018-10-04T15:16:30.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/w_e.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/support.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/pdf.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/pdf2.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/distribution.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-2:连续分布(Continuous Distributions)">
 <meta name="twitter:description" content="Abstract: 本文继续上文的离散随机变量的观点，将部分试验模型转换到连续随机变量的观点上。Keywords: Continuous Random Variable，Continuous Distributions，Probability Desity Function，Uniform Distributions on Intervals">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/w_e.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-3-2-Continuous-Distribution/w_e.png">
 
 
 
@@ -499,7 +499,7 @@
         <p><strong>Abstract:</strong> 本文继续上文的离散随机变量的观点，将部分试验模型转换到连续随机变量的观点上。<br><strong>Keywords:</strong> Continuous Random Variable，Continuous Distributions，Probability Desity Function，Uniform Distributions on Intervals</p>
 <a id="more"></a>
 <h1 id="连续分布"><a href="#连续分布" class="headerlink" title="连续分布"></a>连续分布</h1><p>今天的废话想说说关于转行，之前去看中医（别问我信不信中医，学过概率的人都应该有自己的模型去评估一件事）那位老师真的是白发苍苍，很有医者风范，甚是慈祥有条不紊，在询问病情的过程中无意中聊到现在各行业的发展，老人家说，现在有些人两年三年就换个行业，还说叫什么转型，这么换来换去的什么东西能做好？一边说甚至有点义愤填膺的感觉。<br>其实我之前也有这种感觉，为啥这个人先是云计算，然后又去智能穿戴了，后来又智能家居，然后3D打印，后来就人工智能了，问问没准最近可能在研究区块链了，更让人感慨的是，他们研究个三五个月就敢自称专家了，如果有个博士学位，或者大公司平台背书，那整个过程能更加自然流畅。<br>我一直在对自己身边的人宣传要做自己喜欢的事。但是如果你喜欢的事经常变，而且是啥新鲜变成啥，那我只能说甚是与时俱进。<br>为啥我要回到数学，一篇一篇的写博客，做练习，我觉得我之前也太激进了，就像一个三岁小孩就急着上战场，手枪还用不好呢，就想用M416，太扯淡了，拿着枪照镜子觉得很有自信，当真要你死我活的时候，估计会死的很难看，当然不是最惨的，旁边那个两岁的拿着AK跟某组织正在申请高新技术企业呢！</p>
-<h2 id="概率密度函数-The-Probability-Density-Function"><a href="#概率密度函数-The-Probability-Density-Function" class="headerlink" title="概率密度函数 The Probability Density Function"></a>概率密度函数 The Probability Density Function</h2><p>继续我们的概率论，首先我们回忆一下，我们首先从试验开始，然后得到样本空间，每个试验结果都是一个样本点，对应一个概率，试验结果的个数是离散的，确定的，比如扔硬币，扔骰子，随后我们将这些结果通过一个函数映射到一个随机变量，使其更加数学化，随机变量是个函数，有时候也表示函数值，为了研究这个函数值对应的概率，我们又提出了distribution这个概念。今天我们将随机变量这个坑补齐，因为我们研究离散的随机变量时，其定义域和值域都有洞，我们今天把洞补齐。<br>学过数学分析，或者是研究过实数系的同学都知道，自然数，整数，有理数（比例数）这些数都是不连续的，因为有洞，这些洞比如  $\sqrt{2}$ 这个位置，就是有理数没办法表示，后来我们为了补全整根数轴，我们得到了实数系，这个没有洞的数，那么我们今天就是想找个试验，能把实验结果映射到一段连续的实数上（可以是有界的也可以是无界的），然后研究他的性质。<br>在研究连续随机变量前，我们可以引进一个关于面积的模型，其实书上很早之前就有，一般的概率论书上一般在古典概率部分就会提出这个面积模型。<br>举个🌰 ：<br>我们有一家工厂，每个月用水是在 $[10,110]$ 吨，用电在 $[100,1100]$ 千瓦时，并且是完全随机的均匀的，那么我们可以计算用水在 $[20,40]$ 吨，用电在 $[600,800]$ 千瓦时的概率是多少？<br>这里我们可以画一个图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/w_e.png" alt=""><br>从直觉上来说，中间这小块的面积与完整面积的比例就应该是上面描述的事件的概率。<br>从频率的角度上来说也是，因为每个点出现的可能性相同。那么一个区域出现的可能性就是这个区域的积分，积分在几何的表示是面积，那么我们用面积比来近似概率应该没有问题，那么，我们如果是这个思想继续展开，一个点的概率是多少呢？点没有面积，所以每个点的概率是0，而我们之前认为事件的概率是0，表明事件不可能发生，但是在这个例子里面，任何一个点都有可能发生，矛盾了，那么我们的模型有问题？还是前面的公理有问题？我们接着往下看。<br>我们发现我们认为事件概率是0的事件不可能发生的事件是离散的，也就是事件数量是有限的，而我们这个例子的事件个数是无限多的，那么我们要从连续的角度重新思考事件，随机变量和对应的概率的问题了。</p>
+<h2 id="概率密度函数-The-Probability-Density-Function"><a href="#概率密度函数-The-Probability-Density-Function" class="headerlink" title="概率密度函数 The Probability Density Function"></a>概率密度函数 The Probability Density Function</h2><p>继续我们的概率论，首先我们回忆一下，我们首先从试验开始，然后得到样本空间，每个试验结果都是一个样本点，对应一个概率，试验结果的个数是离散的，确定的，比如扔硬币，扔骰子，随后我们将这些结果通过一个函数映射到一个随机变量，使其更加数学化，随机变量是个函数，有时候也表示函数值，为了研究这个函数值对应的概率，我们又提出了distribution这个概念。今天我们将随机变量这个坑补齐，因为我们研究离散的随机变量时，其定义域和值域都有洞，我们今天把洞补齐。<br>学过数学分析，或者是研究过实数系的同学都知道，自然数，整数，有理数（比例数）这些数都是不连续的，因为有洞，这些洞比如  $\sqrt{2}$ 这个位置，就是有理数没办法表示，后来我们为了补全整根数轴，我们得到了实数系，这个没有洞的数，那么我们今天就是想找个试验，能把实验结果映射到一段连续的实数上（可以是有界的也可以是无界的），然后研究他的性质。<br>在研究连续随机变量前，我们可以引进一个关于面积的模型，其实书上很早之前就有，一般的概率论书上一般在古典概率部分就会提出这个面积模型。<br>举个🌰 ：<br>我们有一家工厂，每个月用水是在 $[10,110]$ 吨，用电在 $[100,1100]$ 千瓦时，并且是完全随机的均匀的，那么我们可以计算用水在 $[20,40]$ 吨，用电在 $[600,800]$ 千瓦时的概率是多少？<br>这里我们可以画一个图：<br><img src="./w_e.png" alt=""><br>从直觉上来说，中间这小块的面积与完整面积的比例就应该是上面描述的事件的概率。<br>从频率的角度上来说也是，因为每个点出现的可能性相同。那么一个区域出现的可能性就是这个区域的积分，积分在几何的表示是面积，那么我们用面积比来近似概率应该没有问题，那么，我们如果是这个思想继续展开，一个点的概率是多少呢？点没有面积，所以每个点的概率是0，而我们之前认为事件的概率是0，表明事件不可能发生，但是在这个例子里面，任何一个点都有可能发生，矛盾了，那么我们的模型有问题？还是前面的公理有问题？我们接着往下看。<br>我们发现我们认为事件概率是0的事件不可能发生的事件是离散的，也就是事件数量是有限的，而我们这个例子的事件个数是无限多的，那么我们要从连续的角度重新思考事件，随机变量和对应的概率的问题了。</p>
 <h3 id="连续分布，连续随机变量-Continuous-Distribution-amp-Continuous-Random-Variable"><a href="#连续分布，连续随机变量-Continuous-Distribution-amp-Continuous-Random-Variable" class="headerlink" title="连续分布，连续随机变量 Continuous Distribution &amp; Continuous Random Variable"></a>连续分布，连续随机变量 Continuous Distribution &amp; Continuous Random Variable</h3><blockquote>
 <p>Definition Continuous Distribution/Random Variable: We say that a random variable $X$ has a continuous distribution variable if there exists a nonnegative function $f$ ,defined on the real line,such taht for every interval of real nombers (bounded or unbounded),the probability that $X$ takes a value in the interval is the integral of $f$ over the interval</p>
 </blockquote>
@@ -511,16 +511,16 @@
 <p>Definition Probability Density Function/p.d.f/Support:If $X$ has a continuous distribution ,the function $f$ described in definition Continuous Distribution/Random Variable is called the probability density function(abbreviated p.d.f)of $X$.The closure of the set ${x:f(x)&gt;0}$ is called the support of (the distribution of) $X$</p>
 </blockquote>
 <p>上面关于连续随机变量的定义中 $f$ 的定义并不是随意的，而且这个 $f$ 可以算是一节大佬了，因为后面很多连续随机变量都要用它表达，被称为概率密度函数，过程简称pdf，这个函数能够表征一个连续随机变量的分布请款个，与离散情况下的概率函数功能相似，而且性质也类似，每个连续试验可以对应不同的pdf（可以移植上文中概率函数的证明方法），并且我们能够得到一个关于support(支撑) 的定义，连续随机变量所在的<strong><em>闭区间</em></strong>必须要能保证pdf大于0（因为有等于0的情况），这个区间就是一个support。</p>
-<p>图解的话就是下面的图了：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/support.png" alt=""></p>
+<p>图解的话就是下面的图了：<br><img src="./support.png" alt=""></p>
 <p>图中所有有定义的区间（绿色）的积分的和是1，指定区间的积分是映射到这个区间上的所有事件之一发生的概率。红色开区间是上面定义的support。上图描述了一个随机变量在两个分开的区间上的pdf。</p>
 <p>所以pdf就是连续随机变量的一种描述方式，后面还有别的描述方式，但是pdf特殊就特殊在，连续随机变量是用它来定义的。</p>
 <p>pdf需要满足以下两点性质：<br>性质一：<br>$$<br>f(x)\geq 0 \quad \text{for all  } x<br>$$<br>性质二：<br>$$<br>\int^\infty_{-\infty}f(x)=1<br>$$<br>性质一和性质二都是为了满足柯氏公理而产生的，大于等于0表示不可能出现负数的概率，积分等于保证公理三成立。</p>
 <p>还是要强调，连续随机变量的概率密度函数（p.d.f.）中概率等于0，事件不可能发生。</p>
-<h2 id="概率（密度）函数的不唯一性-Nonuniqueness-of-the-p-d-f"><a href="#概率（密度）函数的不唯一性-Nonuniqueness-of-the-p-d-f" class="headerlink" title="概率（密度）函数的不唯一性 Nonuniqueness of the p.d.f."></a>概率（密度）函数的不唯一性 Nonuniqueness of the p.d.f.</h2><p>和前面所说的概率函数不“唯一”一样，pdf也不唯一，一个原因是关于随机变量（函数）的选择问题，还有很重要的一点，由于单点pdf对于整体而言其概率是0，那么其pdf值可以为任意值，而保持任意包含此点的区间上的pdf积分值不变（也就是概率不变）。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/pdf.png" alt=""></p>
+<h2 id="概率（密度）函数的不唯一性-Nonuniqueness-of-the-p-d-f"><a href="#概率（密度）函数的不唯一性-Nonuniqueness-of-the-p-d-f" class="headerlink" title="概率（密度）函数的不唯一性 Nonuniqueness of the p.d.f."></a>概率（密度）函数的不唯一性 Nonuniqueness of the p.d.f.</h2><p>和前面所说的概率函数不“唯一”一样，pdf也不唯一，一个原因是关于随机变量（函数）的选择问题，还有很重要的一点，由于单点pdf对于整体而言其概率是0，那么其pdf值可以为任意值，而保持任意包含此点的区间上的pdf积分值不变（也就是概率不变）。<br><img src="./pdf.png" alt=""></p>
 <p>这个pdf和下面这个pdf等效，但是却不一致：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/pdf2.png" alt=""></p>
+<p><img src="./pdf2.png" alt=""></p>
 <p>所以每个连续随机变量都有无穷个pdf，我们通常会选取最自然的那个，而且尽量不要用这些存在间断点的pdf，因为从函数研究的角度来讲，这个将会很麻烦，我们把事件过渡到实数域的目的就是为了利用数学工具，比如函数，积分，微分等，如果还人为的引入障碍就有点不明智了，但是如果引入间断点可以更好的表述模型，那么也未尝不可。</p>
-<p>还有一个要注意下，我们说过几种分布了，不如二项分布，伯努利分布，均匀分布，这些分布里面的分布，与连续分布，离散分布不是一回事儿：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-2-Continuous-Distribution/distribution.png" alt=""></p>
+<p>还有一个要注意下，我们说过几种分布了，不如二项分布，伯努利分布，均匀分布，这些分布里面的分布，与连续分布，离散分布不是一回事儿：<br><img src="./distribution.png" alt=""></p>
 <h2 id="区间上的均匀分布-Uniform-Distributions-on-Intervals"><a href="#区间上的均匀分布-Uniform-Distributions-on-Intervals" class="headerlink" title="区间上的均匀分布 Uniform Distributions on Intervals"></a>区间上的均匀分布 Uniform Distributions on Intervals</h2><p>我们扩展一下上一篇中的均匀分布，从离散扩展到连续，我们学习概率分布都是从均匀分布开始的，说明其具有非常简单的性质，当然，就是扔骰子嘛！</p>
 <blockquote>
 <p>Definition Uniform Distribution on an interval:Let $a$ and $b$ be two given real numbers such that $a&lt;b$.Let $X$ be a random variable such that it is known that $a\leq X \leq b$ and ,for every subinterval of $[a,b]$ ,the probability that $X$ will belong to that subinterval is proportional to the length of that subinterval .We then say that the random variable X has the uniform distribution on the interval $[a,b]$</p>
@@ -540,7 +540,6 @@
 <p>$$<br>Pr(X&gt;2)=\int^4_2\frac{1}{8}xdx=\frac{3}{4}<br>$$</p>
 <h2 id="混合分布-Mixed-Distribution"><a href="#混合分布-Mixed-Distribution" class="headerlink" title="混合分布 Mixed Distribution"></a>混合分布 Mixed Distribution</h2><p>混合分布这里简单介绍一下，当一个试验被二维随机变量映射时，将会产生一个二维的随机变量值这个值有两个维度，这两个维度相互之间可以有影响也可以没有影响，但是他们连续与否是完全独立的，也就是说两个输出值，其中一个是连续的，另一个离散的，这完全没问题，而具体的计算也可以分别参考离散和连续随机变量。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要讲如何用pdf来描述一个随机变量（值）的连续分布，后面我们继续研究连续情况下的分布表述，以及其他一些工具。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-2-Continuous-Distribution</a>转载请标明出处</p>
 
       
     </div>
@@ -784,7 +783,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1896,7 +1895,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1951,23 +1950,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

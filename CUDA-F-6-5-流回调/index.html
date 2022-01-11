@@ -116,12 +116,12 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍流回调Keywords: 流回调">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-5-流回调/re-6-5-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-5-流回调/re-6-5-2.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.244Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】6.5 流回调">
 <meta name="twitter:description" content="Abstract: 本文介绍流回调Keywords: 流回调">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-5-流回调/re-6-5-2.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-6-5-流回调/re-6-5-2.png">
 
 
 
@@ -502,9 +502,8 @@
 <p>流函数有特殊的参数规格，必须写成下面形式参数的函数;<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> CUDART_CB <span class="title">my_callback</span><span class="params">(cudaStream_t stream, cudaError_t status, <span class="keyword">void</span> *data)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"callback from stream %d\n"</span>, *((<span class="keyword">int</span> *)data));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>然后使用：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaStreamAddCallback</span><span class="params">(cudaStream_t stream,cudaStreamCallback_t callback, <span class="keyword">void</span> *userData, <span class="keyword">unsigned</span> <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>加入流中。<br>本文完整的代码在github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a>（欢迎随手star😝 ）<br>部分代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> CUDART_CB <span class="title">my_callback</span><span class="params">(cudaStream_t stream,cudaError_t status,<span class="keyword">void</span> * data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"call back from stream:%d\n"</span>,*((<span class="keyword">int</span> *)data));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//asynchronous calculation</span></span><br><span class="line">    <span class="keyword">int</span> iElem=nElem/N_SEGMENT;</span><br><span class="line">    cudaStream_t stream[N_SEGMENT];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        CHECK(cudaStreamCreate(&amp;stream[i]));</span><br><span class="line">    &#125;</span><br><span class="line">    cudaEvent_t start,stop;</span><br><span class="line">    cudaEventCreate(&amp;start);</span><br><span class="line">    cudaEventCreate(&amp;stop);</span><br><span class="line">    cudaEventRecord(start,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N_SEGMENT;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> ioffset=i*iElem;</span><br><span class="line">        CHECK(cudaMemcpyAsync(&amp;a_d[ioffset],&amp;a_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">        CHECK(cudaMemcpyAsync(&amp;b_d[ioffset],&amp;b_h[ioffset],nByte/N_SEGMENT,cudaMemcpyHostToDevice,stream[i]));</span><br><span class="line">        sumArraysGPU&lt;&lt;&lt;grid,block,<span class="number">0</span>,stream[i]&gt;&gt;&gt;(&amp;a_d[ioffset],&amp;b_d[ioffset],&amp;res_d[ioffset],iElem);</span><br><span class="line">        CHECK(cudaMemcpyAsync(&amp;res_from_gpu_h[ioffset],&amp;res_d[ioffset],nByte/N_SEGMENT,cudaMemcpyDeviceToHost,stream[i]));</span><br><span class="line">        CHECK(cudaStreamAddCallback(stream[i],my_callback,(<span class="keyword">void</span> *)(stream+i),<span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//timer</span></span><br><span class="line">    CHECK(cudaEventRecord(stop, <span class="number">0</span>));</span><br><span class="line">    <span class="keyword">int</span> counter=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (cudaEventQuery(stop)==cudaErrorNotReady)</span><br><span class="line">    &#123;</span><br><span class="line">        counter++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>结果如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-5-流回调/re-6-5-2.png" alt="re-6-5-2"></p>
+<p>结果如下：<br><img src="./re-6-5-2.png" alt="re-6-5-2"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了本系列的最后一个小功能，流回调，下面部分就是中级提高篇了，要好好练习前面的，不然后面会懵逼哦！</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-5-流回调" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-6-5-流回调</a>转载请标明出处</p>
 
       
     </div>
@@ -735,7 +734,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1847,7 +1846,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1902,23 +1901,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

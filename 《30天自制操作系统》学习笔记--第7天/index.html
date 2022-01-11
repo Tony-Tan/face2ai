@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 《30天自制操作系统》中断处理程序Keywords: 《30天自制操作系统》，Macbook，中断处理程序">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.049Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】 中断">
 <meta name="twitter:description" content="Abstract: 《30天自制操作系统》中断处理程序Keywords: 《30天自制操作系统》，Macbook，中断处理程序">
@@ -486,7 +486,6 @@
         <p><strong>Abstract:</strong> 《30天自制操作系统》中断处理程序<br><strong>Keywords:</strong> 《30天自制操作系统》，Macbook，中断处理程序<br><a id="more"></a></p>
 <h1 id="中断处理程序"><a href="#中断处理程序" class="headerlink" title="中断处理程序"></a>中断处理程序</h1><p>今天看的还是比较顺利，很快一天的就看完了，总结一下今天的主要知识。<br>首先是中断处理程序，中断处理程序尽量高效，短小精悍，所以像显示啊什么的操作尽量不再中断处理程序中出现，因为一旦进入中断处理程序，其他中断将会被屏蔽，因为如果不屏蔽就会出现乱套的现象，一个中断还没完另一个已经来了，你说你干不干，干哪个，所以，尽量减少中断处理时间，这样就可以减小中断同时发生而后发生的没办法处理的现象，所以，缓冲区出现了用武之地。<br>之前一直不知道缓冲区是干嘛的，今天终于见到其真正的用途了，就是保存中断信息，然后慢慢处理，之后讲到FIFO缓冲区（讲的不严谨点就是队列），队列的大小随意定义，为了减少数据移动，使用了循环队列，高效，但结构里面有一个len用来判断对是否满，可以用头指针和尾指针的位置关系来判断，但没有多大效率上和空间上的区别，所以应该都可以，这里的队列采用数组而不是链表，数组在空间上连续，所以读的速度更快。效率才是硬道理！<br>发现了对中断的处理和处理时对下一个中断的到来以及处理安排上是很重要的，需要我们严加设计的，应该也是系统设计的重要部分，还有书中出现的各种编号（像不同端口的地址什么的），不知道具体去哪找，不同的cpu不知道有没有什么区别，这是不是就Intel那个好几千页的手册所要说明的。。<br>还有就是鼠标和键盘的电路是一个芯片组上的。。。。。<br>这几天基本都是用c语言设计，感觉只用汇编写了那些最基本的函数，如果系统想要更强大是不是应该多用汇编写点更多的函数以供调用。</p>
 <p>明天继续。。。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--第7天" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–第7天</a>转载请标明出处</p>
 
       
     </div>
@@ -711,7 +710,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1823,7 +1822,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1878,23 +1877,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

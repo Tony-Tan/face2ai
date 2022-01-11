@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 线性代数重点，关于矩阵特征值特征向量的相关知识第一篇文章，简单介绍特征值Keywords: Eigenvalues，Eigenvectors，Sigular，Markov matrix，Trace，Imaginary Eigenvalues">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-1/特征向量基.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-1/r&p.png">
-<meta property="og:updated_time" content="2018-10-04T15:09:59.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-6-1/特征向量基.png">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-6-1/r&p.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.179Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】6-1:特征值介绍(Introduction to Eigenvalues)">
 <meta name="twitter:description" content="Abstract: 线性代数重点，关于矩阵特征值特征向量的相关知识第一篇文章，简单介绍特征值Keywords: Eigenvalues，Eigenvectors，Sigular，Markov matrix，Trace，Imaginary Eigenvalues">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-1/特征向量基.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-6-1/特征向量基.png">
 
 
 
@@ -532,7 +532,7 @@
 <p>经过上图的对比，可以看出一些问题，尤其是右下角那个式子将会是我们接下来要研究的一个重要表现形式</p>
 <h3 id="A-n"><a href="#A-n" class="headerlink" title="$A^n$"></a>$A^n$</h3><p>哦，sorry忘了给各位介绍了上面说的 $\lambda$ 叫特征值，英文名 Eigenvalue（好像不是英文），$x$ 叫特征向量，英文名 Eigenvector（好像也不是英文）。<br>我们来观察个矩阵的n次方的例子：<br>$$<br>A=\begin{bmatrix}.8&amp;.3 \newline .2&amp;.7\end{bmatrix}\\<br>A^2=\begin{bmatrix}.70&amp;.45 \newline .30&amp;.55\end{bmatrix}\\<br>A^3=\begin{bmatrix}.650&amp;.525 \newline .350&amp;.475\end{bmatrix}\\<br>\vdots\\<br>A^n=\begin{bmatrix}.6000&amp;.6000 \newline .4000&amp;.4000\end{bmatrix}\\<br>$$<br>这个不是我求出来的，我从书上抄过来的，如果有问题别找我，可以看出来，把一个矩阵连续的投影到列空间，经过一段时间后，就会趋于稳定，矩阵就会不在变化，这个结论表面看上去是这样的，但是没有理论证明啊，那么我们就来证明一下，但是首先我们要求一下特征值：<br>$$<br>Ax=\lambda x\\<br>(A-\lambda I)x=0<br>$$<br>说明一下，按照上式的形式，并且根据规定其中 $x$ 不是0，我们求解特征值的问题就变成求解矩阵$A-\lambda I$ 了，如果x不是0，那么矩阵就必须是奇异的，也就是说矩阵中列一定是线性相关的，所以null space才会有非0向量，那么奇异矩阵的一个性质就是determinant为0，那么我们的特征值就是：<br>$$<br>det(A-\lambda I)=0\\<br>$$<br>行列式求法我们已知，其实这就是个n次方程了，n是矩阵的规模(长或者宽)，那么一般情况下我们会得到n个解，注意这里的解可以是0，也可以重复，也可以是复数，这些情况我们后面讨论，但是每个特征值都对应一个特征向量，带回到 $Ax=\lambda x$ 就可以得到两个特征向量了。<br>那么上面的证明就可以这样写了，这里我们假设矩阵A可以得到两个不同方向的特征向量 $x_1,x_2$，<strong>具体证明后面给出</strong>：<br>$$<br>Ax_1=\lambda_1x_1 \dots \dots \dots (1) \\<br>Ax_2=\lambda_2x_2 \dots \dots \dots (2) \\<br>AA=\begin{bmatrix}A\cdot col(A)_1 &amp; A\cdot col(A)_2\end{bmatrix}\\<br>a_1=col(A)_1\\<br>a_2=col(A)_2\\<br>a_1=p_1x_1+p_2x_2\\<br>a_2=q_1x_1+q_2x_2\\<br>$$</p>
 <p>$$<br>Aa_1=A(p_1x_1+p_2x_2)=p_1Ax_1+p_2Ax_2\\<br>$$<br>plug (1) into $Aa_1$:<br>$$<br>Aa_1=\lambda_1p_1x_1+\lambda_2 p_2x_2\\<br>A^2a_1=\lambda_1^2p_1x_1+\lambda_2^2 p_2x_2\\<br>\vdots \\<br>A^na_1=\lambda_1^np_1x_1+\lambda_2^n p_2x_2\\<br>$$<br>同理可以得到 $a_2$那么最后 $A^n$ 的结果就是:<br>$$<br>A^n=\begin{bmatrix}<br>\lambda_1^{(n-1)}p_1x_1+\lambda_2^{(n-1)} p_2x_2  &amp;<br>\lambda_1^{(n-1)}q_1x_1+\lambda_2^{(n-1)} q_2x_2<br>\end{bmatrix}<br>$$</p>
-<p>数学过程基本就是这个样子了，推到应该还算严谨，<strong><em>思路是把矩阵的列分解到以特征向量为基的表示形式，通过特征向量和矩阵乘积还等于特征向量的这个特征，能够继续迭代进行下去</em></strong>，如下图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-1/特征向量基.png" alt=""></p>
+<p>数学过程基本就是这个样子了，推到应该还算严谨，<strong><em>思路是把矩阵的列分解到以特征向量为基的表示形式，通过特征向量和矩阵乘积还等于特征向量的这个特征，能够继续迭代进行下去</em></strong>，如下图：<br><img src="./特征向量基.png" alt=""></p>
 <p>图中的数字是$A=\begin{bmatrix}.8&amp;.3\newline .2&amp;.7\end{bmatrix}$ 作为例子来分解的。<br>最后还要用到极限的一些知识，首先来看两个特征值，$\lambda$ 他们要被n次方，所以如果：</p>
 <ol>
 <li>如果 $\lambda&gt;1$ 那么n次方后会非常非常大；</li>
@@ -548,7 +548,7 @@
 <p>证明一下：<br>奇异矩阵的特征值，我们回忆下求特征值的过程，其实是求 $(A-\lambda I)x=0$ 中 $\lambda$ 的过程，用到的就是矩阵 $(A-\lambda I)$ 是奇异矩阵，那么如果A已经是奇异矩阵了，那么 $\lambda$ 是0 必然是解中的一种情况，这就证明了1；<br>如果是奇异对称的矩阵，那么当同样根据上面所说的，当 $\lambda=0$ 时，$Ax_1=0$ 表示 $x_1$ 在A的null space中，另外的特征向量 $x_2$ 必然在A的列空间，又因为A对称所以列空间与行空间相同，故而 $x_1$ 与 $x_2$ 正交 ，QED</p>
 <p>越特殊的矩阵，其特征值和特征向量越特殊，这是一个非常有用的性质。后面有一张表，可以总览一下。</p>
 <h3 id="映射矩阵和投影矩阵"><a href="#映射矩阵和投影矩阵" class="headerlink" title="映射矩阵和投影矩阵"></a>映射矩阵和投影矩阵</h3><p>$R=\begin{bmatrix}0&amp;1\\1&amp;0\end{bmatrix}$ 特征值也比较特殊：$\pm1$<br>$$<br>R=\begin{bmatrix}0&amp;1\\1&amp;0\end{bmatrix}=2\begin{bmatrix}0.5&amp;0.5\\0.5&amp;0.5\end{bmatrix}-\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix}<br>$$</p>
-<p>0.5的Markov矩阵P特征值0和1，所以P是个投影矩阵？为什么，一个特征值是1，说明 $Px_2=x$<br>这明显就是个投影矩阵，并且Nullspace部分被干掉了（ $Px_1=0$ ）<br>P 的特征向量(1,1),(1,-1) ,R的特征向量也是(1,1),(1,-1)，所以下面的式子成立了<br>$$R=2P-I\\<br>Rx=\lambda_R x\\<br>Px=\lambda_P x\\<br>Ix=x\\<br>Rx=(2P-I)x\\<br>\lambda_R =2 \lambda_P-1\\<br>\lambda_{R1} =2 \times 1-1=1\\<br>\lambda_{R2} =2 \times 0-1=-1$$<br>Reflection和Projection如下图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-1/r&amp;p.png" alt=""><br>上图的理解步骤和求解 $A^n$ 的过程类似，首先分解左侧乘数向量到以特征向量为基的一组基，所以经过A的变换后，一个特征向量上的长度($\lambda=0$)为0，另一个则是1，就是一个分量没了，另一个保持不变，这就是projection的过程，类似的一个长度为-1，另一个不变的就是reflection，如果有不明白的同学可以那笔画一下，也就是上面的图形，也就差不多了。</p>
+<p>0.5的Markov矩阵P特征值0和1，所以P是个投影矩阵？为什么，一个特征值是1，说明 $Px_2=x$<br>这明显就是个投影矩阵，并且Nullspace部分被干掉了（ $Px_1=0$ ）<br>P 的特征向量(1,1),(1,-1) ,R的特征向量也是(1,1),(1,-1)，所以下面的式子成立了<br>$$R=2P-I\\<br>Rx=\lambda_R x\\<br>Px=\lambda_P x\\<br>Ix=x\\<br>Rx=(2P-I)x\\<br>\lambda_R =2 \lambda_P-1\\<br>\lambda_{R1} =2 \times 1-1=1\\<br>\lambda_{R2} =2 \times 0-1=-1$$<br>Reflection和Projection如下图：<br><img src="./r&amp;p.png" alt=""><br>上图的理解步骤和求解 $A^n$ 的过程类似，首先分解左侧乘数向量到以特征向量为基的一组基，所以经过A的变换后，一个特征向量上的长度($\lambda=0$)为0，另一个则是1，就是一个分量没了，另一个保持不变，这就是projection的过程，类似的一个长度为-1，另一个不变的就是reflection，如果有不明白的同学可以那笔画一下，也就是上面的图形，也就差不多了。</p>
 <p>通过上面一些列推到可以得出，矩阵shift I ，特征值减1，特征向量不变。或者可以理解为当矩阵们拥有相同的特征向量，特征值满足加法原则。</p>
 <p>下面说另外两个”代表”</p>
 <ol>
@@ -587,7 +587,6 @@
 <p>解释下对称矩阵 $A=A^T$ 是对称矩阵， $-A=A^T$ 是反对称矩阵<br>上面这些对应的性质都不是巧合，后面有专门的定理来证明这些巧合</p>
 <h2 id="Eigshow-in-Matlab"><a href="#Eigshow-in-Matlab" class="headerlink" title="Eigshow in Matlab"></a>Eigshow in Matlab</h2><p>这段是讲Matlab中的一个demo ，描述2x2的矩阵的特征值的特征向量一些变化，等我安装个matlab然后录个视频看看效果，如果有补充再来写，所以这段：<br>略！</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>这篇写了两天，也算是良心之做了，可能有点啰嗦有点乱，因为水平不到位，不能很好的判断哪些重要哪些次要，所以每一个知识点都反复说，宁缺毋滥，所以各位海涵吧，明天继续。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-1" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-1</a>转载请标明出处</p>
 
       
     </div>
@@ -654,14 +653,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -842,7 +841,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1954,7 +1953,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2009,23 +2008,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

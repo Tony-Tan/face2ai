@@ -109,23 +109,23 @@
 
 
   <meta name="description" content="Abstract: 本文介绍CUDA编程的内存模型个概述，主要讲解CUDA包含的几种内存，以及各种内存的主要特点和用途，这篇作为内存部分地图一样，指导我们后面的写作和学习。Keywords: CUDA内存模型，CUDA内存层次结构，寄存器，共享内存，本地内存，常量内存，纹理内存，全局内存">
-<meta name="keywords" content="CUDA内存模型,CUDA内存层次结构,寄存器,共享内存,本地内存,常量内存,纹理内存,全局内存">
+<meta name="keywords" content="全局内存,CUDA内存模型,CUDA内存层次结构,寄存器,共享内存,本地内存,常量内存,纹理内存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【CUDA 基础】4.1 内存模型概述">
 <meta property="og:url" content="https://face2ai.com/CUDA-F-4-1-内存模型概述/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍CUDA编程的内存模型个概述，主要讲解CUDA包含的几种内存，以及各种内存的主要特点和用途，这篇作为内存部分地图一样，指导我们后面的写作和学习。Keywords: CUDA内存模型，CUDA内存层次结构，寄存器，共享内存，本地内存，常量内存，纹理内存，全局内存">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-5.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-6.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-4-1-内存模型概述/1-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-4-1-内存模型概述/1-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-4-1-内存模型概述/1-3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-4-1-内存模型概述/1-5.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-4-1-内存模型概述/1-6.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】4.1 内存模型概述">
 <meta name="twitter:description" content="Abstract: 本文介绍CUDA编程的内存模型个概述，主要讲解CUDA包含的几种内存，以及各种内存的主要特点和用途，这篇作为内存部分地图一样，指导我们后面的写作和学习。Keywords: CUDA内存模型，CUDA内存层次结构，寄存器，共享内存，本地内存，常量内存，纹理内存，全局内存">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-1.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-4-1-内存模型概述/1-1.png">
 
 
 
@@ -498,14 +498,14 @@
       
         <p><strong>Abstract:</strong> 本文介绍CUDA编程的内存模型个概述，主要讲解CUDA包含的几种内存，以及各种内存的主要特点和用途，这篇作为内存部分地图一样，指导我们后面的写作和学习。<br><strong>Keywords:</strong> CUDA内存模型，CUDA内存层次结构，寄存器，共享内存，本地内存，常量内存，纹理内存，全局内存</p>
 <a id="more"></a>
-<h1 id="内存模型概述"><a href="#内存模型概述" class="headerlink" title="内存模型概述"></a>内存模型概述</h1><p>废话少说，我们直接进入主题，如果说我进入写程序的行业的印象最深刻的一本书，看过我博客的人应该能猜到，我也不止一遍的向大家推荐过《深入理解计算机系统》那本书告诉了我基本所有的计算机基础知识，编程基础知识，真的很基础，里面有CPU结构，内存管理模型，汇编等等，从知识层次来讲，非常偏底层，但是难度确实够让人难受，那本书，我估计我只看了一半，看懂的应该有一半的三分之二，也就是我只看懂了全书的三分之一，推荐有时间一定要看看，内存访问和管理是程序效率的关键点，高性能计算更是如此，上一篇举得例子关于运输原材料的例子，就是我们平时天天遇到的问题，我们希望有大量的高速度的大容量内存可以给我们的工厂（GPU核心）输送数据，但是根据我们目前的技术，大容量高速的内存不仅造价高，而且不容易生产，到目前为止（2018年5月）计算结构还是普遍采用内存模型获得最佳的延迟和带宽。<br>下面我们要看一条新闻，昨天还是前天看到的，刚才又搜了一下，效果大概是这样的<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-1.png" alt=""><br>为了方便大家多年后理解时代背景：三周前，美国商务部制裁中兴公司（中兴公司倒闭了，你可以去查查Google）七年不允许美国公司向中国出售任何芯片类产品，中国人说这是贸易战，但是美国没说什么，直说制裁中兴公司。<br>新文内容是这样的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-2.png" alt=""></p>
+<h1 id="内存模型概述"><a href="#内存模型概述" class="headerlink" title="内存模型概述"></a>内存模型概述</h1><p>废话少说，我们直接进入主题，如果说我进入写程序的行业的印象最深刻的一本书，看过我博客的人应该能猜到，我也不止一遍的向大家推荐过《深入理解计算机系统》那本书告诉了我基本所有的计算机基础知识，编程基础知识，真的很基础，里面有CPU结构，内存管理模型，汇编等等，从知识层次来讲，非常偏底层，但是难度确实够让人难受，那本书，我估计我只看了一半，看懂的应该有一半的三分之二，也就是我只看懂了全书的三分之一，推荐有时间一定要看看，内存访问和管理是程序效率的关键点，高性能计算更是如此，上一篇举得例子关于运输原材料的例子，就是我们平时天天遇到的问题，我们希望有大量的高速度的大容量内存可以给我们的工厂（GPU核心）输送数据，但是根据我们目前的技术，大容量高速的内存不仅造价高，而且不容易生产，到目前为止（2018年5月）计算结构还是普遍采用内存模型获得最佳的延迟和带宽。<br>下面我们要看一条新闻，昨天还是前天看到的，刚才又搜了一下，效果大概是这样的<br><img src="./1-1.png" alt=""><br>为了方便大家多年后理解时代背景：三周前，美国商务部制裁中兴公司（中兴公司倒闭了，你可以去查查Google）七年不允许美国公司向中国出售任何芯片类产品，中国人说这是贸易战，但是美国没说什么，直说制裁中兴公司。<br>新文内容是这样的：<br><img src="./1-2.png" alt=""></p>
 <p>我们把这个截图放在这，看看明年后年能不能上市，如果成功了，我算是松了口气，毕竟当年立的亩产三万八千斤的Flag到现在还没实现。<br>CUDA也采用的内存模型，结合了主机和设备内存系统，展现了完整的内存层次模型，其中大部分内存我们可以通过编程控制，来使我们的程序性能得到优化。<br>如果你之前写的程序都没怎么管理过内存，那请先练习下C语言，可能会有更好的理解。</p>
 <h2 id="内存层次结构的优点"><a href="#内存层次结构的优点" class="headerlink" title="内存层次结构的优点"></a>内存层次结构的优点</h2><p>程序具有局部性特点，包括：</p>
 <ol>
 <li>时间局部性</li>
 <li>空间局部性</li>
 </ol>
-<p>解释一下，时间局部性，就是一个内存位置的数据某时刻被引用，那么在此时刻附近也很有可能被引用，随时间流逝，该数据被引用的可能性逐渐降低。<br>空间局部性，如果某一内存位置的数据被使用，那么附近的数据也有可能被使用。<br>现代计算机的内存结构主要如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-3.png" alt=""></p>
+<p>解释一下，时间局部性，就是一个内存位置的数据某时刻被引用，那么在此时刻附近也很有可能被引用，随时间流逝，该数据被引用的可能性逐渐降低。<br>空间局部性，如果某一内存位置的数据被使用，那么附近的数据也有可能被使用。<br>现代计算机的内存结构主要如下：<br><img src="./1-3.png" alt=""></p>
 <p>这个内存模型在程序局部性原则成立的时候有效。学习过串行编程的人也应该知道内存模型，速度最快的是寄存器，他能和cpu同步的配合，接着是缓存，在CPU片上，然后是主存储器，现在常见的就是内存条，显卡上也有内存芯片，然后是硬盘，这些内存设备的速度和容量相反，越快的越小，越慢的越大。<br>局部性是个非常有趣的事情，首先局部性的产生并不是因为设备的原因，而是程序从一开始被编写就有这个特征，与生俱来，所以当我们发现此特征后，就开始设计满足此特征硬件结构，也就是内存模型，当内存模型设计成如上结构的时候，如果你想写快速高效的程序，就要让自己的程序局部性足够好，所以这就进入了一个死循环，最后为了追求高效率，设备将越来越优化局部性，而程序也会越来越局部化。<br>总结下最后一层（硬盘磁带之类的）的特点：</p>
 <ul>
 <li>每个比特位的价格要更低</li>
@@ -529,7 +529,7 @@
 <li>全局内存</li>
 </ul>
 <p>上述各种都有自己的作用域，生命周期和缓存行为。CUDA中每个线程都有自己的私有的本地内存；线程块有自己的共享内存，对线程块内所有线程可见；所有线程都能访问读取常量内存和纹理内存，但是不能写，因为他们是只读的；全局内存，常量内存和纹理内存空间有不同的用途。对于一个应用来说，全局内存，常量内存和纹理内存有相同的生命周期。下图总结了上面这段话，后面的大篇幅文章就是挨个介绍这些内存的性质和使用的。</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-5.png" alt=""></p>
+<p><img src="./1-5.png" alt=""></p>
 <h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器无论是在CPU还是在GPU都是速度最快的内存空间，但是和CPU不同的是GPU的寄存器储量要多一些，而且当我们在核函数内不加修饰的声明一个变量，此变量就存储在寄存器中，但是CPU运行的程序有些不同，只有当前在计算的变量存储在寄存器中，其余在主存中，使用时传输至寄存器。在核函数中定义的有常数长度的数组也是在寄存器中分配地址的。<br>寄存器对于每个线程是私有的，寄存器通常保存被频繁使用的私有变量，注意这里的变量也一定不能使共有的，不然的话彼此之间不可见，就会导致大家同时改变一个变量而互相不知道，寄存器变量的声明周期和核函数一致，从开始运行到运行结束，执行完毕后，寄存器就不能访问了。<br>寄存器是SM中的稀缺资源，Fermi架构中每个线程最多63个寄存器。Kepler结构扩展到255个寄存器，一个线程如果使用更少的寄存器，那么就会有更多的常驻线程块，SM上并发的线程块越多，效率越高，性能和使用率也就越高。<br>那么问题就来了，如果一个线程里面的变量太多，以至于寄存器完全不够呢？这时候寄存器发生溢出，本地内存就会过来帮忙存储多出来的变量，这种情况会对效率产生非常负面的影响，所以，不到万不得已，一定要避免此种情况发生。<br>为了避免寄存器溢出，可以在核函数的代码中配置额外的信息来辅助编译器优化，比如：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__global__ <span class="keyword">void</span></span><br><span class="line">__lauch_bounds__(maxThreadaPerBlock,minBlocksPerMultiprocessor)</span><br><span class="line">kernel(...) &#123;</span><br><span class="line">    <span class="comment">/* kernel code */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这里面在核函数定义前加了一个 关键字 <strong>lauch_bounds</strong>，然后他后面对应了两个变量：</p>
 <ol>
@@ -683,7 +683,7 @@
 </table>
 <h3 id="静态全局内存"><a href="#静态全局内存" class="headerlink" title="静态全局内存"></a>静态全局内存</h3><p>CPU内存有动态分配和静态分配两种类型，从内存位置来说，动态分配在堆上进行，静态分配在站上进行，在代码上的表现是一个需要new，malloc等类似的函数动态分配空间，并用delete和free来释放。在CUDA中也有类似的动态静态之分，我们前面用的都是要cudaMalloc的，所以对比来说就是动态分配，我们今天来个静态分配的，不过与动态分配相同是，也需要显式的将内存copy到设备端，我们用下面代码来看一下程序的运行结果:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line">__device__ <span class="keyword">float</span> devData;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">checkGlobalVariable</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Device: The value of the global variable is %f\n"</span>,devData);</span><br><span class="line">    devData+=<span class="number">2.0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">float</span> value=<span class="number">3.14f</span>;</span><br><span class="line">    cudaMemcpyToSymbol(devData,&amp;value,<span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Host: copy %f to the global variable\n"</span>,value);</span><br><span class="line">    checkGlobalVariable&lt;&lt;&lt;<span class="number">1</span>,<span class="number">1</span>&gt;&gt;&gt;();</span><br><span class="line">    cudaMemcpyFromSymbol(&amp;value,devData,<span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Host: the value changed by the kernel to %f \n"</span>,value);</span><br><span class="line">    cudaDeviceReset();</span><br><span class="line">    <span class="keyword">return</span> EXIT_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运行结果</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-1-内存模型概述/1-6.png" alt=""></p>
+<p><img src="./1-6.png" alt=""></p>
 <p>这个唯一要注意的就是，这一句<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaMemcpyToSymbol(devData,&amp;value,<span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br></pre></td></tr></table></figure></p>
 <p>函数原型说的是第一个应该是个void*，但是这里写了一个<strong>device</strong> float devData;变量，这个说到底还是设备上的变量定义和主机变量定义的不同，设备变量在代码中定义的时候其实就是一个指针，这个指针指向何处，主机端是不知道的，指向的内容也不知道，想知道指向的内容，唯一的办法还是通过显式的办法传输过来：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaMemcpyFromSymbol(&amp;value,devData,<span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br></pre></td></tr></table></figure></p>
 <p>这里需要注意的只有这点：</p>
@@ -696,7 +696,6 @@
 <p>主机端不可以对设备变量进行取地址操作！这是非法的！<br>想要得到devData的地址可以用下面方法：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> *dptr=<span class="literal">NULL</span>;</span><br><span class="line">cudaGetSymbolAddress((<span class="keyword">void</span>**)&amp;dptr,devData);</span><br></pre></td></tr></table></figure></p>
 <p>当然也有一个例外，可以直接从主机引用GPU内存——CUDA固定内存。后面我们会研究这部分。<br>CUDA运行时API能访问主机和设备变量，但这取决于你给正确的函数是否提供了正确的参数，使用运行时API，如果参数填错，尤其是主机和设备上的指针，结果是无法预测的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文给出了CUDA内存模型的Big picture，以提纲方式，引出下面两章的内容。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-1-内存模型概述" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-4-1-内存模型概述</a>转载请标明出处</p>
 
       
     </div>
@@ -786,6 +785,8 @@
       
         <div class="post-tags">
           
+            <a href="/tags/全局内存/" rel="tag"># 全局内存</a>
+          
             <a href="/tags/CUDA内存模型/" rel="tag"># CUDA内存模型</a>
           
             <a href="/tags/CUDA内存层次结构/" rel="tag"># CUDA内存层次结构</a>
@@ -799,8 +800,6 @@
             <a href="/tags/常量内存/" rel="tag"># 常量内存</a>
           
             <a href="/tags/纹理内存/" rel="tag"># 纹理内存</a>
-          
-            <a href="/tags/全局内存/" rel="tag"># 全局内存</a>
           
         </div>
       
@@ -955,7 +954,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2067,7 +2066,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2122,23 +2121,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

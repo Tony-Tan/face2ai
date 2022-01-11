@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 首先介绍随机变量的条件分布，随后介绍随机变量条件分布下的乘法法则，贝叶斯公式和全概率公式Keywords: Discrete Conditional Distributions，Continuous Conditional Distributions，Multiplication Rule，Bayes’ Therom，Law of Total Probability">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/car.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/table3_4.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/p_d_f.png">
-<meta property="og:updated_time" content="2018-10-04T15:17:59.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/car.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/table3_4.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/p_d_f.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-6:条件分布(Conditional Distributions Part I）">
 <meta name="twitter:description" content="Abstract: 首先介绍随机变量的条件分布，随后介绍随机变量条件分布下的乘法法则，贝叶斯公式和全概率公式Keywords: Discrete Conditional Distributions，Continuous Conditional Distributions，Multiplication Rule，Bayes’ Therom，Law of Total Probability">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/car.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1/car.png">
 
 
 
@@ -507,7 +507,7 @@
 </blockquote>
 <p>上面这段话引自Francois Chollet</p>
 <p>这段话不适合小菜，只适合大牛们冲击天花板，我们小菜现在要做的就是第一步，花几年时间进行紧张的学习。<br>简短的回顾下前面的内容，我们从试验出发，然后得到事件，从事件引出对应的概率，然后把事件数字化后，随机变量作为一个函数成为我们研究的对象，在研究事件的时候我们研究了形如 $Pr(A|B)$ 的事件的条件概率，并且把它用到了全概率公式，贝叶斯公式等，并了解到其性质和普通事件的概率一致，甚至所有事件都可以定义为条件事件，条件概率从一开始就注定成为我们研究的重要一部分，所以当事件数字化之后，条件分布也就成了研究的重点，没错，我们今天这一大篇都是研究条件分布的，目前之研究两个随机变量的条件分布，多变量的可以依靠两个变量的推导出来。<br>在联合分布中的条件分布，上一篇的边缘分布也是我们要使用到的，所以上一篇的内容需要大家详细掌握。</p>
-<h2 id="离散条件分布-Discrete-Conditional-Distributions"><a href="#离散条件分布-Discrete-Conditional-Distributions" class="headerlink" title="离散条件分布 Discrete Conditional Distributions"></a>离散条件分布 Discrete Conditional Distributions</h2><p>上来先举个🌰 ：<br>保险公司想要研究哪种型号的车更容易被盗，研究出了下面这个表的数据：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/car.png" alt=""><br>表中1表示被盗，0表示没有被盗，Y表示车型，保险公司会根据不同的车型设定保险金（奸商都特别会算账，不然会赔到死），如果我们不知道你是什么车，从表上我们只能根据X的边缘密度 $Pr(x=1)=\sum_{y}Pr(x=1,y)=0.024$ 来估计你的车被盗的风险，但是如果你要是告诉我，你的车型是3，那么你被盗  的可能性就是 $Pr(x=1,y=3)=0.001$ 了</p>
+<h2 id="离散条件分布-Discrete-Conditional-Distributions"><a href="#离散条件分布-Discrete-Conditional-Distributions" class="headerlink" title="离散条件分布 Discrete Conditional Distributions"></a>离散条件分布 Discrete Conditional Distributions</h2><p>上来先举个🌰 ：<br>保险公司想要研究哪种型号的车更容易被盗，研究出了下面这个表的数据：<br><img src="./car.png" alt=""><br>表中1表示被盗，0表示没有被盗，Y表示车型，保险公司会根据不同的车型设定保险金（奸商都特别会算账，不然会赔到死），如果我们不知道你是什么车，从表上我们只能根据X的边缘密度 $Pr(x=1)=\sum_{y}Pr(x=1,y)=0.024$ 来估计你的车被盗的风险，但是如果你要是告诉我，你的车型是3，那么你被盗  的可能性就是 $Pr(x=1,y=3)=0.001$ 了</p>
 <p>所以，当一个联合分布中，我们知道一个随机变量x发生了，另一个随机变量y发生的概率从原来的$Pr(y)$ 变成了 $Pr(y|x)$ 而从相对关系上来看满足下面的关系：<br>$$<br>Pr(X=x|Y=y)=\frac{Pr(X=x \text{ and } Y=y)}{Pr(Y=y)}=\frac{f(x,y)}{f_2(y)}<br>$$</p>
 <p>所以我们就能引出定义：</p>
 <blockquote>
@@ -515,7 +515,7 @@
 </blockquote>
 <p>定义大概就是上面的样子了，但是我们需要确认一下 $g_1(x|y)$ 这货到底是不是个分布，证明如下，假设 $f_2(y)&gt;0$ ,$g_1(x|y)&gt;0$ 那么对于所有 $x$ 来说:<br>$$<br>\sum_x g_1(x|y)=\frac{1}{f_2(y)}\sum_xf(x,y)=\frac{1}{f_2(y)}f_2(y)=1<br>$$</p>
 <p>一个随机变量的概率分布必须满足所有值都大于0 ，$g_1(x|y)&gt;0$ 满足条件，并且所有可能的概率和是1，上面式子也证明了，所以 $g_1$ 是一个概率分布，Q.E.D</p>
-<p>举个计算的🌰 ：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/table3_4.png" alt=""><br>根据上面的数据计算p.f. of $Y$ given $X=2$<br>$$<br>g_2(y|2)=\frac{f(2,y)}{f_1(x=2)}=\frac{f(2,y)}{0.6}<br>$$<br>因为本🌰是个离散有限的，可以很容易的求出所有情况下的值：$g_2(1|2)=1/2$ $g_2(2|2)=0$  $g_2(3|2)=1/6$ $g_2(4|2)=1/3$</p>
+<p>举个计算的🌰 ：<br><img src="./table3_4.png" alt=""><br>根据上面的数据计算p.f. of $Y$ given $X=2$<br>$$<br>g_2(y|2)=\frac{f(2,y)}{f_1(x=2)}=\frac{f(2,y)}{0.6}<br>$$<br>因为本🌰是个离散有限的，可以很容易的求出所有情况下的值：$g_2(1|2)=1/2$ $g_2(2|2)=0$  $g_2(3|2)=1/6$ $g_2(4|2)=1/3$</p>
 <p>注意当边缘分布中对应的是0的情况，也就是分母是0的情况，是没有意义的，为什么？首先我们可以从代数的角度理解，分母不能为零，其次，我们从概率的角度理解，不可能发生的事件或随机变量概率是0，如果这个事件发生了，那么他就不可能有概率0，所以前后矛盾，分母不能为0。</p>
 <h2 id="连续条件分布-Continuous-Conditional-Distributions"><a href="#连续条件分布-Continuous-Conditional-Distributions" class="headerlink" title="连续条件分布 Continuous Conditional Distributions"></a>连续条件分布 Continuous Conditional Distributions</h2><p>上面说明白了离散情况下的条件分布，用到了前一篇中的边缘分布，那么连续情况下的条件分布会是什么样呢？<br>还是先举个🌰 ：</p>
 <blockquote>
@@ -538,7 +538,7 @@
 </ol>
 <p>定理为了确定我们一系列计算得到仍然是p.d.f，证明了三点性质（其实是2点），保证函数满足p.d.f.的基本需求。参考，<a href="http://face2ai.com/Math-Probability-3-2-Continuous-Distribution/">p.d.f.的定义</a></p>
 <p>继续上面关于工序的例子,我们来计算条件分布，当已知 $Y=y$ 的时候我们知道 $x\geq y$所以计算边缘分布：<br>$$<br>f_2(y)=\int^\infty_{y}e^{-x}dx=e^{-y}<br>$$<br>对于所有的 $y&gt;0$ :<br>$$<br>g_1(x|y)=\frac{f(x,y)}{f_2(y)}=\frac{e^{-x}}{e^{-y}}=e^{y-x},\text{ for }x\geq y<br>$$<br>当 $x&lt;y$ 的时候 $g_1(x|y)=0$</p>
-<p>这个例子暂时告一段落，我们下面展示一张图来可视化一下连续随机变量的条件分布，因为离散情况下很容易想象，所以我们把连续的随机变量表示一下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-6-Conditional-Distributions-P1/p_d_f.png" alt=""><br>看图说话，完整的曲面是二维随机变量的联合p.d.f. 那么其中一个切片 $x=x_0$ 或者  $y=y_0$ 都能得到一个切片，这个切片即使条件分布的一个伸缩，为什么是伸缩，因为其积分不是1，为了让他的积分为1，或者说正规化，我们需要给他一个系数：$\frac{1}{f_1(x)}$ 或者 $\frac{1}{f_2(y)}$ ，这样就能保证其积分为 $\int^\infty_{-\infty} \frac{f(x_0,y)}{f_1(x_0)}=1$ 或者 $\int^\infty_{-\infty} \frac{f(x,y_0)}{f_2(y_0)}=1$</p>
+<p>这个例子暂时告一段落，我们下面展示一张图来可视化一下连续随机变量的条件分布，因为离散情况下很容易想象，所以我们把连续的随机变量表示一下：<br><img src="./p_d_f.png" alt=""><br>看图说话，完整的曲面是二维随机变量的联合p.d.f. 那么其中一个切片 $x=x_0$ 或者  $y=y_0$ 都能得到一个切片，这个切片即使条件分布的一个伸缩，为什么是伸缩，因为其积分不是1，为了让他的积分为1，或者说正规化，我们需要给他一个系数：$\frac{1}{f_1(x)}$ 或者 $\frac{1}{f_2(y)}$ ，这样就能保证其积分为 $\int^\infty_{-\infty} \frac{f(x_0,y)}{f_1(x_0)}=1$ 或者 $\int^\infty_{-\infty} \frac{f(x,y_0)}{f_2(y_0)}=1$</p>
 <p>一点需要注意，我们说过，p.d.f和pf的区别在于，p.d.f.的单点对应的函数值没有意义，其区间内的积分才能反映区间的概率，那么上述式子中 $f(x_0,y)$ 是0肯定没错了因为这个单变量函数没有体积，如果你还不明白，就看上面的图，并且确定二维随机变量只有一块区域内的体积才有意义，那么$x=x_0$ 确定的平面，不管怎么算体积都是0，也就是对应的概率是0.<br>那么实际上严谨的连续条件分布的定义应该是这样的：<br>$$<br>g_1(x|y)=lim_{\epsilon \to 0}\frac{\partial}{\partial x}Pr(X\leq x|y-\epsilon &lt; Y \leq y+ \epsilon)<br>$$<br>是这样的一个极限，首先用到的是c.d.f.到p.d.f.的求偏导，然后是给了y一个小区间，使得积分有意义。</p>
 <p>剩下的就是混合分布了，一个连续随机变量一个离散随机变量，做法也很简单，各算各的，互不干扰</p>
 <blockquote>
@@ -546,7 +546,6 @@
 </blockquote>
 <p>上面说的3.6.2 就是离散条件分布定义中的计算公式，同样的3.6.3就是连续条件分布定义中的计算公式。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文较前几篇有点短小，但是介绍的东西确实重要很多，Part II 介绍条件概率分布的构成，欢迎大家继续收看。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-6-Conditional-Distributions-P1</a>转载请标明出处</p>
 
       
     </div>
@@ -779,7 +778,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1891,7 +1890,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1946,23 +1945,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -116,19 +116,19 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/CUDA_C.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/4.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/5.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/6.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/cover.jpg">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/CUDA_C.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/4.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/5.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/6.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】1.0 并行计算与计算机架构">
 <meta name="twitter:description" content="Abstract: 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。Keywords: 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-1-0-并行计算与计算机架构/cover.jpg">
 
 
 
@@ -502,7 +502,7 @@
         <p><strong>Abstract:</strong> 本文从总体上给出了CUDA编程的Big picture，后续所有的文章都在本文的基础上详细展开。<br><strong>Keywords:</strong> 并行计算，串行编程，并行编程，计算机架构，并行性，异构架构，CUDA</p>
 <a id="more"></a>
 <h1 id="并行计算与计算机架构"><a href="#并行计算与计算机架构" class="headerlink" title="并行计算与计算机架构"></a>并行计算与计算机架构</h1><p>听过一句话，电影里面的一句台词，不是名人说的，但我觉得非常值得我思考，“慢就是稳，稳就是快”，我们的发展太快了，以至于出现了各种《21天精通C++》《10天学会机器学习》这类东西。<br>稳住吧，打好基础，才有机会去更好的环境。</p>
-<h2 id="Big-Picture"><a href="#Big-Picture" class="headerlink" title="Big Picture"></a>Big Picture</h2><p>我们学习CUDA主要参考《CUDA C编程权威指南》我们的博客也基本按照书中的章节进行。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/cover.jpg" alt=""><br>结构：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/CUDA_C.png" alt=""></p>
+<h2 id="Big-Picture"><a href="#Big-Picture" class="headerlink" title="Big Picture"></a>Big Picture</h2><p>我们学习CUDA主要参考《CUDA C编程权威指南》我们的博客也基本按照书中的章节进行。<br><img src="./cover.jpg" alt=""><br>结构：<br><img src="./CUDA_C.png" alt=""></p>
 <p>CUDA想要运行起来并不困难，但是想要写得好，真的需要研究一下，某乎上各路大牛给出的建议是看CUDA的官方文档，我之前也是过了一遍文档，但是文档教会你更多的是如何写代码，而没有讲解详细的硬件结构（可能在别的文档中，我只看了编程指导），我们学习编程应该同时理解语言，编程模型，硬件执行模型，以及优化方法，单纯的学会写代码，能运行，这是培训班的节奏。<br>还记得峰哥的话，知道编译原理和操作系统（软硬件），什么语言都一样。<br>读这个系列的文章需要以下知识：</p>
 <ol>
 <li>C/C++ 编程经验，这个不用说，如果C都没学会就要来CUDA，我觉得不理智，根基不稳，也是我一贯所反对的</li>
@@ -519,7 +519,7 @@
 <li>中央处理单元（控制单元和算数逻辑单元）</li>
 <li>输入、输出接口</li>
 </ul>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/1.png" alt=""><br>后面的冯诺依曼结构就把数据和指令都当做数据来处理了，这里就不再介绍了，再次安利《深入理解计算机系统》这本书，里面可以找到相关知识。<br>写并行和串行的最大区别就是，写串行程序可能不需要学习不同的硬件平台，但是写并行程序就需要对硬件有一定的了解了。</p>
+<p><img src="./1.png" alt=""><br>后面的冯诺依曼结构就把数据和指令都当做数据来处理了，这里就不再介绍了，再次安利《深入理解计算机系统》这本书，里面可以找到相关知识。<br>写并行和串行的最大区别就是，写串行程序可能不需要学习不同的硬件平台，但是写并行程序就需要对硬件有一定的了解了。</p>
 <h3 id="并行性"><a href="#并行性" class="headerlink" title="并行性"></a>并行性</h3><p>写并行程序主要是分解任务，我们一般把一个程序看成是指令和数据的组合，当然并行也可以分为这两种：</p>
 <ul>
 <li>指令并行</li>
@@ -596,11 +596,11 @@
 </tr>
 </tbody>
 </table>
-<p>下面是示意图，注意颜色相同的块使用的同一个线程，从执行顺序上看如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/2.png" alt=""><br>下面是数据集上的划分上看：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/3.png" alt=""></p>
+<p>下面是示意图，注意颜色相同的块使用的同一个线程，从执行顺序上看如下：<br><img src="./2.png" alt=""><br>下面是数据集上的划分上看：<br><img src="./3.png" alt=""></p>
 <font color="FF0000">不同的数据划分严重影响程序性能，所以针对不同的问题和不同计算机结构，我们要通过和理论和试验共同来决定最终最优的数据划分。</font>
 
 
-<h3 id="计算机架构"><a href="#计算机架构" class="headerlink" title="计算机架构"></a>计算机架构</h3><h4 id="Flynn’s-Taxonomy"><a href="#Flynn’s-Taxonomy" class="headerlink" title="Flynn’s Taxonomy"></a>Flynn’s Taxonomy</h4><p>划分不同计算机结构的方法有很多，广泛使用的一种被称为佛林分类法Flynn’s Taxonomy，他根据指令和数据进入CPU的方式分类，分为以下四类：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/4.png" alt=""></p>
+<h3 id="计算机架构"><a href="#计算机架构" class="headerlink" title="计算机架构"></a>计算机架构</h3><h4 id="Flynn’s-Taxonomy"><a href="#Flynn’s-Taxonomy" class="headerlink" title="Flynn’s Taxonomy"></a>Flynn’s Taxonomy</h4><p>划分不同计算机结构的方法有很多，广泛使用的一种被称为佛林分类法Flynn’s Taxonomy，他根据指令和数据进入CPU的方式分类，分为以下四类：<br><img src="./4.png" alt=""></p>
 <p>分别以数据和指令进行分析：</p>
 <ul>
 <li>单指令单数据SISD（传统串行计算机，386）</li>
@@ -620,14 +620,13 @@
 <li>分布式内存的多节点系统</li>
 <li>共享内存的多处理器系统</li>
 </ol>
-<p>第一个更大，通常叫做集群，就是一个机房好多机箱，每个机箱都有内存处理器电源等一些列硬件，通过网络互动，这样组成的就是分布式。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/5.png" alt=""></p>
-<p>第二个是单个主板有多个处理器，他们共享相同的主板上的内存，内存寻址空间相同，通过PCIe和内存互动。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-1-0-并行计算与计算机架构/6.png" alt=""><br>多个处理器可以分多片处理器，和单片多核（众核many-core），也就是有些主板上挂了好多片处理器，也有的是一个主板上就一个处理器，但是这个处理器里面有几百个核。<br>GPU就属于众核系统。当然现在CPU也都是多核的了，但是他们还是有很大区别的：</p>
+<p>第一个更大，通常叫做集群，就是一个机房好多机箱，每个机箱都有内存处理器电源等一些列硬件，通过网络互动，这样组成的就是分布式。<br><img src="./5.png" alt=""></p>
+<p>第二个是单个主板有多个处理器，他们共享相同的主板上的内存，内存寻址空间相同，通过PCIe和内存互动。<br><img src="./6.png" alt=""><br>多个处理器可以分多片处理器，和单片多核（众核many-core），也就是有些主板上挂了好多片处理器，也有的是一个主板上就一个处理器，但是这个处理器里面有几百个核。<br>GPU就属于众核系统。当然现在CPU也都是多核的了，但是他们还是有很大区别的：</p>
 <ul>
 <li>CPU适合执行复杂的逻辑，比如多分支，其核心比较重（复杂）</li>
 <li>GPU适合执行简单的逻辑，大量的数据计算，其吞吐量更高，但是核心比较轻（结构简单）</li>
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要介绍了下计算机架构的划分和并行计算的基础简单介绍，后面我们继续介绍异构和CUDA</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-1-0-并行计算与计算机架构</a>转载请标明出处</p>
 
       
     </div>
@@ -864,7 +863,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1976,7 +1975,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2031,23 +2030,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

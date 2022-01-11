@@ -109,21 +109,21 @@
 
 
   <meta name="description" content="Abstract: 本文是关于Bayes’ Theorem 的介绍性知识Keywords: Bayes’ Theorem，Law of total Probability">
-<meta name="keywords" content="全概率公式,贝叶斯公式">
+<meta name="keywords" content="贝叶斯公式,全概率公式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【概率论】2-3:贝叶斯定理(Bayes&#39; Theorem)">
 <meta property="og:url" content="https://face2ai.com/Math-Probability-2-3-Bayes-Teorem/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文是关于Bayes’ Theorem 的介绍性知识Keywords: Bayes’ Theorem，Law of total Probability">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-3-Bayes-Teorem/Bayes.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-3-Bayes-Teorem/Bayes2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-3-Bayes-Teorem/conclusion.jpg">
-<meta property="og:updated_time" content="2018-10-04T15:16:09.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-2-3-Bayes-Teorem/Bayes.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-2-3-Bayes-Teorem/Bayes2.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-2-3-Bayes-Teorem/conclusion.jpg">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】2-3:贝叶斯定理(Bayes&#39; Theorem)">
 <meta name="twitter:description" content="Abstract: 本文是关于Bayes’ Theorem 的介绍性知识Keywords: Bayes’ Theorem，Law of total Probability">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-3-Bayes-Teorem/Bayes.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-2-3-Bayes-Teorem/Bayes.png">
 
 
 
@@ -503,7 +503,7 @@
 <li>贝叶斯派则认为所有事件的概率都是确定的，只是你的先验知识不足，所以算不出来而已。</li>
 </ol>
 <p>大概可以这么理解，我们不再纠结上面这个关于上帝存不存在的问题，回到数学本身。</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-3-Bayes-Teorem/Bayes.png" alt=""></p>
+<p><img src="./Bayes.png" alt=""></p>
 <p>例如上图，来自全概率公式那一篇：当我们面对一个试验，在所有的partition中（ $B_1\dots B_n$ ）必然有一个将要发生，但不确定发生哪一个，我们可以观察到另一个事件A，如果已知$Pr(A|B_i)$ ，那么当我们确定A事件的发生概率的时候，就可以翻过来推到每个partition发生的概率有多大$Pr(B_i|A)$<br>上面这个是简单的逻辑分析，可以大概知道我们为啥要Bayes公式。</p>
 <p>从分析上通过前面的条件概率公式可以非常轻松的得到贝叶斯公式：<br>$$<br>Pr(A\cap B)=Pr(A|B)Pr(B)=Pr(B|A)Pr(A)\\<br>Pr(A|B)=\frac{Pr(B|A)Pr(A)}{Pr(B)} \quad where \quad Pr(B)\neq 0\\<br>or\\<br>Pr(B|A)=\frac{Pr(A|B)Pr(B)}{Pr(A)} \quad where \quad Pr(A)\neq 0<br>$$</p>
 <p>这个就是最简单的贝叶斯公式推到，同时可以用全概率公式进行代换，就能得到更专业的贝叶斯公式。<br>举个例子🌰 ：</p>
@@ -515,7 +515,7 @@
 <p>Theorem Bayes’ Theorem: Let the events $B_1\dots B_k$ from a partition of the space S such that $Pr(B_j)&gt;0$ for $j=1,\dots ,k$ and let A be an event such that $Pr(A)&gt;0$ , Then for $i=1,\dots,k$ :</p>
 </blockquote>
 <p>$$<br>Pr(B_i|A)=\frac{Pr(B_i)Pr(A|B_i)}{Pr(A)}=\frac{Pr(B_i)Pr(A|B_i)}{\sum_{j=1}^{k}Pr(B_j)Pr(A|B_j)}<br>$$</p>
-<p>这个就是普通的Bayes公式结合上全概率公式得出的一个比较实用的版本，证明这里就不详细写出来了，因为通过条件概率和全概率公式就能得出上面的结论，那么如此简单的一个公式为什么如此核心呢？<br>我们从哲理中分析一下，首先我们看 $Pr(B_i)$ 从本文第一张图片上可以看出来，这个划分从客观上说是是对完整样本空间的一个分别估计，这个过程与A是否发生无关，但当试验被观察到事件A发生了，我们的样本空间实际上发生了改变，不在是完整的S，因为$A^c$ 不可能发生了，这种情况下，我们将这个分割重新计算：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-3-Bayes-Teorem/Bayes2.png" alt=""></p>
+<p>这个就是普通的Bayes公式结合上全概率公式得出的一个比较实用的版本，证明这里就不详细写出来了，因为通过条件概率和全概率公式就能得出上面的结论，那么如此简单的一个公式为什么如此核心呢？<br>我们从哲理中分析一下，首先我们看 $Pr(B_i)$ 从本文第一张图片上可以看出来，这个划分从客观上说是是对完整样本空间的一个分别估计，这个过程与A是否发生无关，但当试验被观察到事件A发生了，我们的样本空间实际上发生了改变，不在是完整的S，因为$A^c$ 不可能发生了，这种情况下，我们将这个分割重新计算：<br><img src="./Bayes2.png" alt=""></p>
 <p>这个图是从上面的那幅图啃出来的，所以有点不整齐，这个整个过程就是贝叶斯要刻画的，样本空间的改变导致了整个划分的概率发生了不确定的变化，以前大的可能现在变得小到没有，现在大的可能之前非常小。</p>
 <p>一般情况下，我们在实验开始之前已经知道了样本空间，以及它的“划分”，如果观察到某个划分发生了，我们可以相应的变更我们所关注的事件A，这是一般上的从原因推出结果，典型的概率论过程，已知原理推结果。</p>
 <p>实际上我们不可能，也没能力知道这个划分，但是结果我们只要观察可能定能看到，于是我们通过结果A来反过来推这个划分是什么样子的，那么这个过程是个典型的数理统计过程，已知结果推原理，也叫贝叶斯统计。</p>
@@ -544,8 +544,7 @@
 <li>如果我们有文化，考虑下先验知识，病毒本身携带率那么低，当我们被检出携带病毒，那么我们结合携带率和实验准确度，可以得出：$Pr(pv|P)=\frac{Pr(P|pv)Pr(pv)}{Pr(P|pv)Pr(pv)+Pr(P|nv)Pr(nv)}=\frac{0.03\times 0.99}{0.03\times 0.99+0.97\times 0.05}=0.380$ ,这个看起来还可以抢救一下</li>
 </ol>
 <p>这种实验的关键是提高准确率也就是0.99需要更高比如0.9999999，这是后检测结果更接近真实结果，0.99会产生大量虚报，这个在机器学习上非常有用！</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>引用陈希孺先生的一句话总结：“概率思维是人们正确观察事物必备的文化修养，这样说并不过分”。<br>有文化真好。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-3-Bayes-Teorem/conclusion.jpg" alt=""></p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-2-3-Bayes-Teorem" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-2-3-Bayes-Teorem</a>转载请标明出处</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>引用陈希孺先生的一句话总结：“概率思维是人们正确观察事物必备的文化修养，这样说并不过分”。<br>有文化真好。<br><img src="./conclusion.jpg" alt=""></p>
 
       
     </div>
@@ -635,9 +634,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/全概率公式/" rel="tag"># 全概率公式</a>
-          
             <a href="/tags/贝叶斯公式/" rel="tag"># 贝叶斯公式</a>
+          
+            <a href="/tags/全概率公式/" rel="tag"># 全概率公式</a>
           
         </div>
       
@@ -792,7 +791,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1904,7 +1903,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1959,23 +1958,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

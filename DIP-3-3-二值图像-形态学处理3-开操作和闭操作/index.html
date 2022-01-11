@@ -116,15 +116,15 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第11天Keywords: 形态学，开操作，闭操作，二值图像">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142338730.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142814593.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226144151824.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226144543531.jpg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142338730.jpg">
+<meta property="og:image" content="https://face2ai.com/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142814593.jpg">
+<meta property="og:image" content="https://face2ai.com/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226144151824.jpg">
+<meta property="og:image" content="https://face2ai.com/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226144543531.jpg">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】3.3:二值图像-形态学处理 开操作和闭操作">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第11天Keywords: 形态学，开操作，闭操作，二值图像">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142338730.jpg">
+<meta name="twitter:image" content="https://face2ai.com/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142338730.jpg">
 
 
 
@@ -494,8 +494,7 @@
 <h2 id="数学原理"><a href="#数学原理" class="headerlink" title="数学原理"></a>数学原理</h2><p>额，公式还没准备好。。。</p>
 <h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><p>开操作，一般会平滑物体轮廓，断开较窄的狭颈（细长的白色线条），所以叫开，并消除细小的突出物。<br>闭操作，一般也会平滑物体轮廓，但与开操作相反，弥合较窄的间断和细长的沟壑，所以叫闭，消除小的空洞，填补轮廓线的中的断裂。<br>上述中所有所谓的细，窄都是与结构元SE相比的，所以，关键还是SE。<br>幂等性（idempotent）：就是当对同一SE对图像做开（闭）操作，做一次和做多次，结果是一样的。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>代码，完全是基于腐蚀和膨胀的操作，其中腐蚀和膨胀的具体实现，见上一节：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//开操作</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Open</span><span class="params">(IplImage *src,IplImage *dst,IplImage *se,Position *center)</span></span>&#123;</span><br><span class="line">    Erode(src, dst, se, center);</span><br><span class="line">    Dilate(dst, dst, se, center);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//关操作</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Close</span><span class="params">(IplImage *src,IplImage *dst,IplImage *se,Position *center)</span></span>&#123;</span><br><span class="line">    Dilate(src, dst, se, center);</span><br><span class="line">    Erode(dst, dst, se, center);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>以下所有结果的SE均为3x3的全为1，中心为中间元素，即SE为各向同性的。<br>开操作：左上为原图，左下为开操作结果，右上是开操作结果与原图的差，可以看出，细小的白色突起，细长的线条被处理掉了，而狭长的黑色沟壑被保留：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142338730.jpg" alt="Center"><br>闭操作：左上为原图，左下为闭操作结果，右上为原图与闭操作结果的差。可以看出，原图中的黑色细条（即黑色沟壑）被填充，但白色突起点被保留。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226142814593.jpg" alt="Center 1"><br>下面对以100为阈值处理的lenna图进行操作:<br>lena的open结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226144151824.jpg" alt="Center 2"><br>lena的close结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-3-二值图像-形态学处理3-开操作和闭操作/20141226144543531.jpg" alt="Center 3"></p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-3-3-二值图像-形态学处理3-开操作和闭操作" target="_blank" rel="noopener">https://www.face2ai.com/DIP-3-3-二值图像-形态学处理3-开操作和闭操作</a>转载请标明出处</p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>以下所有结果的SE均为3x3的全为1，中心为中间元素，即SE为各向同性的。<br>开操作：左上为原图，左下为开操作结果，右上是开操作结果与原图的差，可以看出，细小的白色突起，细长的线条被处理掉了，而狭长的黑色沟壑被保留：<br><img src="./20141226142338730.jpg" alt="Center"><br>闭操作：左上为原图，左下为闭操作结果，右上为原图与闭操作结果的差。可以看出，原图中的黑色细条（即黑色沟壑）被填充，但白色突起点被保留。<br><img src="./20141226142814593.jpg" alt="Center 1"><br>下面对以100为阈值处理的lenna图进行操作:<br>lena的open结果：<br><img src="./20141226144151824.jpg" alt="Center 2"><br>lena的close结果<br><img src="./20141226144543531.jpg" alt="Center 3"></p>
 
       
     </div>
@@ -746,7 +745,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1858,7 +1857,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1913,23 +1912,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

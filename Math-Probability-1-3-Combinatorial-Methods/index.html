@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文主要介绍组合的相关知识，以及引出的二项式系数，多项式系数Keywords: Combination，Binormial Coeffcient，Multinormial Coeffcient">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-3-Combinatorial-Methods/1-binomial.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-3-Combinatorial-Methods/2-binomial.png">
-<meta property="og:updated_time" content="2018-10-04T15:15:38.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-1-3-Combinatorial-Methods/1-binomial.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-1-3-Combinatorial-Methods/2-binomial.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.173Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】1-3:组合(Combinatorial Methods)">
 <meta name="twitter:description" content="Abstract: 本文主要介绍组合的相关知识，以及引出的二项式系数，多项式系数Keywords: Combination，Binormial Coeffcient，Multinormial Coeffcient">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-3-Combinatorial-Methods/1-binomial.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-1-3-Combinatorial-Methods/1-binomial.png">
 
 
 
@@ -512,9 +512,9 @@
 <p>$$<br>C_{n,k}*P_{k,k}=P_{n,k}\\<br>C_{n,k}=\frac{P_{n,k}}{P_{k,k}}\\<br>C_{n,k}=\frac{n!}{k!(n-k)!}<br>$$<br>再次说明一下，我们这两篇所讲的都是计数方法，不涉及到随机，不管是Permutation和Combination都是数数的过程，其结果是数字（一般来说都是自然数），对试验，以及试验结果没有任何影响，一旦试验条件确定，这个数字唯一确定，不会有任何更改。<br>重复强调其不影响随机的主要原因是，我上高中的时候老师给我们讲过二项式，而那时我理解的是在二项式中随意挑数字，所以有随机过程在里面，其实完全没有，这两节跟随机一毛钱关系都没有，所以下面我们开始研究二项式</p>
 <h2 id="二项式系数-Binormial-Coeffcient"><a href="#二项式系数-Binormial-Coeffcient" class="headerlink" title="二项式系数 Binormial Coeffcient"></a>二项式系数 Binormial Coeffcient</h2><p>二项式：<br>$$<br>(x+y)^n<br>$$<br>其中 $n&gt;0$ 为常整数，其展开形式就是二项式展开，每一项的系数就是二项式系数，举个🌰：<br>$$<br>(x+y)^2=x^2+2xy+y^2<br>$$<br>这个是比较简单的二项式（最简单的是：x+y），初中就学过，对应的n=2，二项式对应的系数：<br>$x^2:1$<br>$xy:2$<br>$y^2:1$</p>
 <p>那么这个和我们的Combination有什么关系呢？<br>我们展开二项式看一下：<br>$$<br>(x+y)^n=\underbrace{(x+y)(x+y)\dots (x+y)}_{n}<br>$$</p>
-<p>一共n个元素组成了多项式（，那么当我们想要得到项 $x^ky^{n-k}$ 的时候，我们要做的是在n个式子中选k个来使用x，而不需要关心y因为k个x一旦选中，y自然是剩下的n-k个式子的y，来看个图，就豁然开朗了：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-3-Combinatorial-Methods/1-binomial.png" alt=""></p>
+<p>一共n个元素组成了多项式（，那么当我们想要得到项 $x^ky^{n-k}$ 的时候，我们要做的是在n个式子中选k个来使用x，而不需要关心y因为k个x一旦选中，y自然是剩下的n-k个式子的y，来看个图，就豁然开朗了：<br><img src="./1-binomial.png" alt=""></p>
 <p>我们来看 $x^1y^{n-1}$ ，最简单的是我们选中第一项的x 做为 $x^1$，他会和剩下的所有项的y相乘，但是不会和自己的y相乘，这样，我们还可以选剩下所有项中的x作为 $x^1$ ,一共有$C_{n,1}$ 种选择方法。</p>
-<p>接着我们看 $x^2y^{n-2}$ :<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-1-3-Combinatorial-Methods/2-binomial.png" alt=""></p>
+<p>接着我们看 $x^2y^{n-2}$ :<br><img src="./2-binomial.png" alt=""></p>
 <p>这个就复杂一点，首先黄色问好是想说当我们选中第一项，第二项的x来作为 $x^2$ 中的x的时候，我们要不要把他们中y放进 $y^{n-2}$ ,答案当然是不能，这两项的结合是 $xy$ 而不是 $x^2$ 这样，我们就可以继续上面的思路了，一共n个项，选出两项的方法就是$C_{n,2}$</p>
 <p>于是我们得出了我们的主题，二项式对应的系数就是Combination的结果：</p>
 <p>对于正整数 $n$ ，小于等于n的正整数 $k$ :<br>$$<br>(x+y)^n=\sum^n_{k=0}\begin{pmatrix}n\\k\end{pmatrix} x^ky^{n-k}<br>$$</p>
@@ -530,7 +530,6 @@
 <h2 id="多项式系数-Multinormial-Coeffcient"><a href="#多项式系数-Multinormial-Coeffcient" class="headerlink" title="多项式系数 Multinormial Coeffcient"></a>多项式系数 Multinormial Coeffcient</h2><p>首先假设另一种试验，上面我们注意到定义说一次取出$k$个，那么如果我们分步进行抽取呢？两步理论上互不影响，分两步分别取$k_1$,$k_2$个，根据乘法原理和上面的Combination，我们可以确定分两步，取$k_1$,$k_2$ 并且 $(k_1+k_2\leq n)$ 会有：<br>$$<br>\begin{pmatrix}n\\k_1\end{pmatrix}\begin{pmatrix}n-k_1\\k_2\end{pmatrix}=\frac{n!}{k_1!(n-k_1)!}\frac{(n-k_1)!}{k_2!(n-k_1-k_2)!}\\<br>=\frac{n!}{k_1!k_2!(n-k_1-k_2)!}=\frac{n!}{k_1!k_2!k_3!} \quad where \quad (k_3=n-k_1-k_2)<br>$$<br>上面的$k_3$ 是为了整洁写上去的，同时如果我们分三步，$k_1$,$k_2$,$k_3$ 并且三步之后把所有的取完，那么$k_3$ 就有意义了。<br>如果我们把n分成k份（随意分）并且分成k步执行，那么定义：<br>$$<br>\begin{pmatrix}n\\n_1，n_2，\dots ，n_k\end{pmatrix}=\frac{n!}{n_1!n_2!\dots n_k!}<br>$$<br>称之为多项式系数，文字上的意义就是分多次取，每次同时取$n_i$ 个，without replacement，直到最后把所有取完，一共的结果的个数。</p>
 <p>多项式定理：<br>$$<br>(x_1+x_2+\dots+x_k)^n=\sum\begin{pmatrix}n\\n_1，n_2，\dots ，n_k\end{pmatrix}x_1^{n_1}x_2^{n_2}\dots x_k^{n_k}\\<br>n_1+n_2+\dots+n_k=n<br>$$<br>上述$n_i$ 都是非负整数，多项式系数也可以用二项式的那种图来解释，但是过于麻烦，这里就不再举例了，二项式可以看做多项式系数的退化版本，因为从算式上可以清楚的看出：<br>$$<br>\begin{pmatrix}n\\k，n-k\end{pmatrix}=\begin{pmatrix}n\\k\end{pmatrix}<br>$$</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>完成另一种计数方法Combination的总结，这两篇给的例子不多，但是每个都很经典，有时候看懂例题更重要，因为概率以例子为主，待续。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-1-3-Combinatorial-Methods" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-1-3-Combinatorial-Methods</a>转载请标明出处</p>
 
       
     </div>
@@ -765,7 +764,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1877,7 +1876,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1932,23 +1931,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

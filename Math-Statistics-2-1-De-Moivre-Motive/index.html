@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍狄莫弗研究二项概率的动机，和伯努利大数定律产生联系的过程Keywords: 狄莫弗，狄莫弗公式，二项概率，大数定律">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.224Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数理统计学简史】2.1 狄莫弗研究的动因">
 <meta name="twitter:description" content="Abstract: 本文介绍狄莫弗研究二项概率的动机，和伯努利大数定律产生联系的过程Keywords: 狄莫弗，狄莫弗公式，二项概率，大数定律">
@@ -504,7 +504,6 @@
 <p><font color="006600">1712年</font>,一名叫亚历山大·喀明的人向狄莫弗提出一个问题：二人在甲家的地盘赌博，A每局获胜的概率是 $p$ ,B获胜的概率是 $q=1-p$ ，赌 $N$ 局，用 $X$ 表示A获胜的局数，约定：如果 $X\geq Np$ ,那么A付给甲 $X-Np$ 元，如果 $X&lt;Np$ 那么 B付给甲 $(N-X)-Nq=Np-X$ 元，问甲所得的期望是多少。</p>
 </blockquote>
 <p>提出这个问题的明显是个想开赌场的。不管结果，赢的多的一方要给甲服务费，而甲还很关系自己能收到多少服务费，所以希望狄莫弗帮忙算下期望。<br>根据问题，数学化后就是求下面的期望：<br>$$<br>D_n=E(|X-Np|)=\sum_{i=1}^{N}|i-Np|b(N,p,i)<br>$$<br>这里的 $b(N,p,i)$ 就是二项概率 $C^{N}_{i}p^i(1-p)^{N-i}$ 的函数形式。<br>狄莫弗在 $Np$ 为整数的条件下得到了下面的结论：<br>$$<br>D_N=2Npqb(N,q,Np)\tag{2}<br>$$<br>并且他只给 $p=\frac{1}{2}$ 的特例给出了证明，不过证明方法很容易推广到其他情况下，狄莫弗生成此公式在<font color="006600">1721年</font>提出，但是发表在<font color="006600">1730年</font>，现在我们可以在一般情况下证明：<br>$$<br>D_N=2\mu qb(N,p,Np)\\<br>\mu=[Np]+1\tag{3}<br>$$<br>其中 $[a]$ 这个表示为向下取整，也就是小于等于 $a$ 的最小整数。<br>容易验证， $Np$ 为整数时，公式(2)(3)是一致的。<br>这就完全回答了喀明的问题，但是 $N$ 较大的时候， $b(N,p,i)$ 不好算啊。所以狄莫想找到一种能便于计算的近似公式，他对这个问题进行讨论之前，对上面的公式做了点讨论（ 其实是从 $D_n=E(|X-Np|)=\sum_{i=1}^{N}|i-Np|b(N,p,i)$ 得到的），记：<br>$$<br>K_N=E(|\frac{X}{N}-p|)=\frac{D_N}{N}<br>$$<br>则由（2）公式，可以得到：<br>$$<br>K_N=2pqb(N,p,Np)<br>$$<br>容易证明（证明过程可以参考陈希孺《数理统计学简史》p47的注4）：<br>$$<br>lim_{N\to \infty}b(N,p,Np)=0<br>$$<br>这个证明可以用初等办法进行，而不必使用斯特林公式（斯特林公式在我们的基础概率论中有提到，但是当时是选学内容），由此可以得到 $lim_{N\to \infty}K_N=0$ 再因为 $P(|\frac{X}{N}-p|\geq \varepsilon)\leq \varepsilon^{-1}K_N$ 可以得到 $lim_{N\to \infty}P(|\frac{X}{N}-p|\geq \varepsilon)=0$  。<br>没错，这就是伯努利的大数定理，当然这个证明方法与切比雪夫不等式证明方法类似，但是当时还没有方差这个东西。<br>狄莫弗继续证明了，当 $N\to \infty$ 的时候， $b(N,p,Np)$ 是以 $\frac{1}{\sqrt{N}}$ 的速度趋于 0 的，因此 $K_N$ 也是以同一速度趋于0，这可以解释为： 频率 $\frac{X}{N}$ 估计概率 $p$ 的精度，大致上和试验次数 $N$ 的平方根成比例，而不是当时看起来和 $N$ 成比例。后面我们还要继续研究这个问题。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive" target="_blank" rel="noopener">https://www.face2ai.com/Math-Statistics-2-1-De-Moivre-Motive</a>转载请标明出处</p>
 
       
     </div>
@@ -755,7 +754,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1867,7 +1866,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1922,23 +1921,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

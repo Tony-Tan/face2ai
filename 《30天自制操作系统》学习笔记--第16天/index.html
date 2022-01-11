@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 《30天自制操作系统》多任务Keywords: 《30天自制操作系统》，Macbook，环境">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】多任务 II">
 <meta name="twitter:description" content="Abstract: 《30天自制操作系统》多任务Keywords: 《30天自制操作系统》，Macbook，环境">
@@ -486,7 +486,6 @@
         <p><strong>Abstract:</strong> 《30天自制操作系统》多任务<br><strong>Keywords:</strong> 《30天自制操作系统》，Macbook，环境<br><a id="more"></a></p>
 <h1 id="多任务"><a href="#多任务" class="headerlink" title="多任务"></a>多任务</h1><p>今天是多任务第二讲，比昨天的层次更高，更加接近实际使用的设计。</p>
 <p>首先是任务的自动化，所谓任务就是正在执行的程序，程序成千上万，可以自己随意安装，所以，管理就不能靠人工修改代码，而要自动管理，自动分配空间，自动注册相关设置，所以就要建立一个结构体来管理众多任务，记录当前任务的信息。<br>任务的休眠，有些任务需要等待数据，或者等待中断程序，等待的时候CPU等就会跟着闲着，这可不好，我们必须让CPU尽可能的处于运行状态，所以就有了任务的休眠，让一个等待的任务不再处于运行状态，而让那些高计算量的任务过来运行，而当任务休眠时，数据到来，马上唤醒任务，让他继续执行。就是这样的。<br>接下来就涉及到任务的优先级了，谁应该有更多的系统资源，比如你听音乐和写程序，一输入代码音乐就卡这可不好，分成1，2，3，4，5……12各种等级，我们可以音乐12级，文本编辑5级，这样优先执行音乐，音乐不会卡，文本就算卡也没办法。。自找的。。跟我们音乐大哥抢资源是抢不过滴。。。。。<br>其实这并不是科学的划分，如果超过12个任务，必然有同级任务存在，那到时候怎么办呢，音乐和电影抢资源，谁应该赢呢，即使这个问题解决了，优先级运行时间划分也存在问题，如果安装1级1s（假设），2级2秒。。。。10级十秒这种划分也不是很科学的，因为2级和1级只差一级，但2级运行时间是1级的一倍，而3级和2级之间也只差一级，但却只有1.5倍所以这也是个问题。。这个姑且放一下，以后再考虑。<br>作者解决音乐和电影的方法是把等级再分层，类似与金字塔结构，每层有不同的任务，任务永远只在顶层切换，而不会轮到下层，知道上层都运行结束，也就是顶层消灭了，才会轮到现在的顶层，之前的第二层。而如果高层来人了，当前层当前运行任务结束后，无条件切换到上层。<br>都是些理论，不知道现在实际种工作的操作系统是怎么弄得，查到资料了再写出来。。。谢谢观看。。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--第16天" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–第16天</a>转载请标明出处</p>
 
       
     </div>
@@ -711,7 +710,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1823,7 +1822,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1878,23 +1877,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

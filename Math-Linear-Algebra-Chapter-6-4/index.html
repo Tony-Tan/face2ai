@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本篇继续线性代数的高潮部分，对称矩阵，以及对称矩阵的一些性质Keywords: Eigenvalues，Eigenvectors，Symmetric Matrices，Projection Matrices，Spectral Theorem，Principal Axis Theorem">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:12:09.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.194Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】6-4:对称矩阵(Symmetric Matrices)">
 <meta name="twitter:description" content="Abstract: 本篇继续线性代数的高潮部分，对称矩阵，以及对称矩阵的一些性质Keywords: Eigenvalues，Eigenvectors，Symmetric Matrices，Projection Matrices，Spectral Theorem，Principal Axis Theorem">
@@ -553,7 +553,6 @@
 <p>这个定理给出了详细的证明，但比较复杂，我试着简单的证明了一下（如果有不严谨的地方，请各位指出）:<br>pf:<br>对于一个矩阵A，它代表的是A的列空间的基的矩阵，我们可以把它进行 $QR$ 分解，得到以Q为基（正交基）的同样的子空间，那么 $AQ$ 将还是这个子空间的基，所以我们可以得到：<br>$$<br>AQ=QT\\<br>so:<br>A=QTQ^{-1}<br>$$<br>上述过程中T是和R类似的上三角矩阵,对于所有方阵成立。<br>也就是说如果我们把Schur 定理稍微进行变形:<br>$$<br>A^T=Q^TT^TQ\\<br>when:\\<br>A^T=A\\<br>T^T=T<br>$$<br>因为T是三角矩阵，所以当它也是对称矩阵的时候，必然是对角的。QED<br>以上是我刚发明的简单的证明方法，对于Schur’s Theorem 我们需要找的就是是否存在T使得 $AQ=QT$ 成立，其中Q是正交矩阵（研究证明题必须先把目标搞明白，别看了一路都是对的，就是不知道要干嘛，我刚才就犯了这个毛病，看哪句都是真命题，然后迷迷糊糊不知道要证明啥），下面描述下书上的方法：<br>我们要寻找Q，满足$AQ=QT$<br>观察T是上三角矩阵，所以第一列只有一个元素$t_{11}$ 其中 $q_1$ 是Q的第一列,也就是说 $Aq_1=t_{11}q_1$ (这个要是不明白就自己拿笔画个矩阵比划一下子，就知道了)</p>
 <p>$$<br>\bar{Q}^T_1AQ_1=<br>\begin{bmatrix}<br>\bar{q}^T_1\\<br>\vdots \\<br>\bar{q}_n^T<br>\end{bmatrix}<br>\begin{bmatrix}<br>&amp;&amp;\\<br>Aq_1&amp;\dots&amp;Aq_n\\<br>&amp;&amp;<br>\end{bmatrix}=<br>\begin{bmatrix}<br>t_{11}&amp;\dots&amp;\dots&amp;\dots \\<br>0&amp;&amp;&amp; \\<br>0&amp;&amp;A_2&amp;\\<br>0&amp;&amp;&amp;<br>\end{bmatrix}<br>$$<br>观察上面的整个过程$Aq_1=t_{11}q_1$ 其实是A的特征值和特征向量，那么$q_2\dots  q_n$这些值怎么确定？答案是无所谓，只要找一组和$q_1$ 都正交的基就可以填充出其他部分（因为$t_{12}\dots t_{1n}$ $q_1\dots q_n$ 相乘得到A的其他部分，使得等式成立），我们的目的是为了找T，所以第一步我们算是迈出去了，下一步就是找$A_2$ 中的T了，根据假设，我们可以认为 $A_2Q_2=Q_2T_2$ 这里面的矩阵都比上一步少小一号(size=n-1)递归调用上面的证明方法，可以得出$Q_2$ , $t_{22}$ 以及$A_3$<br>如此递归下去可以找到所有A的第一个特征向量，然后组合成Q，T<br>$$<br>Q=Q_1\begin{bmatrix}1&amp;0\\0&amp;Q_2\end{bmatrix}\\<br>T=\begin{bmatrix}t_{11}&amp;0\\0&amp;T_2\end{bmatrix}\\<br>AQ=QT<br>$$<br>以上可证存在T使得 $AQ=QT$ 成立，那么如果A是symmetric的，那么:<br>$$<br>A=QTQ^T\\<br>A^T=Q^TT^TQ\\<br>A=A^T\\<br>so:\\<br>T=T^T<br>$$<br>T是上三角矩阵，得出结论，T是对角矩阵<br>QED<br>上面这一小段其实在证明Schur定理，因为Schur定理一旦得到证明，那么自然可以得到我们想要的结论，所有对称矩阵可以被对角化，Schur矩阵以复数形式给出，因为我们前面已经证明了对称矩阵的特征值都是实数，所以这里可以用实数表达，当然复数是对于非对称矩阵的，因为非对称实数矩阵可能得到复数特征值和特征向量。</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>这篇文章扎扎实实写了24小时，而且中间确实有不太清楚的地方，至今没动，所以都高亮标注了，提醒读者也提醒自己要来填坑，schur定理的证明方法还有别的，这个是Prof. Strang 书上的方法，后面如果有新发现继续补充。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-4</a>转载请标明出处</p>
 
       
     </div>
@@ -620,14 +619,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -806,7 +805,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1918,7 +1917,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1973,23 +1972,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

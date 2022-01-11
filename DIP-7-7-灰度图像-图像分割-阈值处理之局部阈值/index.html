@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第56天Keywords: 局部阈值处理">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111042924.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111024174.jpeg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111042924.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111024174.jpeg">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.186Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】7.7:灰度图像-图像分割 阈值处理之局部阈值">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第56天Keywords: 局部阈值处理">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111042924.jpeg">
+<meta name="twitter:image" content="https://face2ai.com/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111042924.jpeg">
 
 
 
@@ -492,9 +492,8 @@
 <h1 id="灰度图像-图像分割-阈值处理之局部阈值"><a href="#灰度图像-图像分割-阈值处理之局部阈值" class="headerlink" title="灰度图像-图像分割 阈值处理之局部阈值"></a>灰度图像-图像分割 阈值处理之局部阈值</h1><p>废话开始，今天说下区域阈值（局部阈值）,前面介绍的阈值都是全局阈值，也就是阈值根据全局信息产生，而作用对象也是整幅图像的全部像素，而局部阈值的产生是一个中心像素c(x,y)的邻域的一些属性来计算出一个或多个阈值以及阈值的判别式。这句话比较难懂，举个例子，假设c的邻域R，根据邻域R计算出阈值 $T_1,T_2,T_3\dots T_n$ 我们可以表示成向量 $T=(T_1,T_2,T_3\dots T_n)$ ，设计阈值判别式Q(T,pixValue)其中pix_value的值就是像素c(x,y)的灰度值，判别式返回真假，真的话像素设置为亮，否则设置成暗。</p>
 <h2 id="算法内容"><a href="#算法内容" class="headerlink" title="算法内容"></a>算法内容</h2><p>该算法的关键点在于设计判别式Q和计算阈值向量T，因为此算法的通用性不是很强，但优点是灵活性强，可以根据不同的图片性质来设计不同的执行方案，比如下面例子中使用最简单的两种统计学参数，均值和标准差，当中心像素大于均值的n倍并且大于标准差的m倍。设置窗口大小，也就是邻域大小，参数n，参数m，最后得到较好的阈值结果。</p>
 <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*局部阈值 *使用均值和标准差作为判定依据 *输入参数包括邻域大小，均值系数，以及标准差系数 * * */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LocalThreshold</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> w_size,<span class="keyword">double</span> mean_param,<span class="keyword">double</span> std_dev_param)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> *temp=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line"></span><br><span class="line">    Zero(temp, width,height);</span><br><span class="line">    <span class="keyword">double</span> mean_g=matrixMean(src, width, height);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=w_size/<span class="number">2</span>;j&lt;height-w_size/<span class="number">2</span>;j++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=w_size/<span class="number">2</span>;i&lt;width-w_size/<span class="number">2</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">double</span> deta=<span class="number">0.0</span>;</span><br><span class="line">            <span class="keyword">double</span> mean=<span class="number">0.0</span>;</span><br><span class="line">            <span class="keyword">double</span> pix_value=src[j*width+i];</span><br><span class="line">            <span class="comment">//local mean</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> m=-w_size/<span class="number">2</span>;m&lt;w_size/<span class="number">2</span>+<span class="number">1</span>;m++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> n=-w_size/<span class="number">2</span>;n&lt;w_size/<span class="number">2</span>+<span class="number">1</span>;n++)&#123;</span><br><span class="line">                    mean+=src[(j+m)*width+i+n];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            mean/=(<span class="keyword">double</span>)(w_size*w_size);</span><br><span class="line">            <span class="comment">//local deta</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> m=-w_size/<span class="number">2</span>;m&lt;w_size/<span class="number">2</span>+<span class="number">1</span>;m++)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> n=-w_size/<span class="number">2</span>;n&lt;w_size/<span class="number">2</span>+<span class="number">1</span>;n++)&#123;</span><br><span class="line">                    deta+=(src[(j+m)*width+i+n]-mean)*(src[(j+m)*width+i+n]-mean);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            deta/=(<span class="keyword">double</span>)(w_size*w_size);</span><br><span class="line">            deta=<span class="built_in">sqrt</span>(deta);</span><br><span class="line">            <span class="keyword">if</span>(pix_value&gt;mean_param*mean_g&amp;&amp;pix_value&gt;std_dev_param*deta)&#123;</span><br><span class="line">                temp[j*width+i]=<span class="number">255.0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    matrixCopy(temp, dst, width, height);</span><br><span class="line">    <span class="built_in">free</span>(temp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="算法效果"><a href="#算法效果" class="headerlink" title="算法效果"></a>算法效果</h2><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111042924.jpeg" alt="这里写图片描述"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值/20150309111024174.jpeg" alt="这里写图片描述"></p>
+<h2 id="算法效果"><a href="#算法效果" class="headerlink" title="算法效果"></a>算法效果</h2><p><img src="./20150309111042924.jpeg" alt="这里写图片描述"><br><img src="./20150309111024174.jpeg" alt="这里写图片描述"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>相比于全局阈值，局部阈值对目标大小，以及噪声敏感度强，但其缺点是设计针对性强，没有什么通用的算法，而且输入的参数多半需要分析实验产生，不能实现自动阈值处理，其优点是功能强大。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值" target="_blank" rel="noopener">https://www.face2ai.com/DIP-7-7-灰度图像-图像分割-阈值处理之局部阈值</a>转载请标明出处</p>
 
       
     </div>
@@ -741,7 +740,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1853,7 +1852,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1908,23 +1907,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

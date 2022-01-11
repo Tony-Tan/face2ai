@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍多项式求值的相关内容。Keywords: 多项式求值，霍纳方法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-1.png">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-2.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.212Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数值分析】0.1 多项式求值">
 <meta name="twitter:description" content="Abstract: 本文介绍多项式求值的相关内容。Keywords: 多项式求值，霍纳方法">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-1.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-1.png">
 
 
 
@@ -516,16 +516,15 @@
 <h2 id="编程实现"><a href="#编程实现" class="headerlink" title="编程实现"></a>编程实现</h2><p>然后我们用Matlab实现以下：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">y</span>=<span class="title">nest</span><span class="params">(d,c,x,b)</span></span></span><br><span class="line"><span class="keyword">if</span> nargin&lt;<span class="number">4</span>, b=<span class="built_in">zeros</span>(d,<span class="number">1</span>);<span class="keyword">end</span></span><br><span class="line">y=c(d+<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=d:<span class="number">-1</span>:<span class="number">1</span></span><br><span class="line">    y=y.*(x-b(<span class="built_in">i</span>))+c(<span class="built_in">i</span>);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
 <p>运行结果：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; nest(4,[-1 5 -3 3 2],1/2,[0 0 0 0])</span><br><span class="line"></span><br><span class="line">ans =</span><br><span class="line"></span><br><span class="line">    1.2500</span><br></pre></td></tr></table></figure>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-1.png" alt="res-1"></p>
+<p><img src="./res-1.png" alt="res-1"></p>
 <p>Matlab的代码比较简单，虽然我们写过matlab的代码，但是这段似乎挺简单，但是这语法，写C太久，看别的语言总感觉语法混乱/(ㄒoㄒ)/~~<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> nargin&lt;<span class="number">4</span>, b=<span class="built_in">zeros</span>(d,<span class="number">1</span>);<span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
 <p>这句是判断参数的，如果小于4， $b$ 用0填充<br>Matlab还可以同时输入多个 $x$ 真的很神奇 😓</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; nest(4,[-1 5 -3 3 2],[-2 -1 0 1 2])</span><br><span class="line"></span><br><span class="line">ans =</span><br><span class="line"></span><br><span class="line">   -15   -10    -1     6    53</span><br></pre></td></tr></table></figure>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-1-Polynomial-Evaluation/res-2.png" alt="res-2"></p>
+<p><img src="./res-2.png" alt="res-2"></p>
 <p>一个插值的例子，也就是 $b$ 不为空</p>
 <p>$$<br>P(x)=1+x(\frac{1}{2}+(x-2)(\frac{1}{2})+(x-3)(-\frac{1}{2}))<br>$$</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; nest(3,[1 1/2 1/2 -1/2],1,[0 2 3])</span><br><span class="line"></span><br><span class="line">ans =</span><br><span class="line"></span><br><span class="line">     0</span><br></pre></td></tr></table></figure>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>多项式是所有计算的基础，但是第一课就写他的原因更多的是其优化开发过程非常具有代表性，代表了数值分析的基本过程和特性，所以作为第一课共大家参考。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Numerical-Analysis-0-1-Polynomial-Evaluation" target="_blank" rel="noopener">https://www.face2ai.com/Math-Numerical-Analysis-0-1-Polynomial-Evaluation</a>转载请标明出处</p>
 
       
     </div>
@@ -758,7 +757,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1870,7 +1869,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1925,23 +1924,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 汇编调用C语言Keywords: 《30天自制操作系统》，Macbook，汇编调用C语言，C语言调用汇编">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】汇编与C语言">
 <meta name="twitter:description" content="Abstract: 汇编调用C语言Keywords: 《30天自制操作系统》，Macbook，汇编调用C语言，C语言调用汇编">
@@ -485,7 +485,6 @@
       
         <p><strong>Abstract:</strong> 汇编调用C语言<br><strong>Keywords:</strong> 《30天自制操作系统》，Macbook，汇编调用C语言，C语言调用汇编<br><a id="more"></a></p>
 <h1 id="汇编语言函数用c语言调用"><a href="#汇编语言函数用c语言调用" class="headerlink" title="汇编语言函数用c语言调用"></a>汇编语言函数用c语言调用</h1><p>其实我们可以把这些在完成操作系统编写时写的函数称为库函数（注意：不是标准库函数），但是c在调用库函数（普通函数），压栈的顺序是从右向左的，这个是肯定，所以，参数出栈的时候先出来的是后面的参数，明白了这个问题，就很好理解io_out()函数参数的出栈和参数的使用了，还有函数如果有返回值，保存在eax（32位返回值），64位返回值保存在 eax 和edx中，edx保存高32位，eax保存低32位。<br>知道了这些，参数和返回值就已经搞定了，剩下的就是定义和具体代码的实现了，什么利用中断啊，MOV给你MOV给我啊的什么就可以自由发挥了。。看起来已经很酷了。。<br>函数定义，搜了一下，发现定义都不同，但都是写global声明下函数名（名字前面加下划线），然后以函数名为标号写下函数体，返回用ret（但有些函数好像不能用RET返回。。具体以后再说）。<br>还有就是函数指针，由于博主以前研究了好长时间指针，虽然不能说特别明白，但是看这个书上的指针还是没什么障碍，像什么2【p】这种访问方式，以前也都见过，如果有人这里有疑问推荐几本书：《c专家编程》《c陷阱与缺陷》《c和指针》都有详细描述，自己写个程序试试就行了，这里不再赘述。。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--第4天" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–第4天</a>转载请标明出处</p>
 
       
     </div>
@@ -710,7 +709,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1822,7 +1821,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1877,23 +1876,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -116,18 +116,18 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第31天Keywords: 锐化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130185806042.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194154768.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194251022.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194435093.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194538192.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130195409342.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130200223411.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130185806042.jpg">
+<meta property="og:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194154768.png">
+<meta property="og:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194251022.png">
+<meta property="og:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194435093.png">
+<meta property="og:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194538192.png">
+<meta property="og:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130195409342.png">
+<meta property="og:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130200223411.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】5.5:灰度图像-图像增强 锐化基础">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第31天Keywords: 锐化">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130185806042.jpg">
+<meta name="twitter:image" content="https://face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础/20150130185806042.jpg">
 
 
 
@@ -495,21 +495,20 @@
 <p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p>
 <h2 id="开篇废话"><a href="#开篇废话" class="headerlink" title="开篇废话"></a>开篇废话</h2><p>这篇作为基础篇，所以废话不多，但感觉很多人对锐化有误解，尤其是和边缘提取，其实这两个概念完全是两回事，当然有相关的地方，下面详细说说自己的理解。</p>
 <h2 id="锐化的理解"><a href="#锐化的理解" class="headerlink" title="锐化的理解"></a>锐化的理解</h2><p>首先说说锐化，锐化是图像增强的一部分，前面说过了，增强的目的是使观察者看起来更容易识别某些模式，要观察的模式从频率域来分就有低频模式和高频模式，低频模式，也就是之前一直在讲的相对变化缓慢的部分，或者根本没有灰度变化的大片区域，高频部分，就是接下来讲的，图像的细节，细节的定义不知道是什么，但边界，轮廓，一些变化强烈的部分算是细节，当然噪声也被归类到了细节，但细节的具体定义我还不知道，是否有相关算法能够对细节进行定义，还不知道。锐化的目的就是在图像中强调这些细节，而不是提取这些细节。也就是说对原图中的细节进行一定的提升，使得图像对于观察者来说更容易识别或者看起来更舒服。<br>根据上面的解释，我们就能得到图像锐化的一般步骤：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130185806042.jpg" alt="Center"><br>因为要突出细节，所以第一步就是找到细节，至于如何找到细节，冈萨雷斯书中给出了三种方法，一阶微分，二阶微分，非锐化掩蔽（unsharpen mask）。<br>突出细节的方法：将提取的细节，或细节乘以预定的系数后与原图像相加（或相减）。这样就得到了锐化后的图像。</p>
+<p><img src="./20150130185806042.jpg" alt="Center"><br>因为要突出细节，所以第一步就是找到细节，至于如何找到细节，冈萨雷斯书中给出了三种方法，一阶微分，二阶微分，非锐化掩蔽（unsharpen mask）。<br>突出细节的方法：将提取的细节，或细节乘以预定的系数后与原图像相加（或相减）。这样就得到了锐化后的图像。</p>
 <h2 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h2><h2 id="一阶微分"><a href="#一阶微分" class="headerlink" title="一阶微分"></a>一阶微分</h2><p>因为图像是离散信号，所以其一阶微分并不像连续函数按照极限方式的定义，而且对数字函数的一阶微分定义有不同理解，但所有的定义都满足一下三点：</p>
 <ol>
 <li>恒定灰度值区域一阶微分为零</li>
 <li>灰度台阶或者灰度斜坡起始处一阶微分非零</li>
 <li>在灰度斜坡上一阶微分非零</li>
 </ol>
-<p>对于函数f(x)的一阶微分或导数，将<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194154768.png" alt="Center 1">展开为关于x的泰勒级数，令<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194251022.png" alt="Center 2">，只保留泰勒级数的线性项结果为数字差分：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194435093.png" alt="Center 3"><br>使用偏导数是为了与图像函数对应，因为图像函数是二维函数，显然当函数只有一个变量的时候：<img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130194538192.png" alt="Center 4"><br>于是我们得到一阶微分的基本定义是差值。</p>
-<h2 id="二阶微分"><a href="#二阶微分" class="headerlink" title="二阶微分"></a>二阶微分</h2><p>对于二阶微分，我们对上面式子关于x再次求导，得到二阶导数表达式：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130195409342.png" alt="Center 5"><br>上面第二行用到了一阶微分的定义，所以得到了二阶微分的表达式。<br>与一阶微分类似，二阶微分也必须保证下面几点</p>
+<p>对于函数f(x)的一阶微分或导数，将<img src="./20150130194154768.png" alt="Center 1">展开为关于x的泰勒级数，令<img src="./20150130194251022.png" alt="Center 2">，只保留泰勒级数的线性项结果为数字差分：<br><img src="./20150130194435093.png" alt="Center 3"><br>使用偏导数是为了与图像函数对应，因为图像函数是二维函数，显然当函数只有一个变量的时候：<img src="./20150130194538192.png" alt="Center 4"><br>于是我们得到一阶微分的基本定义是差值。</p>
+<h2 id="二阶微分"><a href="#二阶微分" class="headerlink" title="二阶微分"></a>二阶微分</h2><p>对于二阶微分，我们对上面式子关于x再次求导，得到二阶导数表达式：<br><img src="./20150130195409342.png" alt="Center 5"><br>上面第二行用到了一阶微分的定义，所以得到了二阶微分的表达式。<br>与一阶微分类似，二阶微分也必须保证下面几点</p>
 <ol>
 <li>在恒定灰度区域为零</li>
 <li>在灰度台阶和灰度斜坡起始处为非零</li>
-<li>沿灰度斜坡微分为零<br>看一个一维的例子：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-5-5-灰度图像-图像增强-锐化基础/20150130200223411.png" alt="SouthEast"><br>上面是一幅图的一行数据，数据中包含了斜坡，孤立点，线条，和台阶，可以看到下面对应的原始数据，一阶导数，二阶导数，一阶导数是原始数据的差，二阶导数是一阶导数的差。当然减数和被减数的顺序可以从左到右也可以从右到左。<br>可以对照上面的实际数据，证明必须要满足的三点都成立。所以我们可以用此来定义一阶和二阶微分。<br>上面数据中，我们可以看到在斜坡处，二阶微分会出现一个零交叉，这对于边界定位来说是非常有用的，因为在图像中边缘一般情况下是以斜坡方式存在，所以，一阶微分给出的边缘会相对较粗，二阶微分给出较准确的位置，也正是因为这一点，二阶微分比一阶微分在锐化细节方面表现更好。<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>因为以上为纯理论知识，所以今天做一个简单的总结，相关的实验和图像处理结果会在后面的相关算法介绍中给出。</li>
+<li>沿灰度斜坡微分为零<br>看一个一维的例子：<br><img src="./20150130200223411.png" alt="SouthEast"><br>上面是一幅图的一行数据，数据中包含了斜坡，孤立点，线条，和台阶，可以看到下面对应的原始数据，一阶导数，二阶导数，一阶导数是原始数据的差，二阶导数是一阶导数的差。当然减数和被减数的顺序可以从左到右也可以从右到左。<br>可以对照上面的实际数据，证明必须要满足的三点都成立。所以我们可以用此来定义一阶和二阶微分。<br>上面数据中，我们可以看到在斜坡处，二阶微分会出现一个零交叉，这对于边界定位来说是非常有用的，因为在图像中边缘一般情况下是以斜坡方式存在，所以，一阶微分给出的边缘会相对较粗，二阶微分给出较准确的位置，也正是因为这一点，二阶微分比一阶微分在锐化细节方面表现更好。<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>因为以上为纯理论知识，所以今天做一个简单的总结，相关的实验和图像处理结果会在后面的相关算法介绍中给出。</li>
 </ol>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础" target="_blank" rel="noopener">https://www.face2ai.com/DIP-5-5-灰度图像-图像增强-锐化基础</a>转载请标明出处</p>
 
       
     </div>
@@ -740,7 +739,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1852,7 +1851,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1907,23 +1906,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

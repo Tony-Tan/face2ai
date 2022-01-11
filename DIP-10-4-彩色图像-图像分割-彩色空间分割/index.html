@@ -116,16 +116,16 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第73天Keywords: 彩色分割">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113150759.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113043362.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113241131.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113448818.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113340174.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113150759.png">
+<meta property="og:image" content="https://face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113043362.png">
+<meta property="og:image" content="https://face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113241131.png">
+<meta property="og:image" content="https://face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113448818.png">
+<meta property="og:image" content="https://face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113340174.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】10.4:彩色图像-图像分割 彩色空间分割">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第73天Keywords: 彩色分割">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113150759.png">
+<meta name="twitter:image" content="https://face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113150759.png">
 
 
 
@@ -495,13 +495,12 @@
 <h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><p>多通道图像的简单分割，可以给定阈值向量，然后给定范围，可以是三维的球形，或者立方体，这个就要看具体的设计了，比如举个简单的例子，给定RGB中心阈值为 $\vec T(R_0,G_0,B_0)$ ，阈值为100，那么对于像素点 $(x,y)$ 处的色彩向量 $\vec I(R_{xy},G_{xy},B_{xy})$<br>那么只要满足<br>$|\vec T- \vec I |&lt;100$</p>
 <p>的点满足要求，为目标点，否则为背景点。<br>算法同样适用于其他色彩空间，但要根据具体情况来设计，所以灵活性很强。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Chanel3Distance</span><span class="params">(RGB point1,RGB point2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sqrt</span>((point1.c1-point2.c1)*(point1.c1-point2.c1)+</span><br><span class="line">                (point1.c2-point2.c2)*(point1.c2-point2.c2)+</span><br><span class="line">                (point1.c3-point2.c3)*(point1.c3-point2.c3));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SegmentRGB</span><span class="params">(RGB* src,RGB *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,RGB * color_center,<span class="keyword">double</span> threshold)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> distance=<span class="number">0.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)&#123;</span><br><span class="line">        distance=Chanel3Distance(src[i], *color_center);</span><br><span class="line">        <span class="keyword">if</span>(distance&lt;=threshold)&#123;</span><br><span class="line">            dst[i].c1=src[i].c1;</span><br><span class="line">            dst[i].c2=src[i].c2;</span><br><span class="line">            dst[i].c3=src[i].c3;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            dst[i].c1=<span class="number">0.</span>;</span><br><span class="line">            dst[i].c2=<span class="number">0.</span>;</span><br><span class="line">            dst[i].c3=<span class="number">0.</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h2><p>下面简单的分割和平滑，然后进行合并。<br>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113150759.png" alt=""></p>
-<p>分割（使用简单的RGB模型，肤色分割点简单选取，所以效果不是很好）：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113043362.png" alt=""></p>
-<p>平滑后合并<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113241131.png" alt=""></p>
-<p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113448818.png" alt=""></p>
-<p>分割结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-10-4-彩色图像-图像分割-彩色空间分割/20150318113340174.png" alt=""></p>
+<h2 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h2><p>下面简单的分割和平滑，然后进行合并。<br>原图：<br><img src="./20150318113150759.png" alt=""></p>
+<p>分割（使用简单的RGB模型，肤色分割点简单选取，所以效果不是很好）：<br><img src="./20150318113043362.png" alt=""></p>
+<p>平滑后合并<br><img src="./20150318113241131.png" alt=""></p>
+<p>原图：<br><img src="./20150318113448818.png" alt=""></p>
+<p>分割结果：<br><img src="./20150318113340174.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此用了70几天简单的介绍了图像处理的基础知识，特定的应用因为不具有行业通用性，所以将会有选择的进行学习，感谢自己一路坚持了几个月，感谢大家一直的支持，希望大家的技术进步。<br>本系列结束。<br>技术，待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割" target="_blank" rel="noopener">https://www.face2ai.com/DIP-10-4-彩色图像-图像分割-彩色空间分割</a>转载请标明出处</p>
 
       
     </div>
@@ -732,7 +731,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1844,7 +1843,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1899,23 +1898,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

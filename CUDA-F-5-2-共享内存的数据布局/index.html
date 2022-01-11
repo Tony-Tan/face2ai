@@ -116,32 +116,32 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文主要研究几个关于共享内存的例子，以此来了解共享内存的性质，为我们的核函数加速Keywords: 行主序，列主序，填充与无填充，从线程索引体映射数据元素">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/5-12.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/sltpr.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/sstpr.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-4.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-5.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-6.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-7.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-75.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-8.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-9.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-10.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/rect.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-11.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-12.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-13.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-14.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-15.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-16.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/5-12.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/sltpr.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/sstpr.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-4.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-5.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-6.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-7.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-75.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-8.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-9.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-10.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/rect.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-11.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-12.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-13.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-14.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-15.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/re-1-16.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】5.2 共享内存的数据布局">
 <meta name="twitter:description" content="Abstract: 本文主要研究几个关于共享内存的例子，以此来了解共享内存的性质，为我们的核函数加速Keywords: 行主序，列主序，填充与无填充，从线程索引体映射数据元素">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/5-12.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-5-2-共享内存的数据布局/5-12.png">
 
 
 
@@ -533,7 +533,7 @@
 <p>当然这个索引就是 $(y,x)$ 对应的，我们也可以用 $(x,y)$ 来索引。<br>在CPU中，如果用循环遍历二维数组，尤其是双层循环的方式，我们倾向于内层循环对应x，因为这样的访问方式在内存中是连续的，因为CPU的内存是线性存储的，但是GPU的共享内存并不是线性的，而是二维的，分成不同存储体的，并且，并行也不是循环，那么这时候，问题完全不同，没有任何可比性。<br>回顾放西瓜的例子以及存储体冲突的特性，容易想到，我们最应该避免的是存储体冲突，那么对应的问题就来了，我们每次执行一个线程束，对于二维线程块，一个线程束是按什么划分的呢？是按照threadIdx.x 维进行划分还是按照threadIdx.y维进行划分的呢？<br>这句话有点迷糊？那我再啰嗦一遍，因为这个很关键，我们每次执行的是一个线程束，线程束里面有很多线程，对于一个二维的块，切割线程束有两种方法，顺着y切，那么就是threadIdx.x固定（变化慢），而threadIdx.y是连续的变化，顺着x切相反；CUDA明确的告诉你，我们是顺着x切的，也就是一个线程束中的threadIdx.x 连续变化。<br>我们的数据是按照行放进存储体中的这是固定的，所以我们希望，这个线程束中取数据是按照行来进行的，所以<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x[threadIdx.y][threadIdx.x];</span><br></pre></td></tr></table></figure></p>
 <p>这种访问方式是最优的，threadIdx.x在线程束中体现为连续变化的，而对应到共享内存中也是遍历共享内存的同一行的不同列</p>
 <p>上面这个确实有点绕，我们可以画画图，多想象一下CUDA的运行原理，这个就好理解了，说白了就是不要一个线程束中访问一列共享内存，而是要访问一行。</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/5-12.png" alt="5-12"></p>
+<p><img src="./5-12.png" alt="5-12"></p>
 <p>对照上图，我们把一个int类型（四字节）的1024个元素的数组放到共享内存A中，每个int的索引对应到蓝框中，假设我们的块大小是 $(32,32)$ 那么我们第一个线程束就是 threadIdx.y=0,threadIdx.x=0……31,如果我们使用<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A[threadIdx.x][threadIdx.y];</span><br></pre></td></tr></table></figure></p>
 <p>的索引方式，就会得到绿框的数据，可想而知，这冲突达到了最大，效率最低、<br>果我们使用<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A[threadIdx.y][threadIdx.x];</span><br></pre></td></tr></table></figure></p>
 <p>我们就会得到红色框中的数据，无冲突，一个事务完成。</p>
@@ -561,50 +561,50 @@
 </ol>
 <p>这个核函数按照行主序读和写，所以对于共享内存没有读写冲突<br>另一种方法就是按照列主序访问了，核函数代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setColReadCol</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">int</span> tile[BDIMY][BDIMX];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line"></span><br><span class="line">    tile[threadIdx.x][threadIdx.y]=idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[idx]=tile[threadIdx.x][threadIdx.y];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>原理不再赘述，我们直接看运行结果：<br>对于使用nvprof如果出现 ======== Error: unified memory profiling failed.错误，是因为系统的保护机制，所以使用sudo权限来执行即可，如果sudo找不到你的nvprof，你可以用完整路径，或则添加到环境变量：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-1.png" alt="re-1-1"></p>
+<p><img src="./re-1-1.png" alt="re-1-1"></p>
 <p>可见行主序的平均时间是 $1.552\mu s$ 而列主序是 $2.4640\mu s$ 注意如果直接使用来方法即cpu计时，那么会非常不准，比如我们红色方框内就是cpu计时的结果，原因是数据量太小，运行时间太短，误差相对就太大了，这显然是错误，很有可能我们前面也出现过理论和实际不符的情况也是因为计时有问题。</p>
 <p>接下来我们看看检测存储体冲突的指标，会是什么数据：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shared_load_transactions_per_request</span><br><span class="line">shared_store_transactions_per_request</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>shared_load_transactions_per_request 结果：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof  --metrics shared_load_transactions_per_request ./shared_memory_read_data</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/sltpr.png" alt="sltpr"><br>可以看到load过程行主序1个事务，而列主序32个</p>
+<p><img src="./sltpr.png" alt="sltpr"><br>可以看到load过程行主序1个事务，而列主序32个</p>
 <ul>
 <li>shared_store_transactions_per_request 结果：</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof  --metrics shared_store_transactions_per_request ./shared_memory_read_data</span><br></pre></td></tr></table></figure>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/sstpr.png" alt="sstpr"></p>
+<p><img src="./sstpr.png" alt="sstpr"></p>
 <p>同样行主序的事务是1，而列主序的事务是32</p>
 <p>注意，我们这个设备是4-byte宽的，上面第二张图中有相关信息。</p>
 <h3 id="按行主序写和按列主序读"><a href="#按行主序写和按列主序读" class="headerlink" title="按行主序写和按列主序读"></a>按行主序写和按列主序读</h3><p>接下来我们来点混合的，我们按照行主序写入，按照列主序读取，声明下，这个核函数本身没什么意义，就像前面的核函数，其根本作用就是为了我们测试各种指标用到，所以大家不要过度关心输入输出是什么，而是关系不同的读写方法，在指标和性能上的差异。<br>按照列主序读：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">out[idx]=tile[threadIdx.x][threadIdx.y];</span><br></pre></td></tr></table></figure></p>
 <p>按照行主序写：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tile[threadIdx.y][threadIdx.x]=idx;</span><br></pre></td></tr></table></figure></p>
 <p>核函数跟上面差不多，我就不贴了，直接看看结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-2.png" alt="re-1-2"></p>
-<p>shared_load_transactions_per_request:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-3.png" alt="re-1-3"></p>
-<p>shared_store_transactions_per_request<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-4.png" alt="re-1-4"></p>
+<p><img src="./re-1-2.png" alt="re-1-2"></p>
+<p>shared_load_transactions_per_request:<br><img src="./re-1-3.png" alt="re-1-3"></p>
+<p>shared_store_transactions_per_request<br><img src="./re-1-4.png" alt="re-1-4"></p>
 <p>可以看出load的时候。也就是读取共享内存，然后写入全局内存的这步，是有冲突的，32路冲突是显然的。<br>同样的试验可以测试按照行主序读和列主序写，这里就不啰嗦一遍了，因为一毛一样。</p>
 <h3 id="动态共享内存"><a href="#动态共享内存" class="headerlink" title="动态共享内存"></a>动态共享内存</h3><p>共享内存没有malloc但是也可以到运行时才分配，具体机制我没去了解，是不是共享内存也分堆和栈，但是我们有必要了解这个方法，因为写过C++程序的都知道，基本上我们的大部分变量是要靠动态分配手动管理的，CUDA好的一点就是动态的共享内存，不需要手动回收。<br>我们看核函数：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColDyn</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">extern</span> __shared__ <span class="keyword">int</span> tile[];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> row_idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> col_idx=threadIdx.x*blockDim.y+threadIdx.y;</span><br><span class="line">    tile[row_idx]=row_idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[row_idx]=tile[col_idx];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>其中extern用于表明这个共享内存是运行时才知道的<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> __shared__ <span class="keyword">int</span> tile[];</span><br></pre></td></tr></table></figure></p>
 <p>一个int型的共享内存长度不知道，什么时候才能知道？当然是运行的时候：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setRowReadColDyn&lt;&lt;&lt;grid,block,(BDIMX)*BDIMY*sizeof(int)&gt;&gt;&gt;(out);</span><br></pre></td></tr></table></figure></p>
 <p>核函数配置参数，网格大小，块大小，第三个参数就是共享内存的大小了，那么问题来了，我们可不可以声明多个动态共享内存呢？是否可以继续添加参数呢？这个我还没试验，可以留作一个思考。<br>运行结果当然也没什么出奇的：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-5.png" alt="re-1-5"><br>shared_load_transactions_per_request:</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-6.png" alt="re-1-6"></p>
+<p><img src="./re-1-5.png" alt="re-1-5"><br>shared_load_transactions_per_request:</p>
+<p><img src="./re-1-6.png" alt="re-1-6"></p>
 <p>shared_store_transactions_per_request:</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-7.png" alt="re-1-7"></p>
+<p><img src="./re-1-7.png" alt="re-1-7"></p>
 <p>动态静态运行结果没什么差别，冲突不变。</p>
 <h3 id="填充静态声明的共享内存"><a href="#填充静态声明的共享内存" class="headerlink" title="填充静态声明的共享内存"></a>填充静态声明的共享内存</h3><p>填充我们在前面博客大概提到了，我们通过改变声明的共享内存大小来填充一些位置，比如最后一列，我们声明了这个尺寸的共享内存，其会自动对应到CUDA模型上的二维共享内存存储体，换句话说，所谓填充是在声明的时候产生的， 声明一个二维共享内存，或者一维共享内存，编译器会自动将其重新整理到一个二维的空间中，这个空间包含32个存储体，每个存储体宽度一定，换句话说，你声明一个二维存储体，编译器会把声明的二维转换成一维线性的，然后再重新整理成二维按照32个存储体，4-Byte/8-Byte宽的内存分布，然后再进行运算的。<br>这就是我们填充存储体的最根本原理。<br>原理明白了，下面的核函数就没啥了，就是加了个常量：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColIpad</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">int</span> tile[BDIMY][BDIMX+IPAD];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line"></span><br><span class="line">    tile[threadIdx.y][threadIdx.x]=idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[idx]=tile[threadIdx.x][threadIdx.y];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运行结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-75.png" alt="re-1-75"></p>
+<p><img src="./re-1-75.png" alt="re-1-75"></p>
 <p>冲突不见了！同志们，填充起作用了！</p>
 <h3 id="填充动态声明的共享内存"><a href="#填充动态声明的共享内存" class="headerlink" title="填充动态声明的共享内存"></a>填充动态声明的共享内存</h3><p>动态填充和静态填充似乎没什么区别，一个在核函数内声明，一个在参数中体现，代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColDynIpad</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">extern</span> __shared__ <span class="keyword">int</span> tile[];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> row_idx=threadIdx.y*(blockDim.x+<span class="number">1</span>)+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> col_idx=threadIdx.x*(blockDim.x+<span class="number">1</span>)+threadIdx.y;</span><br><span class="line">    tile[row_idx]=row_idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[row_idx]=tile[col_idx];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>调用代码：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setRowReadColDynIpad&lt;&lt;&lt;grid,block,(BDIMX+IPAD)*BDIMY*sizeof(int)&gt;&gt;&gt;(out);</span><br></pre></td></tr></table></figure></p>
-<p>填充示意图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-8.png" alt="re-1-8"></p>
+<p>填充示意图：<br><img src="./re-1-8.png" alt="re-1-8"></p>
 <p>唯一要注意的就是索引，当填充了以后我们的行不变，列加宽了，所以索引的时候要：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> row_idx=threadIdx.y*(blockDim.x+<span class="number">1</span>)+threadIdx.x;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> col_idx=threadIdx.x*(blockDim.x+<span class="number">1</span>)+threadIdx.y;</span><br></pre></td></tr></table></figure></p>
 <p>有些童鞋可能能对这个索引，有点迷糊，这个时候你不要想硬件上也就是转换后的存储体内是什么样的，我们之关心我们逻辑上的布局就好，也就是上图的样子，因为到存储体会自动的转换过去转换回来，和图上的方式是一一对应的，如果这几个你一起考虑必然会混乱，而不明白为啥要threadIdx.x*(blockDim.x+1)+threadIdx.y</p>
 <p>然后就没什么了，结果如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-9.png" alt="re-1-9"><br>冲突不见了，同志们，填充起作用了！</p>
+<p><img src="./re-1-9.png" alt="re-1-9"><br>冲突不见了，同志们，填充起作用了！</p>
 <h3 id="方形共享内存内核性能的比较"><a href="#方形共享内存内核性能的比较" class="headerlink" title="方形共享内存内核性能的比较"></a>方形共享内存内核性能的比较</h3><p>接下来就是比较各个内核，我们直接运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo / $\mu$ sr/<span class="built_in">local</span>/cuda/bin/nvprof ./shared_memory_read_data  11</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-10.png" alt="re-1-10"><br>可以观察到所有核函数的运行时间</p>
+<p><img src="./re-1-10.png" alt="re-1-10"><br>可以观察到所有核函数的运行时间</p>
 <table>
 <thead>
 <tr>
@@ -713,25 +713,25 @@
 <p>不一样长就是举矩形了，这时候我们就要考虑非正方形的索引问题了，这时候不能简单的交换坐标了，而是需要用我上面说到的，先转换成线性的，然后再重新计算行和列的坐标</p>
 <h3 id="行主序访问和列主序访问-1"><a href="#行主序访问和列主序访问-1" class="headerlink" title="行主序访问和列主序访问"></a>行主序访问和列主序访问</h3><p>这个和正方形的完全一样，我们就不再啰嗦了，只是调整了下共享内存的尺寸而已，其他没有变化。我们关注的是按行读按列写或者按列读按行写这种需要坐标转换的情况。</p>
 <h3 id="行主序写操作和列主序读操作"><a href="#行主序写操作和列主序读操作" class="headerlink" title="行主序写操作和列主序读操作"></a>行主序写操作和列主序读操作</h3><p>没错，这就是复杂的情况，我们先贴代码，然后好研究一下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColRect</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">int</span> tile[BDIMY_RECT][BDIMX_RECT];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> icol=idx%blockDim.y;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> irow=idx/blockDim.y;</span><br><span class="line">    tile[threadIdx.y][threadIdx.x]=idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[idx]=tile[icol][irow];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>解释：<br>先贴图<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/rect.png" alt="sltpr"><br>注意红色为存储体空间，蓝色小标1，2，3，4表示四个不同的模型。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br></pre></td></tr></table></figure></p>
+<p>解释：<br>先贴图<br><img src="./rect.png" alt="sltpr"><br>注意红色为存储体空间，蓝色小标1，2，3，4表示四个不同的模型。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br></pre></td></tr></table></figure></p>
 <p>这句就是计算线性位置，因为我们把不同的尺寸的共享内存映射到线性空间图中 1-&gt;3 的过程；接着，<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> icol=idx%blockDim.y;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> irow=idx/blockDim.y;</span><br></pre></td></tr></table></figure></p>
 <p>这一步是3-&gt;2 的过程，很多同学可能不明白，其实我也不明白，但是我仔细研究了一下，我们并没有改变原始tile的形状，我们只是改变了数组的索引顺序，原始的我们是按照1中的绿线从左到右逐行进行的，然后我们通过除法和取余，得到的新坐标是按照3中的绿色箭头从上到下，逐列进行的。所以当1中x方向坐标增加一个，对应于3中y方向坐标加一个，但是数组的形状不变，这就成了一个按照行写入，一个按照列读取。<br>只是这样就不是前面方形的32个冲突了，而是16个冲突，因为每进行一行32个元素，对应的是两列，那么就是16个冲突<br>运行结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-11.png" alt="re-1-11"></p>
+<p><img src="./re-1-11.png" alt="re-1-11"></p>
 <p>可见如我们所推测的16路冲突在load的时候出现了。</p>
 <h3 id="动态声明的共享内存"><a href="#动态声明的共享内存" class="headerlink" title="动态声明的共享内存"></a>动态声明的共享内存</h3><p>接着就是动态版本的了，基本没区别，<br>代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColRectDyn</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">extern</span> __shared__ <span class="keyword">int</span> tile[];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> icol=idx%blockDim.y;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> irow=idx/blockDim.y;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> col_idx=icol*blockDim.x+irow;</span><br><span class="line">    tile[idx]=idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[idx]=tile[col_idx];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>启动核函数：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setRowReadColRectDynPad&lt;&lt;&lt;grid_rect,block_rect,(BDIMX+1)*BDIMY*sizeof(int)&gt;&gt;&gt;(out);</span><br></pre></td></tr></table></figure></p>
 <p>和方形的类似，结果如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-12.png" alt="re-1-12"></p>
+<p><img src="./re-1-12.png" alt="re-1-12"></p>
 <p>结果同静态内存一致</p>
 <h3 id="填充静态声明的共享内存-1"><a href="#填充静态声明的共享内存-1" class="headerlink" title="填充静态声明的共享内存"></a>填充静态声明的共享内存</h3><p>然后我们填充内存，填充内存的时候就需要注意索引计算了，但是并不需要做调整。<br>那么我们的代码是：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColRectPad</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">int</span> tile[BDIMY_RECT][BDIMX_RECT+IPAD];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> icol=idx%blockDim.y;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> irow=idx/blockDim.y;</span><br><span class="line">    tile[threadIdx.y][threadIdx.x]=idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[idx]=tile[icol][irow];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-13.png" alt="re-1-13"></p>
+<p><img src="./re-1-13.png" alt="re-1-13"></p>
 <p>结果是，在填充了一列的时候，我们只产生了两路冲突<br>填充两列的时候，代码为<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColRectPad</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">int</span> tile[BDIMY_RECT][BDIMX_RECT+IPAD*<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> icol=idx%blockDim.y;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> irow=idx/blockDim.y;</span><br><span class="line">    tile[threadIdx.y][threadIdx.x]=idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[idx]=tile[icol][irow];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运行结果，没有冲突</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-14.png" alt="re-1-14"><br>如果不明白为什么，可以自己画个图，从长方形转换到存储体空间上，然后按照执行的过程比划比划</p>
+<p><img src="./re-1-14.png" alt="re-1-14"><br>如果不明白为什么，可以自己画个图，从长方形转换到存储体空间上，然后按照执行的过程比划比划</p>
 <h3 id="填充动态声明的共享内存-1"><a href="#填充动态声明的共享内存-1" class="headerlink" title="填充动态声明的共享内存"></a>填充动态声明的共享内存</h3><p>动态填充和方形的动态填充类似，tile没有二维索引了，所以需要计算出二维索引对应一维位置，其他情况类似，代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">setRowReadColRectDynPad</span><span class="params">(<span class="keyword">int</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">extern</span> __shared__ <span class="keyword">int</span> tile[];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=threadIdx.y*blockDim.x+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> icol=idx%blockDim.y;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> irow=idx/blockDim.y;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> row_idx=threadIdx.y*(IPAD+blockDim.x)+threadIdx.x;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> col_idx=icol*(IPAD+blockDim.x)+irow;</span><br><span class="line">    tile[row_idx]=idx;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    out[idx]=tile[col_idx];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>索引转换，和二维坐标对应于一维坐标，这些都是前面用过的技术，观察结果，对于添加1列，得出两路冲突，和上面静态填充一致<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-15.png" alt="re-1-15"></p>
+<p>索引转换，和二维坐标对应于一维坐标，这些都是前面用过的技术，观察结果，对于添加1列，得出两路冲突，和上面静态填充一致<br><img src="./re-1-15.png" alt="re-1-15"></p>
 <h3 id="矩形共享内存内核性能的比较"><a href="#矩形共享内存内核性能的比较" class="headerlink" title="矩形共享内存内核性能的比较"></a>矩形共享内存内核性能的比较</h3><p>矩形的所有核函数运行结果比较</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-2-共享内存的数据布局/re-1-16.png" alt="re-1-16"></p>
+<p><img src="./re-1-16.png" alt="re-1-16"></p>
 <table>
 <thead>
 <tr>
@@ -799,7 +799,6 @@
 </tbody>
 </table>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文通过一组实验，得到了关于共享内存的存储体内分布情况，以及如何使用动态的共享内存，以及填充来避免冲突。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-5-2-共享内存的数据布局" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-5-2-共享内存的数据布局</a>转载请标明出处</p>
 
       
     </div>
@@ -1032,7 +1031,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2144,7 +2143,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2199,23 +2198,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

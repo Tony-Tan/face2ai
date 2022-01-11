@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文主要介绍行列式的应用，包括求逆，求面积，求体积，以及叉乘的一些性质Keywords: Inverses，Cramer’s Rule，Volumes，Determinant，Cross Product">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-5-3/性质3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-5-3/体积.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-5-3/polar.png">
-<meta property="og:updated_time" content="2018-10-04T15:09:07.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-5-3/性质3.png">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-5-3/体积.png">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-5-3/polar.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.193Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】5-3:克莱姆法则，逆和体积(Cramer&#39;s Rule,Inverses,and Volumes)">
 <meta name="twitter:description" content="Abstract: 本文主要介绍行列式的应用，包括求逆，求面积，求体积，以及叉乘的一些性质Keywords: Inverses，Cramer’s Rule，Volumes，Determinant，Cross Product">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-5-3/性质3.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-5-3/性质3.png">
 
 
 
@@ -507,10 +507,10 @@
 <li>交换任意两行，面积不变（绝对值），行列式绝对值不变，只是要变号</li>
 <li>满足加法和乘法原理，如果一条边乘以2（也就是行列式中的一行），那么面积要乘以2 ，与行列式性质相同，如果变增长一部分相当于延长，在行列式上的直接反应也是增加了一个行列式（另一块的面积），具体如下图</li>
 </ol>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-5-3/性质3.png" alt=""><br>如果不明白A是什么，A是像三角形那个行列式一样，各顶点组合出来的。</p>
+<p><img src="./性质3.png" alt=""><br>如果不明白A是什么，A是像三角形那个行列式一样，各顶点组合出来的。</p>
 <p>这样的话就能证明行列式就是面积，具体是谁的面积，就是以各行为坐标，圈起来的图形的面积。<br>比如2x2的矩阵就是平行四边形的以原点为一个顶点，另外两个点是矩阵的行，推广到体积同样成立，</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-5-3/体积.png" alt=""><br>这里就不再继续描述了，因为大道理就上面的三条性质。</p>
-<p>下面我们要正式回应一下本章开头提出的懵逼场景2<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-5-1/">(点击查看)</a>，也就是二重积分转换成极坐标的那个带入问题，其实问题的根源在于对于$dA=dxdy$ 是一种简单的形式，或者叫做一个结果，他求的是矩形面积，忽略了其中角度的关系，原始的$dA$ 应该是一个行列式比如对于直角坐标系,对x和y求二重微分<br>$dx=1dx+0dy$ 以及 $dx=0dx+1dy$ 那么写成矩阵形式就是下面的样子<br>$$<br>dA=<br>det(\begin{bmatrix}dx&amp;0\\0&amp;dy\end{bmatrix}<br>\begin{bmatrix}<br>1&amp;0\\0&amp;1<br>\end{bmatrix})<br>$$<br>也就是说我们要把坐标系的基矩阵也跟在后面，而前面是变量之间的微分关系（这个微分关系叫做雅克比矩阵）这个矩阵最后算出来的是一个伸缩比例，什么的伸缩比例？因为你已经把积分的单元改变了，之前那个dA和现在的dA不是一个同一个大小了，而是多了一个比例系数，以及两种不同积分元。<br>如果我们对积分变量进行代换，原变量为 $\vec{x}=x_1,x_2,\dots ,x_n$ 换元后的变量是 $\vec{y}=y_1,y_2,\dots ,y_n$ 并且满足 $x=Ay$ 那么 $d\vec{x}=J(A)d\vec{y}$<br>雅克比矩阵J(A）：<br>$$<br>J=\begin{bmatrix}<br>\frac{\partial x_1}{y_1}&amp;\dots&amp;\frac{\partial x_1}{y_n}\\<br>\frac{\partial x_2}{y_1}&amp;\dots&amp;\frac{\partial x_2}{y_n}\\<br>&amp;\vdots&amp;\\<br>\frac{\partial x_n}{y_1}&amp;\dots&amp;\frac{\partial x_n}{y_n}<br>\end{bmatrix}<br>$$<br>然后根据行列式性质，两边同时行列式，就得到了新的积分元了，雅克比行列式提供了一个伸缩比例<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-5-3/polar.png" alt=""><br>积分元的大小明显发生了变换，伸缩比例就是雅克比行列式的值。</p>
+<p><img src="./体积.png" alt=""><br>这里就不再继续描述了，因为大道理就上面的三条性质。</p>
+<p>下面我们要正式回应一下本章开头提出的懵逼场景2<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-5-1/">(点击查看)</a>，也就是二重积分转换成极坐标的那个带入问题，其实问题的根源在于对于$dA=dxdy$ 是一种简单的形式，或者叫做一个结果，他求的是矩形面积，忽略了其中角度的关系，原始的$dA$ 应该是一个行列式比如对于直角坐标系,对x和y求二重微分<br>$dx=1dx+0dy$ 以及 $dx=0dx+1dy$ 那么写成矩阵形式就是下面的样子<br>$$<br>dA=<br>det(\begin{bmatrix}dx&amp;0\\0&amp;dy\end{bmatrix}<br>\begin{bmatrix}<br>1&amp;0\\0&amp;1<br>\end{bmatrix})<br>$$<br>也就是说我们要把坐标系的基矩阵也跟在后面，而前面是变量之间的微分关系（这个微分关系叫做雅克比矩阵）这个矩阵最后算出来的是一个伸缩比例，什么的伸缩比例？因为你已经把积分的单元改变了，之前那个dA和现在的dA不是一个同一个大小了，而是多了一个比例系数，以及两种不同积分元。<br>如果我们对积分变量进行代换，原变量为 $\vec{x}=x_1,x_2,\dots ,x_n$ 换元后的变量是 $\vec{y}=y_1,y_2,\dots ,y_n$ 并且满足 $x=Ay$ 那么 $d\vec{x}=J(A)d\vec{y}$<br>雅克比矩阵J(A）：<br>$$<br>J=\begin{bmatrix}<br>\frac{\partial x_1}{y_1}&amp;\dots&amp;\frac{\partial x_1}{y_n}\\<br>\frac{\partial x_2}{y_1}&amp;\dots&amp;\frac{\partial x_2}{y_n}\\<br>&amp;\vdots&amp;\\<br>\frac{\partial x_n}{y_1}&amp;\dots&amp;\frac{\partial x_n}{y_n}<br>\end{bmatrix}<br>$$<br>然后根据行列式性质，两边同时行列式，就得到了新的积分元了，雅克比行列式提供了一个伸缩比例<br><img src="./polar.png" alt=""><br>积分元的大小明显发生了变换，伸缩比例就是雅克比行列式的值。</p>
 <h2 id="叉乘"><a href="#叉乘" class="headerlink" title="叉乘"></a>叉乘</h2><p>Cross Product与dot Product相对应，其结果是个新的向量而不是一个值，Cross的定义：<br>$$<br>u \times v =<br>\begin{vmatrix}<br>i&amp;j&amp;k\\<br>u_1&amp;u_2&amp;u_3\\<br>v_1&amp;v_2&amp;v_3<br>\end{vmatrix}<br>$$</p>
 <p>得到的矩阵和u和v都正交，证明？<br>直接乘进去就有了</p>
 <p>$$<br>\begin{vmatrix}<br>i&amp;j&amp;k\\<br>u_1&amp;u_2&amp;u_3\\<br>v_1&amp;v_2&amp;v_3<br>\end{vmatrix}<br>=i C_{11}-j C_{12}+k C_{13}<br>$$<br>那么进行dot product就有:</p>
@@ -524,7 +524,6 @@
 <p>根据上一节和这一节的对比，连个向量的cross等于这两个向量为边的平行四边形面积，也就是说<br>$$<br>|u \times v| =|u||v|sin(\theta)<br>$$<br>方向满足右手定则。</p>
 <h2 id="Triple-Product-Determinant-Volumes"><a href="#Triple-Product-Determinant-Volumes" class="headerlink" title="Triple Product = Determinant = Volumes"></a>Triple Product = Determinant = Volumes</h2><p>推广到三维<br>$$<br>(u \times v)\cdot w=<br>\begin{vmatrix}<br>w_1&amp;w_2&amp;w_3\\<br>u_1&amp;u_2&amp;u_3\\<br>v_1&amp;v_2&amp;v_3<br>\end{vmatrix}=volume<br>$$<br>这个就是前面的简单推广，大家可以自己研究一下</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇没想到这么长，从早上写到下午，有问题请大家指出。。明天继续。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-5-3" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-5-3</a>转载请标明出处</p>
 
       
     </div>
@@ -591,14 +590,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -775,7 +774,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1887,7 +1886,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1942,23 +1941,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

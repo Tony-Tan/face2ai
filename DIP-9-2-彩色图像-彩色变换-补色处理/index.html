@@ -116,17 +116,17 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第69天Keywords: 色彩变换,补色,色环">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141306249">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141655788.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141713478.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141731293.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141750513.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141818795.jpeg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141306249">
+<meta property="og:image" content="https://face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141655788.png">
+<meta property="og:image" content="https://face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141713478.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141731293.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141750513.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141818795.jpeg">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.222Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】9.2:彩色图像-彩色变换 补色处理">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第69天Keywords: 色彩变换,补色,色环">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141306249">
+<meta name="twitter:image" content="https://face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141306249">
 
 
 
@@ -494,15 +494,14 @@
 <p><font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font></p>
 <h1 id="彩色图像-彩色变换-补色处理"><a href="#彩色图像-彩色变换-补色处理" class="headerlink" title="彩色图像-彩色变换 补色处理"></a>彩色图像-彩色变换 补色处理</h1><p>啊啊啊啊啊。。。办公室好乱。像菜市场那个一样，说好的做一个安静的美男子呢。<br>彩色图像处理中彩色变换是指<br>$g(x,y)=T[f(x,y)]$</p>
 <p>其中$f$ , $g$为返回结果是向量的函数，T是$x,y$空间上对f的一个算子。<br>要顺便说下HSI在0°和360°处是个不连续的点，而且饱和度为0是色相未定义。<br>今天开始介绍真彩色图像，也包括多通道图像，补色处理就是根据色环，将现有颜色的色相反转180°，得到新的色相，这个变化的用途不知道，一个很一般的也很常见的应用是RGB带CMY的变化，不过，别的好像目前没听说过什么处理要把图像变成补色后才能处理。</p>
-<p>#算法原理<br>算法原理很简单，找到补色，等位替换就好。<br>色环牛顿老爷子发明的，没有错，就是那个被苹果砸了的牛顿，不得不说，牛顿是位大师级的人物，色环如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141306249" alt=""><br>这个色环可能不是牛顿老爷子的色环，但通过这个来展示下补色就是一条直径上两端的颜色。<br>对于RGB图像，补色是对应的CMY图像<br>对于HSI和HSV图像，H分量需要进行相应的旋转，而亮度分量也需要相应的反转，而饱和度不变，能够得到类似的补色效果。</p>
+<p>#算法原理<br>算法原理很简单，找到补色，等位替换就好。<br>色环牛顿老爷子发明的，没有错，就是那个被苹果砸了的牛顿，不得不说，牛顿是位大师级的人物，色环如下：<br><img src="./20150316141306249" alt=""><br>这个色环可能不是牛顿老爷子的色环，但通过这个来展示下补色就是一条直径上两端的颜色。<br>对于RGB图像，补色是对应的CMY图像<br>对于HSI和HSV图像，H分量需要进行相应的旋转，而亮度分量也需要相应的反转，而饱和度不变，能够得到类似的补色效果。</p>
 <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Complementary_Color</span><span class="params">(C3 *src,C3 *dst,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> color_space_type)</span></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (color_space_type) &#123;</span><br><span class="line">        <span class="keyword">case</span> COLOR_SPACE_RGB:</span><br><span class="line">            RGB2CMY(src, dst, width, height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> COLOR_SPACE_CMY:</span><br><span class="line">            CMY2RGB(src, dst, width, height);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> COLOR_SPACE_HSI:&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)&#123;</span><br><span class="line">                <span class="keyword">double</span> h=src[i].c1;</span><br><span class="line">                <span class="keyword">if</span>(h&gt;=M_PI)</span><br><span class="line">                    dst[i].c1=h-M_PI;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    dst[i].c1=M_PI+h;</span><br><span class="line">                dst[i].c2=src[i].c2;</span><br><span class="line">                dst[i].c3=<span class="number">255.</span>-src[i].c3;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> COLOR_SPACE_HSV:&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;width*height;i++)&#123;</span><br><span class="line">                <span class="keyword">double</span> h=src[i].c1;</span><br><span class="line">                <span class="keyword">if</span>(h&gt;=<span class="number">180.0</span>)</span><br><span class="line">                    dst[i].c1=h<span class="number">-180.0</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    dst[i].c1=<span class="number">180.0</span>+h;</span><br><span class="line">                dst[i].c2=src[i].c2;</span><br><span class="line">                dst[i].c3=<span class="number">1.0</span>-src[i].c3;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="结果观察"><a href="#结果观察" class="headerlink" title="结果观察"></a>结果观察</h2><p>原图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141655788.png" alt=""></p>
-<p>RGB：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141713478.jpeg" alt=""></p>
-<p>HSI：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141731293.jpeg" alt=""></p>
-<p>HSV：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141750513.jpeg" alt=""></p>
-<p>Paintbrush：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-9-2-彩色图像-彩色变换-补色处理/20150316141818795.jpeg" alt=""></p>
+<h2 id="结果观察"><a href="#结果观察" class="headerlink" title="结果观察"></a>结果观察</h2><p>原图：<br><img src="./20150316141655788.png" alt=""></p>
+<p>RGB：<br><img src="./20150316141713478.jpeg" alt=""></p>
+<p>HSI：<br><img src="./20150316141731293.jpeg" alt=""></p>
+<p>HSV：<br><img src="./20150316141750513.jpeg" alt=""></p>
+<p>Paintbrush：<br><img src="./20150316141818795.jpeg" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>简单的介绍了最简单的色彩变换，补色变换，可以看出HSI，HSV和RGB处理的结果有些不同，而PaintBrush处理和我处理都不同，不知道它使用的什么算法。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理" target="_blank" rel="noopener">https://www.face2ai.com/DIP-9-2-彩色图像-彩色变换-补色处理</a>转载请标明出处</p>
 
       
     </div>
@@ -737,7 +736,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1849,7 +1848,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1904,23 +1903,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

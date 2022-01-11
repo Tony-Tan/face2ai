@@ -116,15 +116,15 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文只介绍一个功能，如何获取设备（一个或多个）信息Keywords: CUDA Device Information">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/cudainformation.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/nvida-smi.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/nvidia-l.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/memory.png">
-<meta property="og:updated_time" content="2018-10-04T14:58:11.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-4-设备信息/cudainformation.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-4-设备信息/nvida-smi.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-4-设备信息/nvidia-l.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-4-设备信息/memory.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】2.4 GPU设备信息">
 <meta name="twitter:description" content="Abstract: 本文只介绍一个功能，如何获取设备（一个或多个）信息Keywords: CUDA Device Information">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/cudainformation.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-2-4-设备信息/cudainformation.png">
 
 
 
@@ -505,7 +505,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaRuntimeGetVersion</span><br></pre></td></tr></table></figure>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaGetDeviceCount</span><br></pre></td></tr></table></figure>
 <p>运行的效果如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/cudainformation.png" alt=""></p>
+<p><img src="./cudainformation.png" alt=""></p>
 <p>这里面很多参数是我们后面要介绍的，而且每一个都对性能有影响：</p>
 <ol>
 <li>CUDA驱动版本</li>
@@ -527,8 +527,8 @@
 <li>最大连续线性内存</li>
 </ol>
 <p>上面这些都是后面要用到的关键参数，这些会严重影响我们的效率。后面会一一说到，不同的设备参数要按照不同的参数来使得程序效率最大化，所以我们必须在程序运行前得到所有我们关心的参数。</p>
-<h2 id="NVIDIA-SMI"><a href="#NVIDIA-SMI" class="headerlink" title="NVIDIA-SMI"></a>NVIDIA-SMI</h2><p>nvidia-smi是nvidia驱动程序内带的一个工具，可以返回当前环境的设备信息：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/nvida-smi.png" alt=""><br>这个命令可以加各种参数，当然参数你要查文档查文档查文档：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/nvidia-l.png" alt=""><br>利用下面这个参数可以精简上面那么一大堆的信息，而这些可以在脚本中帮我们得到设备信息，比如我们可以写通用程序时在编译前执行脚本来获取设备信息，然后在编译时固化最优参数，这样程序运行时就不会被查询设备信息的过程浪费资源。<br>也就是我们可以用一下两种方式编写通用程序：</p>
+<h2 id="NVIDIA-SMI"><a href="#NVIDIA-SMI" class="headerlink" title="NVIDIA-SMI"></a>NVIDIA-SMI</h2><p>nvidia-smi是nvidia驱动程序内带的一个工具，可以返回当前环境的设备信息：<br><img src="./nvida-smi.png" alt=""><br>这个命令可以加各种参数，当然参数你要查文档查文档查文档：</p>
+<p><img src="./nvidia-l.png" alt=""><br>利用下面这个参数可以精简上面那么一大堆的信息，而这些可以在脚本中帮我们得到设备信息，比如我们可以写通用程序时在编译前执行脚本来获取设备信息，然后在编译时固化最优参数，这样程序运行时就不会被查询设备信息的过程浪费资源。<br>也就是我们可以用一下两种方式编写通用程序：</p>
 <ul>
 <li>运行时获取设备信息：<ul>
 <li>编译程序</li>
@@ -565,10 +565,9 @@
 </ul>
 <p>比如我们想得到内存信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi -q -i 0 -d MEMORY</span><br></pre></td></tr></table></figure></p>
 <p>得到如下：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-4-设备信息/memory.png" alt=""></p>
+<p><img src="./memory.png" alt=""></p>
 <p>多设备时，我们只要把上面的0改成对应的设备号就好了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>今天没有理论行的东西，都是技术层面的，没存，技术问题最好的解决方法就是查文档，而原理部分就要看书看教程了，至此CUDA的编程模型大概就是这些了，核函数，计时，内存，线程，设备参数，这些足够能写出比CPU块很多的程序了，但是追求更快的我们要深入研究每一个细节，从下一篇开始，我们深入硬件，研究背后的秘密<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-2-4-设备信息" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-2-4-设备信息</a>转载请标明出处</p>
 
       
     </div>
@@ -799,7 +798,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1911,7 +1910,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1966,23 +1965,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

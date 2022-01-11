@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第1天Keywords: 灰度级数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-1-1-不同灰度级的图像/20141106101032359.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-1-1-不同灰度级的图像/20141106101045531.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-1-1-不同灰度级的图像/20141106105356188.jpg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-1-1-不同灰度级的图像/20141106101032359.jpg">
+<meta property="og:image" content="https://face2ai.com/DIP-1-1-不同灰度级的图像/20141106101045531.jpg">
+<meta property="og:image" content="https://face2ai.com/DIP-1-1-不同灰度级的图像/20141106105356188.jpg">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】1.1:灰度级">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第1天Keywords: 灰度级数">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-1-1-不同灰度级的图像/20141106101032359.jpg">
+<meta name="twitter:image" content="https://face2ai.com/DIP-1-1-不同灰度级的图像/20141106101032359.jpg">
 
 
 
@@ -491,10 +491,9 @@
 <font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font>
 
 <p>结论一：对于细节较多的图像，当图像大小（N）不变的情况下，灰度级别对于感官质量相对独立；<br>解释：如果图像细节较多，降低灰度级别，视觉上感觉差别不大<br>代码编写比较随意，未进行性能优化。只为观察效果：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> K 1 <span class="comment">//灰度级别</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> STEP (256/(1&lt;&lt;K))</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">//char name[50];</span></span><br><span class="line">  IplImage * image = cvLoadImage(<span class="string">"e:\\OpenCV_Image\\airplane.jpg"</span>,<span class="number">0</span>);</span><br><span class="line">  <span class="comment">//IplImage * result = cvCreateImage(cvGetSize(image),8,1);</span></span><br><span class="line">  cvNamedWindow(<span class="string">"原图"</span>);</span><br><span class="line">  cvNamedWindow(<span class="string">"变换"</span>);</span><br><span class="line">  cvShowImage(<span class="string">"原图"</span>,image);</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;image-&gt;width;i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;image-&gt;height;j++)&#123;</span><br><span class="line">      <span class="keyword">int</span> value=cvGetReal2D(image,i,j);</span><br><span class="line">      <span class="keyword">int</span> step=STEP;</span><br><span class="line">      <span class="keyword">while</span>(value&gt;step)&#123;</span><br><span class="line">      	step+=STEP;</span><br><span class="line">    &#125;</span><br><span class="line">  value=step;</span><br><span class="line">  cvSetReal2D(image,i,j,value);</span><br><span class="line">  &#125;</span><br><span class="line">  cvShowImage(<span class="string">"变换"</span>,image);</span><br><span class="line">  <span class="comment">//sprintf(name,"%s%d%s","e:\\OpenCV_Image\\airplane_",K,".jpg");</span></span><br><span class="line">  <span class="comment">//cvSaveImage(name,image);</span></span><br><span class="line">  cvWaitKey();</span><br><span class="line">  cvReleaseImage(&amp;image);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-1-1-不同灰度级的图像/20141106101032359.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-1-1-不同灰度级的图像/20141106101045531.jpg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-1-1-不同灰度级的图像/20141106105356188.jpg" alt=""></p>
+<p><img src="./20141106101032359.jpg" alt=""><br><img src="./20141106101045531.jpg" alt=""><br><img src="./20141106105356188.jpg" alt=""></p>
 <p>以上三张图从左到右从上到下，分别是：原始图像，K=1,2,3,4,5,6,7,8（1阶为二值化图像，8阶为原始图像灰度图）</p>
 <p>问题：对于同一分辨率下的图片如何评价其细节的多少。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-1-1-不同灰度级的图像" target="_blank" rel="noopener">https://www.face2ai.com/DIP-1-1-不同灰度级的图像</a>转载请标明出处</p>
 
       
     </div>
@@ -716,7 +715,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1828,7 +1827,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1883,23 +1882,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

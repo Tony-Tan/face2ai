@@ -116,17 +116,17 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍CUDA模型中的线程组织模式Keywords: Thread,Block,Grid">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/cuda_thread.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/memory.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/printf.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/2_2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/1_1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/2_1.png">
-<meta property="og:updated_time" content="2018-10-04T14:58:03.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-3-组织并行线程/cuda_thread.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-3-组织并行线程/memory.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-3-组织并行线程/printf.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-3-组织并行线程/2_2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-3-组织并行线程/1_1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-2-3-组织并行线程/2_1.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】2.3 组织并行线程">
 <meta name="twitter:description" content="Abstract: 本文介绍CUDA模型中的线程组织模式Keywords: Thread,Block,Grid">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/cuda_thread.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-2-3-组织并行线程/cuda_thread.png">
 
 
 
@@ -505,7 +505,7 @@
 <li>一维网格一维线程块</li>
 <li>二维网格一维线程块</li>
 </ul>
-<h2 id="使用块和线程建立矩阵索引"><a href="#使用块和线程建立矩阵索引" class="headerlink" title="使用块和线程建立矩阵索引"></a>使用块和线程建立矩阵索引</h2><p>多线程的优点就是每个线程处理不同的数据计算，那么怎么分配好每个线程处理不同的数据，而不至于多个不同的线程处理同一个数据，或者避免不同的线程没有组织的乱访问内存。如果多线程不能按照组织合理的干活，那么就相当于一群没训练过的哈士奇拉雪橇，往不同的方向跑，那么是没办法前进的，必须有组织，有规则的计算才有意义。<br>我们的线程模型前面2.0中已经有个大概的介绍，但是下图可以非常形象的反应线程模型，不过注意硬件实际的执行和存储不是按照图中的模型来的，大家注意区分：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/cuda_thread.png" alt=""><br>这里(ix,iy)就是整个线程模型中任意一个线程的索引，或者叫做全局地址，局部地址当然就是(threadIdx.x,threadIdx.y)了，当然这个局部地址目前还没有什么用处，他只能索引线程块内的线程，不同线程块中有相同的局部索引值，比如同一个小区，A栋有16楼，B栋也有16楼，A栋和B栋就是blockIdx，而16就是threadIdx啦<br>图中的横坐标就是：<br>$$<br>ix=threadIdx.x+blockIdx.x \times blockDim.x<br>$$<br>纵坐标是：<br>$$<br>iy=threadIdx.y+blockIdx.y \times blockDim.y<br>$$<br>这样我们就得到了每个线程的唯一标号，并且在运行时kernel是可以访问这个标号的。前面讲过CUDA每一个线程执行相同的代码，也就是异构计算中说的多线程单指令，如果每个不同的线程执行同样的代码，又处理同一组数据，将会得到多个相同的结果，显然这是没意义的，为了让不同线程处理不同的数据，CUDA常用的做法是让不同的线程对应不同的数据，也就是用线程的全局标号对应不同组的数据。<br>设备内存或者主机内存都是线性存在的，比如一个二维矩阵 $(8\times 6)$，存储在内存中是这样的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/memory.png" alt=""></p>
+<h2 id="使用块和线程建立矩阵索引"><a href="#使用块和线程建立矩阵索引" class="headerlink" title="使用块和线程建立矩阵索引"></a>使用块和线程建立矩阵索引</h2><p>多线程的优点就是每个线程处理不同的数据计算，那么怎么分配好每个线程处理不同的数据，而不至于多个不同的线程处理同一个数据，或者避免不同的线程没有组织的乱访问内存。如果多线程不能按照组织合理的干活，那么就相当于一群没训练过的哈士奇拉雪橇，往不同的方向跑，那么是没办法前进的，必须有组织，有规则的计算才有意义。<br>我们的线程模型前面2.0中已经有个大概的介绍，但是下图可以非常形象的反应线程模型，不过注意硬件实际的执行和存储不是按照图中的模型来的，大家注意区分：<br><img src="./cuda_thread.png" alt=""><br>这里(ix,iy)就是整个线程模型中任意一个线程的索引，或者叫做全局地址，局部地址当然就是(threadIdx.x,threadIdx.y)了，当然这个局部地址目前还没有什么用处，他只能索引线程块内的线程，不同线程块中有相同的局部索引值，比如同一个小区，A栋有16楼，B栋也有16楼，A栋和B栋就是blockIdx，而16就是threadIdx啦<br>图中的横坐标就是：<br>$$<br>ix=threadIdx.x+blockIdx.x \times blockDim.x<br>$$<br>纵坐标是：<br>$$<br>iy=threadIdx.y+blockIdx.y \times blockDim.y<br>$$<br>这样我们就得到了每个线程的唯一标号，并且在运行时kernel是可以访问这个标号的。前面讲过CUDA每一个线程执行相同的代码，也就是异构计算中说的多线程单指令，如果每个不同的线程执行同样的代码，又处理同一组数据，将会得到多个相同的结果，显然这是没意义的，为了让不同线程处理不同的数据，CUDA常用的做法是让不同的线程对应不同的数据，也就是用线程的全局标号对应不同组的数据。<br>设备内存或者主机内存都是线性存在的，比如一个二维矩阵 $(8\times 6)$，存储在内存中是这样的：<br><img src="./memory.png" alt=""></p>
 <p>我们要做管理的就是：</p>
 <ul>
 <li>线程和块索引（来计算线程的全局索引）</li>
@@ -513,15 +513,15 @@
 <li>(ix,iy)对应的线性内存的位置</li>
 </ul>
 <p>线性位置的计算方法是：<br>$$<br>idx=ix+iy*nx<br>$$<br>我们上面已经计算出了线程的全局坐标，用线程的全局坐标对应矩阵的坐标，也就是说，线程的坐标(ix,iy)对应矩阵中(ix,iy)的元素，这样就形成了一一对应，不同的线程处理矩阵中不同的数据，举个具体的例子，ix=10,iy=10的线程去处理矩阵中(10,10)的数据，当然你也可以设计别的对应模式，但是这种方法是最简单出错可能最低的。<br>我们接下来的代码来输出每个线程的标号信息：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"freshman.h"</span></span></span><br><span class="line"></span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">printThreadIndex</span><span class="params">(<span class="keyword">float</span> *A,<span class="keyword">const</span> <span class="keyword">int</span> nx,<span class="keyword">const</span> <span class="keyword">int</span> ny)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> ix=threadIdx.x+blockIdx.x*blockDim.x;</span><br><span class="line">  <span class="keyword">int</span> iy=threadIdx.y+blockIdx.y*blockDim.y;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> idx=iy*nx+ix;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"thread_id(%d,%d) block_id(%d,%d) coordinate(%d,%d)"</span></span><br><span class="line">          <span class="string">"global index %2d ival %2d\n"</span>,threadIdx.x,threadIdx.y,</span><br><span class="line">          blockIdx.x,blockIdx.y,ix,iy,idx,A[idx]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  initDevice(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">int</span> nx=<span class="number">8</span>,ny=<span class="number">6</span>;</span><br><span class="line">  <span class="keyword">int</span> nxy=nx*ny;</span><br><span class="line">  <span class="keyword">int</span> nBytes=nxy*<span class="keyword">sizeof</span>(<span class="keyword">float</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//Malloc</span></span><br><span class="line">  <span class="keyword">float</span>* A_host=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nBytes);</span><br><span class="line">  initialData(A_host,nxy);</span><br><span class="line">  printMatrix(A_host,nx,ny);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//cudaMalloc</span></span><br><span class="line">  <span class="keyword">float</span> *A_dev=<span class="literal">NULL</span>;</span><br><span class="line">  CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;A_dev,nBytes));</span><br><span class="line"></span><br><span class="line">  cudaMemcpy(A_dev,A_host,nBytes,cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">4</span>,<span class="number">2</span>)</span></span>;</span><br><span class="line">  dim3 grid((nx-1)/block.x+1,(ny-1)/block.y+1);</span><br><span class="line"></span><br><span class="line">  printThreadIndex&lt;&lt;&lt;grid,block&gt;&gt;&gt;(A_dev,nx,ny);</span><br><span class="line"></span><br><span class="line">  CHECK(cudaDeviceSynchronize());</span><br><span class="line">  cudaFree(A_dev);</span><br><span class="line">  <span class="built_in">free</span>(A_host);</span><br><span class="line"></span><br><span class="line">  cudaDeviceReset();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这段代码输出了一组我们随机生成的矩阵，并且核函数打印自己的线程标号，注意，核函数能调用printf这个特性是CUDA后来加的，最早的版本里面不能printf，输出结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/printf.png" alt=""><br>由于截图不完全，上面有一段打印信息没贴全，但是我们可以知道每一个线程已经对应到了不同的数据，接着我们就要用这个方法来进行计算了，最简单的当然就是二维矩阵加法啦。</p>
+<p>这段代码输出了一组我们随机生成的矩阵，并且核函数打印自己的线程标号，注意，核函数能调用printf这个特性是CUDA后来加的，最早的版本里面不能printf，输出结果：<br><img src="./printf.png" alt=""><br>由于截图不完全，上面有一段打印信息没贴全，但是我们可以知道每一个线程已经对应到了不同的数据，接着我们就要用这个方法来进行计算了，最简单的当然就是二维矩阵加法啦。</p>
 <h2 id="二维矩阵加法"><a href="#二维矩阵加法" class="headerlink" title="二维矩阵加法"></a>二维矩阵加法</h2><p>我们利用上面的线程与数据的对应完成了下面的核函数：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumMatrix</span><span class="params">(<span class="keyword">float</span> * MatA,<span class="keyword">float</span> * MatB,<span class="keyword">float</span> * MatC,<span class="keyword">int</span> nx,<span class="keyword">int</span> ny)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ix=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> iy=threadIdx.y+blockDim.y*blockIdx.y;</span><br><span class="line">    <span class="keyword">int</span> idx=ix+iy*ny;</span><br><span class="line">    <span class="keyword">if</span> (ix&lt;nx &amp;&amp; iy&lt;ny)</span><br><span class="line">    &#123;</span><br><span class="line">      MatC[idx]=MatA[idx]+MatB[idx];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>下面我们调整不同的线程组织形式，测试一下不同的效率并保证得到正确的结果，但是什么时候得到最好的效率是后面要考虑的，我们要做的就是用各种不同的相乘组织形式得到正确结果.</p>
 <h2 id="二维网格和二维块"><a href="#二维网格和二维块" class="headerlink" title="二维网格和二维块"></a>二维网格和二维块</h2><p>首先来看二维网格二维模块的代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2d block and 2d grid</span></span><br><span class="line"><span class="function">dim3 <span class="title">block_0</span><span class="params">(dimx,dimy)</span></span>;</span><br><span class="line">dim3 grid_0((nx-1)/block_0.x+1,(ny-1)/block_0.y+1);</span><br><span class="line">iStart=cpuSecond();</span><br><span class="line">sumMatrix&lt;&lt;&lt;grid_0,block_0&gt;&gt;&gt;(A_dev,B_dev,C_dev,nx,ny);</span><br><span class="line">CHECK(cudaDeviceSynchronize());</span><br><span class="line">iElaps=cpuSecond()-iStart;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"GPU Execution configuration&lt;&lt;&lt;(%d,%d),(%d,%d)&gt;&gt;&gt; Time elapsed %f sec\n"</span>,</span><br><span class="line">      grid_0.x,grid_0.y,block_0.x,block_0.y,iElaps);</span><br><span class="line">CHECK(cudaMemcpy(C_from_gpu,C_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line">checkResult(C_host,C_from_gpu,nxy);</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/2_2.png" alt=""><br>红色框内是运行结果，用cpu写一个矩阵计算，然后比对结果，发现我们的运算结果是正确的，用时0.002152秒。</p>
+<p>运行结果：<br><img src="./2_2.png" alt=""><br>红色框内是运行结果，用cpu写一个矩阵计算，然后比对结果，发现我们的运算结果是正确的，用时0.002152秒。</p>
 <h2 id="一维网格和一维块"><a href="#一维网格和一维块" class="headerlink" title="一维网格和一维块"></a>一维网格和一维块</h2><p>接着我们使用一维网格一维块：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1d block and 1d grid</span></span><br><span class="line">dimx=<span class="number">32</span>;</span><br><span class="line"><span class="function">dim3 <span class="title">block_1</span><span class="params">(dimx)</span></span>;</span><br><span class="line">dim3 grid_1((nxy-1)/block_1.x+1);</span><br><span class="line">iStart=cpuSecond();</span><br><span class="line">sumMatrix&lt;&lt;&lt;grid_1,block_1&gt;&gt;&gt;(A_dev,B_dev,C_dev,nx*ny ,<span class="number">1</span>);</span><br><span class="line">CHECK(cudaDeviceSynchronize());</span><br><span class="line">iElaps=cpuSecond()-iStart;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"GPU Execution configuration&lt;&lt;&lt;(%d,%d),(%d,%d)&gt;&gt;&gt; Time elapsed %f sec\n"</span>,</span><br><span class="line">      grid_1.x,grid_1.y,block_1.x,block_1.y,iElaps);</span><br><span class="line">CHECK(cudaMemcpy(C_from_gpu,C_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line">checkResult(C_host,C_from_gpu,nxy);</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/1_1.png" alt=""><br>同样运行结果是正确的。</p>
+<p>运行结果：<br><img src="./1_1.png" alt=""><br>同样运行结果是正确的。</p>
 <h2 id="二维网格和一维块"><a href="#二维网格和一维块" class="headerlink" title="二维网格和一维块"></a>二维网格和一维块</h2><p>二维网格一维块：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2d block and 1d grid</span></span><br><span class="line">dimx=<span class="number">32</span>;</span><br><span class="line"><span class="function">dim3 <span class="title">block_2</span><span class="params">(dimx)</span></span>;</span><br><span class="line">dim3 grid_2((nx-1)/block_2.x+1,ny);</span><br><span class="line">iStart=cpuSecond();</span><br><span class="line">sumMatrix&lt;&lt;&lt;grid_2,block_2&gt;&gt;&gt;(A_dev,B_dev,C_dev,nx,ny);</span><br><span class="line">CHECK(cudaDeviceSynchronize());</span><br><span class="line">iElaps=cpuSecond()-iStart;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"GPU Execution configuration&lt;&lt;&lt;(%d,%d),(%d,%d)&gt;&gt;&gt; Time elapsed %f sec\n"</span>,</span><br><span class="line">      grid_2.x,grid_2.y,block_2.x,block_2.y,iElaps);</span><br><span class="line">CHECK(cudaMemcpy(C_from_gpu,C_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line">checkResult(C_host,C_from_gpu,nxy);</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-2-3-组织并行线程/2_1.png" alt=""></p>
+<p>运行结果：<br><img src="./2_1.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>用不同的线程组织形式会得到正确结果，但是效率有所区别：</p>
 <table>
 <thead>
@@ -556,7 +556,6 @@
 <li>一个给定的核函数，通过调整网格和线程块大小可以得到更好的效果</li>
 </ul>
 <p>第三章的执行模型，我们才会深入到硬件层面，追寻影响效率的根本原因。<br>代码库中有完整代码：<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a></p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-2-3-组织并行线程" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-2-3-组织并行线程</a>转载请标明出处</p>
 
       
     </div>
@@ -791,7 +790,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1903,7 +1902,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1958,23 +1957,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍继期望之后分布的另一个重要数学性质，方差Keywords: Variance,Standard Deviation">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-3-Variance/stock_price.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-3-Variance/4_6.png">
-<meta property="og:updated_time" content="2018-10-04T15:19:38.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-4-3-Variance/stock_price.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-4-3-Variance/4_6.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】4-3:方差(Variance)">
 <meta name="twitter:description" content="Abstract: 本文介绍继期望之后分布的另一个重要数学性质，方差Keywords: Variance,Standard Deviation">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-3-Variance/stock_price.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-4-3-Variance/stock_price.png">
 
 
 
@@ -500,7 +500,7 @@
 <p>如果我虚度光阴，那就请结束我的一生。如果你用奉承掐媚愚弄我，那我便自得取乐，如果你用荣华富贵诱惑我，那即便我的末日来临，我也要赌个输赢！</p>
 </blockquote>
 <p>虽然期望很有用，但是并不能够完全的反应分布的信息，这么思考，首先，一个分布是一个公式确定的，这个公式的结构，和参数，如果能用一个参数全部概括，那么我们就有了一个超级模型一样的东西，这显然是不存在的，所以我们要用更多的数字特征来描述，代表一个分布的样子。<br>本文我们就介绍一款特征可以表示分布的离散程度（英文叫 “spread out”）——方差，他的衍生小弟叫做标准差是他的平方根，目前还不知道有啥特殊用途。</p>
-<p>先举个例子，股票。。<br>一个股波动范围在 $[25,35]$ 之间，均匀分布，第二个股分布在 $[15,45]$ 之间的均匀分布。<br>那么其图像显示如下：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-3-Variance/stock_price.png" alt=""></p>
+<p>先举个例子，股票。。<br>一个股波动范围在 $[25,35]$ 之间，均匀分布，第二个股分布在 $[15,45]$ 之间的均匀分布。<br>那么其图像显示如下：<br><img src="./stock_price.png" alt=""></p>
 <p>可见这个图像上，均值一致，都是30，但是分布有着明显区别，我们开始介绍我们的主角——“方差”</p>
 <h2 id="方差和标准差的定义-Definitions-of-the-Variance-and-the-Standard-Deviation"><a href="#方差和标准差的定义-Definitions-of-the-Variance-and-the-Standard-Deviation" class="headerlink" title="方差和标准差的定义 Definitions of the Variance and the Standard Deviation"></a>方差和标准差的定义 Definitions of the Variance and the Standard Deviation</h2><blockquote>
 <p>Definition Variance/Standard Deviation.Let $X$ be a random variable with finite mean $\mu=E(X)$ ,The variance of $X$ denoted by $Var(x)$ ,is defined as follows:<br>$$<br>Var(X)=E[(X-\mu)^2]<br>$$</p>
@@ -540,7 +540,7 @@
 <blockquote>
 <p>Theorem For constant $a$ and $b$ let $Y=aX+b$ Then<br>$$<br>Var(Y)=a^2Var(X)<br>$$<br>and $\sigma_Y=|a|\sigma_X$<br>定理表明线性关系下，随机变量的方差的变化<br>证明：令 $\mu=E(X)$ 那么根据上一篇我们有 $E(Y)=aE(X)+b$<br>$$<br>\begin{aligned}<br>Var(Y) &amp; =E[(aX+b-a\mu-b)^2]=E[(aX-a\mu)^2]\\<br>&amp; =a^2E[(X-\mu)^2]=a^2Var(X)<br>\end{aligned}<br>$$</p>
 </blockquote>
-<p>求平方根就能得到关于标准差的公式。<br>当线性变换中 $a=1$ 的时候就变成给分布搬家了，而其形状完全不变：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-4-3-Variance/4_6.png" alt=""></p>
+<p>求平方根就能得到关于标准差的公式。<br>当线性变换中 $a=1$ 的时候就变成给分布搬家了，而其形状完全不变：<br><img src="./4_6.png" alt=""></p>
 <p>图上就是搬家计算了，图例中最后一个是错的，应该是 $x-3$</p>
 <p>根据上面定理还能推导出一些其他关系式，比如说：<br>$$<br>Var(-x)=Var(x)<br>$$</p>
 <blockquote>
@@ -560,7 +560,6 @@
 </blockquote>
 <p>换句话说，IQR就是四分之一分位数，和四分之三分位数之间的距离。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>继期望过后，我们用期望引申出了一个更复杂的，刻画分布另一个性质的期望。<br>下几篇还是期望，我们本章就叫期望。<br>待续</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-4-3-Variance" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-4-3-Variance</a>转载请标明出处</p>
 
       
     </div>
@@ -793,7 +792,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1905,7 +1904,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1960,23 +1959,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

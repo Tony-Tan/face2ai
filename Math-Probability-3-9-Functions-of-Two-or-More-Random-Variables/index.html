@@ -116,12 +116,12 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍多随机变量的函数Keywords: 离散多随机变量的函数，连续多随机变量的函数，卷积">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables/a_y.png">
-<meta property="og:updated_time" content="2018-10-04T15:18:41.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables/a_y.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】3-9:多随机变量函数(Functions of Two or More Random Variables)">
 <meta name="twitter:description" content="Abstract: 本文介绍多随机变量的函数Keywords: 离散多随机变量的函数，连续多随机变量的函数，卷积">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables/a_y.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables/a_y.png">
 
 
 
@@ -519,7 +519,7 @@
 <li>Q.E.D</li>
 </ol>
 <h2 id="有连续联合分布的多随机变量-Random-Variables-with-a-Continuous-Joint-Distribution"><a href="#有连续联合分布的多随机变量-Random-Variables-with-a-Continuous-Joint-Distribution" class="headerlink" title="有连续联合分布的多随机变量 Random Variables with a Continuous Joint Distribution"></a>有连续联合分布的多随机变量 Random Variables with a Continuous Joint Distribution</h2><p>先来个🌰，不然全文没有例子有点不像概率论学习该有的样子，顺便补充一句，博客只能是总结精华部分，如果想和熟练的掌握，需要去做大量的练习，也就是我们这里的例子也好课后习题也好，反正要练习。<br>排队的🌰 :<br>假设队伍里面的前两个客户计划同时离开，$X_i$ 表示第 $i$ 为客户用的时间 $i=1,2$ 假设 $X_1$ 和 $X_2$ 是独立的随机变量，并有相同的分布: $f(x)=2e^{-2x}$ 其中 $x&gt;0$ 因为两个客户想同时离开（也就是先完成的人要等待没完成的人），所以我们感兴趣的是他们用的总时间：$Y=X_1+X_2$ 所以 $Y$ 的p.d.f. 是我们要求的：</p>
-<p>$$<br>\text{for each } y\text{,let }\\<br>A_y={(x_1,x_2):x_1+x_2\leq y}\\<br>$$<br>那么当 $Y\leq y$ 当且仅当 $(X_1,X_2)\in A_y$ 集合 $A_y$ 如图所示<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables/a_y.png" alt=""></p>
+<p>$$<br>\text{for each } y\text{,let }\\<br>A_y={(x_1,x_2):x_1+x_2\leq y}\\<br>$$<br>那么当 $Y\leq y$ 当且仅当 $(X_1,X_2)\in A_y$ 集合 $A_y$ 如图所示<br><img src="./a_y.png" alt=""></p>
 <p>如果我们让 $G(y)$ 来定义 $Y$ 的 c.d.f. 那么对于 $y&gt;0$ 我们有：<br>$$<br>G(y)=Pr((X_1,X_2)\in A_y)=\int^{y}_{0}\int^{y-x_2}_{0}4e^{-2x_1-2x_2}dx_1dx_2\\<br>=\int^{y}_{0}2e^{-2x_2}[1-e^{-2(y-x_2)}]dx_2=\int^{y}_{0}[2e^{-2x_2-2e^{-2y}}]dx_2\\<br>=1-e^{-2y}-2ye^{-2y}<br>$$</p>
 <p>上面这个例子用到的主要数学技巧是微积分，多元微积分，而得到积分表达式却用到了概率的知识，配合示意图，这个例子变得很清晰，但是其原理还是值得我们研究的。</p>
 <blockquote>
@@ -551,7 +551,6 @@
 <p>如果我们把$X_i$ 的p.d.f. 写成 $f_i$  其中 $i=1,2$ 的话那么 $Y=X_1+X_2$ 的 p.d.f.是：<br>$$<br>g(y)=\int^{\infty}_{-\infty}f_1(y-t)f_2(t)dt<br>$$<br>其中t是个哑变量，或者叫做临时变量。<br>同理，交换$X_1$ 和 $X_2$ 能得到：<br>$$<br>g(y)=\int^{\infty}_{-\infty}f_1(t)f_2(y-t)dt<br>$$</p>
 <p>怎么样，像卷积了吧，不过不要忘了这是双连续随机变量的线性函数变换后的pd.f.的关系！这句话有点复杂？那就好好多读几遍。<br>本想举个🌰就结束，结果发现这几个🌰是连续的，所以这里就不再多写了，大家可以参考’Probability and Statistics 4th’中的例子，都非常精彩</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文扩展上文介绍了多随机变量的函数，从离散到连续，遵循和单变量类似的法则，但是用处却大大扩展了，下一篇开始就要进入第四章了，我们一起加油。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-3-9-Functions-of-Two-or-More-Random-Variables</a>转载请标明出处</p>
 
       
     </div>
@@ -796,7 +795,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1908,7 +1907,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1963,23 +1962,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

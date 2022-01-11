@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 《30天自制操作系统》GDT和IDT介绍Keywords: 《30天自制操作系统》，Macbook，GDT，IDT">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】 GDT和IDT">
 <meta name="twitter:description" content="Abstract: 《30天自制操作系统》GDT和IDT介绍Keywords: 《30天自制操作系统》，Macbook，GDT，IDT">
@@ -487,7 +487,6 @@
 <h1 id="GDT和IDT"><a href="#GDT和IDT" class="headerlink" title="GDT和IDT"></a>GDT和IDT</h1><p>全局描述表（GDT ，Global Descriptor Table）：首先看到全局说明这货很重要，应该是掌握了一些，其次这个表是个数组，所以，这是一个重要的数据结构。<br>GDT数组中装的是段描述符【段地址，段的最大长度，访问权限】。因为这个描述符太大了，没有这么大的寄存器（64位），所以就把这个描述符放在内存里，成为了重要的GDT，intel的大叔们设计了一个寄存器GDTR（LGDT为装入此寄存器指令）用来存放GDT的入口地址，因为GDT可以设计到内存的任何位置，而GDTR可以帮助快速定位，这样段寄存器的13位就能索引到GDT了。GDT是保护模式必备的数据结构。能够很好的划分内存，控制程序的内存方位（不然会出大问题）。<br>中断描述符表（IDT Interrupt Descriptor Table）：之前已经见识过中断的强大了，这个描述符表是管理中断的，很明显是高手中的高手，其实他是一个8字节的描述符数组，也是一种重要的数据结构。IDT只要保存256个描述符就够了，因为最多也不会有超过256种中断，甚至IDT可以少于256，只要够用就行。同样，IDT可以放在内存的各个角落，只要你愿意，但是一定要是线性的，不然就找不到了（这是个数组，当然线性了），IDT也有专门的寄存器存放入口地址，叫IDTR，这个寄存器中含有IDT表32位的基地址（高32位）和16位的长度（限长）值（低16位）。IDT表基地址应该对齐在8<a href="http://baike.baidu.com/view/60408.htm" target="_blank" rel="noopener">字节</a>边界上以提高处理器的访问效率。LIDT和SIDT指令分别用于加载和保存IDTR寄存器的内容。LIDT指令用于把内存中的限长值和基地址操作数加载到IDTR寄存器中。该指令仅能由当前<a href="http://baike.baidu.com/view/2188561.htm" target="_blank" rel="noopener">特权级</a>CPL是0的代码执行，通常被用于创建IDT时的操作<a href="http://baike.baidu.com/view/811790.htm" target="_blank" rel="noopener">系统初始化</a>代码中。如果有越界访问IDT的现象会触发一个保护性异常。</p>
 <p>中断向量表：实模式下的前1K个字节为中断向量表，每项有四字节（2字节的段地址，2字节的偏移地址，来定位实模式下的1M空间），用来指向中断处理程序的位置，但是在保护模式下，4字节不够用，需要8字节，所以改名IDT，而且位置也不局限于开始的0x00000处，使用全新的方式完成中断处理。</p>
 <p>IDT中的每一项叫“门”（门描述符），很明显是传送门。。哈哈。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--第5天" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–第5天</a>转载请标明出处</p>
 
       
     </div>
@@ -712,7 +711,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1824,7 +1823,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1879,23 +1878,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

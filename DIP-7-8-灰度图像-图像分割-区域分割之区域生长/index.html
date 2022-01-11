@@ -116,20 +116,20 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第57天Keywords: 区域分割,区域生长">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102947344.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102957219.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103121036.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103016999.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103140802.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103152174.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103208850.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103222111.jpeg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103231315.jpeg">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102947344.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102957219.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103121036.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103016999.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103140802.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103152174.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103208850.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103222111.jpeg">
+<meta property="og:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103231315.jpeg">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.166Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】7.8:灰度图像-图像分割 区域分割之区域生长">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第57天Keywords: 区域分割,区域生长">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102947344.jpeg">
+<meta name="twitter:image" content="https://face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102947344.jpeg">
 
 
 
@@ -506,9 +506,8 @@
 </ol>
 <p>整体思路是以种子点为中心，遍历图，深度优先或广度优先没有没有关系，判断中心点和其邻域是否满足判别式，注意，此处最终要的点是判别式，设计判别式可以针对不同的应用，下面代码中设计的判别式是个简单的范围判别式，也就是说如果被判别的像素灰度值，在一定范围内，则为真，否则为假，范围是由种子点和附加参数param一起产生的。</p>
 <p>#代码<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*区域生长，设置一个种子点x（灰度值为x_v），然后以种子点为中心</span></span><br><span class="line"><span class="comment"> *向四周进行图搜索，如果点y（灰度值为y_v）,邻域满足param+x_v&gt;y_v&gt;x_v-param（条件1）</span></span><br><span class="line"><span class="comment"> *则此点与种子点归为一个区域，以此递归，条件1可以根据不同的需要自行设置其他.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//递归遍历邻域，并判断条件是否成立</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">findGrowRegion</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,<span class="keyword">int</span> seed_x,<span class="keyword">int</span> seed_y,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">int</span> regionNum,<span class="keyword">double</span> value,<span class="keyword">double</span> param)</span></span>&#123;</span><br><span class="line">    dst[seed_y*width+seed_x]=(<span class="keyword">double</span>)regionNum;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">-1</span>;j&lt;<span class="number">2</span>;j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">-1</span>;i&lt;<span class="number">2</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(seed_x&gt;=<span class="number">0</span>&amp;&amp;seed_y&gt;=<span class="number">0</span>&amp;&amp;seed_x&lt;width&amp;&amp;seed_y&lt;height&amp;&amp;(j!=<span class="number">0</span>||i!=<span class="number">0</span>))&#123;</span><br><span class="line">                <span class="keyword">if</span>(src[(j+seed_y)*width+i+seed_x]&gt;=value-param</span><br><span class="line">                   &amp;&amp;src[(j+seed_y)*width+i+seed_x]&lt;=value+param</span><br><span class="line">                   &amp;&amp;dst[(j+seed_y)*width+i+seed_x]==<span class="number">0.0</span>)</span><br><span class="line">                    findGrowRegion(src, dst, i+seed_x, j+seed_y, width, height, regionNum, value,param);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RegionGrow</span><span class="params">(<span class="keyword">double</span> *src,<span class="keyword">double</span> *dst,Position * position,<span class="keyword">int</span> p_size,<span class="keyword">int</span> width,<span class="keyword">int</span> height,<span class="keyword">double</span> param)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> * dsttemp=(<span class="keyword">double</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">double</span>)*width*height);</span><br><span class="line">    Zero(dsttemp, width, height);</span><br><span class="line">    <span class="keyword">int</span> regionNum=<span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p_size;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> x=position[i].x;</span><br><span class="line">        <span class="keyword">int</span> y=position[i].y;</span><br><span class="line">        findGrowRegion(src, dsttemp, x,y, width, height, regionNum,src[y*width+x],param);</span><br><span class="line">        regionNum+=<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    matrixCopy(dsttemp, dst, width, height);</span><br><span class="line">    <span class="built_in">free</span>(dsttemp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h2><p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102947344.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310102957219.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103121036.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103016999.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103140802.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103152174.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103208850.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103222111.jpeg" alt=""><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-7-8-灰度图像-图像分割-区域分割之区域生长/20150310103231315.jpeg" alt=""></p>
+<h2 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h2><p><img src="./20150310102947344.jpeg" alt=""><br><img src="./20150310102957219.jpeg" alt=""><br><img src="./20150310103121036.jpeg" alt=""><br><img src="./20150310103016999.jpeg" alt=""><br><img src="./20150310103140802.jpeg" alt=""><br><img src="./20150310103152174.jpeg" alt=""><br><img src="./20150310103208850.jpeg" alt=""><br><img src="./20150310103222111.jpeg" alt=""><br><img src="./20150310103231315.jpeg" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>区域生长算法实现较简单，但如果递归区域面积过大，可能造成程序卡死，可能是栈空间不够或者别的，这个需要处理下，这个算法的缺点是需要设置种子点，本算法的优点也是可以设置种子点，这样灵活但不够智能，算法执行速度较快。<br>待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长" target="_blank" rel="noopener">https://www.face2ai.com/DIP-7-8-灰度图像-图像分割-区域分割之区域生长</a>转载请标明出处</p>
 
       
     </div>
@@ -757,7 +756,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1869,7 +1868,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1924,23 +1923,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

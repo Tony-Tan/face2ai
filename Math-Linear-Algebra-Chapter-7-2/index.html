@@ -116,12 +116,12 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本篇有点长，内容及其丰富，包括线性变换的矩阵形式以及相关例子（导数和积分），然后详细的讲解了下怎么构造矩阵，也就是矩阵的来源，之后是矩阵相乘的原理，基的变换，最后一波大应用，小波变换和离散傅里叶变换Keywords: Matrix,Matrix for the Derivate,Matrix for the Integral,Construction of the Matrix">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-2/compression.png">
-<meta property="og:updated_time" content="2019-03-15T05:26:07.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-7-2/compression.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)">
 <meta name="twitter:description" content="Abstract: 本篇有点长，内容及其丰富，包括线性变换的矩阵形式以及相关例子（导数和积分），然后详细的讲解了下怎么构造矩阵，也就是矩阵的来源，之后是矩阵相乘的原理，基的变换，最后一波大应用，小波变换和离散傅里叶变换Keywords: Matrix,Matrix for the Derivate,Matrix for the Integral,Construction of the Matrix">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-2/compression.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-7-2/compression.png">
 
 
 
@@ -543,10 +543,9 @@
 <p>举第二个🌰 ：<br>输入基 $\vec{v_1}=\begin{bmatrix}1\\0\end{bmatrix},\vec{v_2}=\begin{bmatrix}0\\1\end{bmatrix}$ 输出基是 $\vec{w_1}=\begin{bmatrix}3\\7\end{bmatrix},\vec{w_2}=\begin{bmatrix}2\\5\end{bmatrix}$<br>那么对应的矩阵中：$\vec{v_1}=a_{11}\vec{w_1}+a_{21}\vec{w_2}$ 这样就可以解得$a_{11}=5,a_{21}=-7$,同样的过程解得$a_{12}=-2,a_{22}=5$ ，综合上述换基矩阵A:<br>$$<br>B=\begin{bmatrix}3&amp;-2\newline -7&amp;5\end{bmatrix}<br>$$</p>
 <p>可以看出$AB=BA=I$ 互逆的两个换基操作得到对应的互逆矩阵，互逆的线性变换可以保证one-side 逆（上面非方阵的结论）。<br>换基矩阵在同一空间下的基的互相转换。</p>
 <h2 id="小波变换-换成小波基"><a href="#小波变换-换成小波基" class="headerlink" title="小波变换 = 换成小波基"></a>小波变换 = 换成小波基</h2><p>标题小波变换，等于换成小波基，这里对小波的介绍并不多只是介绍了最简单的haar小波基的简单介绍，haar小波基主要用于数据压缩，压缩图像等数据，原理和前面的SVD压缩图像差不多，只是那个基是$U$ 和$V^T$ 中的特征向量的乘积，不同的奇异值代表这个向量在原始数据中的重要性，小波基与他不同点在于小波基的基是确定，压缩过程基本一致，无损的换基操作，然后丢弃影响小的部分（有损）完成压缩，然后对压缩后的数据进行逆变换恢复重建原始数据，压缩前后数据肯定是有损失的，那么这项研究的目的就是高压缩比例，小的数据损失。</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-7-2/compression.png" alt=""></p>
+<p><img src="./compression.png" alt=""></p>
 <h2 id="傅里叶变换-换成傅里叶基"><a href="#傅里叶变换-换成傅里叶基" class="headerlink" title="傅里叶变换 = 换成傅里叶基"></a>傅里叶变换 = 换成傅里叶基</h2><p>离散傅里叶变换包含虚数部分，他的基是：<br>$$<br>F=<br>\begin{bmatrix}<br>1&amp;1&amp;1&amp;1\\<br>1&amp;i&amp;i^2&amp;i^3\\<br>1&amp;i^2&amp;i^4&amp;i^6\\<br>1&amp;i^3&amp;i^6&amp;i^9\\<br>\end{bmatrix}<br>$$<br>这里举了两个应用的例子，说的都不是很详细，只是让我们记住，线性代数在很多地方非常有用，不然人家怎么称得上基础。</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>本文历时24小时终于完成，可能稍微有点点混乱，但是最精彩的部分是构造线性变换矩阵那部分，如何通过空间中的向量和基的关系来表示变换前后的关系，下一篇简答介绍下线性变换在伪逆和对角化中的意义，然后基础理论基本上就算讲完了，后面一波应用等着我们呢，应该可以快些了。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-7-2" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-7-2</a>转载请标明出处</p>
 
       
     </div>
@@ -613,14 +612,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-1/" rel="bookmark">【线性代数】7-1:线性变换思想(The Idea of a Linear Transformation)</a></div>
       
     </li>
   
@@ -803,7 +802,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1915,7 +1914,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1970,23 +1969,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

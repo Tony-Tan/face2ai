@@ -116,12 +116,12 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍计算机在计算中有可能引发的有效数字缺失Keywords: 有效数字缺失">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-4-Significant-Digit/re-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-4-Significant-Digit/re-2.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数值分析】0.4 有效数字缺失">
 <meta name="twitter:description" content="Abstract: 本文介绍计算机在计算中有可能引发的有效数字缺失Keywords: 有效数字缺失">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-4-Significant-Digit/re-2.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Numerical-Analysis-0-4-Significant-Digit/re-2.png">
 
 
 
@@ -592,10 +592,9 @@
 </tbody>
 </table>
 <p>从 0.00000001开始 $E_1$ 崩溃，而 $E_2$ 保持稳定。<br>到0.00000001崩溃的原因是cos在这个位置截断后就是1.0：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-4-Significant-Digit/re-2.png" alt="re-2"></p>
+<p><img src="./re-2.png" alt="re-2"></p>
 <p>同样，我们这套方法的核心就是不要见相近的数字，只要有减法就要小心，注意前后两个数是否相近，另一个例子是二次方程的求解，对于公式法我们必须要计算：<br>$$<br>x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}<br>$$<br>其中要注意的是<br>$$<br>x_1=\frac{-b+\sqrt{b^2-4ac}}{2a}<br>$$<br>对应的方法就是把这个计算改成：<br>$$<br>x_1=\frac{(-b+\sqrt{b^2-4ac})\cdot(+b+\sqrt{b^2-4ac})}{2a(+b+\sqrt{b^2-4ac})}=\frac{-4ac}{2a(+b+\sqrt{b^2-4ac})}=\frac{-2c}{(b+\sqrt{b^2-4ac})}<br>$$<br>当然这里面还有问题就是 $b^2-4ac$ 的部分依然存在减法<br>而且 $b$ 是负数的时候，依然会存在 $b+\sqrt{b^2-4ac}$ 相近的情况，尤其是 $ac&lt;&lt;b^2$ 的时候，这时候计算最好使用：<br>$$<br>x_1=\frac{-b+\sqrt{b^2-4ac}}{2a}\\<br>x_2=\frac{2c}{-b+\sqrt{b^2-4ac}}<br>$$</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>有效数字可能会带来很小的误差，也可以带来很大的误差，所以，不管什么时候，我们能避免减法就避免减法，尤其减法的两个数字接近的时候，这个时候更危险。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Numerical-Analysis-0-4-Significant-Digit" target="_blank" rel="noopener">https://www.face2ai.com/Math-Numerical-Analysis-0-4-Significant-Digit</a>转载请标明出处</p>
 
       
     </div>
@@ -826,7 +825,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1938,7 +1937,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1993,23 +1992,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

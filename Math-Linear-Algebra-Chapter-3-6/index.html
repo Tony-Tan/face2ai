@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 四个向量空间的dimensions的一些性质Keywords: Dimensions,Four Subspaces">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-6/bigpicture.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-6/fourSpace.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-6/conclusion.png">
-<meta property="og:updated_time" content="2018-10-04T15:06:10.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-3-6/bigpicture.png">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-3-6/fourSpace.png">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-3-6/conclusion.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】3-6:四个子空间的维度(Dimensions of the Four Subspaces)">
 <meta name="twitter:description" content="Abstract: 四个向量空间的dimensions的一些性质Keywords: Dimensions,Four Subspaces">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-6/bigpicture.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-3-6/bigpicture.png">
 
 
 
@@ -497,7 +497,7 @@
         <p><strong>Abstract:</strong> 四个向量空间的dimensions的一些性质<br><strong>Keywords:</strong> Dimensions,Four Subspaces</p>
 <a id="more"></a>
 <h1 id="四个子空间的维度"><a href="#四个子空间的维度" class="headerlink" title="四个子空间的维度"></a>四个子空间的维度</h1><p>这几天在一边完成线性代数的博客一边研究微积分，还有一部分时间在看概率论，这写课程现在感觉看起来很容易，也有可能是公开课讲的比较简单，没有大学本科老师讲的那么深入，所以做起来感觉还没什么阻力，希望花这么多时间补习的结果能帮助后面对机器学习算法和人工智能知识学习有所帮助。<br>痛苦一直在持续，因为我们没有看到光明之前，放弃努力就等于放弃光明，等待和虚度不会得到任何你想要的东西，继续学习，继续努力。</p>
-<h2 id="四个子空间-Four-Subspaces"><a href="#四个子空间-Four-Subspaces" class="headerlink" title="四个子空间(Four Subspaces)"></a>四个子空间(Four Subspaces)</h2><p>本篇应该不长，因为关于矩阵的四个子空间的难点在后面所有章节，我们这张主要讲线性独立，基，维度这些基本概念，同时联系到rank，融合前面elimination的基本知识。<br>上面这句话如果不看前面的文章基本被干晕了，但是如果前面每篇都完全读懂了，这句话就变得非常好理解。<br>线性代数核心问题就是这四个子空间：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-6/bigpicture.png" alt=""><br>矩阵的四个子空间分别是：column space ，row space ，nullspace，left nullspace，<br>左nullspace就是矩阵转置的nullspace：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-6/fourSpace.png" alt=""></p>
+<h2 id="四个子空间-Four-Subspaces"><a href="#四个子空间-Four-Subspaces" class="headerlink" title="四个子空间(Four Subspaces)"></a>四个子空间(Four Subspaces)</h2><p>本篇应该不长，因为关于矩阵的四个子空间的难点在后面所有章节，我们这张主要讲线性独立，基，维度这些基本概念，同时联系到rank，融合前面elimination的基本知识。<br>上面这句话如果不看前面的文章基本被干晕了，但是如果前面每篇都完全读懂了，这句话就变得非常好理解。<br>线性代数核心问题就是这四个子空间：<br><img src="./bigpicture.png" alt=""><br>矩阵的四个子空间分别是：column space ，row space ，nullspace，left nullspace，<br>左nullspace就是矩阵转置的nullspace：<br><img src="./fourSpace.png" alt=""></p>
 <p>对于行空间和列空间，他们的dimensions就是rank，上一篇已经有所说明。<br>nullspace就是free columns的数量n-r，left nullspace就是free rows的数量m-r</p>
 <h3 id="R"><a href="#R" class="headerlink" title="$R$"></a>$R$</h3><p>R是经过消元的矩阵，可以很容易的看出矩阵的rank，假设矩阵A是m by n的规模：<br>1) $N(R)$ 的dimensions是n-r<br>2) $C(R)$ 的dimensions是r<br>3) $C(R^T)$ 的dimensions是m-r</p>
 <h3 id="A"><a href="#A" class="headerlink" title="$A$"></a>$A$</h3><p>对于没elimination的矩阵A与R有相同的row space，但是column space不同，但是elimination改变rows，但是row space不变。column space不同，但是column space的dimension相同都是rank。对于A矩阵的子空间的dimension总结如下</p>
@@ -506,8 +506,7 @@
 </blockquote>
 <p><strong><em>Fundamental Theorem of Linear Algebra ,Part 1</em></strong><br>The column space and row space both have dimension r<br>The nullspaces have dimensions n-r and m-r</p>
 <p>凡是叫fundamental开头的定理都是非常非常重要。</p>
-<h2 id="conclusion"><a href="#conclusion" class="headerlink" title="conclusion"></a>conclusion</h2><p>总结这篇就是简单的总结下A和R的dimensions之间的关系，没有新的知识更像是个总结：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-3-6/conclusion.png" alt=""><br>下章开始研究总结正交，各位加油。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-6" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-6</a>转载请标明出处</p>
+<h2 id="conclusion"><a href="#conclusion" class="headerlink" title="conclusion"></a>conclusion</h2><p>总结这篇就是简单的总结下A和R的dimensions之间的关系，没有新的知识更像是个总结：<br><img src="./conclusion.png" alt=""><br>下章开始研究总结正交，各位加油。</p>
 
       
     </div>
@@ -574,14 +573,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -754,7 +753,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1866,7 +1865,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1921,23 +1920,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍事件的独立，以及派生出来的多事件独立，以及条件独立Keywords: Independent Events，Independent of Several Events，Coditionally Independent Events">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/learn.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/intersect.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/independence.png">
-<meta property="og:updated_time" content="2018-10-04T15:16:03.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-2-2-Independent-Events/learn.jpg">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-2-2-Independent-Events/intersect.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-2-2-Independent-Events/independence.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】2-2:独立事件(Independent Events)">
 <meta name="twitter:description" content="Abstract: 本文介绍事件的独立，以及派生出来的多事件独立，以及条件独立Keywords: Independent Events，Independent of Several Events，Coditionally Independent Events">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/learn.jpg">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-2-2-Independent-Events/learn.jpg">
 
 
 
@@ -497,7 +497,7 @@
         <p><strong>Abstract:</strong> 本文介绍事件的独立，以及派生出来的多事件独立，以及条件独立<br><strong>Keywords:</strong> Independent Events，Independent of Several Events，Coditionally Independent Events</p>
 <a id="more"></a>
 <h1 id="独立事件"><a href="#独立事件" class="headerlink" title="独立事件"></a>独立事件</h1><p>今天想说的废话就是，其实什么行业想做的好都要靠知识，做软件是这样，硬件也是，说相声是，其他行业也是，刚开始可能觉得经验丰富的人可以很顺利的做好任何我们觉得很难的事，过了三五年发现我们自己也可以很顺利的完成了，我们就变得优秀了么？其实不是，时间成本决定了你可以在不太努力的情况下成长，但是这种成长速度不足以让你成为行业顶级人物，当然不是所有人都想做顶级，想做顶级，必须强迫自己去做一些舒适区以外的事情。<br>从根本上思考理解自己做的事，同时有计划的训练才是野蛮生长的最快途径。<br>美国人Noel Tichy提出的理论，图里的3个区可以表示为你想学习的事物的等级:</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/learn.jpg" alt=""></p>
+<p><img src="./learn.jpg" alt=""></p>
 <p>不要停留在舒适区，也不要好高骛远的直接去Panic Zone，那样会死的很惨，多去学习区，这样才能不断的进步。</p>
 <h2 id="独立事件-Independent-Events"><a href="#独立事件-Independent-Events" class="headerlink" title="独立事件 Independent Events"></a>独立事件 Independent Events</h2><p>上一篇我们讲到条件概率，这一篇其实是和上一篇同样的研究两个事件间的关系的，条件概率最朴素的想法就是当一个事件发生了，其对我们关心的事件是否发生有没有影响，有影响与否这都是个条件概率，如果没有影响，我们进一步把这两个事件称之为独立的。<br>独立与互斥，对立等意义都不相同，独立性是概率论的重要基础关系，在独立事件上建立的概率论理论已经很完备了，但是对于非独立事件相关的研究开在继续完善中，很多情况下我们都是假设，或者近似一些事件独立的，来是模型更加简单准确。<br>我们上一篇中说的条件概率，假定我们已知事件B发生，那么事件A发生的概率在此条件下发生的概率是$Pr(A|B)$ 如果我们进一步说，B事件的发生与否对于A事件来说没有什么影响，那么我们就有$Pr(A|B)=Pr(A)$<br>上文中我们有一个很重要的乘法定义（条件概率定义引出的）<br>$$<br>Pr(A|B)=\frac{Pr(A\cap B)}{Pr(B)}\quad where \quad Pr(B)&gt;0\\<br>Pr(A\cap B)=Pr(A|B)Pr(B) \quad where \quad Pr(B)&gt;0<br>$$<br>那么当我们带入$Pr(A|B)=Pr(A)$ 可以得到一个让我们一直使用到去世的关系：<br>$$<br>Pr(A\cap B)=Pr(A)Pr(B)<br>$$<br>以上关系成立的充分必要条件是，事件A和事件B相互独立。</p>
 <h3 id="两个事件独立-Independence-of-Two-Events"><a href="#两个事件独立-Independence-of-Two-Events" class="headerlink" title="两个事件独立 Independence of Two Events"></a>两个事件独立 Independence of Two Events</h3><blockquote>
@@ -506,10 +506,10 @@
 <p>定义是说如果事件A和事件B满足上述关系，那么他们独立，注意，对于数学定义来讲，其条件会完全在定义的条件中体现，如果没有，那么就说明没限制。</p>
 <p>举个🌰 ：<br>两个机器甲和乙，之间没有影响，独立工作，事件A表示甲工作三小时后坏掉$Pr(A)=\frac{1}{4}$，事件B表示乙工作山小时后坏掉$Pr(B)=\frac{1}{3}$，那么，当甲乙同时开始工作三个小时，那么他俩一起坏掉的概率是多少？</p>
 <p>分析：甲乙之间独立，互不影响，所以从原理上满足组成复合事件时互相独立，那么$Pr(A\cap B)=Pr(A)Pr(B)=\frac{1}{4}\times \frac{1}{3}=\frac{1}{12}$</p>
-<h3 id="互斥事件和独立事件-Exclusive-Events-and-independent-Events"><a href="#互斥事件和独立事件-Exclusive-Events-and-independent-Events" class="headerlink" title="互斥事件和独立事件 Exclusive Events and independent Events"></a>互斥事件和独立事件 Exclusive Events and independent Events</h3><p><font color="#ff0000">说一个我之前初学概率时的一个思维误区:</font><br>我一直以为独立在集合上的反映就是不想交，，像这样：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/intersect.png" alt=""><br>这是一种很自然的想法，当题设的条件中用到独立，互不影响地进进行两个实验的时候，我们很自然的把他们理解为两个样本空间，所以打死不会有交集，但事实是我们关心的是这两个试验的一个复合结果产生的样本空间。</p>
+<h3 id="互斥事件和独立事件-Exclusive-Events-and-independent-Events"><a href="#互斥事件和独立事件-Exclusive-Events-and-independent-Events" class="headerlink" title="互斥事件和独立事件 Exclusive Events and independent Events"></a>互斥事件和独立事件 Exclusive Events and independent Events</h3><p><font color="#ff0000">说一个我之前初学概率时的一个思维误区:</font><br>我一直以为独立在集合上的反映就是不想交，，像这样：<br><img src="./intersect.png" alt=""><br>这是一种很自然的想法，当题设的条件中用到独立，互不影响地进进行两个实验的时候，我们很自然的把他们理解为两个样本空间，所以打死不会有交集，但事实是我们关心的是这两个试验的一个复合结果产生的样本空间。</p>
 <p>但事实是这是个明显错误的，当A和B事件作为同一个试验的事件，那么当B发生的时候严重影响A的概率，因为当B发生的时候，A不可能发生，根据<a href="http://face2ai.com/Math-Probability-1-1-Definition-of-Probability/">1-1</a>中的T1，我们可以确定当$Pr(B)\geq 0$ 的时候 $Pr(A|B)=\frac{Pr(A\cap B)}{Pr(B)}=\frac{Pr(\emptyset)}{Pr(B)}=0$<br>这是个对立事件，不是独立事件。</p>
 <p>分析独立事件的定义，我们可以看出独立并不等于不想交，从频率角度的解释是相交部分的面积占事件B的比例，刚好等于事件A面积对整个样本空间的面积比例:</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-2-2-Independent-Events/independence.png" alt=""></p>
+<p><img src="./independence.png" alt=""></p>
 <p>用图像的理解，A的面积与整体S的面积比等于灰色与B面积的比。</p>
 <p>更深入的说，试验甲可能会产生一个包含10个事件 $A_1\dots A_{10}$ 的样本空间，试验乙可能会产生一个包含5个事件 $B_1\dots A_5$ 的样本空间，于是我们组合出来$10\times 5=50$ 个复合事件的样本空间（笛卡尔积，或者使用事件的乘法原理），我们关心的是这50个复合事件中的某个事件的概率；这时才是考虑组成复合事件的基本事件独立与否的时候，而不应该是脱离了复合事件直接分开考虑$A_i$ 和 $B_i$ 之间的独立性。<br>前一篇说过图像只能帮我们初步的感受其大概的意思，分析学方法才能帮助我们从逻辑的角度深入研究，分析方法就是看定义的公式，如果$Pr(A)\neq 0$ 和 $Pr(B)\neq 0$ ，那么交集的概率必然不是0，所以A与B必然有交集。</p>
 <h3 id="补集之间的独立-Independence-of-Complements"><a href="#补集之间的独立-Independence-of-Complements" class="headerlink" title="补集之间的独立 Independence of Complements"></a>补集之间的独立 Independence of Complements</h3><p>如果我们说两个事件独立了，其相交的事件的概率和这两个事件的关系会被确定，同样我们能得到其补集间的关系：</p>
@@ -554,7 +554,6 @@
 </blockquote>
 <p>证明过程不复杂：<br>$$<br>Pr(A_1\cap A_2 \cap B)=Pr(A_1\cap A_2|B)Pr(B)=Pr(A_2|A_1\cap B)Pr(A_1|B)Pr(B)\\<br>then: \quad Pr(A_1\cap A_2|B)=Pr(A_2|A_1\cap B)Pr(A_1|B)\\<br>for: \quad Pr(A_1\cap A_2|B)=Pr(A_1|B)Pr(A_2|B)\\<br>so: \quad Pr(A_1|B)Pr(A_2|B)=Pr(A_2|A_1\cap B)Pr(A_1|B)\\<br>Pr(A_2|A_1\cap B)=Pr(A_2|B)<br>$$</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结就一句话，掌握了这一句就掌握了这一篇的所有，什么是独立，<strong><em>互不影响就是独立</em></strong></p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-2-2-Independent-Events" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-2-2-Independent-Events</a>转载请标明出处</p>
 
       
     </div>
@@ -789,7 +788,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1901,7 +1900,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1956,23 +1955,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -116,21 +116,21 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍CUDA线程束执行的本质的后半部分，包括资源，延迟，同步，扩展性等严重影响性能的线，吞吐量，带宽，占用率，CUDA同步">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_13.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_14.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_15.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_16.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_4.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/devinf.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/excel.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_18.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_13.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_14.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_15.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_16.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_4.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/devinf.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/excel.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_18.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.214Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】3.2 理解线程束执行的本质(Part II)">
 <meta name="twitter:description" content="Abstract: 本文介绍CUDA线程束执行的本质的后半部分，包括资源，延迟，同步，扩展性等严重影响性能的线，吞吐量，带宽，占用率，CUDA同步">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_13.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2/3_13.png">
 
 
 
@@ -512,12 +512,12 @@
 </ul>
 <p>线程束一旦被激活来到片上，那么他就不会再离开SM直到执行结束。<br>每个SM都有32位的寄存器组，每个架构寄存器的数量不一样，其存储于寄存器文件中，为每个线程进行分配，同时，固定数量的共享内存，在线程块之间分配。<br>一个SM上被分配多少个线程块和线程束取决于SM中可用的寄存器和共享内存，以及内核需要的寄存器和共享内存大小。</p>
 <p>这是一个平衡问题，就像一个固定大小的坑，能放多少萝卜取决于坑的大小和萝卜的大小，相比于一个大坑，小坑内可能放十个小萝卜，或者两个大萝卜，SM上资源也是，当kernel占用的资源较少，那么更多的线程（这是线程越多线程束也就越多）处于活跃状态，相反则线程越少。<br>关于寄存器资源的分配：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_13.png" alt=""></p>
+<p><img src="./3_13.png" alt=""></p>
 <p>关于共享内存的分配：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_14.png" alt=""></p>
+<p><img src="./3_14.png" alt=""></p>
 <p>上面讲的主要是线程束，如果从逻辑上来看线程块的话，可用资源的分配也会影响常驻线程块的数量。<br>特别是当SM内的资源没办法处理一个完整块，那么程序将无法启动，这个是我们应该找找自己的毛病，你得把内核写的多大，或者一个块有多少线程，才能出现这种情况。</p>
 <p>以下是资源列表：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_2.png" alt=""></p>
+<p><img src="./3_2.png" alt=""></p>
 <p>当寄存器和共享内存分配给了线程块，这个线程块处于活跃状态，所包含的线程束称为活跃线程束。<br>活跃的线程束又分为三类：</p>
 <ul>
 <li>选定的线程束</li>
@@ -542,23 +542,23 @@
 <li>算术延迟 10~20   个时钟周期</li>
 <li>内存延迟 400~800 个时钟周期</li>
 </ul>
-<p>下图就是阻塞线程束到可选线程束的过程逻辑图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_15.png" alt=""><br>其中线程束0在阻塞两短时间后恢复可选模式，但是在这段等待时间中，SM没有闲置。<br>那么至少需要多少线程，线程束来保证最小化延迟呢？<br>little法则给出了下面的计算公式<br>$$<br>\text{所需线程束} = \text{延迟} \times \text{吞吐量}<br>$$</p>
+<p>下图就是阻塞线程束到可选线程束的过程逻辑图：<br><img src="./3_15.png" alt=""><br>其中线程束0在阻塞两短时间后恢复可选模式，但是在这段等待时间中，SM没有闲置。<br>那么至少需要多少线程，线程束来保证最小化延迟呢？<br>little法则给出了下面的计算公式<br>$$<br>\text{所需线程束} = \text{延迟} \times \text{吞吐量}<br>$$</p>
 <blockquote>
 <p>注意带宽和吞吐量的区别，带宽一般指的是理论峰值，最大每个时钟周期能执行多少个指令，吞吐量是指实际操作过程中每分钟处理多少个指令。</p>
 </blockquote>
-<p>这个可以想象成一个瀑布，像这样，绿箭头是线程束，只要线程束足够多，吞吐量是不会降低的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_16.png" alt=""><br>下面表格给出了Fermi 和Kepler执行某个简单计算时需要的并行操作数：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_3.png" alt=""></p>
+<p>这个可以想象成一个瀑布，像这样，绿箭头是线程束，只要线程束足够多，吞吐量是不会降低的：<br><img src="./3_16.png" alt=""><br>下面表格给出了Fermi 和Kepler执行某个简单计算时需要的并行操作数：<br><img src="./3_3.png" alt=""></p>
 <p>另外有两种方法可以提高并行：</p>
 <ul>
 <li>指令级并行(ILP): 一个线程中有很多独立的指令</li>
 <li>线程级并行(TLP): 很多并发地符合条件的线程</li>
 </ul>
-<p>同样，与指令周期隐藏延迟类似，内存隐藏延迟是靠内存读取的并发操作来完成的，需要注意的是，指令隐藏的关键目的是使用全部的计算资源，而内存读取的延迟隐藏是为了使用全部的内存带宽，内存延迟的时候，计算资源正在被别的线程束使用，所以我们不考虑内存读取延迟的时候计算资源在做了什么，这两种延迟我们看做两个不同的部门但是遵循相同的道理。<br>我们的根本目的是把计算资源，内存读取的带宽资源全部使用满，这样就能达到理论的最大效率。<br>同样下表根据Little 法则给出了需要多少线程束来最小化内存读取延迟，不过这里有个单位换算过程，机器的性能指标内存读取速度给出的是GB/s 的单位，而我们需要的是每个时钟周期读取字节数，所以要用这个速度除以频率，例如C 2070 的内存带宽是144 GB/s 化成时钟周期： $\frac{144GB/s}{1.566GHz}=92 B/t$  ,这样就能得到单位时间周期的内存带宽了。<br>得出下表的数据<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_4.png" alt=""></p>
+<p>同样，与指令周期隐藏延迟类似，内存隐藏延迟是靠内存读取的并发操作来完成的，需要注意的是，指令隐藏的关键目的是使用全部的计算资源，而内存读取的延迟隐藏是为了使用全部的内存带宽，内存延迟的时候，计算资源正在被别的线程束使用，所以我们不考虑内存读取延迟的时候计算资源在做了什么，这两种延迟我们看做两个不同的部门但是遵循相同的道理。<br>我们的根本目的是把计算资源，内存读取的带宽资源全部使用满，这样就能达到理论的最大效率。<br>同样下表根据Little 法则给出了需要多少线程束来最小化内存读取延迟，不过这里有个单位换算过程，机器的性能指标内存读取速度给出的是GB/s 的单位，而我们需要的是每个时钟周期读取字节数，所以要用这个速度除以频率，例如C 2070 的内存带宽是144 GB/s 化成时钟周期： $\frac{144GB/s}{1.566GHz}=92 B/t$  ,这样就能得到单位时间周期的内存带宽了。<br>得出下表的数据<br><img src="./3_4.png" alt=""></p>
 <p>需要说明的是这个速度不是单个SM的而是整个GPU设备的，以内们用的内存带宽是GPU设备的而不是针对一个SM的。<br>Fermi 需要并行的读取74的数据才能让GPU带宽满载，如果每个线程读取4个字节，我们大约需要18500个线程，大约579个线程束才能达到这个峰值。<br>所以，延迟的隐藏取决于活动的线程束的数量，数量越多，隐藏的越好，但是线程束的数量又受到上面的说的资源影响。所以这里就需要寻找最优的执行配置来达到最优的延迟隐藏。</p>
 <p>那么我们怎么样确定一个线程束的下界呢，使得当高于这个数字时SM的延迟能充分的隐藏，其实这个公式很简单，也很好理解，就是SM的计算核心数乘以单条指令的延迟，<br>比如32个单精度浮点计算器，每次计算延迟20个时钟周期，那么我需要最少 32x20 =640 个线程使设备处于忙碌状态。</p>
 <h2 id="占用率"><a href="#占用率" class="headerlink" title="占用率"></a>占用率</h2><p>占用率是一个SM种活跃的线程束的数量，占SM最大支持线程束数量的比，<br>我们前面写的程序7_deviceInformation 中添加几个成员的查询就可以帮我们找到这个值：<br>完整代码：<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略了上半部分</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"----------------------------------------------------------\n"</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Number of multiprocessors:                      %d\n"</span>, deviceProp.multiProcessorCount);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Total amount of constant memory:                %4.2f KB\n"</span>,</span><br><span class="line">deviceProp.totalConstMem/<span class="number">1024.0</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Total amount of shared memory per block:        %4.2f KB\n"</span>,</span><br><span class="line"> deviceProp.sharedMemPerBlock/<span class="number">1024.0</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Total number of registers available per block:  %d\n"</span>,</span><br><span class="line">deviceProp.regsPerBlock);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Warp size                                       %d\n"</span>, deviceProp.warpSize);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Maximum number of threads per block:            %d\n"</span>, deviceProp.maxThreadsPerBlock);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Maximum number of threads per multiprocessor:  %d\n"</span>,</span><br><span class="line">deviceProp.maxThreadsPerMultiProcessor);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Maximum number of warps per multiprocessor:     %d\n"</span>,</span><br><span class="line">deviceProp.maxThreadsPerMultiProcessor/<span class="number">32</span>);</span><br><span class="line"><span class="keyword">return</span> EXIT_SUCCESS;</span><br></pre></td></tr></table></figure>
-<p>结果<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/devinf.png" alt=""></p>
-<p>最大64个线程束每个SM。<br>CUDA工具包中提供一个叫做UCDA占用率计算器的电子表格，填上相关数据可以帮你自动计算网格参数：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/excel.png" alt=""></p>
+<p>结果<br><img src="./devinf.png" alt=""></p>
+<p>最大64个线程束每个SM。<br>CUDA工具包中提供一个叫做UCDA占用率计算器的电子表格，填上相关数据可以帮你自动计算网格参数：<br><img src="./excel.png" alt=""></p>
 <p>上图是书上的截图，吐个槽，这些人居然写了个表格，为啥不写个程序？</p>
 <p>上面我们已经明确内核使用寄存器的数量会影响SM内线程束的数量，nvcc的编译选项也有手动控制寄存器的使用。<br>也可以通过调整线程块内线程的多少来提高占用率，当然要合理不能太极端：</p>
 <ul>
@@ -574,9 +574,8 @@
 <p>这个函数完成，这个函数只能同步同一个块内的线程，不能同步不同块内的线程，想要同步不同块内的线程，就只能让核函数执行完成，控制程序交换主机，这种方式来同步所有线程。</p>
 <p>内存竞争是非常危险的，一定要非常小心，这里经常出错。</p>
 <h2 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h2><p>可扩展性其实是相对于不同硬件的，当某个程序在设备1上执行的时候时间消耗是T当我们使用设备2时，其资源是设备1的两倍，我们希望得到T/2的运行速度，这种性质是CUDA驱动部分提供的特性，目前来说 Nvidia正在致力于这方面的优化，如下图：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-3-2-理解线程束执行的本质-P2/3_18.png" alt=""></p>
+<p><img src="./3_18.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>今天效率很高，主要是这个部分之前已经研究透彻了，第三章是Freshman阶段的最核心部分，需要大家多查资料，多思考，多练习，待续。。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-3-2-理解线程束执行的本质-P2</a>转载请标明出处</p>
 
       
     </div>
@@ -824,7 +823,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1936,7 +1935,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1991,23 +1990,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

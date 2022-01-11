@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 使用统一内存的CUDA程序——向量加法Keywords: 统一内存，Uniform Memory">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:58:43.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/1-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/1-2.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】4.5 使用统一内存的向量加法">
 <meta name="twitter:description" content="Abstract: 使用统一内存的CUDA程序——向量加法Keywords: 统一内存，Uniform Memory">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-1.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-4-5-使用统一内存的向量加法/1-1.png">
 
 
 
@@ -499,11 +499,10 @@
 <h2 id="统一内存矩阵加法"><a href="#统一内存矩阵加法" class="headerlink" title="统一内存矩阵加法"></a>统一内存矩阵加法</h2><p>统一内存的基本思路就是减少指向同一个地址的指针，比如我们经常见到的，在本地分配内存，然后传输到设备，然后在从设备传输回来，使用统一内存，就没有这些显式的需求了，而是驱动程序帮我们完成。<br>具体的做法就是:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;res_d,nByte));</span><br></pre></td></tr></table></figure></p>
 <p>使用cudaMallocManaged 来分配内存，这种内存在表面上看在设备和主机端都能访问，但是内部过程和我们前面手动copy过来copy过去是一样的，也就是memcopy是本质，而这个只是封装了一下。</p>
 <p>我们来看看完整的代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cuda_runtime.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"freshman.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sumArrays</span><span class="params">(<span class="keyword">float</span> * a,<span class="keyword">float</span> * b,<span class="keyword">float</span> * res,<span class="keyword">const</span> <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i+=<span class="number">4</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    res[i]=a[i]+b[i];</span><br><span class="line">    res[i+<span class="number">1</span>]=a[i+<span class="number">1</span>]+b[i+<span class="number">1</span>];</span><br><span class="line">    res[i+<span class="number">2</span>]=a[i+<span class="number">2</span>]+b[i+<span class="number">2</span>];</span><br><span class="line">    res[i+<span class="number">3</span>]=a[i+<span class="number">3</span>]+b[i+<span class="number">3</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">sumArraysGPU</span><span class="params">(<span class="keyword">float</span>*a,<span class="keyword">float</span>*b,<span class="keyword">float</span>*res,<span class="keyword">int</span> N)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i=blockIdx.x*blockDim.x+threadIdx.x;</span><br><span class="line">  <span class="keyword">if</span>(i &lt; N)</span><br><span class="line">    res[i]=a[i]+b[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// set up device</span></span><br><span class="line">  initDevice(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> nElem=<span class="number">1</span>&lt;&lt;<span class="number">24</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Vector size:%d\n"</span>,nElem);</span><br><span class="line">  <span class="keyword">int</span> nByte=<span class="keyword">sizeof</span>(<span class="keyword">float</span>)*nElem;</span><br><span class="line">  <span class="keyword">float</span> *res_h=(<span class="keyword">float</span>*)<span class="built_in">malloc</span>(nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_h,<span class="number">0</span>,nByte);</span><br><span class="line">  <span class="built_in">memset</span>(res_from_gpu_h,<span class="number">0</span>,nByte);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">float</span> *a_d,*b_d,*res_d;</span><br><span class="line">  CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;a_d,nByte));</span><br><span class="line">  CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;b_d,nByte));</span><br><span class="line">  CHECK(cudaMallocManaged((<span class="keyword">float</span>**)&amp;res_d,nByte));</span><br><span class="line"></span><br><span class="line">  initialData(a_d,nElem);</span><br><span class="line">  initialData(b_d,nElem);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//CHECK(cudaMemcpy(a_d,a_h,nByte,cudaMemcpyHostToDevice));</span></span><br><span class="line">  <span class="comment">//CHECK(cudaMemcpy(b_d,b_h,nByte,cudaMemcpyHostToDevice));</span></span><br><span class="line"></span><br><span class="line">  <span class="function">dim3 <span class="title">block</span><span class="params">(<span class="number">512</span>)</span></span>;</span><br><span class="line">  dim3 grid((nElem-1)/block.x+1);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">double</span> iStart,iElaps;</span><br><span class="line">  iStart=cpuSecond();</span><br><span class="line">  sumArraysGPU&lt;&lt;&lt;grid,block&gt;&gt;&gt;(a_d,b_d,res_d,nElem);</span><br><span class="line">  cudaDeviceSynchronize();</span><br><span class="line">  iElaps=cpuSecond()-iStart;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Execution configuration&lt;&lt;&lt;%d,%d&gt;&gt;&gt; Time elapsed %f sec\n"</span>,grid.x,block.x,iElaps);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//CHECK(cudaMemcpy(res_from_gpu_h,res_d,nByte,cudaMemcpyDeviceToHost));</span></span><br><span class="line">  sumArrays(b_d,b_d,res_h,nElem);</span><br><span class="line"></span><br><span class="line">  checkResult(res_h,res_d,nElem);</span><br><span class="line">  cudaFree(a_d);</span><br><span class="line">  cudaFree(b_d);</span><br><span class="line">  cudaFree(res_d);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(res_h);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>注意我们注释掉的，这就是省去的代码部分、<br>运行结果：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-1.png" alt="1-1"><br>就这个代码而言，使用统一内存还是手动控制，运行速度差不多。<br>这里有一个新概念叫页面故障，我们分配的这个统一内存地址是个虚拟地址，对应了主机地址和GPU地址，当我们的主机访问这个虚拟地址的时候，会出现一个页面故障，当CPU要访问位于GPU上的托管内存时，统一内存使用CPU页面故障来出发设备到CPU的数据传输，这里的故障不是坏掉了，而是一种通信方式，类似于中断。<br>故障数和传输数据的大小直接相关。<br>使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --unified-memory-profiling per-process-device ./sum_arrays_uniform_memory</span><br></pre></td></tr></table></figure></p>
+<p>注意我们注释掉的，这就是省去的代码部分、<br>运行结果：<br><img src="./1-1.png" alt="1-1"><br>就这个代码而言，使用统一内存还是手动控制，运行速度差不多。<br>这里有一个新概念叫页面故障，我们分配的这个统一内存地址是个虚拟地址，对应了主机地址和GPU地址，当我们的主机访问这个虚拟地址的时候，会出现一个页面故障，当CPU要访问位于GPU上的托管内存时，统一内存使用CPU页面故障来出发设备到CPU的数据传输，这里的故障不是坏掉了，而是一种通信方式，类似于中断。<br>故障数和传输数据的大小直接相关。<br>使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvprof --unified-memory-profiling per-process-device ./sum_arrays_uniform_memory</span><br></pre></td></tr></table></figure></p>
 <p>可以查看到实际参数</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-4-5-使用统一内存的向量加法/1-2.png" alt="1-2"><br>也可以使用 nvvp来查看，效果类似。</p>
+<p><img src="./1-2.png" alt="1-2"><br>也可以使用 nvvp来查看，效果类似。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然统一内存管理给我们写代码带来了方便而且速度也很快，但是实验表明，手动控制还是要优于统一内存管理，换句话说，人脑的控制比编译器和目前的设备更有效，所以，为了效率，大家还是手动控制内存吧，把命运掌握在自己手里。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-4-5-使用统一内存的向量加法</a>转载请标明出处</p>
 
       
     </div>
@@ -734,7 +733,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1846,7 +1845,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1901,23 +1900,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

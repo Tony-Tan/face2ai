@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文将介绍线性代数中最最最重要的概念之一，秩（Rank）Keywords: Rank,Row Reduced form,Pivot Columns,Free Columns,Special Solutions">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T15:04:53.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.259Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】3-3:秩(Rank)">
 <meta name="twitter:description" content="Abstract: 本文将介绍线性代数中最最最重要的概念之一，秩（Rank）Keywords: Rank,Row Reduced form,Pivot Columns,Free Columns,Special Solutions">
@@ -512,7 +512,6 @@
 <p>原方程组中独立的方程数就是rank的大小，独立的概念在后面介绍，到时候回来看会非常惊艳。</p>
 <p>最后一个知识利用到了前面讲到的分块乘法，回忆我们的方程组，如果未知数按照$x_1,x_2,x_3,\dots,x_n$的方法排列，我们可以得到系数矩阵A，但是我们稍微调换一下未知数顺序比如$x_2,x_1,x_3,\dots,x_n$他的系数矩阵B就是A中第一列和第二列交换的结果。所以我们可以根据pivot所在的列进行冲洗排列，比如上面的那个星号矩阵就可以得到：<br>$$<br>\begin{bmatrix}<br>1&amp;x&amp;x&amp;x&amp;x&amp;x&amp;x\\<br>0&amp;1&amp;x&amp;x&amp;x&amp;x&amp;x\\<br>0&amp;0&amp;1&amp;x&amp;x&amp;0&amp;x\\<br>0&amp;0&amp;0&amp;1&amp;x&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;1&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0\\<br>\end{bmatrix}<br>\to<br>\begin{bmatrix}<br>1&amp;0&amp;0&amp;0&amp;0&amp;x&amp;x\\<br>0&amp;1&amp;0&amp;0&amp;0&amp;x&amp;x\\<br>0&amp;0&amp;1&amp;0&amp;0&amp;0&amp;x\\<br>0&amp;0&amp;0&amp;1&amp;0&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;1&amp;0&amp;0\\<br>0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0\\<br>\end{bmatrix}<br>=\begin{bmatrix}<br>I&amp;F\\<br>0&amp;0<br>\end{bmatrix}<br>$$<br>那么这个新的R我们称为$R_{new}$，那么他的Nullspace：<br>$$<br>R_{new}=<br>\begin{bmatrix}<br>I&amp;F\\<br>0&amp;0<br>\end{bmatrix}<br>N=\begin{bmatrix}<br>-F\\I<br>\end{bmatrix}<br>R_{new}N=0<br>$$<br>$-F$ 包含r个pivot variables，并且$R_{new}$中的I和N中I规模是不一样的。</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>总结一下，这篇从原文来看有点模糊，就是前一篇的知识也有后一篇的知识也有而且融合在一些，想捋顺出来一点点说有点费劲，写了一篇用了一下午，下面看看还能不能再写两篇。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-3-3</a>转载请标明出处</p>
 
       
     </div>
@@ -579,14 +578,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -763,7 +762,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1875,7 +1874,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1930,23 +1929,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

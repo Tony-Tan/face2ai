@@ -116,15 +116,15 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍CUDA中流和事件的理论描述。Keywords: 流，事件">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-4.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-1-流和事件概述/6-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-1-流和事件概述/6-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-1-流和事件概述/6-3.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-6-1-流和事件概述/6-4.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.243Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】6.1 流和事件概述">
 <meta name="twitter:description" content="Abstract: 本文介绍CUDA中流和事件的理论描述。Keywords: 流，事件">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-1.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-6-1-流和事件概述/6-1.png">
 
 
 
@@ -540,11 +540,11 @@
 <p>这个回收函数很有意思，由于流和主机端是异步的，你在使用上面指令回收流的资源的时候，很有可能流还在执行，这时候，这条指令会正常执行，但是不会立刻停止流，而是等待流执行完成后，立刻回收该流中的资源。这样做是合理的也是安全的。<br>当然，我们可以查询流执行的怎么样了，下面两个函数就是帮我们查查我们的流到哪了：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaStreamSynchronize</span><span class="params">(cudaStream_t stream)</span></span>;</span><br><span class="line"><span class="function">cudaError_t <span class="title">cudaStreamQuery</span><span class="params">(cudaStream_t stream)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>这两条执行的行为非常不同，cudaStreamSynchronize会阻塞主机，直到流完成。cudaStreamQuery则是立即返回，如果查询的流执行完了，那么返回cudaSuccess否则返回cudaErrorNotReady。<br>下面这段示例代码就是典型多个流中调度CUDA操作的常见模式：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nStreams; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> offset = i * bytesPerStream;</span><br><span class="line">    cudaMemcpyAsync(&amp;d_a[offset], &amp;a[offset], bytePerStream, streams[i]);</span><br><span class="line">    kernel&lt;&lt;grid, block, <span class="number">0</span>, streams[i]&gt;&gt;(&amp;d_a[offset]);</span><br><span class="line">    cudaMemcpyAsync(&amp;a[offset], &amp;d_a[offset], bytesPerStream, streams[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nStreams; i++) &#123;</span><br><span class="line">    cudaStreamSynchronize(streams[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>第一个for中循环执行了nStreams个流，每个流中都是“复制数据，执行核函数，最后将结果复制回主机”这一系列操作。<br>下面的图就是一个简单的时间轴示意图，假设nStreams=3，所有传输和核启动都是并发的：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-1.png" alt="6-1"></p>
+<p><img src="./6-1.png" alt="6-1"></p>
 <p>H2D是主机到设备的内存传输，D2H是设备到主机的内存传输。显然这些操作没有并发执行，而是错开的，原因是PCIe总线是共享的，当第一个流占据了主线，后来的就一定要等待，等待主线空闲。编程模型和硬件的实际执行时有差距了。<br>上面同时从主机到设备涉及硬件竞争要等待，如果是从主机到设备和从设备到主机同时发生，这时候不会产生等待，而是同时进行。<br>内核并发最大数量也是有极限的，不同计算能力的设备不同，Fermi设备支持16路并发，Kepler支持32路并发。设备上的所有资源都是限制并发数量的原因，比如共享内存，寄存器，本地内存，这些资源都会限制最大并发数。</p>
 <h2 id="流调度"><a href="#流调度" class="headerlink" title="流调度"></a>流调度</h2><p>从编程模型看，所有流可以同时执行，但是硬件毕竟有限，不可能像理想情况下的所有流都有硬件可以使用，所以硬件上如何调度这些流是我们理解流并发的关键</p>
 <h3 id="虚假的依赖关系"><a href="#虚假的依赖关系" class="headerlink" title="虚假的依赖关系"></a>虚假的依赖关系</h3><p>在Fermi架构上16路流并发执行但是所有流最终都是在单一硬件上执行的，Fermi只有一个硬件工作队列，所以他们虽然在编程模型上式并行的，但是在硬件执行过程中是在一个队列中（像串行一样）。当要执行某个网格的时候CUDA会检测任务依赖关系，如果其依赖于其他结果，那么要等结果出来后才能继续执行。单一流水线可能会导致虚假依赖关系：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-2.png" alt="6-2"></p>
+<p><img src="./6-2.png" alt="6-2"></p>
 <p>这个图就是虚假依赖的最准确的描述，我们有三个流，流中的操作相互依赖，比如B要等待A的结果，Z要等待Y的结果，当我们把三个流塞到一个队列中，那么我们就会得到紫色箭头的样子，这个硬件队列中的任务可以并行执行，但是要考虑依赖关系，所以，我们按照顺序会这样执行：</p>
 <ol>
 <li>执行A，同时检查B是否有依赖关系，当然此时B依赖于A而A没执行完，所以整个队列阻塞</li>
@@ -554,7 +554,7 @@
 </ol>
 <p>这种一个队列的模式，会产生一种，虽然P依赖B的感觉，虽然不依赖，但是B不执行完，P没办法执行，而所谓并行，只有一个依赖链的头和尾有可能并行，也就是红圈中任务可能并行，而我们的编程模型中设想的并不是这样的。</p>
 <h3 id="Hyper-Q技术"><a href="#Hyper-Q技术" class="headerlink" title="Hyper-Q技术"></a>Hyper-Q技术</h3><p>解决上面虚假依赖的最好办法就是多个工作队列，这样就从根本上解决了虚假依赖关系，Hyper-Q就是这种技术，32个硬件工作队列同时执行多个流，这就可以实现所有流的并发，最小化虚假依赖：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-3.png" alt="6-3"></p>
+<p><img src="./6-3.png" alt="6-3"></p>
 <h2 id="流的优先级"><a href="#流的优先级" class="headerlink" title="流的优先级"></a>流的优先级</h2><p>3.5以上的设备可以给流优先级，也就是优先级高的（数字上更小的，类似于C++运算符优先级）<br>优先级只影响核函数，不影响数据传输，高优先级的流可以占用低优先级的工作。<br>下面函数创建一个有指定优先级的流<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaStreamCreateWithPriority</span><span class="params">(cudaStream_t* pStream, <span class="keyword">unsigned</span> <span class="keyword">int</span> flags,<span class="keyword">int</span> priority)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>不同的设备有不同的优先级等级，下面函数可以查询当前设备的优先级分布情况：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaDeviceGetStreamPriorityRange</span><span class="params">(<span class="keyword">int</span> *leastPriority, <span class="keyword">int</span> *greatestPriority)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>leastPriority表示最低优先级（整数，远离0）<br>greatestPriority表示最高优先级（整数，数字较接近0）<br>如果设备不支持优先级返回0</p>
@@ -616,12 +616,11 @@
 <p>这两个函数，第一个是同步流的，阻塞主机直到完成，第二个可以完成非阻塞流测试。也就是测试一下这个流是否完成。<br>我们提到事件，事件的作用就是在流中设定一些标记用来同步，和检查是否执行到关键点位（事件位置），也是用类似的函数<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaEventSynchronize</span><span class="params">(cudaEvent_t event)</span></span>;</span><br><span class="line"><span class="function">cudaError_t <span class="title">cudaEventQuery</span><span class="params">(cudaEvent_t event)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>这两个函数的性质和上面的非常类似。<br>事件提供了一个流之间同步的方法：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaStreamWaitEvent</span><span class="params">(cudaStream_t stream, cudaEvent_t event)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>这条命令的含义是，指定的流要等待指定的事件，事件完成后流才能继续，这个事件可以在这个流中，也可以不在，当在不同的流的时候，这个就是实现了跨流同步。<br>如下图</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-6-1-流和事件概述/6-4.png" alt="6-4"></p>
+<p><img src="./6-4.png" alt="6-4"></p>
 <h3 id="可配置事件"><a href="#可配置事件" class="headerlink" title="可配置事件"></a>可配置事件</h3><p>CDUA提供了一种控制事件行为和性能的函数：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaEventCreateWithFlags</span><span class="params">(cudaEvent_t* event, <span class="keyword">unsigned</span> <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>其中参数是：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cudaEventDefault</span><br><span class="line">cudaEventBlockingSync</span><br><span class="line">cudaEventDisableTiming</span><br><span class="line">cudaEventInterprocess</span><br></pre></td></tr></table></figure></p>
 <p>其中cudaEventBlockingSync指定使用cudaEventSynchronize同步会造成阻塞调用线程。cudaEventSynchronize默认是使用cpu周期不断重复查询事件状态，而当指定了事件是cudaEventBlockingSync的时候，会将查询放在另一个线程中，而原始线程继续执行，直到事件满足条件，才会通知原始线程，这样可以减少CPU的浪费，但是由于通讯的时间，会造成一定的延迟。<br>cudaEventDisableTiming表示事件不用于计时，可以减少系统不必要的开支也能提升cudaStreamWaitEvent和cudaEventQuery的效率<br>cudaEventInterprocess表明可能被用于进程之间的事件</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一篇理论多，验证少，如果看不懂，不妨先看后面的例子，再回来研究理论。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-6-1-流和事件概述" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-6-1-流和事件概述</a>转载请标明出处</p>
 
       
     </div>
@@ -868,7 +867,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1980,7 +1979,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2035,23 +2034,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

@@ -116,15 +116,15 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍Beta分布的相关知识内容Keywords: The Beta Distribution">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/figure_1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/figure_2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/0_6328.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/figure_3.png">
-<meta property="og:updated_time" content="2018-10-04T15:23:03.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-5-8-The-Beta-Distribution/figure_1.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-5-8-The-Beta-Distribution/figure_2.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-5-8-The-Beta-Distribution/0_6328.png">
+<meta property="og:image" content="https://face2ai.com/Math-Probability-5-8-The-Beta-Distribution/figure_3.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【概率论】5-8:Beta分布(The Beta Distributions)">
 <meta name="twitter:description" content="Abstract: 本文介绍Beta分布的相关知识内容Keywords: The Beta Distribution">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/figure_1.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Probability-5-8-The-Beta-Distribution/figure_1.png">
 
 
 
@@ -528,13 +528,12 @@
 </blockquote>
 <p>证明：<br>For $k=1,2,\dots$<br>$$<br>\begin{aligned}<br>E(X^k)&amp;=\int^{1}_{0}x^kf(x|\alpha,\beta)dx\\<br>&amp;=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\int^{1}_{0}x^{\alpha+k-1}(1-x)^{\beta-1}dx<br>\end{aligned}<br>$$<br>根据公式 5.8.2<br>$$<br>E(X^k)=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\cdot\frac{\Gamma(\alpha+k)\Gamma(\beta)}{\Gamma(\alpha+k+\beta)}<br>$$<br>简化之后就是定理中形状了，证毕。</p>
 <p>beta分布有很多不同参数组合形式，计算器均值和c.d.f.是非常有用技能。</p>
-<p>在选择参数之前，我们必须明确Beta分布一般来建模概率的分布，0到1之间的分布，如果其中某个概率出现的比较大，那么分布在图像上会给出一个峰值，并且Beta分布的图像大致如下:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/figure_1.png" alt=""><br>均值就是峰值的位置。<br>接着我们把参数改一下，看看有什么变化<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/figure_2.png" alt=""></p>
+<p>在选择参数之前，我们必须明确Beta分布一般来建模概率的分布，0到1之间的分布，如果其中某个概率出现的比较大，那么分布在图像上会给出一个峰值，并且Beta分布的图像大致如下:<br><img src="./figure_1.png" alt=""><br>均值就是峰值的位置。<br>接着我们把参数改一下，看看有什么变化<br><img src="./figure_2.png" alt=""></p>
 <p>可见，在均值不变的情况，增大 $\alpha$ 和 $\beta$ 的值，分布变高变瘦了。</p>
 <hr>
-<p>还要继续上面的例子，简单的概括一下上面的例子，首先，我们感兴趣的是一个概率的概率，而研究概率的办法是研究分布，也就是概率的分布，我们用beta 分布来建模这个概率，然后我们做试验来验证我们之前猜测概率也好，希望的概率也好，验证他们是否合理，根据上面选陪审员的例子，我们的目的就是为了验证有没有种族歧视，因为墨西哥裔占总人口数为 $79.1%$  ，而只选择出了100人，理论上应该选择出174.02 人，我们想知道当我们选择出100人的条件下，是否还是公平的，用概率为$79.1%$ 的参数去抽取了，还是用 $79.1%\times 0.8$ 或者更夸张的参数选取的。根据上面例子中我们已经求出了条件概率，接下来我们研究选择什么样的 $\alpha$ 和 $\beta$ 来准确的计算这个概率。<br>首先我们先来看原始分布（不是 $g_2(p|100)$ 条件分布）原始分布我们希望的是对所有人平等的，所以根据期望来计算，这个分布的期望必然是 0.791 ，这样才是公平的，根据beta分布的数字特征，我们能计算出：<br>$$<br>E(X)=\frac{\alpha}{\alpha+\beta}=0.791\Rightarrow \alpha=3.785\beta<br>$$<br>这个关系是我们最基本的性质，所以在条件情况 $g_2(p|100)$ 下的参数也应该满足这个关系，$g_2$ 参数为 $\alpha+100$ 和 $\beta+120$ 那么我们就能得出一个系列的不同参数的 $g_2$ 但是这不好研究，因为 $p$ 是自变量，还有 $\beta$ (或者 $\alpha$ ) 两个变量，所以我们来看当 $p&lt; 0.791\times 0.8 = 0.6328$ 的时候各 $\beta$ 对这个条件分布的相互关系：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/0_6328.png" alt=""><br>因为当 $p&lt;0.6328$ 就相当于非常歧视了，所以我们必须让这个概率低，怎么也要低于0.5 那么对应的 $\beta$ 就要选至少 51.5 ，此时 $\alpha$ 为 194.9<br>这个时候如果我们把 $\beta=51.5,\alpha=194.9$ 作为参数带回到原始我们假设的 $p$ 的分布，得到 $P(X=100)=3.28\times 10^{-8}$ 这也就意味着，我们原始的关于均值是0.791的beta分布，发生220个陪审员中有100个墨西哥裔的概率是 $3.28\times 10^{-8}$ 基本为0，所以这里面肯定有不公平！<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Probability-5-8-The-Beta-Distribution/figure_3.png" alt=""></p>
+<p>还要继续上面的例子，简单的概括一下上面的例子，首先，我们感兴趣的是一个概率的概率，而研究概率的办法是研究分布，也就是概率的分布，我们用beta 分布来建模这个概率，然后我们做试验来验证我们之前猜测概率也好，希望的概率也好，验证他们是否合理，根据上面选陪审员的例子，我们的目的就是为了验证有没有种族歧视，因为墨西哥裔占总人口数为 $79.1%$  ，而只选择出了100人，理论上应该选择出174.02 人，我们想知道当我们选择出100人的条件下，是否还是公平的，用概率为$79.1%$ 的参数去抽取了，还是用 $79.1%\times 0.8$ 或者更夸张的参数选取的。根据上面例子中我们已经求出了条件概率，接下来我们研究选择什么样的 $\alpha$ 和 $\beta$ 来准确的计算这个概率。<br>首先我们先来看原始分布（不是 $g_2(p|100)$ 条件分布）原始分布我们希望的是对所有人平等的，所以根据期望来计算，这个分布的期望必然是 0.791 ，这样才是公平的，根据beta分布的数字特征，我们能计算出：<br>$$<br>E(X)=\frac{\alpha}{\alpha+\beta}=0.791\Rightarrow \alpha=3.785\beta<br>$$<br>这个关系是我们最基本的性质，所以在条件情况 $g_2(p|100)$ 下的参数也应该满足这个关系，$g_2$ 参数为 $\alpha+100$ 和 $\beta+120$ 那么我们就能得出一个系列的不同参数的 $g_2$ 但是这不好研究，因为 $p$ 是自变量，还有 $\beta$ (或者 $\alpha$ ) 两个变量，所以我们来看当 $p&lt; 0.791\times 0.8 = 0.6328$ 的时候各 $\beta$ 对这个条件分布的相互关系：<br><img src="./0_6328.png" alt=""><br>因为当 $p&lt;0.6328$ 就相当于非常歧视了，所以我们必须让这个概率低，怎么也要低于0.5 那么对应的 $\beta$ 就要选至少 51.5 ，此时 $\alpha$ 为 194.9<br>这个时候如果我们把 $\beta=51.5,\alpha=194.9$ 作为参数带回到原始我们假设的 $p$ 的分布，得到 $P(X=100)=3.28\times 10^{-8}$ 这也就意味着，我们原始的关于均值是0.791的beta分布，发生220个陪审员中有100个墨西哥裔的概率是 $3.28\times 10^{-8}$ 基本为0，所以这里面肯定有不公平！<br><img src="./figure_3.png" alt=""></p>
 <hr>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章写了三天，原因是昨天胃肠炎发烧了，所以如果有点不连贯，请大家谅解，重点是例子，注意，重点是例子。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Probability-5-8-The-Beta-Distribution" target="_blank" rel="noopener">https://www.face2ai.com/Math-Probability-5-8-The-Beta-Distribution</a>转载请标明出处</p>
 
       
     </div>
@@ -765,7 +764,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1877,7 +1876,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1932,23 +1931,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

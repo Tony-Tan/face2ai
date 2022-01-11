@@ -109,19 +109,19 @@
 
 
   <meta name="description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors">
-<meta name="keywords" content="特征值,特征向量,正定矩阵,对称矩阵">
+<meta name="keywords" content="特征值,特征向量,对称矩阵,正定矩阵">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【线性代数】6-5:正定矩阵(Positive Definite Matrices)">
 <meta property="og:url" content="https://face2ai.com/Math-Linear-Algebra-Chapter-6-5/index.html">
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png">
-<meta property="og:updated_time" content="2018-10-04T15:12:29.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-6-5/ellipse.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.187Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】6-5:正定矩阵(Positive Definite Matrices)">
 <meta name="twitter:description" content="Abstract: 关于正定矩阵的相关知识总结，正定矩阵在数学中的一个应用Keywords: Positive Definite Matrices,Symmetric Matrices,Eigenvalues,Eigenvectors">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-6-5/ellipse.png">
 
 
 
@@ -540,7 +540,7 @@
 <p>上面的五条基本上可以把线性代数大部分东西全包括进去了，消元，特征值，行列式，子空间，这些都要知道后，才能对上面的五条不存在疑惑，所以直接看本文的同学，不懂往回看。</p>
 <h3 id="从正定返回-R-TR"><a href="#从正定返回-R-TR" class="headerlink" title="从正定返回$R^TR$"></a>从正定返回$R^TR$</h3><p>我们回忆一下最初的分解形式$A=LDU$ 分解 当A是正定矩阵的时候，我们可以得到 $U=L^T$<br>所以$A=LDL^T$ 其中D是对角矩阵，如果给D开个根号是不是很完美，那么前提是D中所有元素都是正的（也就是所有pivots和Eigenvalue都是正的，这里两个概念等价）正定矩阵满足你的需求，所以就可以分解出来：<br>$$<br>A=L\sqrt{D}(\sqrt{D}L)^T<br>$$<br>上面这个是Cholesky Factor，针对正定矩阵的一种分解</p>
 <h2 id="半正定矩阵-Positive-Semidefinite-Matrices"><a href="#半正定矩阵-Positive-Semidefinite-Matrices" class="headerlink" title="半正定矩阵 (Positive Semidefinite Matrices)"></a>半正定矩阵 (Positive Semidefinite Matrices)</h2><p>如果特征值中包含0 ，那么 $x^TAx$ (x是特征向量) 有可能是0，也就是没有能量。并且写成 $R^TR$的形式。R总是有线性相关的列，具体原因看上面的证明自明，也就是奇异矩阵必然不是正定矩阵，但是可以使半正定矩阵，这个结论还是很欣慰的，并没有把奇异矩阵一棒子打死。<br>扩展x为任意变量的时候$x^TAx\geq 0$ 只有当x为对应于特征值为0的特征向量的时候等号成立。</p>
-<h2 id="一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1"><a href="#一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1" class="headerlink" title="一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$"></a>一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$</h2><p>学习线性代数，从向量开始，我就有一种感觉就是线性代数当矩阵维度是2或者3的时候，应该是和几何有关系的，也就是我们能画出来的这些形状有关而不仅仅是解方程这么简单，线性变换，对图形的作用应该是比较直观的，所以我们来看书上的🌰，关于特征值，特征向量，以及椭圆的：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-6-5/ellipse.png" alt=""><br>两个椭圆，一个倾斜的，一个立正的,两幅图能够看出下面这些信息：</p>
+<h2 id="一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1"><a href="#一个应用（First-Application-The-Ellipse-ax-2-2bxy-cy-2-1" class="headerlink" title="一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$"></a>一个应用（First Application: The Ellipse) $ax^2+2bxy+cy^2=1$</h2><p>学习线性代数，从向量开始，我就有一种感觉就是线性代数当矩阵维度是2或者3的时候，应该是和几何有关系的，也就是我们能画出来的这些形状有关而不仅仅是解方程这么简单，线性变换，对图形的作用应该是比较直观的，所以我们来看书上的🌰，关于特征值，特征向量，以及椭圆的：<br><img src="./ellipse.png" alt=""><br>两个椭圆，一个倾斜的，一个立正的,两幅图能够看出下面这些信息：</p>
 <ol>
 <li>The tilted ellipse is associated with A. Its equation is $x^TAx=1$</li>
 <li>The lined-up ellipse is associated with $\Lambda$ .Its equation is $x^T\Lambda x=1$</li>
@@ -550,7 +550,6 @@
 <p>最后一步矩阵计算比较长，这里省略了，中间没有trick，我把分解那步写出来也是为了好看，，结论是正确的，观察上面结果，两个系数居然是特征值，厉害不？不是pivot也不是别人，而是特征值，在两个平方内部，是两组向量 $(1,1)$ 和 $(1,-1)$ 这个是特征向量，也是椭圆轴的方向，所以当矩阵扩展到多维的时候（还是正定矩阵），的时候所有特征向量是这个超椭圆的所有轴，这也是为什么叫主轴定理的原因啦，不光是主轴，特征值还能表示在主轴方向上的长度，这个也很值得重视，因为方向和长度是向量的两个组成因素。<br>进一步，我们看看怎么把歪着的椭圆立起来<br>$$<br>X=\frac{x+y}{\sqrt{2}}\\<br>Y=\frac{x-y}{\sqrt{2}}\\<br>for:\\<br>9(\frac{x+y}{\sqrt{2}})^2+1(\frac{x-y}{\sqrt{2}})^2\\<br>get:\\<br>9X^2+Y^2=1<br>$$<br>那么X最大值是 $\frac{1}{3}$ ,Y 最大值是 $1$ 这两个值的得到方法都是 $\frac{1}{\sqrt{\lambda}}$ 从图上也能看出来，长轴是1对应小的特征值，短轴是$\frac{1}{3}$ 对应长的特征值。<br>在xy中，轴的方向沿着A特征向量方向，在XY中是 $\Lambda$ 的特征向量，也就是坐标轴了，数值上看是这样的，从原理上：</p>
 <p>$$<br>\begin{bmatrix}x&amp;y\end{bmatrix}<br>Q\Lambda Q^T<br>\begin{bmatrix}x\\y\end{bmatrix}<br>=\begin{bmatrix}X&amp;Y\end{bmatrix}<br>\Lambda<br>\begin{bmatrix}X\\Y\end{bmatrix}=<br>\lambda_1X^2+\lambda_2Y^2=1<br>$$<br>xy可以表示一个被线性变换后的坐标表示，当这个坐标被Q投影了以后，就变成了图中正的图形了，可以观察特征值决定了椭圆有多椭，当特征值都是1的时候也就是 $\Lambda =I$ 的时候，这个图形就是个圆，如果有负数特征值，那就变成双曲线了，如果都是负的。。这个我也不知道是啥了（就有虚数部分了，这个我还不懂）</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>本文主要讲解正定矩阵，最后的应用是最精彩的部分，前面主要是线性代数知识点的大串讲，可能有些不那么详细，大家可以自己再补充一些，到这里线性代数高潮部分已经完成了一大半，完成了下面就是相似矩阵和svd，线性代数基础部分也就算是快结束了，待续。。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-6-5</a>转载请标明出处</p>
 
       
     </div>
@@ -617,14 +616,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -644,9 +643,9 @@
           
             <a href="/tags/特征向量/" rel="tag"># 特征向量</a>
           
-            <a href="/tags/正定矩阵/" rel="tag"># 正定矩阵</a>
-          
             <a href="/tags/对称矩阵/" rel="tag"># 对称矩阵</a>
+          
+            <a href="/tags/正定矩阵/" rel="tag"># 正定矩阵</a>
           
         </div>
       
@@ -801,7 +800,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1913,7 +1912,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1968,23 +1967,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

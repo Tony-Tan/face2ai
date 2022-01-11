@@ -116,16 +116,16 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍实数在计算机内的浮点数表示方法Keywords: 浮点表示，IEEE754">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-3.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-4.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-5.png">
-<meta property="og:updated_time" content="2018-10-03T10:13:17.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-3-Float/1-1.png">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-3-Float/1-2.png">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-3-Float/1-3.png">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-3-Float/1-4.png">
+<meta property="og:image" content="https://face2ai.com/Math-Numerical-Analysis-0-3-Float/1-5.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.206Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数值分析】0.3 实数的浮点表示">
 <meta name="twitter:description" content="Abstract: 本文介绍实数在计算机内的浮点数表示方法Keywords: 浮点表示，IEEE754">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-1.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Numerical-Analysis-0-3-Float/1-1.png">
 
 
 
@@ -589,10 +589,10 @@
 <li>后面的 $b$ 就是尾数了</li>
 </ul>
 <p>指数中的1023称为双精度格式的指数偏差，起作用就是把负指数转化成正数保存，单精度指数偏差是127，长双精度是16383<br>通过MATLAB的format hex使用16个连续的16进制数表示64位的双精度浮点数在计算机中的样子，比如数字1，在计算机中的样子如下：<br>我们看一下1.0的表示：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-1.png" alt="1-1"></p>
+<p><img src="./1-1.png" alt="1-1"></p>
 <p>对应的二进制：<br>|   0    |      01111111111      | 0000 $\cdots$ 0 |<br>|:——:|:——————:|:———————–:|<br>| 符号位 | 指数（加了1023） |          尾数52位           |</p>
 <p>9.4的表示：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-2.png" alt="1-2"></p>
+<p><img src="./1-2.png" alt="1-2"></p>
 <p>9.4的二进制大家自己画画吧<br>我们接着要说三个特殊的数字，指数有11位，那么可以表示0~2047共2048个数，但是我们这里只有-1022~1023是指数可取值，共有2046个数，剩下两个数字-1023和1024做了什么；按照指数要加1023的规则，我们说的-1023和1024在内存中是以0，和2047存在的，那么我们规定下面的特殊情况：</p>
 <table>
 <thead>
@@ -622,7 +622,7 @@
 </table>
 <p>其中x表示0或者1的任意组合且不全为0<br>当指数是在内存中是2047的时候，如果尾数都是0，那么表示 $\infty$ Inf，否则表示 NaN（Not a Number）不是一个数字，$-\infty$ 对应的就是把Inf的符号位设置为1，也就是从7FF变成了FFF</p>
 <p>指数都是1的研究完了，还有一个0，当指数是0的时候，数字解释为非标准的浮点数字：<br>$$<br>\pm0.b_1b_2\dots b_52\times 2^{-1022}<br>$$<br>小数点前面被设置为0，这是非标准的，这种与规定不符的数字，我们叫做异常(subnormal)浮点数.<br>根据这个异常我们的指数最小时 -1023，此时小数点前面没数字，那么当我们的尾数是 $0000\cdots 0001$ 的时候，那么此时是双精度浮点数能表示的最小的数字 $2^{-52}\times 2^{-1022}=2^{-1074}$ 不能更小了。<br>另一个重要的特征是我们有两种0的表示，+0和-0相差一个符号位：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-3.png" alt="1-3"></p>
+<p><img src="./1-3.png" alt="1-3"></p>
 <h2 id="浮点数加法"><a href="#浮点数加法" class="headerlink" title="浮点数加法"></a>浮点数加法</h2><p>浮点数大概的规则和表达我们说完了，接着就看看浮点数怎么计算了，最基本的从加法开始，加法的过程如下：</p>
 <ol>
 <li>将两个数字的对齐，所谓对齐就是对齐小数点。</li>
@@ -630,13 +630,12 @@
 <li>计算完成后进行舍入，变回52位尾数。</li>
 </ol>
 <p>来个例子，我们用 $2^{-53}+1$ 来描述描述一下过程：<br>$$<br>\begin{aligned}<br>&amp;1.\boxed{00\cdots 0} \times 2^0+1.\boxed{00\cdots 0}\times 2^{-53}\\<br>=&amp;1.\boxed{0000000000000000000000000000000000000000000000000000}\times 2^0\\<br>+&amp;0.\boxed{0000000000000000000000000000000000000000000000000000}1\times 2^0\\<br>&amp;\hline\\<br>=&amp;1.\boxed{0000000000000000000000000000000000000000000000000000}1\times 2^0\\<br>=&amp;1.\boxed{0000000000000000000000000000000000000000000000000000}\times 2^0<br>\end{aligned}<br>$$</p>
-<p>上面的过程的实验结果如下:<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-4.png" alt="1-4"></p>
+<p>上面的过程的实验结果如下:<br><img src="./1-4.png" alt="1-4"></p>
 <p>两个数字相加后没变化，有这个性质的最大浮点数是： $2^{-53}$ 其他更大的数字加到1上都会比1大。<br>注意区别相对大小和绝对大小， $\varepsilon_{math}$ 是相对误差的精度，不是绝对误差，也就是说比 $\varepsilon_{math}$ 的数字并不能直接省略，而是要看这两个数的相对大小，这也就是大数吃小数可以而小数吃小数却不行的原因。<br>舍入不差常常带来意想不到的结果，比如 $9.4-9.0-0.4$ 的结果并不是 $0$</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Numerical-Analysis-0-3-Float/1-5.png" alt="1-5"></p>
+<p><img src="./1-5.png" alt="1-5"></p>
 <p>具体原因是每一步都存在舍入误差，所以，最后的结果产生了误差累积，且到了影响最后舍入结果的程度，所以会造成以上结果。</p>
 <p>这些特殊的结果的原因就是舍入带来的，这也是计算机计算和精确计算之间的差别。<br>本文中所有描述的过程在实际计算中都是可以预测的，给出的舍入原则是一个通用的原则，也可以在不同的环境下使用不同原则的舍入原则。<br>不同舍入原则可以一起用来判断计算的稳定性。<br>舍入误差是非常凶险的 ，一个小小的舍入误差可能使得整个计算功亏一篑，这看起来不可思议，但却影响深远，后面我们会研究如何处理这种情况</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要研究在计算中最常使用的浮点数的性质和在计算机中的各种相关规则，舍入误差是重点。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Numerical-Analysis-0-3-Float" target="_blank" rel="noopener">https://www.face2ai.com/Math-Numerical-Analysis-0-3-Float</a>转载请标明出处</p>
 
       
     </div>
@@ -874,7 +873,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1986,7 +1985,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2041,23 +2040,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

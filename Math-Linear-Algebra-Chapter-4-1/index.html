@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本篇介绍正交性，向量正交，矩阵正交，子空间正交Keywords: Orthogonality,Four Subspace,Orthogonal Complements,Fundamental Theorem of Linear Algebra ,Combining Bases from Subspaces,Split">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-1/4spaces.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-1/4spaces_extra.png">
-<meta property="og:updated_time" content="2018-10-04T15:07:04.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-4-1/4spaces.png">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-4-1/4spaces_extra.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.126Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】4-1:四个正交子空间(Orthogonality of the Four Subspace)">
 <meta name="twitter:description" content="Abstract: 本篇介绍正交性，向量正交，矩阵正交，子空间正交Keywords: Orthogonality,Four Subspace,Orthogonal Complements,Fundamental Theorem of Linear Algebra ,Combining Bases from Subspaces,Split">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-1/4spaces.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-4-1/4spaces.png">
 
 
 
@@ -536,7 +536,7 @@
 <p>通过上面的定义以及上面nullspace和rowspace正交的推到可以得出，row space的orthogonal Complement肯定是nullspace中所有vector，也就是说不存在一个向量，正交与rowspace却不属于nullspace。<br>证明非常日能够以，基本就是改改上面的那段推导。<br>反过来依然成立，如果以vector正交于nullspace，那么它一定属于rowspace，证明如下：</p>
 <p><em>如果一个vector 正交于nullspace，而不属于rowspace，那么把vector添加到矩阵A最下一行形成A’，那么$A’x=0$依然成立，也就是说nullspace不会改变，但是rowspace却增加了（rank增加了1），那么$r+(n-r)=n$将不再成立，所以vector一定属于rowspace</em></p>
 <p>各位，大招来了，本章，本书的重点：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-1/4spaces.png" alt=""></p>
+<p><img src="./4spaces.png" alt=""></p>
 <p>没错，就是之前上一张重点的图的一个信息补全，这里面值得注意的包括subspace之间的正交关系，以及dimension之间的互补关系，但要注意一下，其实在使用消元确定$Ax=b$解的时候可以得到nullsapce和columnspace之间的dimension互补关系，但是这里面把rowspace和nullspace写到一起主要还是正交的关系，而且向量长度相同n，加上rowspace和columnspace的dimension永远是一致的（rank），所以也就是这么放了（以上是我自己的理解）</p>
 <table>
 <thead>
@@ -553,12 +553,11 @@
 </tr>
 </tbody>
 </table>
-<p>解读：Fundamental Theorem Part I给出维度关系，Fundamental Theorem Part II给出垂直关系，complement时表示一个向量$x\,in\,R^n$总能分解到rowspace和nullspace两部分，而且根据两个subspace之间的dimension关系，可以确定，rowspace和nullspace加起来是完整的$R^n$空间（这个后面有讨论）<br>当$A(x_r+x_n)$时，奇迹出现了，还记得我们写<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-3-4/">Ax=b</a>的无数个解的时候的完整解么?<br>$$ x=x_{particular}+x_n$$<br>和上面这种形式是对应的<br>矩阵A和向量相乘，可以有很多种解读，但是说到最根本的地方就是，$Ax$就是为了让x goes to column space，并没有其他什么更高级的功能。<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-1/4spaces_extra.png" alt=""><br>通过上面那张图可以看出，任何一个n维向量可以被分解到rowspace和nullspace，然后通过A goes to column space和 0<br>这里最重要的是<strong>任何一个属于$R^n$的向量都能被分解到row space 和 null space</strong></p>
+<p>解读：Fundamental Theorem Part I给出维度关系，Fundamental Theorem Part II给出垂直关系，complement时表示一个向量$x\,in\,R^n$总能分解到rowspace和nullspace两部分，而且根据两个subspace之间的dimension关系，可以确定，rowspace和nullspace加起来是完整的$R^n$空间（这个后面有讨论）<br>当$A(x_r+x_n)$时，奇迹出现了，还记得我们写<a href="http://face2ai.com/Math-Linear-Algebra-Chapter-3-4/">Ax=b</a>的无数个解的时候的完整解么?<br>$$ x=x_{particular}+x_n$$<br>和上面这种形式是对应的<br>矩阵A和向量相乘，可以有很多种解读，但是说到最根本的地方就是，$Ax$就是为了让x goes to column space，并没有其他什么更高级的功能。<br><img src="./4spaces_extra.png" alt=""><br>通过上面那张图可以看出，任何一个n维向量可以被分解到rowspace和nullspace，然后通过A goes to column space和 0<br>这里最重要的是<strong>任何一个属于$R^n$的向量都能被分解到row space 和 null space</strong></p>
 <p>下面是我的幡然悔悟的一个非常重要的问题，为什么不是每个矩阵都有逆：<br><em>来仔细观察箭头，$x_r$-&gt;$x_b$,是单射，没错，如果是单射就有逆运算，对于列空间的一个元素都有且只有一个行空间中的向量与之对应，但是由于不存在$A^{-1}$ 使得 $x_n=A^{-1}0$成立，也就是说不存在$A^{-1}$ 使得 $x=A^{-1}b$这也是为什么不是所有的矩阵都有逆，但是我们能确定一个 $\hat{A}^{-1}$ 使得 $x_r=\hat{A}^{-1}b$成立，这个戴帽子的A叫做pseudoinvers ，伪逆</em><br>这也告诉我并不是因为矩阵行列式为0他才没有逆，以前老师说，来算行列式，值是0矩阵没有逆，说的的确是真理，但是他一直也没说为啥。</p>
 <h2 id="组合子空间基"><a href="#组合子空间基" class="headerlink" title="组合子空间基"></a>组合子空间基</h2><p>这段补充说明下矩阵基bases的一些扩展，主要还是用到上面那张图，就是离这里最近的那张带映射的图，rowspace和nullspace是可以span整个$R^n$的，比如在rowspace中找到r个线性独立的bases加上nullspace里面n-r个线性独立的bases，他们就能span出整个空间，为啥？因为这两个空间里的bases肯定线性独立，人家都正交了，哪来线性关系。所以，任何一个n维向量都能备份家到rowspace和nullspace，如果nullspace只有0向量，恭喜，$x=x_r$，A可逆，Ax=b有唯一解。在$R^n$ 中任何n个线性独立的vectors必然能span出$R^n$，反过来说也对，同理写成矩阵形式，一个由n个线性独立的向量组成的$n \times n$矩阵必然可逆。</p>
 <p>注意:<strong><em>任何一个n维向量都能被split成一个rowspace中的向量和一个nullspace中的向量</em></strong></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇内容实在是多到不行，而且都是精华，慢慢吸收，后面我如果发现问题可能还会补充，欢迎大家讨论</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-4-1" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-4-1</a>转载请标明出处</p>
 
       
     </div>
@@ -618,14 +617,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -802,7 +801,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1914,7 +1913,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1969,23 +1968,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

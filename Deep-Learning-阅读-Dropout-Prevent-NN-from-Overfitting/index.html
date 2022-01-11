@@ -116,15 +116,15 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 使用dropout处理过拟合，原论文的理解总结Keywords: Dropout，Overfit">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午12.15.52-1024x469.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午1.44.22-1024x383.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午6.39.37-1024x516.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午7.13.59-1024x410.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午12.15.52-1024x469.png">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午1.44.22-1024x383.png">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午6.39.37-1024x516.png">
+<meta property="og:image" content="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午7.13.59-1024x410.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.117Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Droupout 的论文解读">
 <meta name="twitter:description" content="Abstract: 使用dropout处理过拟合，原论文的理解总结Keywords: Dropout，Overfit">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午12.15.52-1024x469.png">
+<meta name="twitter:image" content="https://face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午12.15.52-1024x469.png">
 
 
 
@@ -504,11 +504,11 @@
 <p><strong>1. 大量独立的模型</strong></p>
 <p><strong>2. 不是那么大量的训练集</strong></p>
 <p>其基本描述是阻止过拟合，提供一种方法有效的联合指数级的不同的神经网络的近似形式。dropout的意思是丢掉网络中的一些单元（可见的或隐藏的神经元），通过暂时性的移除一些单元，包括其输入输出链接全部移除，移除的单元是随机挑选的，如图：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午12.15.52-1024x469.png" alt=""></p>
+<p><img src="./屏幕快照-2016-10-23-下午12.15.52-1024x469.png" alt=""></p>
 <p>对于一个简单的例子，每个单元按照一个固定概率P决定取舍，所有单元之间相互独立，P可以设置为一个集合（每个单元拥有自己的P）也可以简单的把所有单元都设置成0.5。设置成0.5就接近于找到模型所有子集的集合。对于输入单元，p一般选择大于0.5小于1之间的数（使输入尽量完整些）。</p>
 <p>对于一个子模型，是dropout后剩下的所有单元的子网络，如图1b，一个有n个单元的网络拥有 $ 2^n $个可能的子集。所有这些网络共享参数，所以参数还是 $O(n^2)$ 或者更少。然后按照正常方法训练子网络。所以训练一个dropout的神经网络可以被看做训练一个$2^n$个子网络的集合，所有子网络共享权值，有些子网络很少，甚至没有被训练过。</p>
 <p>在测试阶段，明确的平均地平均指数级子网络的输出结果是不可能的，然而在实际中有一种非常简单的近似方法，这种思想被用于神经网络的测试阶段，而不需要把网络dropout后再测试。网络中的权重被缩小（与训练时的子网络比较），如果子网络选取方法是按照概率p来dropout，测试时所有权重乘以p来，<br>如图2：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-10-23-下午1.44.22-1024x383.png" alt=""><br>来确保任何隐含层测试时的输出与激活输出（训练时dropout的情况下的激活输出）一致，通过scale-down（缩小）2^n个共享权值的网络组合成一个网络在test过程中使用。我们发现使用这种训练时dropout，测试时加权合并近似的网络，在大量分类任务中<br>与其他正则化方方法相比，dropout的泛化误差相当的小。</p>
+<p><img src="./屏幕快照-2016-10-23-下午1.44.22-1024x383.png" alt=""><br>来确保任何隐含层测试时的输出与激活输出（训练时dropout的情况下的激活输出）一致，通过scale-down（缩小）2^n个共享权值的网络组合成一个网络在test过程中使用。我们发现使用这种训练时dropout，测试时加权合并近似的网络，在大量分类任务中<br>与其他正则化方方法相比，dropout的泛化误差相当的小。</p>
 <p>dropout的思想不止用于feed-forward神经网络，其可以被更广泛的用于以图（graph）为基础的模型上，例如玻尔兹曼机，在这篇文章中，我们将介绍dropout版受限玻尔兹曼机，并与标准的受限玻尔兹曼机（RBM）相比较，作者经验，dropout RBM比较好。</p>
 <p>本文结构：</p>
 <p><strong>Sec2：此方法的灵感来源</strong></p>
@@ -529,10 +529,9 @@
 <p>feed-forward：</p>
 <p>$$z_i^{(l+1)}=w_i^{(l+1)}+b_i^{(l+1)}\\<br>y_i^{(l+1)}=f(z_i^{(l+1)})$$<br>f是激活函数：<br>$$f(x)=1/(1+e^{(-x)})$$</p>
 <p>加入dropout后:（敲黑板，同志们，注意啦，下面是整个文章的核心啦）<br>$$<br>r_j^{(l)}\sim Bernoulli(p)\\<br>\tilde{y}^{(l)}=r^{(l)}*y^{(l)} \\<br>z_i^{(l+1)}=w_i^{(l+1)}\tilde{y}^l+b_i^{(l+1)}\\<br>y_i^{(l+1)}=f(z_i^{(l+1)})<br>$$</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午6.39.37-1024x516.png" alt=""></p>
-<p>上图为正常神经网络和dropout后的网络结构比较<br>对于layer l $r^{(l)}$ 是一个独立的伯努利随机分布的向量，其中元素为1的可能性为p。这个向量的目的是dropout，随机的选取一些输出，也就是说随机的去掉一些连接，这样的结果就是从 $y^{(l)}$ 来得到dropout后的裁剪过的 $\tilde{y}^{(l)}$ ，这个裁剪过的输出作为下一个单元的输入，这种操作应用于所有layer，这样的整体结果，网络被随机裁剪成一个子网络。<br>在训练阶段，loss函数的导数反向传导只经过子网络，相当于其他被dropout的节点将不被更新。<br>在测试阶段，所有weight被缩放 $W_{test}^{(l)}=pW^{(l)}$ ，此后不再使用dropout<br>如图：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting/屏幕快照-2016-11-18-下午7.13.59-1024x410.png" alt=""></p>
+<p><img src="./屏幕快照-2016-11-18-下午6.39.37-1024x516.png" alt=""></p>
+<p>上图为正常神经网络和dropout后的网络结构比较<br>对于layer l $r^{(l)}$ 是一个独立的伯努利随机分布的向量，其中元素为1的可能性为p。这个向量的目的是dropout，随机的选取一些输出，也就是说随机的去掉一些连接，这样的结果就是从 $y^{(l)}$ 来得到dropout后的裁剪过的 $\tilde{y}^{(l)}$ ，这个裁剪过的输出作为下一个单元的输入，这种操作应用于所有layer，这样的整体结果，网络被随机裁剪成一个子网络。<br>在训练阶段，loss函数的导数反向传导只经过子网络，相当于其他被dropout的节点将不被更新。<br>在测试阶段，所有weight被缩放 $W_{test}^{(l)}=pW^{(l)}$ ，此后不再使用dropout<br>如图：<br><img src="./屏幕快照-2016-11-18-下午7.13.59-1024x410.png" alt=""></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在来看，这篇文章主要是翻译工作，没有什么自己的理解和感受，因为阅读原文你会发现，你能想到的，文章都有，你想不到的，文章也有一部分，可能这就是大牛的论文吧</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting" target="_blank" rel="noopener">https://www.face2ai.com/Deep-Learning-阅读-Dropout-Prevent-NN-from-Overfitting</a>转载请标明出处</p>
 
       
     </div>
@@ -765,7 +764,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1877,7 +1876,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1932,23 +1931,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

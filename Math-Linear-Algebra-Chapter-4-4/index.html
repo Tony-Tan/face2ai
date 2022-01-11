@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 通过将正交的向量组合成矩阵探索其中的一些有趣的性质和用途Keywords: Orthogonal Matrix Q，Gram-Schmidt Algorithm，QR">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-4/fenjie.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-4/suanfa.png">
-<meta property="og:updated_time" content="2018-10-04T15:07:42.000Z">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-4-4/fenjie.png">
+<meta property="og:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-4-4/suanfa.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【线性代数】4-4:正交基和Gram算法(Orthogonal Bases and Gram-Schmidt)">
 <meta name="twitter:description" content="Abstract: 通过将正交的向量组合成矩阵探索其中的一些有趣的性质和用途Keywords: Orthogonal Matrix Q，Gram-Schmidt Algorithm，QR">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-4/fenjie.png">
+<meta name="twitter:image" content="https://face2ai.com/Math-Linear-Algebra-Chapter-4-4/fenjie.png">
 
 
 
@@ -510,7 +510,7 @@
 <p>这是几个简单的例子，Q还有一个有点就是他不会改变被乘向量的长度， $|Qx|=|x|$这是个很好的性质，如果需要迭代多次，Q能保持稳定，我之前在哪本书里见过这个说法，在某个算法里，当时觉得好奇怪，也很神奇，现在大概知道就会觉得，这个太美妙了，具体为什么不会改变，下一小节会给出完整的证明。</p>
 <h2 id="使用正交基映射-Projections-Using-Orthogonal-Bases"><a href="#使用正交基映射-Projections-Using-Orthogonal-Bases" class="headerlink" title="使用正交基映射(Projections Using Orthogonal Bases)"></a>使用正交基映射(Projections Using Orthogonal Bases)</h2><p>映射是上一篇（4-2）我们主要研究的内容，把结论拿出来给大家重复展示下，哒哒哒哒：<br>$$<br>\vec{p}=B\hat{\vec{x}}=\frac{BB^T}{B^TB}\vec{a}<br>$$<br>这个结果已经解释过了，但是动机要再复述一遍，我们为了把 $\vec{a}$ 映射到B span的subspace里面，也就是B的 column space，我们说到过，一个子空间是通过basis来描述的，这个B里面的每一个主列（pivot column）就是一个基，这时我们有了一个想法，就是如果我们让这些basis互相正交且长度为1，那么我们将得到一个叫Q的B（orthogonal matrix），没错，这就把前面projection的内容成功的搞到了这一篇。<br>$$<br>\vec{p}=Q\hat{\vec{x}}=\frac{QQ^T}{Q^TQ}\vec{a}\\<br>Q^TQ=I\\<br>so:\, \vec{p}=QQ^T\vec{a}=Q(Q^T\vec{a})<br>$$<br>这个看着不玄乎，我们换个角度，拆开仔细看</p>
 <p>$$<br>\begin{bmatrix}<br>|&amp;&amp;|\\<br>q_1&amp;\dots&amp;q_n\\<br>|&amp;&amp;|<br>\end{bmatrix}<br>\begin{bmatrix}<br>q^T_1b\\<br>\vdots\\<br>q^T_nb<br>\end{bmatrix}=<br>q_1(q^T_1b)+\dots+q_1(q^T_nb)<br>$$<br><strong><em>这个看的就有点邪乎了 $q^Tb$是个标量，也就是说，如果把一个子空间用一组正交基表示，对子空间外的向量进行projection会得到一个以这组基为基的线性组合，这个重要的性质是傅里叶等数学中great transforms的基础</em></strong>，卧槽，怕不怕，线性代数居然整到了傅里叶，意外不意外，惊喜不惊喜。</p>
-<h2 id="Gram-schmidt"><a href="#Gram-schmidt" class="headerlink" title="Gram-schmidt"></a>Gram-schmidt</h2><p>这个算法是为了给subspace换正交基的，“如果，你有了一组非正交的基，你是否也渴望有一组像隔壁老王一样的正交基了呢？告别计算烦恼，再也不用低三下四看人脸色，马上拿起电话联系Gram，不要998，只要198….”<br>编不下去了Gram主要是帮我做了一个算法，在已知一组非正交基的时候来找一组正交基，据Prof Strang课上讲，他也不清楚schmidt在这个算法里面做出了什么工作，但有他的名字，那么我们就当做他很重要吧，<br>这个算法的主要原理用到的还是projection，我们之前在projection中提到了力的分解，速度的分解，当时我就是随口一说，想起了自己的初中物理老师而已，但是这没想到在这里居然有用，假设，我们在一个三维空间里面有一个速度，我想把他分解到xy轴，这个大家都应该会，根据project to line 的方法都能得到分量，那么如果我们用原速度减去xy的分量得到的是什么？没错z轴的分量，不知道为什么？再提示你一下，你把xy分量的两个向量加起来，得到的是xy平面（子空间）的分量，对应的 $\vec{e}$ 就是z轴分量（因为Z轴是xy子空间的 orthogonal complement）：<br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-4/fenjie.png" alt=""></p>
+<h2 id="Gram-schmidt"><a href="#Gram-schmidt" class="headerlink" title="Gram-schmidt"></a>Gram-schmidt</h2><p>这个算法是为了给subspace换正交基的，“如果，你有了一组非正交的基，你是否也渴望有一组像隔壁老王一样的正交基了呢？告别计算烦恼，再也不用低三下四看人脸色，马上拿起电话联系Gram，不要998，只要198….”<br>编不下去了Gram主要是帮我做了一个算法，在已知一组非正交基的时候来找一组正交基，据Prof Strang课上讲，他也不清楚schmidt在这个算法里面做出了什么工作，但有他的名字，那么我们就当做他很重要吧，<br>这个算法的主要原理用到的还是projection，我们之前在projection中提到了力的分解，速度的分解，当时我就是随口一说，想起了自己的初中物理老师而已，但是这没想到在这里居然有用，假设，我们在一个三维空间里面有一个速度，我想把他分解到xy轴，这个大家都应该会，根据project to line 的方法都能得到分量，那么如果我们用原速度减去xy的分量得到的是什么？没错z轴的分量，不知道为什么？再提示你一下，你把xy分量的两个向量加起来，得到的是xy平面（子空间）的分量，对应的 $\vec{e}$ 就是z轴分量（因为Z轴是xy子空间的 orthogonal complement）：<br><img src="./fenjie.png" alt=""></p>
 <p>如果还是不太明白，没关系，往下看吧：<br>Gram-Schmidt算法分为以下几步，我们先假设一组向量，尾巴在一起是原点，那么这些向量都指向不同的方向，并且他们线性独立，那么我们要调整这些向量，最原始的想法就是首先，我们固定一条向量，然后调整第二个跟第一个向量垂直，然后再迭代这个过程。直到所有的向量都就位，那么这样的正交基有多少组？没错，无数组。<br>官方描述：</p>
 <blockquote>
 <p>Step 1. choosing $A=\vec{a}$</p>
@@ -543,9 +543,8 @@
 </blockquote>
 <p>我们把上面的QR矩阵还原一下，就能得和这段话呼应的一种形式了<br>$$<br>a=q_1q_1^Ta\\<br>b=q_1q_1^Ta+q_2q_2^Tb\\<br>c=q_1q_1^Tc+q_2q_2^Tc+q_3q_3^Tc<br>$$<br>必要的说明就是,如果结合力的分解那段，或者那张图会看的非常清楚，就是把当前向量映射到一组正交基中，在处理 $\vec{a}$ 的时候正交矩阵中只有一个正交基 $q_1$,处理 $\vec{b}$ 的时候正交矩阵中只有两个个正交基 $q_1$ $q_2$ 以此类推，这也是Gram算法实现的另一种神奇的效果会产生一个上三角矩阵R<br>R也有一些神奇的性质，比如对角线上的元素始终都是正数，并且表示对应被分解向量的模长：<br>$$<br>A=<br>\begin{bmatrix}<br>1&amp;2&amp;3\\<br>-1&amp;0&amp;-3\\<br>0&amp;-2&amp;3<br>\end{bmatrix}<br>=<br>\begin{bmatrix}<br>1/\sqrt{2}&amp;1/\sqrt{6}&amp;1/\sqrt{3}\newline<br>-1/\sqrt{2}&amp;1/\sqrt{6}&amp;1/\sqrt{3}\newline<br>0&amp;-2/\sqrt{6}&amp;1/\sqrt{3}<br>\end{bmatrix}<br>\begin{bmatrix}<br>\sqrt{2}&amp;\sqrt{2}&amp;\sqrt{18}\\<br>0&amp;\sqrt{6}&amp;-\sqrt{6}\\<br>0&amp;0&amp;\sqrt{3}<br>\end{bmatrix}=QR<br>$$<br>R 的对角线元素等于A中每一个列向量的长度，神奇么?意外么？不意外，因为Q的一个性质是他不改变被乘向量的模长，前面证明过，</p>
 <p>在实际分解中并不是使用QR分解，而是有更快的计算方法，这个我们后面肯定还要讲，因为要研究计算方法和矩阵分析，这就留个引子吧，Gram算法的具体步骤就贴个书上的吧：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/Math-Linear-Algebra-Chapter-4-4/suanfa.png" alt=""></p>
+<p><img src="./suanfa.png" alt=""></p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>小结就是这一章的内容都好多，想写成短小精悍的都不行，因为写的少了根本解释不清楚，自己在梳理过程中也体会到了很多读书的时候没有察觉的内容，后面我们开始继续新的一章，如果有什么问题欢迎大家留言（到目前，还没有留言。。。）</p>
-<p>原文地址1：<a href="https://www.face2ai.com/Math-Linear-Algebra-Chapter-4-4" target="_blank" rel="noopener">https://www.face2ai.com/Math-Linear-Algebra-Chapter-4-4</a>转载请标明出处</p>
 
       
     </div>
@@ -598,14 +597,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-3/" rel="bookmark">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-3/" rel="bookmark">【线性代数】7-3:对角化和伪逆(Diagonalization and the Pseudoinverse)</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-video-class-2/" rel="bookmark">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a></div>
+      <div class="popular-posts-title"><a href="/Math-Linear-Algebra-Chapter-7-2/" rel="bookmark">【线性代数】7-2:线性变化的矩阵(The Matrix of a Linear Transformation)</a></div>
       
     </li>
   
@@ -778,7 +777,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1890,7 +1889,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1945,23 +1944,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

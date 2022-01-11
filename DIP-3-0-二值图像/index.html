@@ -116,19 +116,19 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 数字图像处理：第8天Keywords: 二值图像，形态学，邻域">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224101155121.jpg">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224140523421.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224140538188.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224140532947.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142415946.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142420359.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142431889.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142446600.png">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224101155121.jpg">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224140523421.png">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224140538188.png">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224140532947.png">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224142415946.png">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224142420359.png">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224142431889.png">
+<meta property="og:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224142446600.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【数字图像处理】3.0:二值图像">
 <meta name="twitter:description" content="Abstract: 数字图像处理：第8天Keywords: 二值图像，形态学，邻域">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224101155121.jpg">
+<meta name="twitter:image" content="https://face2ai.com/DIP-3-0-二值图像/20141224101155121.jpg">
 
 
 
@@ -496,13 +496,13 @@
 <font color="00FF00">本文最初发表于csdn，于2018年2月17日迁移至此</font>
 
 <h2 id="二值图像"><a href="#二值图像" class="headerlink" title="二值图像"></a>二值图像</h2><p>二值图像(Binary Image)，按名字来理解只有两个值，0和1，0代表黑，1代表白，或者说0表示背景，而1表示前景。其保存也相对简单，每个像素只需要1Bit就可以完整存储信息。如果把每个像素看成随机变量，一共有N个像素，那么二值图有2的N次方种变化，而8位灰度图有255的N次方种变化，8为三通道RGB图像有 $255<em>255</em>255$ 的N次方种变化。也就是说同样尺寸的图像，二值图保存的信息更少。</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224101155121.jpg" alt="Center"></p>
+<p><img src="./20141224101155121.jpg" alt="Center"></p>
 <p>上图中，彩色图像和灰度图像很好的可以看出右侧的镜子，而二值图像无法看出，根据信息论的相关知识，也可以得出二值图像有很大的信息损失，上图中二值图像由灰度图经过阈值100处理后得到的结构</p>
 <h2 id="邻接"><a href="#邻接" class="headerlink" title="邻接"></a>邻接</h2><p>首先注意邻域与邻接的不同，邻域是指某像素p的周围像素，p与他们间的欧式距离不超过“根号2”即对角线的距离。如果q在p的某种邻域中，则p，q为某种邻接</p>
 <h3 id="4-邻域"><a href="#4-邻域" class="headerlink" title="4-邻域"></a>4-邻域</h3><p>即对于像素 $(x,y)$ ，其中 $(max-1&gt;x&gt;1,max-1&gt;y&gt;1)$ 。其4-邻域为以下元素：$(x-1,y)(x,y-1)(x+1,y)(x,y+1)$。</p>
 <h3 id="D-邻域"><a href="#D-邻域" class="headerlink" title="D-邻域"></a>D-邻域</h3><p>即对于像素 $(x,y)$ ，其中 $(max-1&gt;x&gt;1,max-1&gt;y&gt;1)$ 。其4-邻域为以下元素： $(x-1,y-1)(x+1,y-1)(x-1,y+1)(x+1,y+1)$ 。</p>
 <h3 id="8-邻域"><a href="#8-邻域" class="headerlink" title="8-邻域"></a>8-邻域</h3><p>即对于像素 $(x,y)$ ，其中 $(max-1&gt;x&gt;1,max-1&gt;y&gt;1)$ 。其8-邻域为以下元素： $(x-1,y-1)(x-1,y)(x-1,y+1)(x,y-1)(x,y+1)(x+1,y-1)(x+1,y)(x+1,y+1)$</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224140523421.png" alt="Center 1"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224140538188.png" alt="Center 2"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224140532947.png" alt="Center 3"></p>
+<p><img src="./20141224140523421.png" alt="Center 1"><br><img src="./20141224140538188.png" alt="Center 2"><br><img src="./20141224140532947.png" alt="Center 3"></p>
 <p>下面解释下邻接，以下针对二值图像：</p>
 <ul>
 <li>4-邻接：如果q点在p点的4-邻域集合中，则p，q为4-邻接</li>
@@ -510,13 +510,12 @@
 <li>D-邻接：如果q点在p点的D-邻域集合中，则p，q为D-邻接</li>
 <li>m-邻接：如果q在p的4-邻域中，或者q在p的D-邻域中，且q的4-邻域与p的4-邻域交集为空，则p，q为m-邻接。</li>
 </ul>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142415946.png" alt="Center 4"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142420359.png" alt="Center 5"><br><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142431889.png" alt="Center 6"></p>
+<p><img src="./20141224142415946.png" alt="Center 4"><br><img src="./20141224142420359.png" alt="Center 5"><br><img src="./20141224142431889.png" alt="Center 6"></p>
 <p>对于m邻接，其主要目的是为了消除8-邻接的二义性。<br>二义性：在某种情况下，如果邻域中存在多种通路。如下图所示：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/DIP-3-0-二值图像/20141224142446600.png" alt="Center 7"></p>
+<p><img src="./20141224142446600.png" alt="Center 7"></p>
 <p>其中点1到点3存在两种通路，1-&gt;p-&gt;3，1-&gt;p-&gt;2-&gt;3。所以点1和点3关系不明确。如果使用m邻接，点3将不会是点p的m-邻接，因为点p和点3的4-邻域存在交集点2。</p>
 <p>补充说明，冈萨雷斯的书中有一个集合v的概念，在二值图中 $v={1}$ ，即元素值为1的集合，这个主要是针对灰度图，多值的，比如对于255个灰度级的图像，我们对 $v={255，254}$ 的集合操作，则不是255和254的灰度被视为0，255，254被视为1。</p>
 <h2 id="连通性"><a href="#连通性" class="headerlink" title="连通性"></a>连通性</h2><p>对于集合S存在一条通路的条件是，通路的像素的某种排列，相邻像素满足某种邻接关系。例如点p到点q之间有 $A_1,A_2,A_3\dots A_n$ 个像素点，且相邻像素点都满足某种邻接。则p和q间存在通路。如果通路首尾相连，则称闭合通路。S集合中的一点p只存在一条通路，则称为一个连通分量，如果S只有一个连通分量，则称为一个连通集。<br>对于R为一个图像子集，如果R连通的，则称R为一个区域。对于所有不连接的K个区域，其并集Rk构成了图像的前景，Rk的补集称为背景。<br>二值图像简单的介绍如此，下节介绍形态学。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/DIP-3-0-二值图像" target="_blank" rel="noopener">https://www.face2ai.com/DIP-3-0-二值图像</a>转载请标明出处</p>
 
       
     </div>
@@ -765,7 +764,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1877,7 +1876,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1932,23 +1931,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

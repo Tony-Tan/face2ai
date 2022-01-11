@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 《30天自制操作系统》多任务Keywords: 《30天自制操作系统》，Macbook，多任务">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T14:31:13.000Z">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【30天自制操作系统】多任务 I">
 <meta name="twitter:description" content="Abstract: 《30天自制操作系统》多任务Keywords: 《30天自制操作系统》，Macbook，多任务">
@@ -484,7 +484,6 @@
 
       
         <p><strong>Abstract:</strong> 《30天自制操作系统》多任务<br><strong>Keywords:</strong> 《30天自制操作系统》，Macbook，多任务<br><a id="more"></a><br>今天的内容是多任务，所谓多任务就是“同时”执行多个任务，作者写的是在单核cpu上轮流执行多个任务，在短时间进行各种切换，但是实际上还是串联的，虽然表面上看的是同时执行，不知道现在的多核处理器是如何完成多任务的，我一会儿google一下，写出来，应该有很些不同。<br>先说今天的内容，对于任务切换，处理器是有代价的，也就是说，切来切去是要消耗时钟周期的，例如如果切换一次需要消耗额外的1s但是你每2s切换一次，也就是执行一个任务一共用了3s（因为任务完成后总要切换，所以就可以把切换时间算入总的执行时间）但真正的执行只是2s这样效率只有66.67%如果1s切换一次，就是有50%了。。所以几秒切一次很重要，如果10000s切换一次，效率近似与99.99%但是估计使用者会等疯，卡死了。。。。<br>上面的1s切换时间是我扯淡的，没有那么慢，书上说千分之一秒，估计现在的处理器会更快。<br>重要概念：TSS<br>TSS：（Task Status Segment）任务状态段，用于记录任务的执行情况，和已经执行的进度，就像打游戏的读档，就可以直接玩上次存档的地方了，而不是从头接着打，而这个档就是TSS负责记录各种状态（装备等级，任务进度什么乱七八糟的）任务切换时查询TSS然后继续运行。<br>CPU特殊机制：执行带有段地址的命令式就会去GDT种查询一下，看是否是另外的程序，如果是，就进行任务切换。<br>GDT是个很重要的管理者，应该去画个图把整个体系操作系统体系画出来，这样以后设计的时候就能参考蓝图一步步设计了。。。。。。看完这本书就去画。。。。。。<br>提高运行速度，其实作者把修改刷新显示频率作为第一步优化，我觉得这个完全在定时器的时候就应该修改系统原始设计，因为屏幕的刷新率一般就那么几种，刷的过快没效果而且消耗资源，过慢当然也不行，既然写到这，那就算优化吧，边做边修改，也是一种好方法，没谁能一开始就制定天衣无缝的计划。。。<br>第二点提高速度很精彩，就是把任务切换定时器从缓冲区中分离，也就是键盘，鼠标，普通定时器等中断在FIFO的缓冲区，而任务切换的定时器不在其中，不论其中是否有未处理的中断时间一到，马上切换，但是，问题是，如果FIFO中又任务A的中断处理，但是此时任务A恰好切换到B。。这岂不是坑爹了。。。不太明白，看看查查资料有没有详细的介绍。<br>还有就是return不能随便用，在开发系统的时候，还有函数调用时对EFLAG寄存器的影响，都是应该注意的。</p>
-<p>原文地址1：<a href="https://www.face2ai.com/《30天自制操作系统》学习笔记--第15天" target="_blank" rel="noopener">https://www.face2ai.com/《30天自制操作系统》学习笔记–第15天</a>转载请标明出处</p>
 
       
     </div>
@@ -700,7 +699,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1812,7 +1811,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1867,23 +1866,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>

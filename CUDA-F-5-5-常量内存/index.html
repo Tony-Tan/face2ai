@@ -116,15 +116,15 @@
 <meta property="og:site_name" content="谭升的博客">
 <meta property="og:description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-2.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-1.png">
-<meta property="og:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-2.png">
-<meta property="og:updated_time" content="2018-10-04T14:58:58.000Z">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-5-常量内存/1-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-5-常量内存/1-2.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-5-常量内存/re-1.png">
+<meta property="og:image" content="https://face2ai.com/CUDA-F-5-5-常量内存/re-2.png">
+<meta property="og:updated_time" content="2020-11-07T01:53:51.114Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【CUDA 基础】5.5 常量内存">
 <meta name="twitter:description" content="Abstract: 本文介绍另外两种内存——常量内存，只读缓存Keywords: CUDA常量内存，CUDA只读缓存">
-<meta name="twitter:image" content="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png">
+<meta name="twitter:image" content="https://face2ai.com/CUDA-F-5-5-常量内存/1-1.png">
 
 
 
@@ -501,11 +501,11 @@
 <p>常量内存变量的生存周期与应用程序生存周期相同，所有网格对声明的常量内存都是可以访问的，运行时对主机可见，当CUDA独立编译被使用的，常量内存跨文件可见，这个要后面才会介绍。<br>初始化常量内存使用一下函数完成<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cudaError_t <span class="title">cudaMemcpyToSymbol</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *symbol, <span class="keyword">const</span> <span class="keyword">void</span> * src,  <span class="keyword">size_t</span> count, <span class="keyword">size_t</span> offset, cudaMemcpyKind kind)</span></span></span><br></pre></td></tr></table></figure></p>
 <p>和我们之前使用的copy到全局内存的函数类似，参数也类似，包含传输到设备，以及从设备读取，kind的默认参数是传输到设备。</p>
 <h2 id="使用常量内存实现一维模板"><a href="#使用常量内存实现一维模板" class="headerlink" title="使用常量内存实现一维模板"></a>使用常量内存实现一维模板</h2><p>在数值分析中经常使用模板操作，好吧，我们还没学数值分析的这一课，但是说个其他名词你肯定特别熟悉——卷积，一维的卷积就是我们今天要写的例子，所谓模板操作就是把一组数据中中间连续的若干个产生一个输出：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-1.png" alt="1-1"></p>
+<p><img src="./1-1.png" alt="1-1"></p>
 <p>紫色的输入数据通过某些运算产生一个输出——绿色的块，这个在图像处理里面用处非常多，当然图像中使用的是二维的数据，我们来看一下公式：<br>$$<br>f’(x)\approx c_3(f(x+4h)-f(x-4h))+c_2(f(x+3h)-f(x-3h))\\<br>+c_1(f(x+2h)-f(x-2h))+c_0(f(x+h)-f(x-h))<br>$$<br>此公式计算函数的导数，使用八阶差分来近似.<br>注意，这里的参数写的跟书中的不一样，也就是系数 $c_0$ 对应原文 $c_3$<br>分析算法，整个算法中我们的 $c_i,0&lt;i&lt;4$ 被所有线程使用，对于某一固定计算我们可以把他声明到寄存器中，但是如果数量较大或者不针对某一组 $c$ 的时候，就需要动态的传递，那么此时，常量内存会是最好的选择，因为其对于核函数的只读属性，线程束内以广播形式访问，也就是32个线程只需要一个内存事务就能完成读取，这样效率是非常高的。<br>我们观察上面图片，可以发现，每个输入数据要被使用8次，如果每次都从全局内存读，这个延迟过高，所以结合上一篇讲到的共享内存，用共享内存缓存输入数据，得到下面的代码：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">stencil_1d</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//1.</span></span><br><span class="line">    __shared__ <span class="keyword">float</span> smem[BDIM+<span class="number">2</span>*TEMP_RADIO_SIZE];</span><br><span class="line">    <span class="comment">//2.</span></span><br><span class="line">    <span class="keyword">int</span> idx=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="comment">//3.</span></span><br><span class="line">    <span class="keyword">int</span> sidx=threadIdx.x+TEMP_RADIO_SIZE;</span><br><span class="line">    smem[sidx]=in[idx];</span><br><span class="line">    <span class="comment">//4.</span></span><br><span class="line">    <span class="keyword">if</span> (threadIdx.x&lt;TEMP_RADIO_SIZE)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(idx&gt;TEMP_RADIO_SIZE)</span><br><span class="line">            smem[sidx-TEMP_RADIO_SIZE]=in[idx-TEMP_RADIO_SIZE];</span><br><span class="line">        <span class="keyword">if</span>(idx&lt;gridDim.x*blockDim.x-BDIM)</span><br><span class="line">            smem[sidx+BDIM]=in[idx+BDIM];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="comment">//5.</span></span><br><span class="line">    <span class="keyword">if</span> (idx&lt;TEMP_RADIO_SIZE||idx&gt;=gridDim.x*blockDim.x-TEMP_RADIO_SIZE)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">float</span> temp=<span class="number">.0</span>f;</span><br><span class="line">    <span class="comment">//6.</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">pragma</span> unroll</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=TEMP_RADIO_SIZE;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp+=coef[i<span class="number">-1</span>]*(smem[sidx+i]-smem[sidx-i]);</span><br><span class="line">    &#125;</span><br><span class="line">    out[idx]=temp;</span><br><span class="line">    <span class="comment">//printf("%d:GPU :%lf,\n",idx,temp);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>完整的代码在github:<a href="https://github.com/Tony-Tan/CUDA_Freshman" target="_blank" rel="noopener">https://github.com/Tony-Tan/CUDA_Freshman</a>（欢迎随手star😝 ）</p>
 <p>这里我们要面对一个填充问题，无论是观察公式还是图示，我们会发现，如果模板大小是9，那么我们输出的前4个数据是没办法计算的因为要使用第-1，-2，-3，-4位置的数据，最后4个数据也是不能计算的，因为他要使用 $n+1,n+2,n+3,n+4$ 的数据，这些数据也是没有的，为了保证计算过程中访问不会越界，我们把输入数据两端进行扩充，也就是把上面虽然没有，但是要用的数据填充到输入数据中，当我们我们要处理的是中间的某段数据的时候，那么填充位的数据就来自前面的块对应的输入数据，或者后面线程块对应的输入数据，这就是上面代码最困难的地方，这里懂了其他就一马平川了~</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/1-2.png" alt="1-2"></p>
+<p><img src="./1-2.png" alt="1-2"></p>
 <ol>
 <li>定义共享内存，注意是填充后的，所以才会加了模板的两个半径</li>
 <li>计算全局线程索引</li>
@@ -515,7 +515,7 @@
 <li>进行差分，使用宏指令，让编译器自己展开循环</li>
 </ol>
 <p>困难在4，主要就是填充，因为如果输入数据当做整体，我们按照串行思路来做，我们可以不填充，而只把输出的前面或者最后的几个数据无效掉就好，但是如果把输入数据分块处理，那么就涉及从全局内存相邻的位置取数据，而且要判断是否越界。</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-1.png" alt="re-1"></p>
+<p><img src="./re-1.png" alt="re-1"></p>
 <h2 id="与只读缓存的比较"><a href="#与只读缓存的比较" class="headerlink" title="与只读缓存的比较"></a>与只读缓存的比较</h2><p>以上是常量内存和常量缓存的操作，我们作为对比，展示下只读缓存对应的操作，只读缓存拥有从全局内存读取数据的专用带宽,所以，如果内核函数是带宽限制型的，那么这个帮助是非常大的，不同的设备有不同的只读缓存大小，Kepler SM有48KB的只读缓存，只读缓存对于分散访问的更好，当所有线程读取同一地址的时候常量缓存最好，只读缓存这时候效果并不好，只读换粗粒度为32.<br>实现只读缓存可以使用两种方法</p>
 <ul>
 <li>使用__ldg函数</li>
@@ -527,7 +527,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">global__ <span class="keyword">void</span> <span class="title">stencil_1d_readonly</span><span class="params">(<span class="keyword">float</span> * in,<span class="keyword">float</span> * out,<span class="keyword">const</span> <span class="keyword">float</span>* __restrict__ dcoef)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    __shared__ <span class="keyword">float</span> smem[BDIM+<span class="number">2</span>*TEMP_RADIO_SIZE];</span><br><span class="line">    <span class="keyword">int</span> idx=threadIdx.x+blockDim.x*blockIdx.x;</span><br><span class="line">    <span class="keyword">int</span> sidx=threadIdx.x+TEMP_RADIO_SIZE;</span><br><span class="line">    smem[sidx]=in[idx];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (threadIdx.x&lt;TEMP_RADIO_SIZE)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(idx&gt;TEMP_RADIO_SIZE)</span><br><span class="line">            smem[sidx-TEMP_RADIO_SIZE]=in[idx-TEMP_RADIO_SIZE];</span><br><span class="line">        <span class="keyword">if</span>(idx&lt;gridDim.x*blockDim.x-BDIM)</span><br><span class="line">            smem[sidx+BDIM]=in[idx+BDIM];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="keyword">if</span> (idx&lt;TEMP_RADIO_SIZE||idx&gt;=gridDim.x*blockDim.x-TEMP_RADIO_SIZE)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">float</span> temp=<span class="number">.0</span>f;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">pragma</span> unroll</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=TEMP_RADIO_SIZE;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        temp+=dcoef[i<span class="number">-1</span>]*(smem[sidx+i]-smem[sidx-i]);</span><br><span class="line">    &#125;</span><br><span class="line">    out[idx]=temp;</span><br><span class="line">    <span class="comment">//printf("%d:GPU :%lf,\n",idx,temp);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>唯一的不同就是多了一个参数，这个参数在主机内是定义的全局内存<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> * dcoef_ro;</span><br><span class="line">CHECK(cudaMalloc((<span class="keyword">void</span>**)&amp;dcoef_ro,TEMP_RADIO_SIZE * <span class="keyword">sizeof</span>(<span class="keyword">float</span>)));</span><br><span class="line">CHECK(cudaMemcpy(dcoef_ro,templ_,TEMP_RADIO_SIZE * <span class="keyword">sizeof</span>(<span class="keyword">float</span>),cudaMemcpyHostToDevice));</span><br><span class="line">stencil_1d_readonly&lt;&lt;&lt;grid,block&gt;&gt;&gt;(in_dev,out_dev,dcoef_ro);</span><br><span class="line">CHECK(cudaDeviceSynchronize());</span><br><span class="line">iElaps=cpuSecond()-iStart;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"stencil_1d_readonly Time elapsed %f sec\n"</span>,iElaps);</span><br><span class="line">CHECK(cudaMemcpy(out_gpu,out_dev,nBytes,cudaMemcpyDeviceToHost));</span><br><span class="line">checkResult(out_cpu,out_gpu,nxy);</span><br></pre></td></tr></table></figure></p>
 <p>执行结果：</p>
-<p><img src="https://tony4ai-1251394096.cos.ap-hongkong.myqcloud.com/blog_images/CUDA-F-5-5-常量内存/re-2.png" alt="re-2"></p>
+<p><img src="./re-2.png" alt="re-2"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>常量内存和只读缓存：</p>
 <ul>
 <li>对于核函数都是只读的</li>
@@ -535,7 +535,6 @@
 <li>常量缓存对于统一读取（读同一个地址）执行更好</li>
 <li>只读缓存适合分散读取</li>
 </ul>
-<p>原文地址1：<a href="https://www.face2ai.com/CUDA-F-5-5-常量内存" target="_blank" rel="noopener">https://www.face2ai.com/CUDA-F-5-5-常量内存</a>转载请标明出处</p>
 
       
     </div>
@@ -768,7 +767,7 @@ data-full-width-responsive="true"></ins>
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">277</span>
+                    <span class="site-state-item-count">274</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1880,7 +1879,7 @@ data-full-width-responsive="true"></ins>
                     
                       
                     
-                    <span class="site-state-item-count">523</span>
+                    <span class="site-state-item-count">522</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1935,23 +1934,23 @@ data-full-width-responsive="true"></ins>
                   
                   
                     <li>
-                      <a href="/Math-Linear-Algebra-video-class-3/" title="【线性代数视频课程】 试讲 -- 第三课 矩阵的来历" target="_blank">【线性代数视频课程】 试讲 -- 第三课 矩阵的来历</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-2/" title="【线性代数视频课程】 试讲 -- 第二课 向量知识回顾" target="_blank">【线性代数视频课程】 试讲 -- 第二课 向量知识回顾</a>
-                    </li>
-                  
-                    <li>
-                      <a href="/Math-Linear-Algebra-video-class-1/" title="【线性代数视频课程】 试讲 -- 第一课 简介" target="_blank">【线性代数视频课程】 试讲 -- 第一课 简介</a>
-                    </li>
-                  
-                    <li>
                       <a href="/Other-a-mail/" title="一封来自读者的信" target="_blank">一封来自读者的信</a>
                     </li>
                   
                     <li>
                       <a href="/other-Something-about-Chinese-AI/" title="【杂文】中美人工智能对比（一篇博人关注的软文）" target="_blank">【杂文】中美人工智能对比（一篇博人关注的软文）</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-2-Action-value-Methods/" title="【强化学习】2.2 行为评价方法(Action-value Methods)" target="_blank">【强化学习】2.2 行为评价方法(Action-value Methods)</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/other-Hexo-next-valine-leancloud/" title="【Hexo】Hexo下next主题valine强化版本的改造" target="_blank">【Hexo】Hexo下next主题valine强化版本的改造</a>
+                    </li>
+                  
+                    <li>
+                      <a href="/RL-RSAB-2-1-A-k-armed-Bandit-Problem/" title="【强化学习】2.1 k臂赌博机(k-armed bandits)问题" target="_blank">【强化学习】2.1 k臂赌博机(k-armed bandits)问题</a>
                     </li>
                   
                 </ul>
